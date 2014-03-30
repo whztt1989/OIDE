@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeEditor", "TypeEditor.csproj", "{3AF9375C-A620-45CC-8397-8F678BEE0E2B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TEModul.EC", "..\..\TEModuls\EC_Reader\TEModul.EC.csproj", "{A6DAC5FB-29A1-4579-A828-F133D9ABBDD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tide", "Tide.csproj", "{3AF9375C-A620-45CC-8397-8F678BEE0E2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{3AF9375C-A620-45CC-8397-8F678BEE0E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AF9375C-A620-45CC-8397-8F678BEE0E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AF9375C-A620-45CC-8397-8F678BEE0E2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6DAC5FB-29A1-4579-A828-F133D9ABBDD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6DAC5FB-29A1-4579-A828-F133D9ABBDD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6DAC5FB-29A1-4579-A828-F133D9ABBDD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6DAC5FB-29A1-4579-A828-F133D9ABBDD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

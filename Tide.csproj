@@ -36,28 +36,34 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AvalonDock.Themes.VS2012">
+      <HintPath>..\..\Wide\Libs\AvalonDock.Themes.VS2012.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro">
-      <HintPath>..\Wide\Build\External\MahApps.Metro.dll</HintPath>
+      <HintPath>..\..\Wide\Libs\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\Wide\Libs\Microsoft.Practices.Prism.dll</HintPath>
+      <HintPath>..\..\Wide\Libs\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.Interactivity">
-      <HintPath>..\Wide\Libs\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+      <HintPath>..\..\Wide\Libs\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
-      <HintPath>..\Wide\Libs\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+      <HintPath>..\..\Wide\Libs\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\Wide\Libs\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\..\Wide\Libs\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity">
-      <HintPath>..\Wide\Libs\Microsoft.Practices.Unity.dll</HintPath>
+      <HintPath>..\..\Wide\Libs\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\Wide\Libs\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.IO.Abstractions">
-      <HintPath>..\Wide\Libs\System.IO.Abstractions.dll</HintPath>
+      <HintPath>..\..\Wide\Libs\System.IO.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -73,11 +79,17 @@
     </Reference>
     <Reference Include="Wide, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Wide\Build\Internal\Wide.dll</HintPath>
+      <HintPath>..\..\Wide\Build\Internal\Wide.dll</HintPath>
+    </Reference>
+    <Reference Include="Wide.Tools.Logger">
+      <HintPath>..\..\Wide\Build\Internal\Wide.Tools.Logger.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock">
+      <HintPath>..\..\Wide\Libs\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
