@@ -40,7 +40,7 @@ namespace WideMD
         {
             get
             {
-                ImageSource imageSource = new BitmapImage(new Uri("pack://application:,,,/TypeEditor;component/Icon.png"));
+                ImageSource imageSource = new BitmapImage(new Uri("pack://application:,,,/Tide;component/Icon.png"));
                 return imageSource;
             }
         }
