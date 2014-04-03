@@ -34,7 +34,7 @@
             </TextBlock.Effect>-->
         </TextBlock>
 
-        <TextBlock Grid.Row="2" x:Name="templateTextBlock" Grid.Column="1" Text="{Binding Status, NotifyOnTargetUpdated=True}" Foreground="White" ScrollViewer.CanContentScroll="True">
+        <TextBlock Grid.Row="2" x:Name="templateTextBlock" Grid.Column="1" Text="{Binding Status, NotifyOnTargetUpdated=True}" Foreground="Black" ScrollViewer.CanContentScroll="True">
             <!--<TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="1" Color="#99ffffff" />
             </TextBlock.Effect>-->
