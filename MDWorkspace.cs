@@ -26,7 +26,7 @@ namespace WideMD
     {
         private string _document;
         private ILoggerService _logger;
-        private const string _title = "Wide MD";
+        private const string _title = "Tide";
 
         public MDWorkspace(IUnityContainer container, IEventAggregator eventAggregator)
             : base(container, eventAggregator)
