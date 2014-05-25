@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tide", "Tide.csproj", "{3AF9375C-A620-45CC-8397-8F678BEE0E2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TModul.Core", "..\TModuls\TModul.Core\TModul.Core.csproj", "{5F4A71C7-8FDA-464F-A200-9F77D862AEF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TModul.PFExplorer", "..\TModuls\TModul.PFExplorer\TModul.PFExplorer.csproj", "{CCD23C66-D7EF-42FD-82CF-701E8D59009E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TModul.MogreScene", "..\TModuls\TModul.MogreScene\TModul.MogreScene.csproj", "{A589197E-E002-4DBA-B27F-DD16B9A81BFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TModul.Scene", "..\TModuls\TModul.MogreScene\TModul.Scene.csproj", "{A589197E-E002-4DBA-B27F-DD16B9A81BFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MogreImage", "..\Mogre\MogreScene\MogreImage.csproj", "{C582B016-92DF-44B6-A473-6AF57F28B1C7}"
 EndProject
@@ -18,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PInvokeWrapper", "..\REW\PInvokeWrapper\PInvokeWrapper.csproj", "{6BDCF9E5-128F-4DAF-B913-02CCBA5FDBD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderImage", "..\REW\RenderImage\RenderImage.csproj", "{9F3B07C6-7C14-4AFB-BF4B-8EB2FE81D361}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TModul.PFExplorer", "..\TModuls\TModul.PFExplorer\TModul.PFExplorer.csproj", "{BDD65D63-A9EC-4EA4-8265-A2FAB6601DFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wide", "..\Wide\Src\Wide\Wide.csproj", "{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +35,6 @@ Global
 		{5F4A71C7-8FDA-464F-A200-9F77D862AEF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F4A71C7-8FDA-464F-A200-9F77D862AEF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F4A71C7-8FDA-464F-A200-9F77D862AEF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CCD23C66-D7EF-42FD-82CF-701E8D59009E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CCD23C66-D7EF-42FD-82CF-701E8D59009E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CCD23C66-D7EF-42FD-82CF-701E8D59009E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CCD23C66-D7EF-42FD-82CF-701E8D59009E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A589197E-E002-4DBA-B27F-DD16B9A81BFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A589197E-E002-4DBA-B27F-DD16B9A81BFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A589197E-E002-4DBA-B27F-DD16B9A81BFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +55,14 @@ Global
 		{9F3B07C6-7C14-4AFB-BF4B-8EB2FE81D361}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F3B07C6-7C14-4AFB-BF4B-8EB2FE81D361}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F3B07C6-7C14-4AFB-BF4B-8EB2FE81D361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDD65D63-A9EC-4EA4-8265-A2FAB6601DFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDD65D63-A9EC-4EA4-8265-A2FAB6601DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDD65D63-A9EC-4EA4-8265-A2FAB6601DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDD65D63-A9EC-4EA4-8265-A2FAB6601DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
