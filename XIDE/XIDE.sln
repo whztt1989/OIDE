@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIDE", "XIDE.csproj", "{3AF9375C-A620-45CC-8397-8F678BEE0E2B}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TModul.DB", "..\..\TModuls\TModul.DB\TModul.DB.csproj", "{979E1B6A-60D2-4DBE-A9FB-B66B54E962AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIDE.Core", "..\XIDE.Core\XIDE.Core.csproj", "{AF583DCA-3BE7-4DB4-9125-81E7FF5934D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIDE.Gorilla", "..\XIDE.Gorilla\XIDE.Gorilla.csproj", "{ECC54102-681C-4758-9812-3C5EA99D17AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{AF583DCA-3BE7-4DB4-9125-81E7FF5934D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF583DCA-3BE7-4DB4-9125-81E7FF5934D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF583DCA-3BE7-4DB4-9125-81E7FF5934D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECC54102-681C-4758-9812-3C5EA99D17AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECC54102-681C-4758-9812-3C5EA99D17AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECC54102-681C-4758-9812-3C5EA99D17AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECC54102-681C-4758-9812-3C5EA99D17AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
