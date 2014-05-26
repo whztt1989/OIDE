@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="gameDataModel.Store" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Entities">
+          <Key>
+            <PropertyRef Name="EID" />
+          </Key>
+          <Property Name="EID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EntitiyDyn">
+          <Key>
+            <PropertyRef Name="DE_ID" />
+          </Key>
+          <Property Name="DE_ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EntitiyStatic">
+          <Key>
+            <PropertyRef Name="SE_ID" />
+          </Key>
+          <Property Name="SE_ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EntityChar">
+          <Key>
+            <PropertyRef Name="CE_ID" />
+          </Key>
+          <Property Name="CE_ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="G_ID" />
+          </Key>
+          <Property Name="G_ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhysicObject">
+          <Key>
+            <PropertyRef Name="PO_ID" />
+          </Key>
+          <Property Name="PO_ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Shape" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Während der Generierung sind Fehler aufgetreten:
+Warnung 6013: Für Tabelle/Sicht 'main.SceneEntities' ist kein Primärschlüssel definiert, und es konnte kein gültiger Primärschlüssel abgeleitet werden. Diese Tabelle/Sicht wurde ausgeschlossen. Wenn Sie die Entität verwenden möchten, müssen Sie das Schema überprüfen, die richtigen Schlüssel hinzufügen und die Auskommentierung aufheben.
+        <EntityType Name="SceneEntities">
+          <Property Name="S_ID" Type="integer" />
+        </EntityType>-->
+        <EntityType Name="Scenes">
+          <Key>
+            <PropertyRef Name="S_ID" />
+          </Key>
+          <Property Name="S_ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="gameDataModelStoreContainer">
+          <EntitySet Name="Entities" EntityType="Self.Entities" store:Type="Tables" />
+          <EntitySet Name="EntitiyDyn" EntityType="Self.EntitiyDyn" store:Type="Tables" />
+          <EntitySet Name="EntitiyStatic" EntityType="Self.EntitiyStatic" store:Type="Tables" />
+          <EntitySet Name="EntityChar" EntityType="Self.EntityChar" store:Type="Tables" />
+          <EntitySet Name="Games" EntityType="Self.Games" store:Type="Tables" />
+          <EntitySet Name="PhysicObject" EntityType="Self.PhysicObject" store:Type="Tables" />
+          <EntitySet Name="Scenes" EntityType="Self.Scenes" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="gameDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Entities">
+          <Key>
+            <PropertyRef Name="EID" />
+          </Key>
+          <Property Name="EID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="EntitiyDyn">
+          <Key>
+            <PropertyRef Name="DE_ID" />
+          </Key>
+          <Property Name="DE_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="EntitiyStatic">
+          <Key>
+            <PropertyRef Name="SE_ID" />
+          </Key>
+          <Property Name="SE_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="EntityChar">
+          <Key>
+            <PropertyRef Name="CE_ID" />
+          </Key>
+          <Property Name="CE_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Games">
+          <Key>
+            <PropertyRef Name="G_ID" />
+          </Key>
+          <Property Name="G_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="PhysicObject">
+          <Key>
+            <PropertyRef Name="PO_ID" />
+          </Key>
+          <Property Name="PO_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Shape" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Scenes">
+          <Key>
+            <PropertyRef Name="S_ID" />
+          </Key>
+          <Property Name="S_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityContainer Name="gameDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Entities" EntityType="Self.Entities" />
+          <EntitySet Name="EntitiyDyn" EntityType="Self.EntitiyDyn" />
+          <EntitySet Name="EntitiyStatic" EntityType="Self.EntitiyStatic" />
+          <EntitySet Name="EntityChar" EntityType="Self.EntityChar" />
+          <EntitySet Name="Games" EntityType="Self.Games" />
+          <EntitySet Name="PhysicObject" EntityType="Self.PhysicObject" />
+          <EntitySet Name="Scenes" EntityType="Self.Scenes" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="gameDataModelStoreContainer" CdmEntityContainer="gameDataEntities">
+          <EntitySetMapping Name="Entities">
+            <EntityTypeMapping TypeName="gameDataModel.Entities">
+              <MappingFragment StoreEntitySet="Entities">
+                <ScalarProperty Name="EID" ColumnName="EID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntitiyDyn">
+            <EntityTypeMapping TypeName="gameDataModel.EntitiyDyn">
+              <MappingFragment StoreEntitySet="EntitiyDyn">
+                <ScalarProperty Name="DE_ID" ColumnName="DE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntitiyStatic">
+            <EntityTypeMapping TypeName="gameDataModel.EntitiyStatic">
+              <MappingFragment StoreEntitySet="EntitiyStatic">
+                <ScalarProperty Name="SE_ID" ColumnName="SE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntityChar">
+            <EntityTypeMapping TypeName="gameDataModel.EntityChar">
+              <MappingFragment StoreEntitySet="EntityChar">
+                <ScalarProperty Name="CE_ID" ColumnName="CE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="gameDataModel.Games">
+              <MappingFragment StoreEntitySet="Games">
+                <ScalarProperty Name="G_ID" ColumnName="G_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhysicObject">
+            <EntityTypeMapping TypeName="gameDataModel.PhysicObject">
+              <MappingFragment StoreEntitySet="PhysicObject">
+                <ScalarProperty Name="PO_ID" ColumnName="PO_ID" />
+                <ScalarProperty Name="Shape" ColumnName="Shape" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Scenes">
+            <EntityTypeMapping TypeName="gameDataModel.Scenes">
+              <MappingFragment StoreEntitySet="Scenes">
+                <ScalarProperty Name="S_ID" ColumnName="S_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

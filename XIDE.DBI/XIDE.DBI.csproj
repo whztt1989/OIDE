@@ -33,16 +33,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Devart.Data, Version=5.0.938.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
-    <Reference Include="Devart.Data.Linq, Version=4.4.484.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
-    <Reference Include="Devart.Data.Oracle, Version=8.3.146.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
-    <Reference Include="Devart.Data.Oracle.Entity, Version=8.3.146.6, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
-    <Reference Include="Devart.Data.Oracle.Linq, Version=4.4.484.0, Culture=neutral, PublicKeyToken=09af7300eec23701, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework">
       <HintPath>..\ComID-Mgr\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\ComID-Mgr\packages\EntityFramework.6.1.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation">
       <HintPath>..\ComID-Mgr\extlibs\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
@@ -53,6 +45,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -69,14 +62,68 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CDBI.cs" />
+    <Compile Include="MDB\EDM_GDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EDM_GDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\EDM_GDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EDM_GDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\EDM_GDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EDM_GDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\Entities.cs">
+      <DependentUpon>EDM_GDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\EntitiyDyn.cs">
+      <DependentUpon>EDM_GDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\EntitiyStatic.cs">
+      <DependentUpon>EDM_GDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\EntityChar.cs">
+      <DependentUpon>EDM_GDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\Games.cs">
+      <DependentUpon>EDM_GDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\PhysicObject.cs">
+      <DependentUpon>EDM_GDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\Scenes.cs">
+      <DependentUpon>EDM_GDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="MDB\EDM_GDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EDM_GDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="MDB\EDM_GDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EDM_GDB.edmx</DependentUpon>
+      <LastGenOutput>EDM_GDB.Context.cs</LastGenOutput>
+    </None>
+    <None Include="MDB\EDM_GDB.edmx.diagram">
+      <DependentUpon>EDM_GDB.edmx</DependentUpon>
+    </None>
+    <None Include="MDB\EDM_GDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EDM_GDB.edmx</DependentUpon>
+      <LastGenOutput>EDM_GDB.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="MDB\" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
