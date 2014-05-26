@@ -10,41 +10,43 @@
 
 #endregion
 
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Practices.Prism.Modularity;
+using Wide.Core.TextDocument;
+using Wide.Interfaces.Services;
 
-namespace XIDE
+namespace XIDE.Core
 {
     /// <summary>
-    /// Allows our shell to probe multiple directories for module assemblies
+    /// Class TextModel which contains the text of the document
     /// </summary>
-    public class MultipleDirectoryModuleCatalog : DirectoryModuleCatalog
+    public class MDModel : TextModel
     {
-        private readonly IList<string> _pathsToProbe;
-
         /// <summary>
-        /// Initializes a new instance of the MultipleDirectoryModuleCatalog class.
+        /// Initializes a new instance of the <see cref="MDModel" /> class.
         /// </summary>
-        /// <param name="pathsToProbe">An IList of paths to probe for modules.</param>
-        public MultipleDirectoryModuleCatalog(IList<string> pathsToProbe)
+        /// <param name="commandManager">The injected command manager.</param>
+        /// <param name="menuService">The menu service.</param>
+        public MDModel(ICommandManager commandManager, IMenuService menuService) : base(commandManager, menuService)
         {
-            _pathsToProbe = pathsToProbe;
+
         }
 
-        /// <summary>
-        /// Provides multiple-path loading of modules over the default <see cref="DirectoryModuleCatalog.InnerLoad"/> method.
-        /// </summary>
-        protected override void InnerLoad()
+        internal void SetLocation(object location)
         {
-            foreach (string path in _pathsToProbe)
-            {
-                if (Directory.Exists(path))
-                {
-                    this.ModulePath = path;
-                    base.InnerLoad();
-                }
-            }
+            this.Location = location;
+            RaisePropertyChanged("Location");
+        }
+
+        internal void SetDirty(bool value)
+        {
+            this.IsDirty = value;
+        }
+
+        public string HTMLResult { get; set; }
+
+        public void SetHtml(string transform)
+        {
+            this.HTMLResult = transform;
+            RaisePropertyChanged("HTMLResult");
         }
     }
 }

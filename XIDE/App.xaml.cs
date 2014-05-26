@@ -14,7 +14,7 @@ using System.Windows;
 using Microsoft.Practices.Unity;
 using Wide.Interfaces;
 
-namespace WideMD
+namespace XIDE
 {
     /// <summary>
     /// Interaction logic for App.xaml

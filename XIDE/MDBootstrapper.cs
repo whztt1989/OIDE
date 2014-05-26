@@ -17,7 +17,7 @@ using Wide.Interfaces;
 using Wide.Shell;
 using Wide.Splash;
 
-namespace WideMD
+namespace XIDE
 {
     internal class MDBootstrapper : WideBootstrapper
     {

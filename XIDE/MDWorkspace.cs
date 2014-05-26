@@ -20,13 +20,13 @@ using Wide.Interfaces.Events;
 using System.ComponentModel;
 using Wide.Interfaces.Services;
 
-namespace WideMD
+namespace XIDE
 {
     internal class MDWorkspace : AbstractWorkspace
     {
         private string _document;
         private ILoggerService _logger;
-        private const string _title = "Tide";
+        private const string _title = "XIDE";
 
         public MDWorkspace(IUnityContainer container, IEventAggregator eventAggregator)
             : base(container, eventAggregator)
@@ -40,7 +40,7 @@ namespace WideMD
         {
             get
             {
-                ImageSource imageSource = new BitmapImage(new Uri("pack://application:,,,/Tide;component/Icon.png"));
+                ImageSource imageSource = new BitmapImage(new Uri("pack://application:,,,/XIDE;component/Icon.png"));
                 return imageSource;
             }
         }

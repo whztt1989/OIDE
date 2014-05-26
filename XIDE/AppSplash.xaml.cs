@@ -13,7 +13,7 @@
 using System.Windows;
 using Wide.Splash;
 
-namespace WideMD
+namespace XIDE
 {
     /// <summary>
     /// Interaction logic for AppSplash.xaml
