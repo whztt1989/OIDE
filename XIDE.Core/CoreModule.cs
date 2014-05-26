@@ -26,6 +26,8 @@ using Wide.Interfaces.Settings;
 using Wide.Interfaces.Themes;
 using XIDE.Core.Settings;
 using System.Windows;
+using TModul.DB.Interface.Services;
+using ComID.DBI;
 
 namespace XIDE.Core
 {
@@ -52,6 +54,37 @@ namespace XIDE.Core
             LoadToolbar();
             RegisterParts();
             LoadSettings();
+
+            RegisterDatabase();
+            SetDatabaseContext();
+
+        }
+
+        private void RegisterDatabase()
+        {
+            var managerDB = _container.Resolve<IDatabaseService>();
+            //CDBI newComID_DB = new CDBI(managerDB);
+            //newComID_DB.DBOptions = managerDB.DBOptions[0];
+            //managerDB.AddDB(newComID_DB);
+        }
+
+        private void SetDatabaseContext()
+        {
+            var managerDB = _container.Resolve<IDatabaseService>();
+            var logger = _container.Resolve<ILoggerService>();
+
+            //Search database 
+            var db = managerDB.DBs.Where(x => x.DBOptions.IDName == "XIDE SQLITE");
+
+            if (db.Any())
+            {
+                managerDB.SetCurrentDB(db.First().Guid);
+                managerDB.CurrentDB.OpenContext();
+            }
+            else
+            {
+                logger.Log("database options 'XIDE SQLITE' not found", LogCategory.Exception, LogPriority.High);
+            }
         }
 
         private void LoadToolbar()

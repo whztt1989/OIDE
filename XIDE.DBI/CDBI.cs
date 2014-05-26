@@ -24,6 +24,10 @@ namespace PSComIDContext
 
 namespace ComID.DBI
 {
+    public class CDBI
+    {
+
+    }
     //public class CDBI : IDB
     //{
     //    private IDatabaseService _databaseService;
