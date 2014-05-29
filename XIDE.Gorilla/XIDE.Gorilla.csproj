@@ -142,12 +142,6 @@
   <ItemGroup>
     <Resource Include="Icons\MDType.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XIDE.DBI\XIDE.DBI.csproj">
-      <Project>{ea680164-db40-40a5-ab19-ea36316b19fe}</Project>
-      <Name>XIDE.DBI</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
