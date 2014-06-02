@@ -32,8 +32,7 @@ namespace XIDE.Core
           //  _md = new Markdown();
             this._statusbar = statusbar;
             InitializeComponent();
-            textEditor.TextArea.Caret.PositionChanged += Caret_PositionChanged;
-        }
+       }
 
         private void Caret_PositionChanged(object sender, EventArgs e)
         {
@@ -51,9 +50,6 @@ namespace XIDE.Core
 
         private void Update()
         {
-            _statusbar.LineNumber = textEditor.Document.GetLineByOffset(textEditor.CaretOffset).LineNumber;
-            _statusbar.ColPosition = textEditor.TextArea.Caret.VisualColumn + 1;
-            _statusbar.CharPosition = textEditor.CaretOffset;
             _statusbar.InsertMode = false;
             if (t == null || !t.IsAlive)
                 Run();
@@ -75,6 +71,10 @@ namespace XIDE.Core
                 i++;
             }
             _statusbar.Progress(false, i, 1000);
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
         }
     }
 }

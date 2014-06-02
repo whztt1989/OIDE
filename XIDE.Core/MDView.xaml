@@ -9,19 +9,13 @@
              d:DesignWidth="600">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="200" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" MinWidth="200" />
+            <ColumnDefinition Width="283*"/>
+            <ColumnDefinition Width="317*"/>
         </Grid.ColumnDefinitions>
-
-        <avalonedit:TextEditor Grid.Column="0" Name="textEditor" Document="{Binding Document}" TextChanged="textEditor_TextChanged" 
-                               Background="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=BackgroundColor}" 
-                               Foreground="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=ForegroundColor}"
-                               ShowLineNumbers="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=ShowLineNumbers}"
-                               WordWrap="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=WordWrap}"
-                               FontFamily="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=FontFamily}"
-                               FontSize="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=FontSize}" />
-        <GridSplitter HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" ResizeBehavior="PreviousAndNext" Width="5" Background="#FFBCBCBC" />
-        <WebBrowser Name="Browser" Grid.Column="2" Core:BrowserBehavior.Html="{Binding HTMLResult, Mode=TwoWay}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="176,26,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
     </Grid>
 </UserControl>
