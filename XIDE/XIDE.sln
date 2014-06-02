@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.30324.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIDE", "XIDE.csproj", "{3AF9375C-A620-45CC-8397-8F678BEE0E2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIDE.DBI", "..\XIDE.DBI\XIDE.DBI.csproj", "{EA680164-DB40-40A5-AB19-EA36316B19FE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderImage", "..\RenderImage\RenderImage.csproj", "{9F3B07C6-7C14-4AFB-BF4B-8EB2FE81D361}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PInvokeWrapper", "..\PInvokeWrapper\PInvokeWrapper.csproj", "{6BDCF9E5-128F-4DAF-B913-02CCBA5FDBD2}"
@@ -23,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIDE.Core", "..\XIDE.Core\X
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIDE.Gorilla", "..\XIDE.Gorilla\XIDE.Gorilla.csproj", "{ECC54102-681C-4758-9812-3C5EA99D17AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIDE.DBI", "..\..\..\Modul_Private\XIDE.DBI\XIDE.DBI.csproj", "{EA680164-DB40-40A5-AB19-EA36316B19FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TModul.Properties", "..\..\TModuls\TModul.Properties\TModul.Properties.csproj", "{600E958F-0DCE-4D63-BF11-93292B1D8C18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,10 +35,6 @@ Global
 		{3AF9375C-A620-45CC-8397-8F678BEE0E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AF9375C-A620-45CC-8397-8F678BEE0E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AF9375C-A620-45CC-8397-8F678BEE0E2B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9F3B07C6-7C14-4AFB-BF4B-8EB2FE81D361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F3B07C6-7C14-4AFB-BF4B-8EB2FE81D361}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F3B07C6-7C14-4AFB-BF4B-8EB2FE81D361}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +67,14 @@ Global
 		{ECC54102-681C-4758-9812-3C5EA99D17AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECC54102-681C-4758-9812-3C5EA99D17AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECC54102-681C-4758-9812-3C5EA99D17AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{600E958F-0DCE-4D63-BF11-93292B1D8C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{600E958F-0DCE-4D63-BF11-93292B1D8C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{600E958F-0DCE-4D63-BF11-93292B1D8C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{600E958F-0DCE-4D63-BF11-93292B1D8C18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
