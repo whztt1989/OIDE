@@ -25,7 +25,7 @@ using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using XIDE.DBI;
+using XIDE.DAL;
 
 namespace XIDE.Scene.Model
 {
@@ -69,7 +69,7 @@ namespace XIDE.Scene.Model
 
         public void Execute(object parameter)
         {
-            CDBI dbI = new CDBI();
+            IDAL dbI = new IDAL();
 
             // To serialize the hashtable and its key/value pairs,  
             // you must first open a stream for writing. 
@@ -79,10 +79,10 @@ namespace XIDE.Scene.Model
                 // write to a file
                 ProtoBuf.Serializer.Serialize(inputStream, mpm.Data);
 
-                if (mpm.Data.id > 0)
-                    dbI.updateEntityChar((uint)mpm.Data.id, inputStream.ToArray());
+                if (mpm.ID > 0)
+                    dbI.updateEntityChar((uint)mpm.ID, inputStream.ToArray());
                 else
-                    dbI.insertEntityChar((uint)mpm.Data.id, inputStream.ToArray());
+                    dbI.insertEntityChar((uint)mpm.ID, inputStream.ToArray());
             }
         }
 
@@ -96,6 +96,7 @@ namespace XIDE.Scene.Model
     {
         ICommand CmdSave;
 
+        public UInt16 ID { get; protected set; }
         public String Name { get; set; }
         [Browsable(false)]
         public ObservableCollection<IItem> Items { get; private set; }
@@ -113,13 +114,13 @@ namespace XIDE.Scene.Model
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return Items.Count > 0 ? true : false; } }
- 
-        private Person mData;
+
+        private PhysicsObject.PhysicsObject mData;
 
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
-        public Person Data
+        public PhysicsObject.PhysicsObject Data
         {
             get
             {
@@ -143,16 +144,22 @@ namespace XIDE.Scene.Model
         //    }
         //}
 
-        public PhysicsObjectModel(UInt32 id,ICommandManager commandManager, IMenuService menuService)
+        public PhysicsObjectModel(UInt16 id,ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)
         {
-            CDBI dbI = new CDBI();
+            ID = id;
+            IDAL dbI = new IDAL();
             Byte[] res = dbI.selectEntityChar(id);
-            using (MemoryStream stream = new MemoryStream(res))
+            try
             {
-                mData = ProtoBuf.Serializer.Deserialize<Person>(stream);
+                using (MemoryStream stream = new MemoryStream(res))
+                {
+                    mData = ProtoBuf.Serializer.Deserialize<PhysicsObject.PhysicsObject>(stream);
+                }
+            }catch
+            {
+                mData = new PhysicsObject.PhysicsObject();
             }
-
             //using (StreamReader outputStream = new StreamReader("DataFile.dat"))
             //{
             //    // read from a file

@@ -100,9 +100,9 @@
       <HintPath>..\..\Wide\Libs\Xceed.Wpf.Toolkit.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="XIDE.DBI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XIDE.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\XIDE.DBI.dll</HintPath>
+      <HintPath>..\..\Build\XIDE.DAL.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
