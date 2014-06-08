@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="95f1284e86f04784940c5ff45f69feda" Name="Diagram1">
+        <EntityTypeShape EntityType="gameDataModel.Entities" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gameDataModel.EntitiyDyn" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gameDataModel.EntitiyStatic" Width="1.5" PointX="2.75" PointY="2.75" />
+        <EntityTypeShape EntityType="gameDataModel.EntityChar" Width="1.5" PointX="4.7393052991197" PointY="0.80457510091577433" />
+        <EntityTypeShape EntityType="gameDataModel.Games" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="gameDataModel.Meshes" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="gameDataModel.MeshToChar" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gameDataModel.PhysicObject" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="gameDataModel.Race" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="gameDataModel.Scenes" Width="1.5" PointX="4.75" PointY="6.75" />
+        <EntityTypeShape EntityType="gameDataModel.SQLITEADMIN_QUERIES" Width="1.5" PointX="6.75" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

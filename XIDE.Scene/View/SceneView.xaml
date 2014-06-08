@@ -1,0 +1,51 @@
+﻿<UserControl xmlns:RenderImage="clr-namespace:RenderImage.RenderImage;assembly=RenderImage"  x:Class="XIDE.Scene.View.SceneView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+               xmlns:prism="http://www.codeplex.com/prism"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+       xmlns:inf_int="clr-namespace:Infrastructure.InteractionRequests;assembly=Wide"
+  
+             d:DesignHeight="300" d:DesignWidth="300">
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationRequest, Mode=OneWay}">
+            <inf_int:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" />
+        </prism:InteractionRequestTrigger>
+
+        <!--<prism:InteractionRequestTrigger SourceObject="{Binding SelectAEFRequest, Mode=OneWay}">
+            <inf_int:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
+                <inf_int:PopupWindowAction.WindowContent>
+                    <popup:PSelectAEFView />
+                </inf_int:PopupWindowAction.WindowContent>
+            </inf_int:PopupWindowAction>
+
+        </prism:InteractionRequestTrigger>-->
+
+    </i:Interaction.Triggers>
+    <Grid Background="#FFBBBBBB" x:Name="ImageGrid" MinHeight="1" MinWidth="1">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="130*"/>
+            <ColumnDefinition Width="117*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <RenderImage:RenderImage Name="renderImage"  Grid.Row="1" Grid.ColumnSpan="3"/>
+
+        <!--<Image x:Name="MogreImage" MouseDown="MogreImage_MouseDown" MouseMove="MogreImage_MouseMove"  
+                       ToolTipService.InitialShowDelay="0" ToolTipService.IsEnabled="True"
+                   MinHeight="1" MinWidth="1" Grid.Row="1"
+                   />-->
+
+        <Canvas x:Name="TestCanvas" ClipToBounds="True" Loaded="TestCanvas_Loaded" Grid.Row="1" Grid.ColumnSpan="3" ></Canvas>
+        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="Button_Click" Grid.Column="1"/>
+        <Button Content="TestPopupMsg" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Column="2"  Command="{Binding RaiseConfirmation}"/>
+        <Image HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="44" Source="/XIDE.Scene;component/Icons/SType.png" />
+
+    </Grid>
+</UserControl>
