@@ -81,14 +81,14 @@ namespace XIDE.DAL
 
         #region Physics
 
-        public bool insertPhysics(uint id, byte[] data)
+        public bool insertPhysics(int id, byte[] data)
         {
             mCtx.PhysicObject.Add(new PhysicObject() { Data = data });
             mCtx.SaveChanges();
             return true;
         }
 
-        public bool updatePhysics(uint id, byte[] data)
+        public bool updatePhysics(int id, byte[] data)
         {
             var result = mCtx.PhysicObject.Where(x => x.PO_ID == id);
             if (result.Any())
@@ -101,7 +101,7 @@ namespace XIDE.DAL
                 return false;
         }
 
-        public byte[] selectPhysics(uint id)
+        public byte[] selectPhysics(int id)
         {
 
             var result = mCtx.PhysicObject.Where(x => x.PO_ID == id);

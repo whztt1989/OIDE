@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
+using PInvokeWrapper.DLL;
 using test;
 using TModul.PFExplorer.Interface;
 using TModul.Properties.Interface;
@@ -79,11 +80,13 @@ namespace XIDE.Scene.Model
                 // write to a file
                 ProtoBuf.Serializer.Serialize(inputStream, mpm.Data);
 
-                if (mpm.ID > 0)
-                    dbI.updateEntityChar((uint)mpm.ID, inputStream.ToArray());
+                if (mpm.ID > -1)
+                    dbI.updatePhysics(mpm.ID, inputStream.ToArray());
                 else
-                    dbI.insertEntityChar((uint)mpm.ID, inputStream.ToArray());
+                    dbI.insertPhysics(mpm.ID, inputStream.ToArray());
             }
+
+            DLL_Singleton.Instance.updateObject(0, (int)ObjType.Physic);
         }
 
         public CmdSave(PhysicsObjectModel pm)
@@ -96,7 +99,7 @@ namespace XIDE.Scene.Model
     {
         ICommand CmdSave;
 
-        public UInt16 ID { get; protected set; }
+        public Int32 ID { get; protected set; }
         public String Name { get; set; }
         [Browsable(false)]
         public ObservableCollection<IItem> Items { get; private set; }
@@ -144,12 +147,13 @@ namespace XIDE.Scene.Model
         //    }
         //}
 
-        public PhysicsObjectModel(UInt16 id,ICommandManager commandManager, IMenuService menuService)
+        public PhysicsObjectModel(ICommandManager commandManager, IMenuService menuService,Int32 id = -1)
             : base(commandManager, menuService)
         {
             ID = id;
             IDAL dbI = new IDAL();
-            Byte[] res = dbI.selectEntityChar(id);
+            Byte[] res = dbI.selectPhysics(id);
+            Console.WriteLine(BitConverter.ToString(res));
             try
             {
                 using (MemoryStream stream = new MemoryStream(res))

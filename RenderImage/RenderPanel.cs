@@ -8,14 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Threading;
+using PInvokeWrapper.DLL;
 
 namespace RenderImage
 {
     public partial class RenderPanel : System.Windows.Forms.UserControl
     {
         uint TIME_INTERVAL_IN_MILLISECONDS = 1;
-        public PInvokeWrapper.DLL.CDLL_XE DLL { get; set; }
-
+  
        // private System.Threading.Timer _timer;
 
         public RenderPanel()
@@ -51,7 +51,7 @@ namespace RenderImage
 
         private void timer1_Tick_1(object sender, EventArgs e)
         {
-                DLL.stateUpdate();
+            DLL_Singleton.Instance.stateUpdate();
         }
     }
 }

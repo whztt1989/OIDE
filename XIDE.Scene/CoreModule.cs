@@ -88,7 +88,7 @@ namespace XIDE.Scene
 
             CharacterModel character1 = new CharacterModel(manager, menuService) { Name = "Character1", IsExpanded = true };
             characters.Items.Add(character1);
-            PhysicsObjectModel physicsObj1 = new PhysicsObjectModel(8, manager, menuService) { Name = "PhysicsObject1" };
+            PhysicsObjectModel physicsObj1 = new PhysicsObjectModel(manager, menuService, 0) { Name = "PhysicsObject1" };
             character1.Items.Add(physicsObj1);
             SoundModel soundObj1 = new SoundModel(manager, menuService) { Name = "Sound1" };
             character1.Items.Add(soundObj1);
