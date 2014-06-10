@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using PInvokeWrapper.DLL;
 
 namespace RenderImage.RenderImage
 {
@@ -30,7 +31,6 @@ namespace RenderImage.RenderImage
 		/// The Mogre render panel that will be hosted in WPF
 		/// </summary>
 		private RenderPanel mWinFormsRenderPanel;
-        PInvokeWrapper.DLL.CDLL_XE mDLL;
 
         public RenderImage()
         {
@@ -43,15 +43,11 @@ namespace RenderImage.RenderImage
             mWinFormsRenderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             mWinFormsRenderPanel.Name = "Viewport";
 
-            mDLL = new PInvokeWrapper.DLL.CDLL_XE(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\EditorI.dll");
-            
-            mWinFormsRenderPanel.DLL = mDLL;
-
             //   mWinFormsRenderPanel.InitializeRendering(EditorRoot.GetInstance().DefaultWorkspace);
 
             winFormsHost.Child = mWinFormsRenderPanel;
 
-            bool test = mDLL.stateInit(mWinFormsRenderPanel.Handle);
+            bool test = DLL_Singleton.Instance.stateInit(mWinFormsRenderPanel.Handle);
 
          //   _timer = new Timer(Callback, null, TIME_INTERVAL_IN_MILLISECONDS, Timeout.Infinite);
 

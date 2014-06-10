@@ -5,8 +5,35 @@ using System.Text;
 
 namespace PInvokeWrapper.DLL
 {
-    public class CDLL_XE : CDLL_Loader
+    public enum Status
     {
+        Unknown,
+        OK,
+        Error,
+    }
+
+    public enum ObjType
+    {
+        Physic = 0,
+	    GameEntity = 1,
+    }
+
+    public class DLL_Singleton : CDLL_Loader
+    {
+         private static DLL_Singleton instance;
+
+         public static DLL_Singleton Instance
+           {
+              get 
+              {
+                 if (instance == null)
+                 {
+                     instance = new DLL_Singleton(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\EditorI.dll");
+                  }
+                 return instance;
+              }
+           }
+
         private IntPtr DLLPtr;
 
       //  public delegate bool StartStateDelegate(IntPtr hwnd);
@@ -14,6 +41,7 @@ namespace PInvokeWrapper.DLL
         public delegate bool stateInitDelegate(IntPtr hwnd);
         public delegate bool stateUpdateDelegate();
         public delegate void quitDelegate();
+        public delegate int updateObjectDelegate(uint id, int type);
 
       //  public delegate void ChipAuthent1Delegate(byte bReaderID, byte[] ucEncData);
       //  public delegate byte ChipAuthent2Delegate(byte bReaderID, byte[] ucEncData);
@@ -38,7 +66,7 @@ namespace PInvokeWrapper.DLL
         public stateInitDelegate stateInit { get; set; }
         public stateUpdateDelegate stateUpdate { get; set; }
         public quitDelegate quit { get; set; }
-
+        public updateObjectDelegate updateObject { get; set; }
         //public ChipAuthent1Delegate ChipAuthent1 { get; set; }
         //public ChipAuthent2Delegate ChipAuthent2 { get; set; }
         //public ChipSetLogDelegate ChipSetLog { get; set; }
@@ -58,11 +86,11 @@ namespace PInvokeWrapper.DLL
         //[DllImport(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\EditorI.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         //public static extern bool quit();
 
-        public CDLL_XE(String pDLLPath)
+        public DLL_Singleton(String dllPath)
         {
             //     CPManager.Instance.VMLog.fAddLog(Log.DLL_RFID, "Initialisiere RFID DLL ...");
 
-            fLoadDLL(pDLLPath, ref DLLPtr);
+            fLoadDLL(dllPath, ref DLLPtr);
 
             try
             {
@@ -74,6 +102,7 @@ namespace PInvokeWrapper.DLL
                 stateInit = (stateInitDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("stateInit", DLLPtr), typeof(stateInitDelegate));
                 stateUpdate = (stateUpdateDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("stateUpdate", DLLPtr), typeof(stateUpdateDelegate));
                 quit = (quitDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("quit", DLLPtr), typeof(quitDelegate));
+                updateObject = (updateObjectDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("updateObject", DLLPtr), typeof(updateObjectDelegate));
 
                 //   ChipAuthent1 = (ChipAuthent1Delegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("ChipAuthent1", DLLPtr), typeof(ChipAuthent1Delegate));
                 //ChipAuthent2 = (ChipAuthent2Delegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("ChipAuthent2", DLLPtr), typeof(ChipAuthent2Delegate));

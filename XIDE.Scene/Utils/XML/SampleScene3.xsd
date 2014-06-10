@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="scene">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="resourceLocations">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="resourceLocation">
+                <xs:complexType>
+                  <xs:attribute name="type" type="xs:string" use="required" />
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="environment">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="scenemanager">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="type" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="colourAmbient">
+                <xs:complexType>
+                  <xs:attribute name="r" type="xs:decimal" use="required" />
+                  <xs:attribute name="g" type="xs:decimal" use="required" />
+                  <xs:attribute name="b" type="xs:decimal" use="required" />
+                  <xs:attribute name="a" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="skyDome">
+                <xs:complexType>
+                  <xs:attribute name="active" type="xs:boolean" use="required" />
+                  <xs:attribute name="material" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="fog">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="colour">
+                      <xs:complexType>
+                        <xs:attribute name="r" type="xs:decimal" use="required" />
+                        <xs:attribute name="g" type="xs:decimal" use="required" />
+                        <xs:attribute name="b" type="xs:decimal" use="required" />
+                        <xs:attribute name="a" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="mode" type="xs:string" use="required" />
+                  <xs:attribute name="start" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="end" type="xs:unsignedShort" use="required" />
+                  <xs:attribute name="density" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="viewport">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="colour">
+                      <xs:complexType>
+                        <xs:attribute name="r" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="g" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="b" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="a" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="index" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="camera">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="clipping">
+                      <xs:complexType>
+                        <xs:attribute name="near" type="xs:decimal" use="required" />
+                        <xs:attribute name="far" type="xs:unsignedShort" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="position">
+                      <xs:complexType>
+                        <xs:attribute name="x" type="xs:decimal" use="required" />
+                        <xs:attribute name="y" type="xs:decimal" use="required" />
+                        <xs:attribute name="z" type="xs:decimal" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="rotation">
+                      <xs:complexType>
+                        <xs:attribute name="qw" type="xs:decimal" use="required" />
+                        <xs:attribute name="qx" type="xs:decimal" use="required" />
+                        <xs:attribute name="qy" type="xs:decimal" use="required" />
+                        <xs:attribute name="qz" type="xs:decimal" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="viewMode" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="polyMode" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="fov" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="terrain">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="terrainPages">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="terrainPage">
+                      <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="pageX" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="pageY" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="worldSize" type="xs:unsignedShort" use="required" />
+            <xs:attribute name="mapSize" type="xs:unsignedShort" use="required" />
+            <xs:attribute name="pagenameprefix" type="xs:string" use="required" />
+            <xs:attribute name="colourmapEnabled" type="xs:boolean" use="required" />
+            <xs:attribute name="colourMapTextureSize" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="tuningCompositeMapDistance" type="xs:unsignedShort" use="required" />
+            <xs:attribute name="tuningMaxPixelError" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="tuningMinBatchSize" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="tuningMaxBatchSize" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="tuningSkirtSize" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="tuningUseRayBoxDistancealculation" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="light">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="position">
+                <xs:complexType>
+                  <xs:attribute name="x" type="xs:decimal" use="required" />
+                  <xs:attribute name="y" type="xs:decimal" use="required" />
+                  <xs:attribute name="z" type="xs:decimal" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="directionVector">
+                <xs:complexType>
+                  <xs:attribute name="x" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="y" type="xs:decimal" use="required" />
+                  <xs:attribute name="z" type="xs:decimal" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="colourDiffuse">
+                <xs:complexType>
+                  <xs:attribute name="r" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="g" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="b" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="a" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="colourSpecular">
+                <xs:complexType>
+                  <xs:attribute name="r" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="g" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="b" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="a" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="type" type="xs:string" use="required" />
+            <xs:attribute name="castShadows" type="xs:boolean" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="camera">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="position">
+                <xs:complexType>
+                  <xs:attribute name="x" type="xs:decimal" use="required" />
+                  <xs:attribute name="y" type="xs:decimal" use="required" />
+                  <xs:attribute name="z" type="xs:decimal" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="rotation">
+                <xs:complexType>
+                  <xs:attribute name="qw" type="xs:decimal" use="required" />
+                  <xs:attribute name="qx" type="xs:decimal" use="required" />
+                  <xs:attribute name="qy" type="xs:decimal" use="required" />
+                  <xs:attribute name="qz" type="xs:decimal" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="clipping">
+                <xs:complexType>
+                  <xs:attribute name="near" type="xs:decimal" use="required" />
+                  <xs:attribute name="far" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="fov" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="projectionType" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="nodes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="node">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="position">
+                      <xs:complexType>
+                        <xs:attribute name="x" type="xs:decimal" use="required" />
+                        <xs:attribute name="y" type="xs:decimal" use="required" />
+                        <xs:attribute name="z" type="xs:decimal" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="rotation">
+                      <xs:complexType>
+                        <xs:attribute name="qw" type="xs:decimal" use="required" />
+                        <xs:attribute name="qx" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="qy" type="xs:decimal" use="required" />
+                        <xs:attribute name="qz" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="scale">
+                      <xs:complexType>
+                        <xs:attribute name="x" type="xs:decimal" use="required" />
+                        <xs:attribute name="y" type="xs:decimal" use="required" />
+                        <xs:attribute name="z" type="xs:decimal" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="entity">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="subentity">
+                            <xs:complexType>
+                              <xs:attribute name="index" type="xs:unsignedByte" use="required" />
+                              <xs:attribute name="materialName" type="xs:string" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="name" type="xs:string" use="required" />
+                        <xs:attribute name="meshFile" type="xs:string" use="required" />
+                        <xs:attribute name="castShadows" type="xs:boolean" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="name" type="xs:string" use="required" />
+                  <xs:attribute name="id" type="xs:unsignedInt" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="formatVersion" type="xs:string" use="required" />
+      <xs:attribute name="generator" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
