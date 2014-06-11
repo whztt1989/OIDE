@@ -11,12 +11,11 @@
 #endregion
 
 using System.Collections.ObjectModel;
-using XIDE.Scene.Model;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 
-namespace XIDE.Scene
+namespace OIDE.Scene
 {
     /// <summary>
     /// Class TextModel which contains the text of the document
@@ -43,8 +42,8 @@ namespace XIDE.Scene
             mItems = new ObservableCollection<ContentModel>();
 
 
-            CategoryModel cdata = new CategoryModel(commandManager, menuService) { Name = "Data" };
-            mItems.Add(cdata);
+            //CategoryModel cdata = new CategoryModel(commandManager, menuService) { Name = "Data" };
+            //mItems.Add(cdata);
             //------------- Scenes ----------------------
             //VMCategory cScenes = new VMCategory(,commandManager, menuService) { Name = "Scenes" };
 

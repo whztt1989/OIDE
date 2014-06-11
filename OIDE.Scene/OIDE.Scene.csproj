@@ -7,8 +7,8 @@
     <ProjectGuid>{A589197E-E002-4DBA-B27F-DD16B9A81BFA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XIDE.Scene</RootNamespace>
-    <AssemblyName>XIDE.Scene</AssemblyName>
+    <RootNamespace>OIDE.Scene</RootNamespace>
+    <AssemblyName>OIDE.Scene</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -109,17 +109,24 @@
     <Compile Include="Commands\DotSceneSerializeCommand.cs" />
     <Compile Include="CoreModule.cs" />
     <Compile Include="Handler\SceneHandler.cs" />
-    <Compile Include="Model\SoundModel.cs" />
-    <Compile Include="Model\PhysicsObjectModel.cs" />
-    <Compile Include="Model\CharacterModel.cs" />
-    <Compile Include="Model\CategoyModel.cs" />
-    <Compile Include="Model\FilterModel.cs" />
-    <Compile Include="Model\SceneModel.cs" />
+    <Compile Include="Interface\Events\ItemChangedEvent.cs" />
+    <Compile Include="Interface\Services\ISceneItem.cs" />
+    <Compile Include="Interface\Services\ISceneService.cs" />
+    <Content Include="Model\SoundModel.cs" />
+    <Content Include="Model\PhysicsObjectModel.cs" />
+    <Content Include="Model\CharacterModel.cs" />
+    <Compile Include="Model\CameraModel.cs" />
+    <Content Include="Model\AICharacterModel.cs" />
+    <Compile Include="Model\EnvironmentModel.cs" />
+    <Compile Include="Model\LightModel.cs" />
     <Compile Include="Model\SceneGraphToolModel.cs" />
+    <Compile Include="Model\SceneModel.cs" />
+    <Compile Include="Model\StaticObjectModel.cs" />
+    <Compile Include="Model\TerrainModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\SceneManager.cs" />
     <Compile Include="Settings\EditorOptions.cs" />
     <Compile Include="Settings\MDSettingsItem.cs" />
-    <Compile Include="Utils\dotScene\DotSceneSerialize.cs" />
     <Compile Include="Utils\XML\SampleScene3.cs">
       <DependentUpon>SampleScene3.xsd</DependentUpon>
     </Compile>
@@ -134,23 +141,23 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\SceneGraphToolView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\SceneView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\SType.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XIDE\PInvokeWrapper\PInvokeWrapper.csproj">
+    <ProjectReference Include="..\PInvokeWrapper\PInvokeWrapper.csproj">
       <Project>{6bdcf9e5-128f-4daf-b913-02ccba5fdbd2}</Project>
       <Name>PInvokeWrapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\XIDE\RenderImage\RenderImage.csproj">
+    <ProjectReference Include="..\RenderImage\RenderImage.csproj">
       <Project>{9f3b07c6-7c14-4afb-bf4b-8eb2fe81d361}</Project>
       <Name>RenderImage</Name>
     </ProjectReference>

@@ -24,15 +24,15 @@ using Wide.Interfaces.Events;
 using Wide.Interfaces.Services;
 using Wide.Interfaces.Settings;
 using Wide.Interfaces.Themes;
-using XIDE.Scene.Settings;
+using OIDE.Scene.Settings;
 using System.Windows;
-using XIDE.Scene.View;
-using TModul.PFExplorer.Interface.Services;
-using XIDE.Scene.Model;
+using OIDE.Scene.View;
+using OIDE.Scene.Interface.Services;
+using OIDE.Scene.Service;
 
-namespace XIDE.Scene
+namespace OIDE.Scene
 {
-    [Module(ModuleName = "XIDE.Scene")]
+    [Module(ModuleName = "OIDE.Scene")]
   //  [ModuleDependency("TModul.Core")]
     [ModuleDependency("Wide.Tools.Logger")]
     public class CoreModule : IModule
@@ -57,52 +57,52 @@ namespace XIDE.Scene
             RegisterParts();
             LoadSettings();
 
-            var projTreeService = _container.Resolve<IProjectTreeService>();
+            var projTreeService = _container.Resolve<ISceneService>();
 
             var manager = _container.Resolve<ICommandManager>();
             var menuService = _container.Resolve<IMenuService>();
 
-            CategoryModel root = new CategoryModel(manager, menuService) { Name = "Root" };
-            projTreeService.AddItem(root);
+           // CategoryModel root = new CategoryModel(manager, menuService) { Name = "Root" };
+           // projTreeService.AddItem(root);
 
 
-            CategoryModel proj = new CategoryModel(manager, menuService) { Name = "Project1", IsExpanded = true };
-            root.Items.Add(proj);
-           //Files
-            CategoryModel assets = new CategoryModel(manager, menuService) { Name = "Assets" };
-            proj.Items.Add(assets);
+           // CategoryModel proj = new CategoryModel(manager, menuService) { Name = "Project1", IsExpanded = true };
+           // root.Items.Add(proj);
+           ////Files
+           // CategoryModel assets = new CategoryModel(manager, menuService) { Name = "Assets" };
+           // proj.Items.Add(assets);
 
-            CategoryModel release = new CategoryModel(manager, menuService) { Name = "Release" };
-            assets.Items.Add(release);
-            CategoryModel test = new CategoryModel(manager, menuService) { Name = "Test" };
-            assets.Items.Add(test);
+           // CategoryModel release = new CategoryModel(manager, menuService) { Name = "Release" };
+           // assets.Items.Add(release);
+           // CategoryModel test = new CategoryModel(manager, menuService) { Name = "Test" };
+           // assets.Items.Add(test);
             
-            CategoryModel images = new CategoryModel(manager, menuService) { Name = "Images" };
-            test.Items.Add(images);
+           // CategoryModel images = new CategoryModel(manager, menuService) { Name = "Images" };
+           // test.Items.Add(images);
 
-            //Data
-            CategoryModel data = new CategoryModel(manager, menuService) { Name = "Data", IsExpanded = true };
-            proj.Items.Add(data);
-            CategoryModel characters = new CategoryModel(manager, menuService) { Name = "Characters", IsExpanded = true };
-            data.Items.Add(characters);
+           // //Data
+           // CategoryModel data = new CategoryModel(manager, menuService) { Name = "Data", IsExpanded = true };
+           // proj.Items.Add(data);
+           // CategoryModel characters = new CategoryModel(manager, menuService) { Name = "Characters", IsExpanded = true };
+           // data.Items.Add(characters);
 
-            CharacterModel character1 = new CharacterModel(manager, menuService) { Name = "Character1", IsExpanded = true };
-            characters.Items.Add(character1);
-            PhysicsObjectModel physicsObj1 = new PhysicsObjectModel(manager, menuService, 0) { Name = "PhysicsObject1" };
-            character1.Items.Add(physicsObj1);
-            SoundModel soundObj1 = new SoundModel(manager, menuService) { Name = "Sound1" };
-            character1.Items.Add(soundObj1);
-            SoundModel soundObj2 = new SoundModel(manager, menuService) { Name = "Sound2" };
-            character1.Items.Add(soundObj2);
+           // CharacterModel character1 = new CharacterModel(manager, menuService) { Name = "Character1", IsExpanded = true };
+           // characters.Items.Add(character1);
+           // PhysicsObjectModel physicsObj1 = new PhysicsObjectModel(manager, menuService, 0) { Name = "PhysicsObject1" };
+           // character1.Items.Add(physicsObj1);
+           // SoundModel soundObj1 = new SoundModel(manager, menuService) { Name = "Sound1" };
+           // character1.Items.Add(soundObj1);
+           // SoundModel soundObj2 = new SoundModel(manager, menuService) { Name = "Sound2" };
+           // character1.Items.Add(soundObj2);
 
-            CharacterModel character2 = new CharacterModel(manager, menuService) { Name = "Character2" };
-            characters.Items.Add(character2);
-            character2.Items.Add(physicsObj1);
-            character2.Items.Add(soundObj1);
-            character2.Items.Add(soundObj2);
+           // CharacterModel character2 = new CharacterModel(manager, menuService) { Name = "Character2" };
+           // characters.Items.Add(character2);
+           // character2.Items.Add(physicsObj1);
+           // character2.Items.Add(soundObj1);
+           // character2.Items.Add(soundObj2);
 
-            projTreeService.RootItem = root;
-            projTreeService.SelectedItem = proj;
+           // projTreeService.RootItem = root;
+           // projTreeService.SelectedItem = proj;
         }
 
         private void LoadInterface()
@@ -155,7 +155,7 @@ namespace XIDE.Scene
             //toolbarService.Add(new ToolbarViewModel("EC", 1) { Band = 1, BandIndex = 3 });
 
             //MenuItemViewModel test = new MenuItemViewModel("OpenCOM", 0,
-            //                           new BitmapImage(new Uri(@"pack://application:,,,/XIDE.Scene;component/Icons/NewRequest_8796.png")),
+            //                           new BitmapImage(new Uri(@"pack://application:,,,/OIDE.Scene;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("OPENCOM"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N"));
           
@@ -163,27 +163,27 @@ namespace XIDE.Scene
             //toolbarService.Get("EC").Add(test);
 
             //toolbarService.Get("EC").Add(new MenuItemViewModel("Status", 1,
-            //                           new BitmapImage(new Uri(@"pack://application:,,,/XIDE.Scene;component/Icons/NewRequest_8796.png")),
+            //                           new BitmapImage(new Uri(@"pack://application:,,,/OIDE.Scene;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ECSTATUS"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
             //toolbarService.Get("EC").Add(new MenuItemViewModel("Auswurf", 2,
             //                           new BitmapImage(
-            //                               new Uri(@"pack://application:,,,/XIDE.Scene;component/Icons/NewRequest_8796.png")),
+            //                               new Uri(@"pack://application:,,,/OIDE.Scene;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ECEJECT"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
             //toolbarService.Get("EC").Add(new MenuItemViewModel("Close", 3,
             //                           new BitmapImage(
-            //                               new Uri(@"pack://application:,,,/XIDE.Scene;component/Icons/NewRequest_8796.png")),
+            //                               new Uri(@"pack://application:,,,/OIDE.Scene;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ECCLOSE"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
             //toolbarService.Get("EC").Add(new MenuItemViewModel("ICDirectControl", 4,
             //                           new BitmapImage(
-            //                               new Uri(@"pack://application:,,,/XIDE.Scene;component/Icons/NewRequest_8796.png")),
+            //                               new Uri(@"pack://application:,,,/OIDE.Scene;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ECECDIRECTCTRL"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
             //toolbarService.Get("EC").Add(new MenuItemViewModel("ICCSel", 5,
             //                           new BitmapImage(
-            //                               new Uri(@"pack://application:,,,/XIDE.Scene;component/Icons/NewRequest_8796.png")),
+            //                               new Uri(@"pack://application:,,,/OIDE.Scene;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ICCSel"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
 
@@ -204,6 +204,12 @@ namespace XIDE.Scene
         private void RegisterParts()
         {
             //------------------------------------------------------
+            // REgister SceneService
+            //------------------------------------------------------
+            _container.RegisterType<ISceneService, SceneManager>(new ContainerControlledLifetimeManager());
+
+
+            //------------------------------------------------------
             //Register File Type
             //------------------------------------------------------
             _container.RegisterType<SceneHandler>();
@@ -215,7 +221,7 @@ namespace XIDE.Scene
 
             //_container.RegisterType<ECHandler>();
             //_container.RegisterType<ECViewModel>();
-            //_container.RegisterType<XIDE.Scene.View.EC.ECView>();
+            //_container.RegisterType<OIDE.Scene.View.EC.ECView>();
 
             //IContentHandler handler2 = _container.Resolve<ECHandler>();
             //_container.Resolve<IContentHandlerRegistry>().Register(handler2);
@@ -252,28 +258,28 @@ namespace XIDE.Scene
             //var themeCommand = new DelegateCommand<string>(ThemeChangeCommand);
             //var loggerCommand = new DelegateCommand(ToggleLogger);
 
-            //XIDE.Scene.Commands.OpenCOMCommand mOpenComCommand = new Commands.OpenCOMCommand(_container);
-            //var openCOMCommand = new DelegateCommand<XIDE.Scene.Commands.OpenCOMCommand>(mOpenComCommand.OnSubmit, mOpenComCommand.CanSubmit);
+            //OIDE.Scene.Commands.OpenCOMCommand mOpenComCommand = new Commands.OpenCOMCommand(_container);
+            //var openCOMCommand = new DelegateCommand<OIDE.Scene.Commands.OpenCOMCommand>(mOpenComCommand.OnSubmit, mOpenComCommand.CanSubmit);
             //manager.RegisterCommand("OPENCOM", openCOMCommand);
 
-            //XIDE.Scene.Commands.ECStatusCommand mECStatusCommand = new Commands.ECStatusCommand(_container);
-            //var ECStatusCommand = new DelegateCommand<XIDE.Scene.Commands.ECStatusCommand>(mECStatusCommand.OnSubmit, mECStatusCommand.CanSubmit);
+            //OIDE.Scene.Commands.ECStatusCommand mECStatusCommand = new Commands.ECStatusCommand(_container);
+            //var ECStatusCommand = new DelegateCommand<OIDE.Scene.Commands.ECStatusCommand>(mECStatusCommand.OnSubmit, mECStatusCommand.CanSubmit);
             //manager.RegisterCommand("ECSTATUS", ECStatusCommand);
 
-            //XIDE.Scene.Commands.ECEjectCommand mECEjectCommand = new Commands.ECEjectCommand(_container);
-            //var ecEjectCommand = new DelegateCommand<XIDE.Scene.Commands.ECEjectCommand>(mECEjectCommand.OnSubmit, mECEjectCommand.CanSubmit);
+            //OIDE.Scene.Commands.ECEjectCommand mECEjectCommand = new Commands.ECEjectCommand(_container);
+            //var ecEjectCommand = new DelegateCommand<OIDE.Scene.Commands.ECEjectCommand>(mECEjectCommand.OnSubmit, mECEjectCommand.CanSubmit);
             //manager.RegisterCommand("ECEJECT", ecEjectCommand);
 
-            //XIDE.Scene.Commands.CloseCommand mECCloseCommand = new Commands.CloseCommand(_container);
-            //var ecCloseCommand = new DelegateCommand<XIDE.Scene.Commands.CloseCommand>(mECCloseCommand.OnSubmit, mECCloseCommand.CanSubmit);
+            //OIDE.Scene.Commands.CloseCommand mECCloseCommand = new Commands.CloseCommand(_container);
+            //var ecCloseCommand = new DelegateCommand<OIDE.Scene.Commands.CloseCommand>(mECCloseCommand.OnSubmit, mECCloseCommand.CanSubmit);
             //manager.RegisterCommand("ECCLOSE", ecCloseCommand);
 
-            //XIDE.Scene.Commands.ICCSelectCommand mECICSelCommand = new Commands.ICCSelectCommand(_container);
-            //var ecICCSelCommand = new DelegateCommand<XIDE.Scene.Commands.ICCSelectCommand>(mECICSelCommand.OnSubmit, mECICSelCommand.CanSubmit);
+            //OIDE.Scene.Commands.ICCSelectCommand mECICSelCommand = new Commands.ICCSelectCommand(_container);
+            //var ecICCSelCommand = new DelegateCommand<OIDE.Scene.Commands.ICCSelectCommand>(mECICSelCommand.OnSubmit, mECICSelCommand.CanSubmit);
             //manager.RegisterCommand("ICCSel", ecICCSelCommand);
 
-            //XIDE.Scene.Commands.ICCDirectControlCommand mECICDirectControlCommand = new Commands.ICCDirectControlCommand(_container);
-            //var ecICDirectControlCommand = new DelegateCommand<XIDE.Scene.Commands.ICCDirectControlCommand>(mECICDirectControlCommand.OnSubmit, mECICDirectControlCommand.CanSubmit);
+            //OIDE.Scene.Commands.ICCDirectControlCommand mECICDirectControlCommand = new Commands.ICCDirectControlCommand(_container);
+            //var ecICDirectControlCommand = new DelegateCommand<OIDE.Scene.Commands.ICCDirectControlCommand>(mECICDirectControlCommand.OnSubmit, mECICDirectControlCommand.CanSubmit);
             //manager.RegisterCommand("ECECDIRECTCTRL", ecICDirectControlCommand);
            
 
@@ -309,7 +315,7 @@ namespace XIDE.Scene
             //    (new MenuItemViewModel("_New", 3,
             //                           new BitmapImage(
             //                               new Uri(
-            //                                   @"pack://application:,,,/XIDE.Scene;component/Icons/NewRequest_8796.png")),
+            //                                   @"pack://application:,,,/OIDE.Scene;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("NEW"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N"))));
 
@@ -317,19 +323,19 @@ namespace XIDE.Scene
             //    (new MenuItemViewModel("_Open", 4,
             //                           new BitmapImage(
             //                               new Uri(
-            //                                   @"pack://application:,,,/XIDE.Scene;component/Icons/OpenFileDialog_692.png")),
+            //                                   @"pack://application:,,,/OIDE.Scene;component/Icons/OpenFileDialog_692.png")),
             //                           manager.GetCommand("OPEN"),
             //                           new KeyGesture(Key.O, ModifierKeys.Control, "Ctrl + O"))));
             //menuService.Get("_File").Add(new MenuItemViewModel("_Save", 5,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Scene;component/Icons/Save_6530.png")),
+            //                                                           @"pack://application:,,,/OIDE.Scene;component/Icons/Save_6530.png")),
             //                                                   manager.GetCommand("SAVE"),
             //                                                   new KeyGesture(Key.S, ModifierKeys.Control, "Ctrl + S")));
             //menuService.Get("_File").Add(new SaveAsMenuItemViewModel("Save As..", 6,
             //                                       new BitmapImage(
             //                                           new Uri(
-            //                                               @"pack://application:,,,/XIDE.Scene;component/Icons/Save_6530.png")),
+            //                                               @"pack://application:,,,/OIDE.Scene;component/Icons/Save_6530.png")),
             //                                       manager.GetCommand("SAVEAS"),null,false,false,_container));
 
             //menuService.Get("_File").Add(new MenuItemViewModel("Close", 8, null, manager.GetCommand("CLOSE"),
@@ -345,28 +351,28 @@ namespace XIDE.Scene
             //menuService.Get("_Edit").Add(new MenuItemViewModel("_Undo", 1,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Scene;component/Icons/Undo_16x.png")),
+            //                                                           @"pack://application:,,,/OIDE.Scene;component/Icons/Undo_16x.png")),
             //                                                   ApplicationCommands.Undo));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("_Redo", 2,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Scene;component/Icons/Redo_16x.png")),
+            //                                                           @"pack://application:,,,/OIDE.Scene;component/Icons/Redo_16x.png")),
             //                                                   ApplicationCommands.Redo));
             //menuService.Get("_Edit").Add(MenuItemViewModel.Separator(15));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("Cut", 20,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Scene;component/Icons/Cut_6523.png")),
+            //                                                           @"pack://application:,,,/OIDE.Scene;component/Icons/Cut_6523.png")),
             //                                                   ApplicationCommands.Cut));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("Copy", 21,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Scene;component/Icons/Copy_6524.png")),
+            //                                                           @"pack://application:,,,/OIDE.Scene;component/Icons/Copy_6524.png")),
             //                                                   ApplicationCommands.Copy));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("_Paste", 22,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Scene;component/Icons/Paste_6520.png")),
+            //                                                           @"pack://application:,,,/OIDE.Scene;component/Icons/Paste_6520.png")),
             //                                                   ApplicationCommands.Paste));
 
             //menuService.Add(new MenuItemViewModel("_View", 3));
@@ -375,7 +381,7 @@ namespace XIDE.Scene
             //    menuService.Get("_View").Add(new MenuItemViewModel("_Logger", 1,
             //                                                       new BitmapImage(
             //                                                           new Uri(
-            //                                                               @"pack://application:,,,/XIDE.Scene;component/Icons/Undo_16x.png")),
+            //                                                               @"pack://application:,,,/OIDE.Scene;component/Icons/Undo_16x.png")),
             //                                                       manager.GetCommand("LOGSHOW"))
             //                                     {IsCheckable = true, IsChecked = logger.IsVisible});
 

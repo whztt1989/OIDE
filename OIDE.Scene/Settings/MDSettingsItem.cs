@@ -12,7 +12,7 @@
 
 using Wide.Interfaces.Settings;
 
-namespace XIDE.Scene.Settings
+namespace OIDE.Scene.Settings
 {
     public class MDSettingsItem : AbstractSettingsItem
     {

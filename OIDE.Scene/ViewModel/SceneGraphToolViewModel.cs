@@ -18,9 +18,9 @@ using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Events;
 using Wide.Interfaces.Services;
-using XIDE.Scene.View;
+using OIDE.Scene.View;
 
-namespace XIDE.Scene
+namespace OIDE.Scene
 {
     internal class SceneGraphToolViewModel : ToolViewModel
     {

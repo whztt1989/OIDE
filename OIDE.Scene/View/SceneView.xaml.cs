@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CLXEditor.Render;
 
-namespace XIDE.Scene.View
+namespace OIDE.Scene.View
 {
     /// <summary>
     /// Interaktionslogik für SceneView.xaml

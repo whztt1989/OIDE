@@ -14,15 +14,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using TModul.PFExplorer.Interface;
+using OIDE.Scene.Interface;
 using TModul.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
+using OIDE.Scene.Interface.Services;
 
-namespace XIDE.Scene.Model
+namespace OIDE.Scene.Model
 {
-    internal class SoundModel : TextModel , IItem
+    internal class SoundModel : TextModel , ISceneItem
     {
         public String Name { get; set; }
         public ObservableCollection<IItem> Items { get; private set; }

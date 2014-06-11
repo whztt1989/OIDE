@@ -15,7 +15,7 @@ using System.Configuration;
 using System.Windows.Media;
 using Wide.Interfaces.Settings;
 
-namespace XIDE.Scene.Settings
+namespace OIDE.Scene.Settings
 {
     internal class EditorOptions : AbstractSettings
     {

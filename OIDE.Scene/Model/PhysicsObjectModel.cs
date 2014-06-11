@@ -19,16 +19,16 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using PInvokeWrapper.DLL;
 using test;
-using TModul.PFExplorer.Interface;
+using OIDE.Scene.Interface;
 using TModul.Properties.Interface;
 using TModul.Properties.Types;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using XIDE.DAL;
+using OIDE.Scene.Interface.Services;
 
-namespace XIDE.Scene.Model
+namespace OIDE.Scene.Model
 {
     //[Category("Conections")]
     //[Description("This property is a complex property and has no default editor.")]
@@ -95,7 +95,7 @@ namespace XIDE.Scene.Model
         }
     }
 
-    internal class PhysicsObjectModel : TextModel , IItem
+    internal class PhysicsObjectModel : TextModel, ISceneItem
     {
         ICommand CmdSave;
 

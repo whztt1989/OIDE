@@ -18,7 +18,7 @@ using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 
-namespace XIDE.Scene
+namespace OIDE.Scene
 {
     /// <summary>
     /// Class TextModel which contains the text of the document

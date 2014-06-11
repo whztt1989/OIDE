@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using Microsoft.Practices.Unity;
 using Wide.Interfaces;
 
-namespace XIDE.Scene.View
+namespace OIDE.Scene.View
 {
     /// <summary>
     /// Interaktionslogik für SceneGraphToolView.xaml

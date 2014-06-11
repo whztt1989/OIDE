@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XIDE.Scene.Commands
+namespace OIDE.Scene.Commands
 {
     class DotSceneSerializeCommand
     {

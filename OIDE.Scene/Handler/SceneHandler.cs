@@ -19,10 +19,10 @@ using Wide.Core.Attributes;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using Microsoft.Win32;
-using XIDE.Scene;
-using XIDE.Scene.View;
+using OIDE.Scene;
+using OIDE.Scene.View;
 
-namespace XIDE.Scene
+namespace OIDE.Scene
 {
    // [FileContent("EC Leser", "*.md", 1)]
     [NewContent("Scene", 1, "Scene")]

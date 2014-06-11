@@ -10,19 +10,37 @@
 
 #endregion
 
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Controls;
+using OIDE.Scene.Interface;
+using TModul.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
+using OIDE.Scene.Interface.Services;
 
-namespace XIDE.Scene
+namespace OIDE.Scene.Model
 {
-    internal class FilterModel : TextModel
+    internal class AICharacterModel : TextModel , ISceneItem
     {
-        public FilterModel(ICommandManager commandManager, IMenuService menuService)
+        public String Name { get; set; }
+
+        [Browsable(false)]
+        public ObservableCollection<IItem> Items { get; private set; }
+        public Guid Guid { get; private set; }
+        public List<MenuItem> MenuOptions { get; private set; }
+        public Boolean IsExpanded { get; set; }
+        public Boolean IsSelected { get; set; }
+        public Boolean HasChildren { get { return Items.Count > 0 ? true : false; } }
+
+        public AICharacterModel(ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)
         {
+            Items = new ObservableCollection<IItem>();
+            Guid = new Guid();
         }
-
     }
 }

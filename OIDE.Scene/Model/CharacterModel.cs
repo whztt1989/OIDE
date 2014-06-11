@@ -15,15 +15,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
-using TModul.PFExplorer.Interface;
+using OIDE.Scene.Interface;
 using TModul.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
+using OIDE.Scene.Interface.Services;
 
-namespace XIDE.Scene.Model
+namespace OIDE.Scene.Model
 {
-    internal class CharacterModel : TextModel , IItem
+    internal class CharacterModel : TextModel , ISceneItem
     {
         public String Name { get; set; }
 
