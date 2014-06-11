@@ -7,8 +7,8 @@
     <ProjectGuid>{3AF9375C-A620-45CC-8397-8F678BEE0E2B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XIDE</RootNamespace>
-    <AssemblyName>XIDE</AssemblyName>
+    <RootNamespace>OIDE</RootNamespace>
+    <AssemblyName>OIDE</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

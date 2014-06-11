@@ -13,19 +13,22 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Controls;
-using OIDE.Scene.Interface;
+using OIDE.DAL.Interface;
 using TModul.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
-using OIDE.Scene.Interface.Services;
+using OIDE.DAL.Interface.Services;
 
-namespace OIDE.Scene.Model
+namespace OIDE.DAL.Model
 {
-    internal class SoundModel : TextModel , ISceneItem
+    internal class CharacterModel : TextModel , ISceneItem
     {
         public String Name { get; set; }
+
+        [Browsable(false)]
         public ObservableCollection<IItem> Items { get; private set; }
         public Guid Guid { get; private set; }
         public List<MenuItem> MenuOptions { get; private set; }
@@ -33,7 +36,7 @@ namespace OIDE.Scene.Model
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return Items.Count > 0 ? true : false; } }
 
-        public SoundModel(ICommandManager commandManager, IMenuService menuService)
+        public CharacterModel(ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)
         {
             Items = new ObservableCollection<IItem>();

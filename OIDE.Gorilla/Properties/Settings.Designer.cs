@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XIDE.Gorilla.Properties {
+namespace OIDE.Gorilla.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

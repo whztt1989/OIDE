@@ -17,14 +17,43 @@ using System.Windows.Input;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
+using TModul.Properties.Interface;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using System;
 
 namespace OIDE.Scene
 {
     /// <summary>
     /// Class TextModel which contains the text of the document
     /// </summary>
-    public class SceneModel : TextModel
+    public class SceneModel : TextModel , IItem
     {
+        public Int32 ID { get; protected set; }
+        public String Name { get; set; }
+        [Browsable(false)]
+        public ObservableCollection<IItem> Items { get; private set; }
+        public Guid Guid { get; private set; }
+        [Browsable(false)]
+        public List<MenuItem> MenuOptions
+        {
+            get
+            {
+                List<MenuItem> list = new List<MenuItem>();
+                MenuItem miSave = new MenuItem() { Header = "Save" };
+                list.Add(miSave);
+                return list;
+            }
+        }
+
+        [Browsable(false)]
+        public Boolean IsExpanded { get; set; }
+        [Browsable(false)]
+        public Boolean IsSelected { get; set; }
+        public Boolean HasChildren { get { return Items.Count > 0 ? true : false; } }
+
+
         private string result;
      
         public ICommand RaiseConfirmation { get; private set; }

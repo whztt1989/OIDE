@@ -100,10 +100,6 @@
       <HintPath>..\..\Wide\Libs\Xceed.Wpf.Toolkit.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="XIDE.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\XIDE.DAL.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\DotSceneSerializeCommand.cs" />
@@ -112,17 +108,8 @@
     <Compile Include="Interface\Events\ItemChangedEvent.cs" />
     <Compile Include="Interface\Services\ISceneItem.cs" />
     <Compile Include="Interface\Services\ISceneService.cs" />
-    <Content Include="Model\SoundModel.cs" />
-    <Content Include="Model\PhysicsObjectModel.cs" />
-    <Content Include="Model\CharacterModel.cs" />
-    <Compile Include="Model\CameraModel.cs" />
-    <Content Include="Model\AICharacterModel.cs" />
-    <Compile Include="Model\EnvironmentModel.cs" />
-    <Compile Include="Model\LightModel.cs" />
     <Compile Include="Model\SceneGraphToolModel.cs" />
     <Compile Include="Model\SceneModel.cs" />
-    <Compile Include="Model\StaticObjectModel.cs" />
-    <Compile Include="Model\TerrainModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\SceneManager.cs" />
     <Compile Include="Settings\EditorOptions.cs" />

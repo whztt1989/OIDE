@@ -19,16 +19,16 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using PInvokeWrapper.DLL;
 using test;
-using OIDE.Scene.Interface;
+using OIDE.DAL.Interface;
 using TModul.Properties.Interface;
 using TModul.Properties.Types;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using OIDE.Scene.Interface.Services;
+using OIDE.DAL.Interface.Services;
 
-namespace OIDE.Scene.Model
+namespace OIDE.DAL.Model
 {
     //[Category("Conections")]
     //[Description("This property is a complex property and has no default editor.")]
