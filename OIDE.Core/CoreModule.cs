@@ -27,10 +27,12 @@ using Wide.Interfaces.Themes;
 using XIDE.Core.Settings;
 using System.Windows;
 using TModul.DB.Interface.Services;
+using OIDE.Core.ProjectTypes.Handler;
+using OIDE.Core.ProjectTypes.View;
 
-namespace XIDE.Core
+namespace OIDE.Core
 {
-    [Module(ModuleName = "XIDE.Core")]
+    [Module(ModuleName = "OIDE.Core")]
     [ModuleDependency("Wide.Tools.Logger")]
     public class CoreModule : IModule
     {
@@ -120,12 +122,12 @@ namespace XIDE.Core
 
         private void RegisterParts()
         {
-            //_container.RegisterType<MDHandler>();
-            //_container.RegisterType<MDViewModel>();
-            //_container.RegisterType<MDView>();
+            _container.RegisterType<GameProjectHandler>();
+            _container.RegisterType<GameProjectViewModel>();
+            _container.RegisterType<GameProjectView>();
 
-            //IContentHandler handler = _container.Resolve<MDHandler>();
-            //_container.Resolve<IContentHandlerRegistry>().Register(handler);
+            IContentHandler handler = _container.Resolve<GameProjectHandler>();
+            _container.Resolve<IContentHandlerRegistry>().Register(handler);
         }
 
         private void LoadTheme()

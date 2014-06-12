@@ -11,8 +11,12 @@ using TModul.Properties.Interface;
 
 namespace OIDE.DAL.Model
 {
-    internal class EnvironmentModel : ISceneItem
+    public class EnvironmentModel : ISceneItem
     {
+        public IScene Parent { get; private set; }
+        public Boolean Visible { get; set; }
+        public Boolean Enabled { get; set; }
+
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
         [Browsable(false)]
@@ -34,7 +38,14 @@ namespace OIDE.DAL.Model
         public Boolean IsExpanded { get; set; }
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
-        public Boolean HasChildren { get { return Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+
+        
+        public EnvironmentModel (IScene parent)
+        {
+            Parent = parent;
+        }
+
 
     }
 }

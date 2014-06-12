@@ -107,6 +107,7 @@
     <Compile Include="CoreModule.cs" />
     <Compile Include="Handler\SceneHandler.cs" />
     <Compile Include="Interface\Events\ItemChangedEvent.cs" />
+    <Compile Include="Interface\Services\IScene.cs" />
     <Compile Include="Interface\Services\ISceneItem.cs" />
     <Compile Include="Interface\Services\ISceneService.cs" />
     <Compile Include="Model\SceneGraphToolModel.cs" />

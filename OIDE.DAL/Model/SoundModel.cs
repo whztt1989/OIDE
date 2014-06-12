@@ -23,7 +23,7 @@ using OIDE.DAL.Interface.Services;
 
 namespace OIDE.DAL.Model
 {
-    internal class SoundModel : TextModel , ISceneItem
+    public class SoundModel : TextModel, ISceneItem
     {
         public String Name { get; set; }
         public ObservableCollection<IItem> Items { get; private set; }
@@ -31,7 +31,7 @@ namespace OIDE.DAL.Model
         public List<MenuItem> MenuOptions { get; private set; }
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
-        public Boolean HasChildren { get { return Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
         public SoundModel(ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)

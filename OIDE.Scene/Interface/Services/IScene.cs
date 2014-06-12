@@ -7,10 +7,7 @@ using TModul.Properties.Interface;
 
 namespace OIDE.Scene.Interface.Services
 {
-    public interface ISceneItem : IItem
+    public interface IScene : IItem
     {
-        IScene Parent { get; }
-        Boolean Visible { get; set; }
-        Boolean Enabled { get; set; }
     }
 }

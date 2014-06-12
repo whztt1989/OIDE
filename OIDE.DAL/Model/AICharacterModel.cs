@@ -24,7 +24,7 @@ using OIDE.DAL.Interface.Services;
 
 namespace OIDE.DAL.Model
 {
-    internal class AICharacterModel : TextModel , ISceneItem
+    public class AICharacterModel : TextModel, ISceneItem
     {
         public String Name { get; set; }
 
@@ -34,7 +34,7 @@ namespace OIDE.DAL.Model
         public List<MenuItem> MenuOptions { get; private set; }
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
-        public Boolean HasChildren { get { return Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
         public AICharacterModel(ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)

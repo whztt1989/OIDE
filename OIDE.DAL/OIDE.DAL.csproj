@@ -105,7 +105,7 @@
     <Reference Include="TModul.DB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\coop\Build\TModul.DB.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="TModul.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -171,6 +171,8 @@
       <DependentUpon>EDM_GameData.tt</DependentUpon>
     </Compile>
     <Content Include="Model\AICharacterModel.cs" />
+    <Compile Include="Model\SceneModel.cs" />
+    <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\CameraModel.cs" />
     <Content Include="Model\CharacterModel.cs" />
     <Compile Include="Model\EnvironmentModel.cs" />

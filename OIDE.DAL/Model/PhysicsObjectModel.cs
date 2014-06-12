@@ -58,7 +58,7 @@ namespace OIDE.DAL.Model
     //    public ObjectUserControlEditor Options { get;set;}
     //}
 
-    internal class CmdSave : ICommand
+    public class CmdSave : ICommand
     {
         private PhysicsObjectModel mpm;
         public event EventHandler CanExecuteChanged;
@@ -95,7 +95,7 @@ namespace OIDE.DAL.Model
         }
     }
 
-    internal class PhysicsObjectModel : TextModel, ISceneItem
+    public class PhysicsObjectModel : TextModel, ISceneItem
     {
         ICommand CmdSave;
 
@@ -116,7 +116,7 @@ namespace OIDE.DAL.Model
         public Boolean IsExpanded { get; set; }
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
-        public Boolean HasChildren { get { return Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
         private PhysicsObject.PhysicsObject mData;
 

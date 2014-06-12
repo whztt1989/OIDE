@@ -6,17 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using TModul.Properties.Interface;
 using OIDE.Scene.Interface.Services;
+using TModul.Properties.Interface;
 
 namespace OIDE.DAL.Model
 {
-    public class LightModel : ISceneItem
+    public class GameModel : IItem
     {
-        public IScene Parent { get; private set; }
-        public Boolean Visible { get; set; }
-        public Boolean Enabled { get; set; }
-
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
         [Browsable(false)]
@@ -28,7 +24,7 @@ namespace OIDE.DAL.Model
             get
             {
                 List<MenuItem> list = new List<MenuItem>();
-                MenuItem miSave = new MenuItem() {  Header = "Save" };
+                MenuItem miSave = new MenuItem() { Header = "Save" };
                 list.Add(miSave);
                 return list;
             }
@@ -39,12 +35,6 @@ namespace OIDE.DAL.Model
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
-
-        
-        public LightModel (IScene parent)
-        {
-            Parent = parent;
-        }
 
     }
 }

@@ -10,20 +10,30 @@
 
 #endregion
 
+using Microsoft.Practices.Prism.Commands;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 
-namespace XIDE.Core
+namespace OIDE.Core
 {
-    internal class MDViewModel : TextViewModel
+    internal class GameProjectViewModel : TextViewModel
     {
-        public MDViewModel(AbstractWorkspace workspace, ICommandManager commandManager, ILoggerService logger,
+        public GameProjectViewModel(AbstractWorkspace workspace, ICommandManager commandManager, ILoggerService logger,
                            IMenuService menuService)
             : base(workspace, commandManager, logger, menuService)
         {
+           // ICommand mOpenCOMCommand;
+           //OpenCOMCommand mOpenComCommand;
+           // mOpenComCommand = new Commands.OpenCOMCommand();
+           // mOpenCOMCommand = new DelegateCommand<OpenCOMCommand>(
+           //                           mOpenComCommand.OnSubmit, mOpenComCommand.CanSubmit);
         }
+
+     //   public ICommand OpenCOMCommand { get { return mOpenCOMCommand; } }
+            
 
         internal void SetModel(ContentModel model)
         {

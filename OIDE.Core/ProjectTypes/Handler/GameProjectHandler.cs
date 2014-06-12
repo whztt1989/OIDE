@@ -1,33 +1,21 @@
-﻿#region License
-
-// Copyright (c) 2013 Chandramouleswaran Ravichandran
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-#endregion
-
+﻿using Microsoft.Practices.Unity;
+using OIDE.Core.ProjectTypes.View;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using Microsoft.Practices.Unity;
+using System.Text;
+using System.Threading.Tasks;
+using TModul.PFExplorer.Interface.Services;
 using Wide.Core.Attributes;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
-using Microsoft.Win32;
-using OIDE.Scene;
-using OIDE.Scene.View;
-using OIDE.Scene.Model;
 
-namespace OIDE.Scene
+namespace OIDE.Core.ProjectTypes.Handler
 {
-   // [FileContent("EC Leser", "*.md", 1)]
-    [NewContent("Scene", 1, "Scene")]
-    internal class SceneHandler : IContentHandler
+  // [FileContent("EC Leser", "*.md", 1)]
+    [NewContent("GameProject", 1, "GameProject")]
+    internal class GameProjectHandler : IContentHandler
     {
         /// <summary>
         /// The injected container
@@ -49,7 +37,7 @@ namespace OIDE.Scene
         /// </summary>
         /// <param name="container">The injected container of the application</param>
         /// <param name="loggerService">The injected logger service of the application</param>
-        public SceneHandler(IUnityContainer container, ILoggerService loggerService)
+        public GameProjectHandler(IUnityContainer container, ILoggerService loggerService)
         {
             _container = container;
             _loggerService = loggerService;
@@ -60,9 +48,9 @@ namespace OIDE.Scene
 
         public ContentViewModel NewContent(object parameter)
         {
-            var vm = _container.Resolve<SceneViewModel>();
-            var model = _container.Resolve<SceneModel>();
-            var view = _container.Resolve<SceneView>();
+            var vm = _container.Resolve<GameProjectViewModel>();
+            var model = _container.Resolve<GameProjectModel>();
+            var view = _container.Resolve<GameProjectView>();
 
             //Model details
             _loggerService.Log("Creating a new simple file using SceneHandler", LogCategory.Info, LogPriority.Low);
@@ -73,10 +61,23 @@ namespace OIDE.Scene
             //Set the model and view
             vm.SetModel(model);
             vm.SetView(view);
-            vm.Title = "EC Leser";
+            vm.Title = "Game";
             vm.View.DataContext = model;
             vm.SetHandler(this);
             model.SetDirty(true);
+
+            var mProjectTreeService = _container.Resolve<IProjectTreeService>();
+            var commandManager = _container.Resolve<ICommandManager>();
+            var menuService = _container.Resolve<IMenuService>();
+
+            //---------------------------------------------
+            //Projekt Tree
+            //---------------------------------------------
+            CategoryModel root = new CategoryModel(commandManager, menuService) { Name = "RootNode" };
+            GameProjectModel order = new GameProjectModel(commandManager, menuService) { Name = "Game", IsExpanded = true };
+            root.Items.Add(order);
+            mProjectTreeService.Items.Add(root);
+            mProjectTreeService.RootItem = root;
 
             return vm;
         }
@@ -101,9 +102,9 @@ namespace OIDE.Scene
             //var location = info as string;
             //if (location != null)
             //{
-            SceneViewModel vm = _container.Resolve<SceneViewModel>();
-            var model = _container.Resolve<SceneModel>();
-            var view = _container.Resolve<SceneView>();
+            GameProjectViewModel vm = _container.Resolve<GameProjectViewModel>();
+            var model = _container.Resolve<GameProjectModel>();
+            var view = _container.Resolve<GameProjectView>();
 
                 //Model details
                 model.SetLocation(info);
