@@ -17,12 +17,12 @@ using Wide.Interfaces.Services;
 
 namespace OIDE.Core
 {
-    internal class FilterModel : TextModel
-    {
-        public FilterModel(ICommandManager commandManager, IMenuService menuService)
-            : base(commandManager, menuService)
-        {
-        }
+    //internal class FilterModel : TextModel
+    //{
+    //    public FilterModel(ICommandManager commandManager, IMenuService menuService)
+    //        : base(commandManager, menuService)
+    //    {
+    //    }
 
-    }
+    //}
 }

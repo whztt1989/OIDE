@@ -23,6 +23,7 @@ using System.Windows.Controls;
 using System;
 using TModul.Properties.Interface;
 using OIDE.DAL.Model;
+using TModul.PFExplorer;
 
 namespace OIDE.Core
 {
@@ -56,6 +57,9 @@ namespace OIDE.Core
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+
+
+        public IItem Parent { get; private set; }
 
 
         private string result;
@@ -117,14 +121,13 @@ namespace OIDE.Core
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
           //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
           //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
-            CategoryModel scenes = new CategoryModel(commandManager, menuService) { Name = "Scenes" };
-            SceneModel scene = new SceneModel() { Name = "Scene 1" };
-            scene.Items.Add(new CategoryModel(commandManager, menuService) { Name = "CharacterObjects" });
-            scene.Items.Add(new CategoryModel(commandManager, menuService) { Name = "AICharacterObjects" });
-            scene.Items.Add(new CategoryModel(commandManager, menuService) { Name = "StaticObjects" });
-            scene.Items.Add(new CategoryModel(commandManager, menuService) { Name = "PhysicObjects" });
+            ScenesModel scenes = new ScenesModel(this, commandManager, menuService) { Name = "Scenes" };
+            SceneModel scene = new SceneModel(scenes) { Name = "Scene 1" };
+            scene.Items.Add(new CategoryModel(scene,commandManager, menuService) { Name = "CharacterObjects" });
+            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "AICharacterObjects" });
+            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "StaticObjects" });
+            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "PhysicObjects" });
           
-
             scenes.Items.Add(scene);
             m_Items.Add(scenes);
          

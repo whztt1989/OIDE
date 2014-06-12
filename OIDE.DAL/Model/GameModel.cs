@@ -36,5 +36,7 @@ namespace OIDE.DAL.Model
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
+        public IItem Parent { get; private set; }
+
     }
 }

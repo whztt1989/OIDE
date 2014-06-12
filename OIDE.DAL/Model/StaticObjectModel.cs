@@ -13,7 +13,7 @@ namespace OIDE.DAL.Model
 {
     public class StaticObjectModel : ISceneItem
     {
-        public IScene Parent { get; private set; }
+        public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
@@ -41,7 +41,7 @@ namespace OIDE.DAL.Model
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
 
-        public StaticObjectModel(IScene parent)
+        public StaticObjectModel(IItem parent)
         {
             Parent = parent;
         }

@@ -13,7 +13,7 @@ namespace OIDE.DAL.Model
 {
     public class EnvironmentModel : ISceneItem
     {
-        public IScene Parent { get; private set; }
+        public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
@@ -40,8 +40,12 @@ namespace OIDE.DAL.Model
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
+        #region Environment Data
+
         
-        public EnvironmentModel (IScene parent)
+        #endregion 
+
+        public EnvironmentModel (IItem parent)
         {
             Parent = parent;
         }

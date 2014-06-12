@@ -10,6 +10,7 @@ using TModul.PFExplorer.Interface.Services;
 using Wide.Core.Attributes;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
+using TModul.PFExplorer;
 
 namespace OIDE.Core.ProjectTypes.Handler
 {
@@ -73,7 +74,7 @@ namespace OIDE.Core.ProjectTypes.Handler
             //---------------------------------------------
             //Projekt Tree
             //---------------------------------------------
-            CategoryModel root = new CategoryModel(commandManager, menuService) { Name = "RootNode" };
+            CategoryModel root = new CategoryModel(null , commandManager, menuService) { Name = "RootNode" };
             GameProjectModel order = new GameProjectModel(commandManager, menuService) { Name = "Game", IsExpanded = true };
             root.Items.Add(order);
             mProjectTreeService.Items.Add(root);
