@@ -89,6 +89,7 @@
     <Reference Include="Wide, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Wide\Build\Internal\Wide.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Wide.Tools.Logger, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

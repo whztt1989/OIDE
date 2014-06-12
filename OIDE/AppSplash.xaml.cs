@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Wide.Splash;
 
-namespace XIDE
+namespace OIDE
 {
     /// <summary>
     /// Interaction logic for AppSplash.xaml

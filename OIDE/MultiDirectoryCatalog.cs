@@ -2,7 +2,7 @@
 using System.IO;
 using Microsoft.Practices.Prism.Modularity;
 
-namespace XIDE
+namespace OIDE
 {
     /// <summary>
     /// Allows our shell to probe multiple directories for module assemblies

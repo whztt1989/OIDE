@@ -2,7 +2,7 @@
 using Microsoft.Practices.Unity;
 using Wide.Interfaces;
 
-namespace XIDE
+namespace OIDE
 {
     /// <summary>
     /// Interaction logic for App.xaml

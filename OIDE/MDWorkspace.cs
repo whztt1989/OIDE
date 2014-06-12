@@ -8,13 +8,13 @@ using Wide.Interfaces.Events;
 using System.ComponentModel;
 using Wide.Interfaces.Services;
 
-namespace XIDE
+namespace OIDE
 {
     internal class MDWorkspace : AbstractWorkspace
     {
         private string _document;
         private ILoggerService _logger;
-        private const string _title = "XIDE";
+        private const string _title = "OIDE";
 
         public MDWorkspace(IUnityContainer container, IEventAggregator eventAggregator)
             : base(container, eventAggregator)
@@ -28,7 +28,7 @@ namespace XIDE
         {
             get
             {
-                ImageSource imageSource = new BitmapImage(new Uri("pack://application:,,,/XIDE;component/Icon.png"));
+                ImageSource imageSource = new BitmapImage(new Uri("pack://application:,,,/OIDE;component/Icon.png"));
                 return imageSource;
             }
         }
