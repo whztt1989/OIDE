@@ -16,12 +16,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
-using TModul.PFExplorer.Interface;
-using TModul.Properties.Interface;
+using Module.PFExplorer.Interface;
+using Module.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
-using TModul.PFExplorer;
+using Module.PFExplorer;
 using System.Windows.Input;
 using OIDE.DAL.Model;
 

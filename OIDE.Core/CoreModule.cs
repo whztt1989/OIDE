@@ -26,7 +26,7 @@ using Wide.Interfaces.Settings;
 using Wide.Interfaces.Themes;
 using XIDE.Core.Settings;
 using System.Windows;
-using TModul.DB.Interface.Services;
+using Module.DB.Interface.Services;
 using OIDE.Core.ProjectTypes.Handler;
 using OIDE.Core.ProjectTypes.View;
 

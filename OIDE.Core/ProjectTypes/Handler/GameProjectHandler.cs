@@ -6,11 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TModul.PFExplorer.Interface.Services;
+using Module.PFExplorer.Interface.Services;
 using Wide.Core.Attributes;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
-using TModul.PFExplorer;
+using Module.PFExplorer;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
 

@@ -21,9 +21,9 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System;
-using TModul.Properties.Interface;
+using Module.Properties.Interface;
 using OIDE.DAL.Model;
-using TModul.PFExplorer;
+using Module.PFExplorer;
 
 namespace OIDE.Core
 {
