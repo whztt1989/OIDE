@@ -59,6 +59,21 @@
       <HintPath>..\..\extlibs\Microsoft.Practices.Unity.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Module.DB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.DB.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Module.PFExplorer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.PFExplorer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Module.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.Properties.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="OIDE.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\OIDE.DAL.dll</HintPath>
@@ -76,20 +91,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="TModul.DB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\TModul.DB.dll</HintPath>
-    </Reference>
-    <Reference Include="TModul.PFExplorer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\TModul.PFExplorer.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="TModul.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\TModul.Properties.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Wide, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -33,7 +33,7 @@ using OIDE.Scene.Service;
 namespace OIDE.Scene
 {
     [Module(ModuleName = "OIDE.Scene")]
-  //  [ModuleDependency("TModul.Core")]
+  //  [ModuleDependency("Module.Core")]
     [ModuleDependency("Wide.Tools.Logger")]
     public class CoreModule : IModule
     {

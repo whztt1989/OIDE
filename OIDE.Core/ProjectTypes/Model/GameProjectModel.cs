@@ -108,6 +108,13 @@ namespace OIDE.Core
                 RaisePropertyChanged("Result");
             }
         }
+
+        public GameProjectModel()
+            : base(null, null)
+        {
+
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
         /// </summary>

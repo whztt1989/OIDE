@@ -26,7 +26,6 @@ using Wide.Interfaces.Settings;
 using Wide.Interfaces.Themes;
 using XIDE.Gorilla.Settings;
 using System.Windows;
-using TModul.DB.Interface.Services;
 //using ComID.DBI;
 
 namespace XIDE.Gorilla

@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using TModul.DB.Interface;
-using TModul.DB.Interface.Services;
-using TModul.DB.Settings;
+using Module.DB.Interface;
+using Module.DB.Interface.Services;
+using Module.DB.Settings;
 using OIDE.DAL.MDB;
 using System.Data;
 

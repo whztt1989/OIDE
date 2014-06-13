@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using OIDE.Scene.Interface.Services;
-using TModul.Properties.Interface;
+using Module.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces.Services;
 using Microsoft.Practices.Unity;

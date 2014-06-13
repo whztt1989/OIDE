@@ -68,6 +68,16 @@
       <HintPath>..\..\Wide\Libs\Microsoft.Practices.Unity.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Module.DB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.DB.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Module.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.Properties.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="OIDE.Scene, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\OIDE.Scene.dll</HintPath>
@@ -102,16 +112,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TModul.DB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\coop\Build\TModul.DB.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="TModul.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\TModul.Properties.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Wide, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Wide\Build\Internal\Wide.dll</HintPath>

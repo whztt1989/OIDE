@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using TModul.Properties.Interface;
+using Module.Properties.Interface;
 using OIDE.Scene.Interface.Services;
 
 namespace OIDE.DAL.Model

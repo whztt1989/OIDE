@@ -12,7 +12,7 @@ using OIDE.Scene.Interface.Services;
 using Wide.Interfaces;
 using Wide.Interfaces.Controls;
 using Wide.Interfaces.Services;
-using TModul.Properties.Interface;
+using Module.Properties.Interface;
 using System.ComponentModel;
 
 namespace OIDE.Scene.Service

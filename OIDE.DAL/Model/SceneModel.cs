@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using OIDE.Scene.Interface.Services;
-using TModul.Properties.Interface;
+using Module.Properties.Interface;
 
 namespace OIDE.DAL.Model
 {

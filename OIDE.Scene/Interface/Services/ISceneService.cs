@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using TModul.Properties.Interface;
+using Module.Properties.Interface;
 using Wide.Interfaces;
 using Wide.Interfaces.Controls;
 

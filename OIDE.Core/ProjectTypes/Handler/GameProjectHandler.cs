@@ -11,13 +11,21 @@ using Wide.Core.Attributes;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using TModul.PFExplorer;
+using System.Text.RegularExpressions;
+using Microsoft.Win32;
 
 namespace OIDE.Core.ProjectTypes.Handler
 {
-  // [FileContent("EC Leser", "*.md", 1)]
+  // [FileContent("EC Leser", "*.gameProject", 1)]
     [NewContent("GameProject", 1, "GameProject")]
     internal class GameProjectHandler : IContentHandler
     {
+        /// <summary>
+        /// The save file dialog
+        /// </summary>
+        private SaveFileDialog _dialog;
+
+
         /// <summary>
         /// The injected container
         /// </summary>
@@ -42,7 +50,7 @@ namespace OIDE.Core.ProjectTypes.Handler
         {
             _container = container;
             _loggerService = loggerService;
-       //     _dialog = new SaveFileDialog();
+            _dialog = new SaveFileDialog();
         }
 
         #region IContentHandler Members
@@ -87,17 +95,17 @@ namespace OIDE.Core.ProjectTypes.Handler
         /// Validates the content by checking if a file exists for the specified location
         /// </summary>
         /// <param name="info">The string containing the file location</param>
-        /// <returns>True, if the file exists and has a .md extension - false otherwise</returns>
+        /// <returns>True, if the file exists and has a .gameProject extension - false otherwise</returns>
         public bool ValidateContentType(object info)
         {
             return true;
         }
 
         /// <summary>
-        /// Opens a file and returns the corresponding MDViewModel
+        /// Opens a file and returns the corresponding GameProjectViewModel
         /// </summary>
         /// <param name="info">The string location of the file</param>
-        /// <returns>The <see cref="MDViewModel"/> for the file.</returns>
+        /// <returns>The <see cref="GameProjectViewModel"/> for the file.</returns>
         public ContentViewModel OpenContent(object info)
         {
             //var location = info as string;
@@ -158,7 +166,97 @@ namespace OIDE.Core.ProjectTypes.Handler
         /// <returns>true, if successful - false, otherwise</returns>
         public virtual bool SaveContent(ContentViewModel contentViewModel, bool saveAs = false)
         {
-            return true;
+            var gameProjectViewModel = contentViewModel as GameProjectViewModel;
+
+            if (gameProjectViewModel == null)
+            {
+                _loggerService.Log("ContentViewModel needs to be a GameProjectViewModel to save details", LogCategory.Exception,
+                                   LogPriority.High);
+                throw new ArgumentException("ContentViewModel needs to be a GameProjectViewModel to save details");
+            }
+
+            var gameProjectModel = gameProjectViewModel.Model as GameProjectModel;
+
+            if (gameProjectModel == null)
+            {
+                _loggerService.Log("GameProjectViewModel does not have a GameProjectModel which should have the text",
+                                   LogCategory.Exception, LogPriority.High);
+                throw new ArgumentException("GameProjectViewModel does not have a GameProjectModel which should have the text");
+            }
+
+            var location = gameProjectModel.Location as string;
+
+            if (location == null)
+            {
+                //If there is no location, just prompt for Save As..
+                saveAs = true;
+            }
+
+            if (saveAs)
+            {
+                if (location != null)
+                    _dialog.InitialDirectory = Path.GetDirectoryName(location);
+
+                _dialog.CheckPathExists = true;
+                _dialog.DefaultExt = "gameProj";
+                _dialog.Filter = "GameProject files (*.gameProj)|*.gameProj";
+
+                if (_dialog.ShowDialog() == true)
+                {
+                    location = _dialog.FileName;
+                    gameProjectModel.SetLocation(location);
+                    gameProjectViewModel.Title = Path.GetFileName(location);
+                    try
+                    {
+                        //-----------------------------------
+                        // Serialize Object
+                        //-----------------------------------
+                        using (FileStream fs = new FileStream(location, FileMode.Open))
+                        {
+                            System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
+                            x.Serialize(fs, gameProjectModel);
+                            fs.Close();
+                        }
+
+                        gameProjectModel.SetDirty(false);
+                        return true;
+                    }
+                    catch (Exception exception)
+                    {
+                        _loggerService.Log(exception.Message, LogCategory.Exception, LogPriority.High);
+                        if (exception.InnerException != null) _loggerService.Log(exception.InnerException.Message, LogCategory.Exception, LogPriority.High);
+                        _loggerService.Log(exception.StackTrace, LogCategory.Exception, LogPriority.High);
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    //-----------------------------------
+                    // Serialize Object
+                    //-----------------------------------
+                    using (FileStream fs = new FileStream(location, FileMode.Open))
+                    {
+                        System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
+                        x.Serialize(fs, gameProjectModel);
+                        fs.Close();
+                    }
+
+                 //  File.WriteAllText(location, gameProjectModel.Ser);
+                    gameProjectModel.SetDirty(false);
+                    return true;
+                }
+                catch (Exception exception)
+                {
+                    _loggerService.Log(exception.Message, LogCategory.Exception, LogPriority.High);
+                    _loggerService.Log(exception.StackTrace, LogCategory.Exception, LogPriority.High);
+                    return false;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -168,8 +266,17 @@ namespace OIDE.Core.ProjectTypes.Handler
         /// <returns>True, if valid from content ID - false, otherwise</returns>
         public bool ValidateContentFromId(string contentId)
         {
-
+            string[] split = Regex.Split(contentId, ":##:");
+            if (split.Count() == 2)
+            {
+                string identifier = split[0];
+                string path = split[1];
+                if (identifier == "FILE" && ValidateContentType(path))
+                {
                     return true;
+                }
+            }
+            return false;
         }
 
         #endregion
