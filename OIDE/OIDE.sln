@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Protob", "..\..\Modu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Search", "..\..\Modules\Module.Search\Module.Search.csproj", "{E9593D0F-6D26-4A0D-9EB4-59EF9EBAB527}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modul.Tools.Logger", "..\..\Modules\Module.Tools.Logger\Modul.Tools.Logger.csproj", "{982D3282-82A0-4586-99ED-F60D2FD67517}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Tools.Logger", "..\..\Modules\Module.Tools.Logger\Module.Tools.Logger.csproj", "{982D3282-82A0-4586-99ED-F60D2FD67517}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Wizard", "..\..\Modules\Module.Wizard\Module.Wizard.csproj", "{B12C5D92-D835-49AB-A00A-71A5538409D8}"
 EndProject
