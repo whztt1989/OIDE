@@ -31,7 +31,7 @@ namespace OIDE.DAL
 {
     [Module(ModuleName = "OIDE.DAL")]
     [ModuleDependency("OIDE.Scene")]
-    [ModuleDependency("Wide.Tools.Logger")]
+    [ModuleDependency("Module.Tools.Logger")]
     public class CoreModule : IModule
     {
         private IUnityContainer _container;

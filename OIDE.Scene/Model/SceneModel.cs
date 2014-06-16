@@ -11,6 +11,9 @@ using Module.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces.Services;
 using Microsoft.Practices.Unity;
+using System.Windows.Input;
+using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
+using Microsoft.Practices.Prism.Commands;
 
 namespace OIDE.Scene.Model
 {
@@ -36,6 +39,53 @@ namespace OIDE.Scene.Model
             }
         }
 
+        private string result;
+    
+
+        public ICommand RaiseConfirmation { get; private set; }
+        public ICommand RaiseSelectAEF { get; private set; }
+
+        //public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
+        public InteractionRequest<Confirmation> ConfirmationRequest { get; private set; }
+
+        private void OnRaiseConfirmation()
+        {
+            this.ConfirmationRequest.Raise( new Confirmation { Content = "Confirmation Message", Title = "WPF Confirmation" },
+                (cb) => { Result = cb.Confirmed ? "The user confirmed" : "The user cancelled"; });
+        }
+
+
+        //private void RaiseConfirmation()
+        //{
+        //    this.RaiseConfirmation.Raise(
+        //        new PSelectAEFViewModel { Title = "Items" },
+        //        (vm) =>
+        //        {
+        //            if (vm.SelectedItem != null)
+        //            {
+        //                Result = "The user selected: " + vm.SelectedItem;
+        //            }
+        //            else
+        //            {
+        //                Result = "The user didn't select an item.";
+        //            }
+        //        });
+        //}
+
+        public string Result
+        {
+            get
+            {
+                return this.result;
+            }
+
+            set
+            {
+                this.result = value;
+                RaisePropertyChanged("Result");
+            }
+        }
+
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
         [Browsable(false)]
@@ -47,7 +97,9 @@ namespace OIDE.Scene.Model
             : base(commandManager, menuService)
         {
 
-
+            this.ConfirmationRequest = new InteractionRequest<Confirmation>();
+            this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
+        
          //   service.SetStartPage();
 
             //------------- Scenes ----------------------

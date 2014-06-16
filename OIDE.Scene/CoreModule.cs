@@ -34,7 +34,7 @@ namespace OIDE.Scene
 {
     [Module(ModuleName = "OIDE.Scene")]
   //  [ModuleDependency("Module.Core")]
-    [ModuleDependency("Wide.Tools.Logger")]
+    [ModuleDependency("Module.Tools.Logger")]
     public class CoreModule : IModule
     {
         private IUnityContainer _container;

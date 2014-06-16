@@ -33,7 +33,7 @@ using OIDE.Core.ProjectTypes.View;
 namespace OIDE.Core
 {
     [Module(ModuleName = "OIDE.Core")]
-    [ModuleDependency("Wide.Tools.Logger")]
+    [ModuleDependency("Module.Tools.Logger")]
     public class CoreModule : IModule
     {
         private IUnityContainer _container;

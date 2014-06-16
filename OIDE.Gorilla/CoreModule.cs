@@ -31,7 +31,7 @@ using System.Windows;
 namespace XIDE.Gorilla
 {
     [Module(ModuleName = "XIDE.Gorilla")]
-    [ModuleDependency("Wide.Tools.Logger")]
+    [ModuleDependency("Module.Tools.Logger")]
     public class CoreModule : IModule
     {
         private IUnityContainer _container;
