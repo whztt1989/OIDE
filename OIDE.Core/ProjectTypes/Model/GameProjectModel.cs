@@ -133,7 +133,7 @@ namespace OIDE.Core
             scene.Items.Add(new CategoryModel(scene,commandManager, menuService) { Name = "CharacterObjects" });
             scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "AICharacterObjects" });
             scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "StaticObjects" });
-            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "PhysicObjects" });
+            scene.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService) { Name = "PhysicObjects" });
           
             scenes.Items.Add(scene);
             m_Items.Add(scenes);
