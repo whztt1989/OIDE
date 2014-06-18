@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using Module.Properties.Interface;
 using Wide.Interfaces;
 using Wide.Interfaces.Controls;
+using Module.Scene;
 
 namespace OIDE.Scene.Interface.Services
 {
@@ -24,6 +25,7 @@ namespace OIDE.Scene.Interface.Services
         /// <value>The themes.</value>
         ObservableCollection<ISceneItem> Items { get; }
 
+        TreeList TreeList { get; set; }
 
         /// <summary>
         /// Adds a theme to the theme manager

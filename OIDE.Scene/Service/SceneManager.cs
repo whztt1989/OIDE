@@ -14,6 +14,7 @@ using Wide.Interfaces.Controls;
 using Wide.Interfaces.Services;
 using Module.Properties.Interface;
 using System.ComponentModel;
+using Module.Scene;
 
 namespace OIDE.Scene.Service
 {
@@ -36,7 +37,7 @@ namespace OIDE.Scene.Service
         /// </summary>
         private readonly ILoggerService _logger;
 
-
+        public TreeList TreeList { get; set; }
 
         /// <summary>
         /// The theme manager constructor

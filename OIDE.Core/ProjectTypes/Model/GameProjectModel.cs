@@ -129,8 +129,11 @@ namespace OIDE.Core
           //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
           //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
             ScenesModel scenes = new ScenesModel(this, commandManager, menuService) { Name = "Scenes" };
-            SceneModel scene = new SceneModel(scenes) { Name = "Scene 1" };
-            scene.Items.Add(new CategoryModel(scene,commandManager, menuService) { Name = "CharacterObjects" });
+            SceneData scene = new SceneData(scenes) { Name = "Scene 1.xml" };
+            SceneData sceneLogin = new SceneData(scenes) { Name = "Scene_Login.xml" };
+            SceneData sceneCSelect = new SceneData(scenes) { Name = "Scene_CSelect.xml" };
+            scenes.Items.Add(sceneLogin);
+            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "CharacterObjects" });
             scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "AICharacterObjects" });
             scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "StaticObjects" });
             scene.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService) { Name = "PhysicObjects" });

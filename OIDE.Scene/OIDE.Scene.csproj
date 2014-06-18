@@ -54,11 +54,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Wide\Build\External\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="Module.PFExplorer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\Module.PFExplorer.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Module.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\Module.Properties.dll</HintPath>
@@ -106,12 +101,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\DotSceneSerializeCommand.cs" />
+    <Compile Include="Converter\Collection.cs" />
+    <Compile Include="Converter\ConverterGridViewColumn.cs" />
+    <Compile Include="Converter\Converters.cs" />
+    <Compile Include="Converter\FixedColumn.cs" />
+    <Compile Include="Converter\ImageGridViewColumn.cs" />
+    <Compile Include="Converter\LayoutColumn.cs" />
+    <Compile Include="Converter\ListViewLayoutManager.cs" />
+    <Compile Include="Converter\ProportionalColumn.cs" />
+    <Compile Include="Converter\RangeColumn.cs" />
+    <Compile Include="Converter\RowExpander.cs" />
+    <Compile Include="Converter\TreeList.cs" />
+    <Compile Include="Converter\TreeListItem.cs" />
+    <Compile Include="Converter\TreeNode.cs" />
     <Compile Include="CoreModule.cs" />
     <Compile Include="Handler\SceneHandler.cs" />
     <Compile Include="Interface\Events\ItemChangedEvent.cs" />
     <Compile Include="Interface\Services\IScene.cs" />
     <Compile Include="Interface\Services\ISceneItem.cs" />
     <Compile Include="Interface\Services\ISceneService.cs" />
+    <Compile Include="Model\CategoyModel.cs" />
+    <Compile Include="Model\FilterModel.cs" />
     <Compile Include="Model\SceneGraphToolModel.cs" />
     <Compile Include="Model\SceneModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

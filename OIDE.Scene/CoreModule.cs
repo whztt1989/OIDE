@@ -29,6 +29,7 @@ using System.Windows;
 using OIDE.Scene.View;
 using OIDE.Scene.Interface.Services;
 using OIDE.Scene.Service;
+using OIDE.Scene.Model;
 
 namespace OIDE.Scene
 {

@@ -11,7 +11,6 @@
 #endregion
 
 using Microsoft.Practices.Prism.Commands;
-using OIDE.Scene.Interface.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -40,7 +39,7 @@ namespace OIDE.Core
 
         public void Execute(object parameter)
         {
-            m_model.Items.Add(new SceneModel(m_model) { Name = "Scene 1" });
+            m_model.Items.Add(new SceneData(m_model) { Name = "Scene 1" });
             //IDAL dbI = new IDAL();
 
             //// To serialize the hashtable and its key/value pairs,  

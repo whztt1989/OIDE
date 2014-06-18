@@ -22,6 +22,8 @@ using Microsoft.Win32;
 using OIDE.Scene;
 using OIDE.Scene.View;
 using OIDE.Scene.Model;
+using Module.Scene;
+using OIDE.Scene.Interface.Services;
 
 namespace OIDE.Scene
 {
@@ -77,6 +79,20 @@ namespace OIDE.Scene
             vm.View.DataContext = model;
             vm.SetHandler(this);
             model.SetDirty(true);
+
+
+            var mSceneService = _container.Resolve<ISceneService>();
+            var commandManager = _container.Resolve<ICommandManager>();
+            var menuService = _container.Resolve<IMenuService>();
+
+            //---------------------------------------------
+            //Scene Graph Tree
+            //---------------------------------------------
+            CategoryModel root = new CategoryModel(null, commandManager, menuService) { Name = "RootNode" };
+            SceneModel scene = new SceneModel(root , commandManager, menuService) { Name = "Scene 1", IsExpanded = true };
+            root.Items.Add(scene);
+            mSceneService.Items.Add(root);
+            mSceneService.RootItem = root;
 
             return vm;
         }
