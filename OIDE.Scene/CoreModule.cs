@@ -213,11 +213,11 @@ namespace OIDE.Scene
             //------------------------------------------------------
             //Register File Type
             //------------------------------------------------------
-            _container.RegisterType<SceneHandler>();
-            _container.RegisterType<SceneViewModel>();
-            _container.RegisterType<SceneView>();
+            _container.RegisterType<SceneViewerHandler>();
+            _container.RegisterType<SceneViewerViewModel>();
+            _container.RegisterType<SceneViewerView>();
 
-            IContentHandler handler = _container.Resolve<SceneHandler>();
+            IContentHandler handler = _container.Resolve<SceneViewerHandler>();
             _container.Resolve<IContentHandlerRegistry>().Register(handler);
 
             //_container.RegisterType<ECHandler>();

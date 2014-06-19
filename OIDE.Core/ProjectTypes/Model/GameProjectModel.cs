@@ -22,8 +22,8 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System;
 using Module.Properties.Interface;
-using OIDE.DAL.Model;
 using Module.PFExplorer;
+using OIDE.DAL.Model;
 
 namespace OIDE.Core
 {
@@ -129,15 +129,19 @@ namespace OIDE.Core
           //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
           //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
             ScenesModel scenes = new ScenesModel(this, commandManager, menuService) { Name = "Scenes" };
-            SceneData scene = new SceneData(scenes) { Name = "Scene 1.xml" };
-            SceneData sceneLogin = new SceneData(scenes) { Name = "Scene_Login.xml" };
-            SceneData sceneCSelect = new SceneData(scenes) { Name = "Scene_CSelect.xml" };
+            SceneDataModel scene = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene 1.xml" };
+            SceneDataModel sceneLogin = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene_Login.xml" };
+            SceneDataModel sceneCSelect = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene_CSelect.xml" };
             scenes.Items.Add(sceneLogin);
-            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "CharacterObjects" });
-            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "AICharacterObjects" });
-            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "StaticObjects" });
-            scene.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService) { Name = "PhysicObjects" });
-          
+            scenes.Items.Add(sceneCSelect);
+
+            CategoryModel gameData = new CategoryModel(this, commandManager, menuService) { Name = "Assets" };
+            gameData.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "CharacterObjects" });
+            gameData.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "AICharacterObjects" });
+            gameData.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "StaticObjects" });
+            gameData.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService, 0) { Name = "PhysicObjects" });
+            m_Items.Add(gameData);
+
             scenes.Items.Add(scene);
             m_Items.Add(scenes);
          

@@ -13,6 +13,8 @@ using Wide.Interfaces.Services;
 using Module.PFExplorer;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
+using OIDE.Scene.Interface.Services;
+using OIDE.DAL.Model;
 
 namespace OIDE.Core.ProjectTypes.Handler
 {
@@ -75,6 +77,7 @@ namespace OIDE.Core.ProjectTypes.Handler
             vm.SetHandler(this);
             model.SetDirty(true);
 
+            var mSceneService = _container.Resolve<ISceneService>();
             var mProjectTreeService = _container.Resolve<IProjectTreeService>();
             var commandManager = _container.Resolve<ICommandManager>();
             var menuService = _container.Resolve<IMenuService>();
@@ -87,6 +90,15 @@ namespace OIDE.Core.ProjectTypes.Handler
             root.Items.Add(order);
             mProjectTreeService.Items.Add(root);
             mProjectTreeService.RootItem = root;
+
+            //---------------------------------------------
+            //Scene Graph Tree
+            //---------------------------------------------
+            Scene.CategoryModel rootScene = new Scene.CategoryModel(null, commandManager, menuService) { Name = "RootNode" };
+            SceneDataModel scene = new SceneDataModel(root, commandManager, menuService) { Name = "Scene 1", IsExpanded = true };
+            rootScene.Items.Add(scene);
+            mSceneService.Items.Add(rootScene);
+            mSceneService.RootItem = rootScene;
 
             return vm;
         }

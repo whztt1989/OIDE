@@ -12,7 +12,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Controls;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 
 	// ------------------------------------------------------------------------
@@ -63,5 +63,5 @@ namespace  Module.Scene
 
 	} // class ImageGridViewColumn
 
-} // namespace  Module.Scene
+} // namespace  OIDE.Scene
 // -- EOF -------------------------------------------------------------------

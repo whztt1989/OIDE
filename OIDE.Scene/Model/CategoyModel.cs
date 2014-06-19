@@ -22,7 +22,7 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
 
-namespace Module.Scene
+namespace OIDE.Scene
 {
     public class CategoryModel : ViewModelBase, ISceneItem
     {

@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Controls.Primitives;
 using Module.Properties.Interface;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 	public class TreeList: ListView
 	{

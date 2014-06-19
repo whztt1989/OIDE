@@ -14,7 +14,7 @@ using Wide.Interfaces.Controls;
 using Wide.Interfaces.Services;
 using Module.Properties.Interface;
 using System.ComponentModel;
-using Module.Scene;
+using OIDE.Scene;
 
 namespace OIDE.Scene.Service
 {
@@ -62,8 +62,8 @@ namespace OIDE.Scene.Service
         /// <summary>
         /// The current item selected
         /// </summary>
-        private ISceneItem mSelectedItem;
-        public ISceneItem SelectedItem
+        private IItem mSelectedItem;
+        public IItem SelectedItem
         {
             get
             {
@@ -80,10 +80,10 @@ namespace OIDE.Scene.Service
             {
                 if (RootItem != value)
                 {
-                   //TreeList.RootItem = value;
-                   //TreeList.Root.Children.Clear();
-                   //TreeList.Rows.Clear();
-                   //TreeList.CreateChildrenNodes(TreeList.Root);
+                   TreeList.RootItem = value;
+                   TreeList.Root.Children.Clear();
+                   TreeList.Rows.Clear();
+                   TreeList.CreateChildrenNodes(TreeList.Root);
                    mRootItem = value;
                 }
             }

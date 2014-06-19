@@ -39,7 +39,8 @@ namespace OIDE.Core
 
         public void Execute(object parameter)
         {
-            m_model.Items.Add(new SceneData(m_model) { Name = "Scene 1" });
+            m_model.CreateScene();
+
             //IDAL dbI = new IDAL();
 
             //// To serialize the hashtable and its key/value pairs,  
@@ -67,12 +68,22 @@ namespace OIDE.Core
 
     public class ScenesModel : CategoryModel
     {
-
+        ICommandManager m_CommandManager;
+        IMenuService m_MenuService;
         ICommand m_cmdCreateScene;
+
+        public void CreateScene()
+        {
+            Items.Add(new SceneDataModel(this, m_CommandManager, m_MenuService) { Name = "Scene 1" });
+           
+        }
 
         public ScenesModel(IItem parent,ICommandManager commandManager, IMenuService menuService):
             base(parent , commandManager, menuService)
         {
+            m_CommandManager = commandManager;
+            m_MenuService = menuService;
+
             MenuOptions = new List<MenuItem>();
             m_cmdCreateScene = new CmdCreateScene(this);
             MenuItem mib1a = new MenuItem() { Header = "Create Scene", Command = m_cmdCreateScene };

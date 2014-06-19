@@ -20,7 +20,7 @@ using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 
-namespace Module.Scene
+namespace OIDE.Scene
 {
     public class FilterModel : TextModel, IItem
     {
