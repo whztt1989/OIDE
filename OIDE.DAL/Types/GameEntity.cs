@@ -7,8 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from: GameEntity.proto
-namespace GameEntity
+// Generated from: gameentity.proto
+namespace gameentity
 {
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Vec3f")]
   public partial class Vec3f : global::ProtoBuf.IExtensible
@@ -294,6 +294,14 @@ namespace GameEntity
       get { return _charFallSpeed; }
       set { _charFallSpeed = value; }
     }
+    private string _physicsMesh = "";
+    [global::ProtoBuf.ProtoMember(19, IsRequired = false, Name=@"physicsMesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string physicsMesh
+    {
+      get { return _physicsMesh; }
+      set { _physicsMesh = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -352,6 +360,34 @@ namespace GameEntity
       get { return _boneParent; }
       set { _boneParent = value; }
     }
+    private readonly global::System.Collections.Generic.List<string> _meshes = new global::System.Collections.Generic.List<string>();
+    [global::ProtoBuf.ProtoMember(7, Name=@"meshes", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<string> meshes
+    {
+      get { return _meshes; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<string> _sounds = new global::System.Collections.Generic.List<string>();
+    [global::ProtoBuf.ProtoMember(8, Name=@"sounds", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<string> sounds
+    {
+      get { return _sounds; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<string> _materials = new global::System.Collections.Generic.List<string>();
+    [global::ProtoBuf.ProtoMember(9, Name=@"materials", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<string> materials
+    {
+      get { return _materials; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<PhysicsObject> _physics = new global::System.Collections.Generic.List<PhysicsObject>();
+    [global::ProtoBuf.ProtoMember(10, Name=@"physics", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<PhysicsObject> physics
+    {
+      get { return _physics; }
+    }
+  
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
