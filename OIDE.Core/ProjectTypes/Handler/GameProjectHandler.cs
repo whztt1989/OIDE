@@ -15,6 +15,8 @@ using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using OIDE.Scene.Interface.Services;
 using OIDE.DAL.Model;
+using System.Xml.Serialization;
+using Module.Properties.Interface;
 
 namespace OIDE.Core.ProjectTypes.Handler
 {
@@ -96,6 +98,35 @@ namespace OIDE.Core.ProjectTypes.Handler
             //---------------------------------------------
             Scene.CategoryModel rootScene = new Scene.CategoryModel(null, commandManager, menuService) { Name = "RootNode" };
             SceneDataModel scene = new SceneDataModel(root, commandManager, menuService) { Name = "Scene 1", IsExpanded = true };
+
+            CategoryModel controllers = new CategoryModel(scene, commandManager, menuService) { Name = "SpawnPoints" };
+            CategoryModel controller1 = new CategoryModel(scene, commandManager, menuService) { Name = "SpawnPoint 1" };
+            controllers.Items.Add(controller1);
+            scene.Items.Add(controllers);
+
+          //  CategoryModel dynamics = new CategoryModel(scene, commandManager, menuService) { Name = "Physics" };
+
+            CategoryModel triggers = new CategoryModel(scene, commandManager, menuService) { Name = "Triggers" };
+            CategoryModel trigger1 = new CategoryModel(scene, commandManager, menuService) { Name = "Trigger 1" };
+            triggers.Items.Add(trigger1);
+            scene.Items.Add(triggers);
+
+            
+            CategoryModel statics = new CategoryModel(scene, commandManager, menuService) { Name = "Statics" };
+            CategoryModel obj1 = new CategoryModel(scene, commandManager, menuService) { Name = "Object1" };
+            CategoryModel physics = new CategoryModel(statics, commandManager, menuService) { Name = "Physics" };
+            PhysicsObjectModel po1 = new PhysicsObjectModel(physics, commandManager, menuService, 0) { Name = "pomChar1" };
+            physics.Items.Add(po1);
+            obj1.Items.Add(physics);
+            CategoryModel obj2 = new CategoryModel(scene, commandManager, menuService) { Name = "Floor (Obj)" };
+            statics.Items.Add(obj2);
+             statics.Items.Add(obj1);
+           scene.Items.Add(statics);
+
+            CategoryModel terrain = new CategoryModel(scene, commandManager, menuService) { Name = "Terrain" };
+            scene.Items.Add(terrain);
+
+
             rootScene.Items.Add(scene);
             mSceneService.Items.Add(rootScene);
             mSceneService.RootItem = rootScene;
@@ -223,12 +254,20 @@ namespace OIDE.Core.ProjectTypes.Handler
                         //-----------------------------------
                         // Serialize Object
                         //-----------------------------------
-                        using (FileStream fs = new FileStream(location, FileMode.Open))
-                        {
-                            System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
-                            x.Serialize(fs, gameProjectModel);
-                            fs.Close();
-                        }
+                        //using (FileStream Str = new FileStream(location, FileMode.Create))
+                        //{
+                        //    XmlSerializer Ser = new XmlSerializer(typeof(CollectionOfIItem));
+                        //    Ser.Serialize(Str, gameProjectModel.Items);
+                        //    Str.Close();
+                        //}
+
+                        gameProjectModel.SerializeObjectToXML();
+                        //using (FileStream fs = new FileStream(location, FileMode.Open))
+                        //{
+                        //    System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
+                        //    x.Serialize(fs, gameProjectModel);
+                        //    fs.Close();
+                        //}
 
                         gameProjectModel.SetDirty(false);
                         return true;
@@ -249,12 +288,13 @@ namespace OIDE.Core.ProjectTypes.Handler
                     //-----------------------------------
                     // Serialize Object
                     //-----------------------------------
-                    using (FileStream fs = new FileStream(location, FileMode.Open))
-                    {
-                        System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
-                        x.Serialize(fs, gameProjectModel);
-                        fs.Close();
-                    }
+                    gameProjectModel.SerializeObjectToXML();
+                    //using (FileStream fs = new FileStream(location, FileMode.Open))
+                    //{
+                    //    System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
+                    //    x.Serialize(fs, gameProjectModel);
+                    //    fs.Close();
+                    //}
 
                  //  File.WriteAllText(location, gameProjectModel.Ser);
                     gameProjectModel.SetDirty(false);

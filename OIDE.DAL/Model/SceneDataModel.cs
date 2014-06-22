@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Serialization;
 using Module.Properties.Interface;
 using Wide.Interfaces.Services;
 
@@ -94,16 +95,22 @@ namespace OIDE.DAL.Model
     /// </summary>
     public class SceneDataModel : IItem
     {
-        private ObservableCollection<IItem> m_Items;
+       
+        private CollectionOfIItem m_Items;
         ICommand m_cmdCreateFile;
         ICommand m_cmdDelete;
 
-        public Int32 ID { get; protected set; }
+        public Int32 ID { get; set; }
+        [XmlAttribute]
         public String Name { get; set; }
         [Browsable(false)]
-        public ObservableCollection<IItem> Items { get { return m_Items; } }
+        public CollectionOfIItem Items { get { return m_Items; }  set { m_Items = value; } }
+
+        [XmlIgnore]
         public Guid Guid { get; private set; }
+       
         [Browsable(false)]
+        [XmlIgnore]
         public List<MenuItem> MenuOptions
         {
             get
@@ -118,11 +125,16 @@ namespace OIDE.DAL.Model
         }
 
         [Browsable(false)]
+        [XmlAttribute]
         public Boolean IsExpanded { get; set; }
         [Browsable(false)]
+        [XmlAttribute]
         public Boolean IsSelected { get; set; }
+
+        [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
+        [XmlIgnore]
         public IItem Parent { get; private set; }
        
 
@@ -131,11 +143,15 @@ namespace OIDE.DAL.Model
 
         #endregion
 
+        public SceneDataModel()
+        {
+
+        }
 
         public SceneDataModel(IItem parent, ICommandManager commandManager, IMenuService menuService,Int32 id = -1)
         {
             Parent = parent;
-            m_Items = new ObservableCollection<IItem>();
+            m_Items = new CollectionOfIItem();
         }
 
     }

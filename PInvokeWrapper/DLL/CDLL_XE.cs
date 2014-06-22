@@ -42,6 +42,7 @@ namespace PInvokeWrapper.DLL
         public delegate bool stateUpdateDelegate();
         public delegate void quitDelegate();
         public delegate int updateObjectDelegate(uint id, int type);
+        public delegate void consoleCmdDelegate(String command);
 
       //  public delegate void ChipAuthent1Delegate(byte bReaderID, byte[] ucEncData);
       //  public delegate byte ChipAuthent2Delegate(byte bReaderID, byte[] ucEncData);
@@ -67,7 +68,8 @@ namespace PInvokeWrapper.DLL
         public stateUpdateDelegate stateUpdate { get; set; }
         public quitDelegate quit { get; set; }
         public updateObjectDelegate updateObject { get; set; }
-        //public ChipAuthent1Delegate ChipAuthent1 { get; set; }
+        public consoleCmdDelegate consoleCmd { get; set; }
+       //public ChipAuthent1Delegate ChipAuthent1 { get; set; }
         //public ChipAuthent2Delegate ChipAuthent2 { get; set; }
         //public ChipSetLogDelegate ChipSetLog { get; set; }
         //public ChipSetParaDelegate ChipSetPara { get; set; }
@@ -103,7 +105,8 @@ namespace PInvokeWrapper.DLL
                 stateUpdate = (stateUpdateDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("stateUpdate", DLLPtr), typeof(stateUpdateDelegate));
                 quit = (quitDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("quit", DLLPtr), typeof(quitDelegate));
                 updateObject = (updateObjectDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("updateObject", DLLPtr), typeof(updateObjectDelegate));
-
+                consoleCmd = (consoleCmdDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("consoleCmd", DLLPtr), typeof(consoleCmdDelegate));
+                
                 //   ChipAuthent1 = (ChipAuthent1Delegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("ChipAuthent1", DLLPtr), typeof(ChipAuthent1Delegate));
                 //ChipAuthent2 = (ChipAuthent2Delegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("ChipAuthent2", DLLPtr), typeof(ChipAuthent2Delegate));
                 //ChipSetLog = (ChipSetLogDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("ChipSetLog", DLLPtr), typeof(ChipSetLogDelegate));

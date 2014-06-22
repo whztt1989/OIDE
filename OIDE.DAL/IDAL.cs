@@ -83,8 +83,10 @@ namespace OIDE.DAL
 
         public bool insertPhysics(int id, byte[] data)
         {
-            mCtx.PhysicObject.Add(new PhysicObject() { Data = data });
+            PhysicObject tmp = new PhysicObject() { Data = data };
+            mCtx.PhysicObject.Add(tmp);
             mCtx.SaveChanges();
+            id = (int)tmp.PO_ID;
             return true;
         }
 

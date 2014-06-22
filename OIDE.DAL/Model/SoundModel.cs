@@ -26,7 +26,7 @@ namespace OIDE.DAL.Model
     public class SoundModel : TextModel, ISceneItem
     {
         public String Name { get; set; }
-        public ObservableCollection<IItem> Items { get; private set; }
+        public CollectionOfIItem Items { get; private set; }
         public Guid Guid { get; private set; }
         public List<MenuItem> MenuOptions { get; private set; }
         public Boolean IsExpanded { get; set; }
@@ -36,7 +36,7 @@ namespace OIDE.DAL.Model
         public SoundModel(ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)
         {
-            Items = new ObservableCollection<IItem>();
+            Items = new CollectionOfIItem();
             Guid = new Guid();
         }
     }

@@ -12,6 +12,7 @@ using OIDE.Scene.Interface.Services;
 using PInvokeWrapper.DLL;
 using Module.Properties.Interface;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.Xml.Serialization;
 
 namespace OIDE.DAL.Model
 {
@@ -19,16 +20,22 @@ namespace OIDE.DAL.Model
     {
         ICommand CmdSave;
 
+        [XmlIgnore]
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-        public Int32 ID { get; protected set; }
+        public Int32 ID { get; set; }
+        [XmlAttribute]
         public String Name { get; set; }
         [Browsable(false)]
-        public ObservableCollection<IItem> Items { get; private set; }
+        public CollectionOfIItem Items { get; set; }
+
+        [XmlIgnore]
         public Guid Guid { get; private set; }
+
         [Browsable(false)]
+        [XmlIgnore]
         public List<MenuItem> MenuOptions { get {
             List<MenuItem> list = new List<MenuItem>();
             MenuItem miSave = new MenuItem() { Command = CmdSave, Header = "Save"};
@@ -37,17 +44,21 @@ namespace OIDE.DAL.Model
         }}
 
         [Browsable(false)]
+        [XmlAttribute]
         public Boolean IsExpanded { get; set; }
         [Browsable(false)]
+        [XmlAttribute]
         public Boolean IsSelected { get; set; }
+
+        [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-        private PhysicsObject.PhysicsObject mData;
+        private GameEntity.PhysicsObject mData;
 
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
-        public PhysicsObject.PhysicsObject Data
+        public GameEntity.PhysicsObject Data
         {
             get
             {
@@ -70,6 +81,7 @@ namespace OIDE.DAL.Model
                 
         //    }
         //}
+        public PhysicsObjectModel() { }
 
         public PhysicsObjectModel(IItem parent, ICommandManager commandManager, IMenuService menuService,Int32 id = -1)
        //     : base(commandManager, menuService)
@@ -84,11 +96,11 @@ namespace OIDE.DAL.Model
             {
                 using (MemoryStream stream = new MemoryStream(res))
                 {
-                    mData = ProtoBuf.Serializer.Deserialize<PhysicsObject.PhysicsObject>(stream);
+                    mData = ProtoBuf.Serializer.Deserialize<GameEntity.PhysicsObject>(stream);
                 }
             }catch
             {
-                mData = new PhysicsObject.PhysicsObject();
+                mData = new GameEntity.PhysicsObject();
             }
             //using (StreamReader outputStream = new StreamReader("DataFile.dat"))
             //{
@@ -98,7 +110,7 @@ namespace OIDE.DAL.Model
 
             CmdSave = new CmdSave(this);
            //  mtest = new Byte[10];
-            Items = new ObservableCollection<IItem>();
+            Items = new CollectionOfIItem();
             Guid = new Guid();
         }
     }
@@ -132,7 +144,7 @@ namespace OIDE.DAL.Model
                     dbI.insertPhysics(mpm.ID, inputStream.ToArray());
             }
 
-            DLL_Singleton.Instance.updateObject(0, (int)ObjType.Physic);
+            DLL_Singleton.Instance.consoleCmd("cmd physic 0"); //.updateObject(0, (int)ObjType.Physic);
         }
 
         public CmdSave(PhysicsObjectModel pm)

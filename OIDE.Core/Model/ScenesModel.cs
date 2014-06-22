@@ -23,6 +23,7 @@ using Wide.Interfaces.Services;
 using Module.PFExplorer;
 using System.Windows.Input;
 using OIDE.DAL.Model;
+using System.Xml.Serialization;
 
 
 namespace OIDE.Core
@@ -30,6 +31,7 @@ namespace OIDE.Core
     public class CmdCreateScene : ICommand
     {
         private ScenesModel m_model;
+
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
@@ -66,6 +68,10 @@ namespace OIDE.Core
         }
     }
 
+    [System.Xml.Serialization.XmlInclude(typeof(ScenesModel))]
+    [System.Xml.Serialization.XmlInclude(typeof(CategoryModel))]
+    [System.Xml.Serialization.XmlInclude(typeof(SceneDataModel))]
+    [System.Xml.Serialization.XmlInclude(typeof(PhysicsObjectModel))]
     public class ScenesModel : CategoryModel
     {
         ICommandManager m_CommandManager;
@@ -76,6 +82,12 @@ namespace OIDE.Core
         {
             Items.Add(new SceneDataModel(this, m_CommandManager, m_MenuService) { Name = "Scene 1" });
            
+        }
+
+        public ScenesModel()
+            : base(null, null, null)
+        {
+
         }
 
         public ScenesModel(IItem parent,ICommandManager commandManager, IMenuService menuService):

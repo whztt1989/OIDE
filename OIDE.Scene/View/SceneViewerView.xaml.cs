@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CLXEditor.Render;
+using PInvokeWrapper.DLL;
 
 namespace OIDE.Scene.View
 {
@@ -58,6 +59,11 @@ namespace OIDE.Scene.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             renderImage.init();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            DLL_Singleton.Instance.consoleCmd("cmd");
         }
 
     }

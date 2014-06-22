@@ -173,7 +173,7 @@ namespace  OIDE.Scene
 
         public IItem RootItem { get; set; }
 
-		private ObservableCollection<IItem> GetChildren(TreeNode parent)
+		private CollectionOfIItem GetChildren(TreeNode parent)
 		{
             if (RootItem != null)
             {
