@@ -120,8 +120,8 @@ namespace OIDE.Core.ProjectTypes.Handler
             obj1.Items.Add(physics);
             CategoryModel obj2 = new CategoryModel(scene, commandManager, menuService) { Name = "Floor (Obj)" };
             statics.Items.Add(obj2);
-             statics.Items.Add(obj1);
-           scene.Items.Add(statics);
+            statics.Items.Add(obj1);
+            scene.Items.Add(statics);
 
             CategoryModel terrain = new CategoryModel(scene, commandManager, menuService) { Name = "Terrain" };
             scene.Items.Add(terrain);

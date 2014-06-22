@@ -165,7 +165,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\SceneData.xml" />
     <Content Include="Utils\XML\SampleScene3.xml" />
+    <None Include="Resources\SceneData.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Utils\XML\SampleScene3.scene" />
     <None Include="Utils\XML\SampleScene3.xsd">
       <SubType>Designer</SubType>

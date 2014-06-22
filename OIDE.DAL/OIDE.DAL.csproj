@@ -130,6 +130,7 @@
     <Compile Include="CoreModule.cs" />
     <Compile Include="IDAL.cs" />
     <Compile Include="Types\GameEntity.cs" />
+    <Compile Include="Types\SceneNode.cs" />
     <Content Include="Model\AICharacterModel.cs" />
     <Compile Include="MDB\EDM_GameData.Context.cs">
       <AutoGen>True</AutoGen>
