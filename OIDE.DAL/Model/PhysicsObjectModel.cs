@@ -53,12 +53,12 @@ namespace OIDE.DAL.Model
         [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-        private GameEntity.PhysicsObject mData;
+        private gameentity.PhysicsObject mData;
 
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
-        public GameEntity.PhysicsObject Data
+        public gameentity.PhysicsObject Data
         {
             get
             {
@@ -96,11 +96,11 @@ namespace OIDE.DAL.Model
             {
                 using (MemoryStream stream = new MemoryStream(res))
                 {
-                    mData = ProtoBuf.Serializer.Deserialize<GameEntity.PhysicsObject>(stream);
+                    mData = ProtoBuf.Serializer.Deserialize<gameentity.PhysicsObject>(stream);
                 }
             }catch
             {
-                mData = new GameEntity.PhysicsObject();
+                mData = new gameentity.PhysicsObject();
             }
             //using (StreamReader outputStream = new StreamReader("DataFile.dat"))
             //{
