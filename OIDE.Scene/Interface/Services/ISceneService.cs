@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using Module.Properties.Interface;
 using Wide.Interfaces;
 using Wide.Interfaces.Controls;
-using Module.Scene;
+using OIDE.Scene;
 
 namespace OIDE.Scene.Interface.Services
 {
@@ -41,7 +41,7 @@ namespace OIDE.Scene.Interface.Services
         /// <returns><c>true</c> if successful, <c>false</c> otherwise</returns>
        // bool SetCurrent(Guid guid);
 
-        ISceneItem SelectedItem { get; set; }
+        IItem SelectedItem { get; set; }
 
         /// <summary>
         /// Returns the current item set in the project/file manager

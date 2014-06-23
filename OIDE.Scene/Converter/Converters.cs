@@ -5,7 +5,7 @@ using System.Windows.Data;
 using System.Globalization;
 
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
     /// <summary>
     /// Convert Level to left margin

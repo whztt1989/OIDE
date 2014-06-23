@@ -35,6 +35,5 @@ namespace OIDE.DAL.MDB
         public DbSet<PhysicObject> PhysicObject { get; set; }
         public DbSet<Race> Race { get; set; }
         public DbSet<Scenes> Scenes { get; set; }
-        public DbSet<SQLITEADMIN_QUERIES> SQLITEADMIN_QUERIES { get; set; }
     }
 }

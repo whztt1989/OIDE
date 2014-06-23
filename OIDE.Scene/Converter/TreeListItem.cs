@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.ComponentModel;
 using System.Windows;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 	public class TreeListItem : ListViewItem, INotifyPropertyChanged
 	{

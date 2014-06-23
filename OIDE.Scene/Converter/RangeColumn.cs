@@ -9,7 +9,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 
 	// ------------------------------------------------------------------------
@@ -139,5 +139,5 @@ namespace  Module.Scene
 
 	} // class RangeColumn
 
-} // namespace  Module.Scene
+} // namespace  OIDE.Scene
 // -- EOF -------------------------------------------------------------------

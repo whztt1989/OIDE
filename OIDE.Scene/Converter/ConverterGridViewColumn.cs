@@ -10,7 +10,7 @@ using System.Windows.Data;
 using System.Windows.Controls;
 using System.Globalization;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 
 	// ------------------------------------------------------------------------
@@ -65,5 +65,5 @@ namespace  Module.Scene
 
 	} // class ConverterGridViewColumn
 
-} // namespace  Module.Scene
+} // namespace  OIDE.Scene
 // -- EOF -------------------------------------------------------------------

@@ -74,24 +74,11 @@
           <Property Name="CID" Type="decimal" Precision="53" Scale="0" />
           <Property Name="Data" Type="blob" />
         </EntityType>
-        <!--Während der Generierung sind Fehler aufgetreten:
-Warnung 6013: Für Tabelle/Sicht 'main.SceneEntities' ist kein Primärschlüssel definiert, und es konnte kein gültiger Primärschlüssel abgeleitet werden. Diese Tabelle/Sicht wurde ausgeschlossen. Wenn Sie die Entität verwenden möchten, müssen Sie das Schema überprüfen, die richtigen Schlüssel hinzufügen und die Auskommentierung aufheben.
-        <EntityType Name="SceneEntities">
-          <Property Name="S_ID" Type="integer" />
-        </EntityType>-->
         <EntityType Name="Scenes">
           <Key>
             <PropertyRef Name="S_ID" />
           </Key>
           <Property Name="S_ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-        </EntityType>
-        <EntityType Name="SQLITEADMIN_QUERIES">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="integer" Nullable="false" />
-          <Property Name="NAME" Type="varchar" MaxLength="100" />
-          <Property Name="SQL" Type="nvarchar" MaxLength="2147483647" />
         </EntityType>
         <EntityContainer Name="gameDataModelStoreContainer">
           <EntitySet Name="Entities" EntityType="Self.Entities" store:Type="Tables" />
@@ -104,25 +91,11 @@ Warnung 6013: Für Tabelle/Sicht 'main.SceneEntities' ist kein Primärschlüssel
           <EntitySet Name="PhysicObject" EntityType="Self.PhysicObject" store:Type="Tables" />
           <EntitySet Name="Race" EntityType="Self.Race" store:Type="Tables" />
           <EntitySet Name="Scenes" EntityType="Self.Scenes" store:Type="Tables" />
-          <EntitySet Name="SQLITEADMIN_QUERIES" EntityType="Self.SQLITEADMIN_QUERIES" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="gameDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="gameDataEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Entities" EntityType="gameDataModel.Entities" />
-          <EntitySet Name="EntitiyDyn" EntityType="gameDataModel.EntitiyDyn" />
-          <EntitySet Name="EntitiyStatic" EntityType="gameDataModel.EntitiyStatic" />
-          <EntitySet Name="EntityChar" EntityType="gameDataModel.EntityChar" />
-          <EntitySet Name="Games" EntityType="gameDataModel.Games" />
-          <EntitySet Name="Meshes" EntityType="gameDataModel.Meshes" />
-          <EntitySet Name="MeshToChar" EntityType="gameDataModel.MeshToChar" />
-          <EntitySet Name="PhysicObject" EntityType="gameDataModel.PhysicObject" />
-          <EntitySet Name="Race" EntityType="gameDataModel.Race" />
-          <EntitySet Name="Scenes" EntityType="gameDataModel.Scenes" />
-          <EntitySet Name="SQLITEADMIN_QUERIES" EntityType="gameDataModel.SQLITEADMIN_QUERIES" />
-        </EntityContainer>
         <EntityType Name="Entities">
           <Key>
             <PropertyRef Name="EID" />
@@ -198,14 +171,18 @@ Warnung 6013: Für Tabelle/Sicht 'main.SceneEntities' ist kein Primärschlüssel
           </Key>
           <Property Name="S_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="SQLITEADMIN_QUERIES">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="SQL" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-        </EntityType>
+        <EntityContainer Name="gameDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Entities" EntityType="Self.Entities" />
+          <EntitySet Name="EntitiyDyn" EntityType="Self.EntitiyDyn" />
+          <EntitySet Name="EntitiyStatic" EntityType="Self.EntitiyStatic" />
+          <EntitySet Name="EntityChar" EntityType="Self.EntityChar" />
+          <EntitySet Name="Games" EntityType="Self.Games" />
+          <EntitySet Name="Meshes" EntityType="Self.Meshes" />
+          <EntitySet Name="MeshToChar" EntityType="Self.MeshToChar" />
+          <EntitySet Name="PhysicObject" EntityType="Self.PhysicObject" />
+          <EntitySet Name="Race" EntityType="Self.Race" />
+          <EntitySet Name="Scenes" EntityType="Self.Scenes" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -215,9 +192,9 @@ Warnung 6013: Für Tabelle/Sicht 'main.SceneEntities' ist kein Primärschlüssel
           <EntitySetMapping Name="Entities">
             <EntityTypeMapping TypeName="gameDataModel.Entities">
               <MappingFragment StoreEntitySet="Entities">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="CID" ColumnName="CID" />
                 <ScalarProperty Name="EID" ColumnName="EID" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -238,10 +215,10 @@ Warnung 6013: Für Tabelle/Sicht 'main.SceneEntities' ist kein Primärschlüssel
           <EntitySetMapping Name="EntityChar">
             <EntityTypeMapping TypeName="gameDataModel.EntityChar">
               <MappingFragment StoreEntitySet="EntityChar">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="CID" ColumnName="CID" />
-                <ScalarProperty Name="RID" ColumnName="RID" />
                 <ScalarProperty Name="EC_ID" ColumnName="EC_ID" />
+                <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -255,37 +232,37 @@ Warnung 6013: Für Tabelle/Sicht 'main.SceneEntities' ist kein Primärschlüssel
           <EntitySetMapping Name="Meshes">
             <EntityTypeMapping TypeName="gameDataModel.Meshes">
               <MappingFragment StoreEntitySet="Meshes">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
-                <ScalarProperty Name="CID" ColumnName="CID" />
                 <ScalarProperty Name="MeshID" ColumnName="MeshID" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MeshToChar">
             <EntityTypeMapping TypeName="gameDataModel.MeshToChar">
               <MappingFragment StoreEntitySet="MeshToChar">
-                <ScalarProperty Name="EC_ID" ColumnName="EC_ID" />
                 <ScalarProperty Name="MeshID" ColumnName="MeshID" />
+                <ScalarProperty Name="EC_ID" ColumnName="EC_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PhysicObject">
             <EntityTypeMapping TypeName="gameDataModel.PhysicObject">
               <MappingFragment StoreEntitySet="PhysicObject">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="CID" ColumnName="CID" />
                 <ScalarProperty Name="PO_ID" ColumnName="PO_ID" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Race">
             <EntityTypeMapping TypeName="gameDataModel.Race">
               <MappingFragment StoreEntitySet="Race">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="CID" ColumnName="CID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="RID" ColumnName="RID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -293,15 +270,6 @@ Warnung 6013: Für Tabelle/Sicht 'main.SceneEntities' ist kein Primärschlüssel
             <EntityTypeMapping TypeName="gameDataModel.Scenes">
               <MappingFragment StoreEntitySet="Scenes">
                 <ScalarProperty Name="S_ID" ColumnName="S_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SQLITEADMIN_QUERIES">
-            <EntityTypeMapping TypeName="gameDataModel.SQLITEADMIN_QUERIES">
-              <MappingFragment StoreEntitySet="SQLITEADMIN_QUERIES">
-                <ScalarProperty Name="SQL" ColumnName="SQL" />
-                <ScalarProperty Name="NAME" ColumnName="NAME" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

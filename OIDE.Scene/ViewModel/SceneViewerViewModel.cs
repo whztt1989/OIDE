@@ -19,9 +19,9 @@ using Wide.Interfaces.Services;
 
 namespace OIDE.Scene
 {
-    internal class SceneViewModel : TextViewModel
+    internal class SceneViewerViewModel : TextViewModel
     {
-        public SceneViewModel(AbstractWorkspace workspace, ICommandManager commandManager, ILoggerService logger,
+        public SceneViewerViewModel(AbstractWorkspace workspace, ICommandManager commandManager, ILoggerService logger,
                            IMenuService menuService)
             : base(workspace, commandManager, logger, menuService)
         {

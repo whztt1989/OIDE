@@ -23,6 +23,7 @@ using Wide.Interfaces.Services;
 using Module.PFExplorer;
 using System.Windows.Input;
 using OIDE.DAL.Model;
+using System.Xml.Serialization;
 
 
 namespace OIDE.Core
@@ -30,6 +31,7 @@ namespace OIDE.Core
     public class CmdCreateScene : ICommand
     {
         private ScenesModel m_model;
+
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
@@ -39,7 +41,8 @@ namespace OIDE.Core
 
         public void Execute(object parameter)
         {
-            m_model.Items.Add(new SceneData(m_model) { Name = "Scene 1" });
+            m_model.CreateScene();
+
             //IDAL dbI = new IDAL();
 
             //// To serialize the hashtable and its key/value pairs,  
@@ -65,14 +68,34 @@ namespace OIDE.Core
         }
     }
 
+    [System.Xml.Serialization.XmlInclude(typeof(ScenesModel))]
+    [System.Xml.Serialization.XmlInclude(typeof(CategoryModel))]
+    [System.Xml.Serialization.XmlInclude(typeof(SceneDataModel))]
+    [System.Xml.Serialization.XmlInclude(typeof(PhysicsObjectModel))]
     public class ScenesModel : CategoryModel
     {
-
+        ICommandManager m_CommandManager;
+        IMenuService m_MenuService;
         ICommand m_cmdCreateScene;
+
+        public void CreateScene()
+        {
+            Items.Add(new SceneDataModel(this, m_CommandManager, m_MenuService) { Name = "Scene 1" });
+           
+        }
+
+        public ScenesModel()
+            : base(null, null, null)
+        {
+
+        }
 
         public ScenesModel(IItem parent,ICommandManager commandManager, IMenuService menuService):
             base(parent , commandManager, menuService)
         {
+            m_CommandManager = commandManager;
+            m_MenuService = menuService;
+
             MenuOptions = new List<MenuItem>();
             m_cmdCreateScene = new CmdCreateScene(this);
             MenuItem mib1a = new MenuItem() { Header = "Create Scene", Command = m_cmdCreateScene };

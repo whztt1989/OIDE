@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2013 Chandramouleswaran Ravichandran
+// Copyright (c) 2014 Huber Konrad
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 // 
@@ -22,25 +22,82 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System;
 using Module.Properties.Interface;
-using OIDE.DAL.Model;
 using Module.PFExplorer;
+using OIDE.DAL.Model;
+using Module.PFExplorer.Utilities;
+using System.Xml.Serialization;
+using Module.PFExplorer.Interface;
+using System.Xml;
+using System.Xml.Schema;
 
 namespace OIDE.Core
 {
     /// <summary>
     /// Class TextModel which contains the text of the document
     /// </summary>
-    public class GameProjectModel : TextModel , IItem
+    [XmlInclude(typeof(ScenesModel))]
+    [XmlInclude(typeof(CategoryModel))]
+   [XmlInclude(typeof(SceneDataModel))]
+   [XmlInclude(typeof(PhysicsObjectModel))]
+   [Serializable]
+    public class GameProjectModel : TextModel, IItem, ISerializableObj
     {
-        public Int32 ID { get; protected set; }
+        private string result;
+
+        [XmlAttribute]
+        public Int32 ID { get; set; }
+        [XmlAttribute]
         public String Name { get; set; }
+        
+      
+
+        private CollectionOfIItem m_Items;
+
+        //public System.Xml.Schema.XmlSchema GetSchema() { return null; }
+
+        //public void ReadXml(System.Xml.XmlReader reader)
+        //{
+        //    //reader.MoveToContent();
+        //    //Name = reader.GetAttribute("Name");
+        //    //Boolean isEmptyElement = reader.IsEmptyElement; // (1)
+        //    //reader.ReadStartElement();
+        //    //if (!isEmptyElement) // (1)
+        //    //{
+        //    //    Birthday = DateTime.ParseExact(reader.
+        //    //        ReadElementString("Birthday"), "yyyy-MM-dd", null);
+        //    //    reader.ReadEndElement();
+        //    //}
+        //}
+
+        //public void WriteXml(System.Xml.XmlWriter writer)
+        //{
+        //    writer.WriteAttributeString("Name", Name);
+
+        //    writer.WriteElementString("Items",
+        //           Birthday.ToString("yyyy-MM-dd"));
+
+        //    foreach (var item in m_Items)
+        //    {
+        //        writer.WriteElementString("Birthday",
+        //            Birthday.ToString("yyyy-MM-dd"));
+        //    }   
+        //}
+
+
         [Browsable(false)]
-        public ObservableCollection<IItem> Items { get { return m_Items; } }
-        private ObservableCollection<IItem> m_Items;
+        //[XmlArray("Items")]
+       // [XmlArrayItem(typeof(PhysicsObjectModel)), XmlArrayItem(typeof(SceneDataModel)), XmlArrayItem(typeof(CategoryModel)), XmlArrayItem(typeof(ScenesModel))]
+        //[XmlElement(typeof(ScenesModel))]
+        //[XmlElement(typeof(CategoryModel))]
+        //[XmlElement(typeof(SceneDataModel))]
+        //[XmlElement(typeof(PhysicsObjectModel))]
+        public CollectionOfIItem Items { get { return m_Items; } set { m_Items = value; } }
 
-
+        [XmlIgnore]
         public Guid Guid { get; private set; }
+      
         [Browsable(false)]
+        [XmlIgnore]
         public List<MenuItem> MenuOptions
         {
             get
@@ -53,21 +110,25 @@ namespace OIDE.Core
         }
 
         [Browsable(false)]
+        [XmlAttribute]
         public Boolean IsExpanded { get; set; }
+       
         [Browsable(false)]
+        [XmlAttribute]
         public Boolean IsSelected { get; set; }
+
+        [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-
+         [XmlIgnore]
         public IItem Parent { get; private set; }
 
-
-        private string result;
-     
+         [XmlIgnore]
         public ICommand RaiseConfirmation { get; private set; }
       //  public ICommand RaiseSelectAEF { get; private set; }
 
      //   public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
+         [XmlIgnore]
         public InteractionRequest<Confirmation> ConfirmationRequest { get; private set; }
 
         private void OnRaiseConfirmation()
@@ -95,18 +156,16 @@ namespace OIDE.Core
         //        });
         //}
 
+         [XmlIgnore]
         public string Result
         {
-            get
-            {
-                return this.result;
-            }
+            get { return this.result; }
+            set  {  this.result = value;  RaisePropertyChanged("Result");  }
+        }
 
-            set
-            {
-                this.result = value;
-                RaisePropertyChanged("Result");
-            }
+        public void SerializeObjectToXML()
+        {
+            ObjectSerialize.SerializeObjectToXML<GameProjectModel>(this, this.Location.ToString());
         }
 
         public GameProjectModel()
@@ -123,22 +182,62 @@ namespace OIDE.Core
         public GameProjectModel(ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)
         {
-            m_Items = new ObservableCollection<IItem>();
+            m_Items = new CollectionOfIItem();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
           //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
           //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
             ScenesModel scenes = new ScenesModel(this, commandManager, menuService) { Name = "Scenes" };
-            SceneData scene = new SceneData(scenes) { Name = "Scene 1.xml" };
-            SceneData sceneLogin = new SceneData(scenes) { Name = "Scene_Login.xml" };
-            SceneData sceneCSelect = new SceneData(scenes) { Name = "Scene_CSelect.xml" };
+            SceneDataModel scene = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene 1.xml" };
+            SceneDataModel sceneLogin = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene_Login.xml" };
+            SceneDataModel sceneCSelect = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene_CSelect.xml" };
             scenes.Items.Add(sceneLogin);
-            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "CharacterObjects" });
-            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "AICharacterObjects" });
-            scene.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "StaticObjects" });
-            scene.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService) { Name = "PhysicObjects" });
+            scenes.Items.Add(sceneCSelect);
+
+            CategoryModel gameData = new CategoryModel(this, commandManager, menuService) { Name = "Asset Browser" };
+            CategoryModel objectsAB = new CategoryModel(gameData, commandManager, menuService) { Name = "Objects" };
+            CategoryModel objectAB1 = new CategoryModel(objectsAB, commandManager, menuService) { Name = "Floor" };
+            objectsAB.Items.Add(objectAB1);
+            gameData.Items.Add(objectsAB);
+            gameData.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "Meshes" });
+            gameData.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "Materials" });
+            gameData.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "Sounds" });
+            gameData.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService, 0) { Name = "PhysicObjects" });
+            m_Items.Add(gameData);
+            
+            CategoryModel players = new CategoryModel(this, commandManager, menuService) { Name = "Players" };
+            CategoryModel player1 = new CategoryModel(players, commandManager, menuService) { Name = "Player1" };
+            CategoryModel charsPlayer = new CategoryModel(player1, commandManager, menuService) { Name = "Characters" };
+            CategoryModel char1Player = new CategoryModel(charsPlayer, commandManager, menuService) { Name = "Character 1" };
+            charsPlayer.Items.Add(char1Player);
+            player1.Items.Add(charsPlayer);
+            players.Items.Add(player1);
+            m_Items.Add(players);
+           
+ 
+            CategoryModel dataRuntime = new CategoryModel(this, commandManager, menuService) { Name = "Data Runtime" };
+            CategoryModel objects = new CategoryModel(dataRuntime, commandManager, menuService) { Name = "Objects" };
+            CategoryModel object1 = new CategoryModel(objects, commandManager, menuService) { Name = "Floor" };
+            objects.Items.Add(object1);
+            dataRuntime.Items.Add(objects);
+            CategoryModel chars = new CategoryModel(dataRuntime, commandManager, menuService) { Name = "Characters" };
+            CategoryModel race = new CategoryModel(dataRuntime, commandManager, menuService) { Name = "Human" };
+            CategoryModel male = new CategoryModel(dataRuntime, commandManager, menuService) { Name = "Male" };
+            race.Items.Add(male);
+            chars.Items.Add(race);
+            dataRuntime.Items.Add(chars);
+            CategoryModel allPhysics = new CategoryModel(dataRuntime, commandManager, menuService) { Name = "All Physics" };
+             PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, commandManager, menuService, 0) { Name = "pomChar1" };
+             allPhysics.Items.Add(po1);
+             dataRuntime.Items.Add(allPhysics);
+
+             dataRuntime.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "Meshes" });
+             dataRuntime.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "Materials" });
+             dataRuntime.Items.Add(new CategoryModel(scene, commandManager, menuService) { Name = "Sounds" });
           
+
             scenes.Items.Add(scene);
+            m_Items.Add(dataRuntime);
             m_Items.Add(scenes);
          
           
@@ -167,6 +266,7 @@ namespace OIDE.Core
             this.IsDirty = value;
         }
 
+         [XmlIgnore]
         public string HTMLResult { get; set; }
 
         public void SetHtml(string transform)

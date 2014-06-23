@@ -19,7 +19,7 @@ namespace OIDE.DAL.Model
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
         [Browsable(false)]
-        public ObservableCollection<IItem> Items { get; private set; }
+        public CollectionOfIItem Items { get; private set; }
         public Guid Guid { get; private set; }
         [Browsable(false)]
         public List<MenuItem> MenuOptions

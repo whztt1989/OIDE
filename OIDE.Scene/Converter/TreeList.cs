@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Controls.Primitives;
 using Module.Properties.Interface;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 	public class TreeList: ListView
 	{
@@ -173,7 +173,7 @@ namespace  Module.Scene
 
         public IItem RootItem { get; set; }
 
-		private ObservableCollection<IItem> GetChildren(TreeNode parent)
+		private CollectionOfIItem GetChildren(TreeNode parent)
 		{
             if (RootItem != null)
             {

@@ -21,29 +21,39 @@ using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
+using System.Xml.Serialization;
 
-namespace Module.Scene
+namespace OIDE.Scene
 {
+
     public class CategoryModel : ViewModelBase, ISceneItem
     {
         public String Name { get;set; }
-        public ObservableCollection<IItem> Items { get; private set; }
+        public CollectionOfIItem Items { get; private set; }
         public Guid Guid { get; private set; }
 
+        [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
         public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
+
+        [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-
+         [XmlIgnore]
         public IItem Parent { get; private set; }
+
+         public CategoryModel()
+        {
+
+        }
 
         public CategoryModel(IItem parent, ICommandManager commandManager, IMenuService menuService)
         {
             Parent = parent;
-            Items = new ObservableCollection<IItem>();
+            Items = new CollectionOfIItem();
             Guid = new Guid();
             MenuOptions = new List<MenuItem>();
 

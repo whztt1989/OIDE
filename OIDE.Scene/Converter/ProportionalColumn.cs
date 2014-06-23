@@ -8,7 +8,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 
 	// ------------------------------------------------------------------------
@@ -64,5 +64,5 @@ namespace  Module.Scene
 
 	} // class ProportionalColumn
 
-} // namespace  Module.Scene
+} // namespace  OIDE.Scene
 // -- EOF -------------------------------------------------------------------

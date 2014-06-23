@@ -115,15 +115,16 @@
     <Compile Include="Converter\TreeListItem.cs" />
     <Compile Include="Converter\TreeNode.cs" />
     <Compile Include="CoreModule.cs" />
-    <Compile Include="Handler\SceneHandler.cs" />
+    <Compile Include="Handler\SceneViewerHandler.cs" />
     <Compile Include="Interface\Events\ItemChangedEvent.cs" />
     <Compile Include="Interface\Services\IScene.cs" />
+    <Compile Include="Interface\Services\ISceneData.cs" />
     <Compile Include="Interface\Services\ISceneItem.cs" />
     <Compile Include="Interface\Services\ISceneService.cs" />
     <Compile Include="Model\CategoyModel.cs" />
     <Compile Include="Model\FilterModel.cs" />
     <Compile Include="Model\SceneGraphToolModel.cs" />
-    <Compile Include="Model\SceneModel.cs" />
+    <Compile Include="Model\SceneViewerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\SceneManager.cs" />
     <Compile Include="Settings\EditorOptions.cs" />
@@ -132,12 +133,12 @@
       <DependentUpon>SampleScene3.xsd</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\SceneGraphToolViewModel.cs" />
-    <Compile Include="ViewModel\SceneViewModel.cs" />
+    <Compile Include="ViewModel\SceneViewerViewModel.cs" />
     <Compile Include="View\SceneGraphToolView.xaml.cs">
       <DependentUpon>SceneGraphToolView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\SceneView.xaml.cs">
-      <DependentUpon>SceneView.xaml</DependentUpon>
+    <Compile Include="View\SceneViewerView.xaml.cs">
+      <DependentUpon>SceneViewerView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +146,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\SceneView.xaml">
+    <Page Include="View\SceneViewerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -164,7 +165,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\SceneData.xml" />
     <Content Include="Utils\XML\SampleScene3.xml" />
+    <None Include="Resources\SceneData.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Utils\XML\SampleScene3.scene" />
     <None Include="Utils\XML\SampleScene3.xsd">
       <SubType>Designer</SubType>

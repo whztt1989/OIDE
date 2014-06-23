@@ -26,6 +26,8 @@ using Wide.Interfaces.Settings;
 using Wide.Interfaces.Themes;
 using System.Windows;
 using OIDE.Scene.Interface.Services;
+using OIDE.DAL.MDB;
+using System.IO;
 
 namespace OIDE.DAL
 {
@@ -58,6 +60,34 @@ namespace OIDE.DAL
 
             var manager = _container.Resolve<ICommandManager>();
             var menuService = _container.Resolve<IMenuService>();
+
+      //      try
+      //      {
+      //          gameDataEntities mCtx = new gameDataEntities();
+      //      //    mCtx.Database.Connection.ConnectionString = @"metadata=res://*/MDB.EDM_GameData.csdl|res://*/MDB.EDM_GameData.ssdl|res://*/MDB.EDM_GameData.msl;provider=System.Data.SQLite;provider connection string='data source='" +  + "''";
+      ////          string sqlLiteConnectionString = string.Format(
+      ////"data source='{0}';",
+      ////Path.Combine("D:\\Projekte\\Src Game\\Data\\Data_Release\\", "gameData.s3db"));
+
+      ////          var entityConnectionString = new EntityConnectionStringBuilder
+      ////          {
+      ////              Metadata = "res://*",
+      ////              Provider = "System.Data.EntityClient",
+      ////              ProviderConnectionString = sqlLiteConnectionString,
+      ////          }.ConnectionString;
+
+      ////          mCtx.Database.Connection.ConnectionString = entityConnectionString;
+
+      //          mCtx.Database.Connection.Open();
+      //          mCtx.PhysicObject.Add(new PhysicObject() {  });
+      //          mCtx.SaveChanges();
+
+      //          var result = mCtx.PhysicObject; //.Where(x => x.PO_ID == 0);
+      //          mCtx.Database.Connection.Close();
+      //      }catch(Exception ex)
+      //      {
+
+      //      }
 
            // CategoryModel root = new CategoryModel(manager, menuService) { Name = "Root" };
            // projTreeService.AddItem(root);

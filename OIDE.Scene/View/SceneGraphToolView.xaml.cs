@@ -17,7 +17,8 @@ using Microsoft.Practices.Unity;
 using Wide.Interfaces;
 using Module.Properties.Interface.Services;
 using OIDE.Scene.Interface.Services;
-using Module.Scene;
+using OIDE.Scene;
+using Module.Properties.Interface;
 
 namespace OIDE.Scene.View
 {
@@ -95,8 +96,8 @@ namespace OIDE.Scene.View
                 TreeNode tn = tmp.SelectedNode;
                 if (tn != null)
                 {
-                    mSceneService.SelectedItem = (ISceneItem)tn.Tag;
-                    mPropertiesService.CurrentItem = (ISceneItem)tn.Tag;
+                    mSceneService.SelectedItem = (IItem)tn.Tag;
+                    mPropertiesService.CurrentItem = (IItem)tn.Tag;
                 }
             }
         }

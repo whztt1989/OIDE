@@ -10,7 +10,7 @@
              d:DesignWidth="600" 
              
              
-             	xmlns:tree="clr-namespace:Module.Scene"
+             	xmlns:tree="clr-namespace:OIDE.Scene"
 
             
              >

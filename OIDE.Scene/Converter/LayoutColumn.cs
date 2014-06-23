@@ -9,7 +9,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 
 	// ------------------------------------------------------------------------
@@ -50,5 +50,5 @@ namespace  Module.Scene
 
 	} // class LayoutColumn
 
-} // namespace  Module.Scene
+} // namespace  OIDE.Scene
 // -- EOF -------------------------------------------------------------------

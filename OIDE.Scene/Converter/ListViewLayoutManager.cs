@@ -16,7 +16,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 
 	// ------------------------------------------------------------------------
@@ -608,5 +608,5 @@ namespace  Module.Scene
 
 	} // class ListViewLayoutManager
 
-} // namespace  Module.Scene
+} // namespace  OIDE.Scene
 // -- EOF -------------------------------------------------------------------

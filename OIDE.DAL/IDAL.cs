@@ -9,6 +9,7 @@ using Module.DB.Interface.Services;
 using Module.DB.Settings;
 using OIDE.DAL.MDB;
 using System.Data;
+using Xceed.Wpf.Toolkit;
 
 
 namespace OIDE.DAL
@@ -67,14 +68,13 @@ namespace OIDE.DAL
 
         public byte[] selectEntityChar(uint id)
         {
-
             var result = mCtx.EntityChar.Where(x => x.EC_ID == id);
             if (result.Any())
             {
                 return result.First().Data;
             }
-            else return new byte[0];
-
+            else 
+                return new byte[0];
         }
 
         #endregion
@@ -83,8 +83,10 @@ namespace OIDE.DAL
 
         public bool insertPhysics(int id, byte[] data)
         {
-            mCtx.PhysicObject.Add(new PhysicObject() { Data = data });
+            PhysicObject tmp = new PhysicObject() { Data = data };
+            mCtx.PhysicObject.Add(tmp);
             mCtx.SaveChanges();
+            id = (int)tmp.PO_ID;
             return true;
         }
 
@@ -103,14 +105,20 @@ namespace OIDE.DAL
 
         public byte[] selectPhysics(int id)
         {
-
-            var result = mCtx.PhysicObject.Where(x => x.PO_ID == id);
-            if (result.Any())
+            try
             {
-                return result.First().Data;
+                var result = mCtx.PhysicObject.Where(x => x.PO_ID == id);
+                if (result.Any())
+                {
+                    return result.First().Data;
+                }
             }
-            else return new byte[0];
-
+             catch(Exception ex)
+            {
+                MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+             
+            return new byte[0];
         }
 
         #endregion

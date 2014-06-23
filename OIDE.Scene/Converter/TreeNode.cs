@@ -7,7 +7,7 @@ using System.Linq;
 using System.Collections.Specialized;
 using Module.Properties.Interface;
 
-namespace  Module.Scene
+namespace  OIDE.Scene
 {
 	public sealed class TreeNode : INotifyPropertyChanged
 	{
