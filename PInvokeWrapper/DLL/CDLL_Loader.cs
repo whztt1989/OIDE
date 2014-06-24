@@ -14,7 +14,7 @@ namespace PInvokeWrapper.DLL
         [DllImport("kernel32",SetLastError=true)]
         private static extern IntPtr LoadLibrary(string librayName);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", ExactSpelling = true, CallingConvention = CallingConvention.StdCall), SuppressUnmanagedCodeSecurity]
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         private static extern IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
 
         [DllImport("kernel32.dll", SetLastError = true)]
