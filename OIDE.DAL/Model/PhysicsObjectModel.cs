@@ -20,6 +20,9 @@ namespace OIDE.DAL.Model
     {
         ICommand CmdSave;
 
+        public String ContentID { get { return "Physics"; } }
+      
+
         [XmlIgnore]
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }

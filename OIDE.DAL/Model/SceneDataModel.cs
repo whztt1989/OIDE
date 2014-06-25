@@ -100,6 +100,9 @@ namespace OIDE.DAL.Model
         ICommand m_cmdCreateFile;
         ICommand m_cmdDelete;
 
+        public String ContentID { get { return "SceneData"; } }
+      
+
         public Int32 ID { get; set; }
         [XmlAttribute]
         public String Name { get; set; }

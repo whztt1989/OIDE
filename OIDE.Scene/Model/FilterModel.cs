@@ -29,6 +29,9 @@ namespace OIDE.Scene
         public CollectionOfIItem Items { get; private set; }
         public Guid Guid { get; private set; }
 
+        public String ContentID { get { return "SceneFilter"; } }
+      
+
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
         public Boolean IsExpanded { get; set; }

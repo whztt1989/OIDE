@@ -16,6 +16,9 @@ namespace OIDE.DAL.Model
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
+        public String ContentID { get { return "Camera"; } }
+      
+
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
         [Browsable(false)]

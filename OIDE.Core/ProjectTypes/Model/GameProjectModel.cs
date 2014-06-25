@@ -48,7 +48,8 @@ namespace OIDE.Core
         public Int32 ID { get; set; }
         [XmlAttribute]
         public String Name { get; set; }
-        
+
+        public String ContentID { get { return "GameProject"; } }
       
 
         private CollectionOfIItem m_Items;
