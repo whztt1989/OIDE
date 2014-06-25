@@ -70,12 +70,12 @@ namespace OIDE.Scene
             _loggerService.Log("Creating a new simple file using SceneHandler", LogCategory.Info, LogPriority.Low);
 
             //Clear the undo stack
-           // model.Document.UndoStack.ClearAll();
+         //   model.Document.UndoStack.ClearAll();
 
             //Set the model and view
             vm.SetModel(model);
             vm.SetView(view);
-            vm.Title = "EC Leser";
+            vm.Title = "Scene";
             vm.View.DataContext = model;
             vm.SetHandler(this);
             model.SetDirty(true);
@@ -125,12 +125,12 @@ namespace OIDE.Scene
                 }
 
                 //Clear the undo stack
-             //   model.Document.UndoStack.ClearAll();
+               // model.Document.UndoStack.ClearAll();
 
                 //Set the model and view
                 vm.SetModel(model);
                 vm.SetView(view);
-                vm.Title = Path.GetFileName("Leser gefunden");
+                vm.Title = Path.GetFileName("Scene gefunden");
                 vm.View.DataContext = model;
 
                 return vm;
@@ -140,17 +140,17 @@ namespace OIDE.Scene
 
         public ContentViewModel OpenContentFromId(string contentId)
         {
-        //    string[] split = Regex.Split(contentId, ":##:");
+            string[] split = Regex.Split(contentId, ":##:");
         //    if (split.Count() == 2)
         //    {
         //        string identifier = split[0];
         //        string path = split[1];
         //        if (identifier == "FILE" && File.Exists(path))
         //        {
-        //            return OpenContent(path);
+                    return OpenContent("");
         //        }
         //    }
-            return null;
+        //    return null;
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace OIDE.Scene
         public bool ValidateContentFromId(string contentId)
         {
 
-                    return true;
+            return "SceneViewer" == contentId ? true : false;
         }
 
         #endregion

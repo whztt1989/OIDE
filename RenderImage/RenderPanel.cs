@@ -51,6 +51,8 @@ namespace RenderImage
 
         private void timer1_Tick_1(object sender, EventArgs e)
         {
+            //DLL_Singleton.stateUpdate();
+
             DLL_Singleton.Instance.stateUpdate();
         }
     }

@@ -63,6 +63,7 @@ namespace OIDE.Scene.View
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            
             DLL_Singleton.Instance.consoleCmd("cmd");
         }
 

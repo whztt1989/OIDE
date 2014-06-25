@@ -46,6 +46,7 @@ namespace RenderImage.RenderImage
             //   mWinFormsRenderPanel.InitializeRendering(EditorRoot.GetInstance().DefaultWorkspace);
 
             winFormsHost.Child = mWinFormsRenderPanel;
+       //     DLL_Singleton.stateInit(mWinFormsRenderPanel.Handle);
 
             bool test = DLL_Singleton.Instance.stateInit(mWinFormsRenderPanel.Handle);
 
