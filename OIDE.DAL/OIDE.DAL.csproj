@@ -77,11 +77,6 @@
       <HintPath>..\..\Build\Module.Properties.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="OIDE.Scene, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\OIDE.Scene.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="PInvokeWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\PInvokeWrapper.dll</HintPath>
@@ -130,9 +125,6 @@
   <ItemGroup>
     <Compile Include="CoreModule.cs" />
     <Compile Include="IDAL.cs" />
-    <Compile Include="Types\GameEntity.cs" />
-    <Compile Include="Types\SceneNode.cs" />
-    <Content Include="Model\AICharacterModel.cs" />
     <Compile Include="MDB\EDM_GameData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -178,16 +170,6 @@
     <Compile Include="MDB\Scenes.cs">
       <DependentUpon>EDM_GameData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\SceneDataModel.cs" />
-    <Compile Include="Model\GameModel.cs" />
-    <Compile Include="Model\CameraModel.cs" />
-    <Content Include="Model\CharacterModel.cs" />
-    <Compile Include="Model\EnvironmentModel.cs" />
-    <Compile Include="Model\LightModel.cs" />
-    <Content Include="Model\SoundModel.cs" />
-    <Compile Include="Model\StaticObjectModel.cs" />
-    <Compile Include="Model\TerrainModel.cs" />
-    <Compile Include="Model\PhysicsObjectModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Readme.txt" />
   </ItemGroup>

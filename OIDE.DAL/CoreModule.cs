@@ -25,7 +25,6 @@ using Wide.Interfaces.Services;
 using Wide.Interfaces.Settings;
 using Wide.Interfaces.Themes;
 using System.Windows;
-using OIDE.Scene.Interface.Services;
 using OIDE.DAL.MDB;
 using System.IO;
 
@@ -56,7 +55,7 @@ namespace OIDE.DAL
             RegisterParts();
             LoadSettings();
 
-            var projTreeService = _container.Resolve<ISceneService>();
+           // var projTreeService = _container.Resolve<ISceneService>();
 
             var manager = _container.Resolve<ICommandManager>();
             var menuService = _container.Resolve<IMenuService>();

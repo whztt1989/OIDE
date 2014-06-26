@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 using Module.Properties.Interface;
 using Wide.Interfaces.Services;
 
-namespace OIDE.DAL.Model
+namespace OIDE.Scene.Model
 {
     public class CmdCreateFile : ICommand
     {
@@ -145,6 +145,10 @@ namespace OIDE.DAL.Model
 
 
         #endregion
+
+        public Boolean Open() { return true; }
+        public Boolean Save() { return true; }
+        public Boolean Delete() { return true; }
 
         public SceneDataModel()
         {

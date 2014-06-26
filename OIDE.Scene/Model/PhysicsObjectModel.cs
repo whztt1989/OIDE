@@ -13,8 +13,9 @@ using PInvokeWrapper.DLL;
 using Module.Properties.Interface;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Xml.Serialization;
+using OIDE.DAL;
 
-namespace OIDE.DAL.Model
+namespace OIDE.Scene.Model
 {
     public class PhysicsObjectModel : ISceneItem
     {
@@ -85,6 +86,12 @@ namespace OIDE.DAL.Model
         //    }
         //}
         public PhysicsObjectModel() { }
+
+
+        public Boolean Open() { return true; }
+        public Boolean Save() { return true; }
+        public Boolean Delete() { return true; }
+
 
         public PhysicsObjectModel(IItem parent, ICommandManager commandManager, IMenuService menuService,Int32 id = -1)
        //     : base(commandManager, menuService)

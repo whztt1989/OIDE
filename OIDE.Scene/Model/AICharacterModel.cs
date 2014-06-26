@@ -10,60 +10,37 @@
 
 #endregion
 
-using Microsoft.Practices.Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
+using OIDE.Scene.Interface;
 using Module.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
-using System.Xml.Serialization;
 
-namespace OIDE.Scene
+namespace OIDE.Scene.Model
 {
-
-    public class CategoryModel : ViewModelBase, ISceneItem
+    public class AICharacterModel : TextModel, ISceneItem
     {
-        public String Name { get;set; }
+        public String Name { get; set; }
+
+        [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
         public Guid Guid { get; private set; }
-
-        public String ContentID { get { return "SceneCategory"; } }
-      
-
-        [XmlIgnore]
-        public List<MenuItem> MenuOptions { get; protected set; }
+        public List<MenuItem> MenuOptions { get; private set; }
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
-        public Boolean Enabled { get; set; }
-        public Boolean Visible { get; set; }
-
-        [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-         [XmlIgnore]
-        public IItem Parent { get; private set; }
-
-         public CategoryModel()
+        public AICharacterModel(ICommandManager commandManager, IMenuService menuService)
+            : base(commandManager, menuService)
         {
-
-        }
-
-        public CategoryModel(IItem parent, ICommandManager commandManager, IMenuService menuService)
-        {
-            Parent = parent;
             Items = new CollectionOfIItem();
             Guid = new Guid();
-            MenuOptions = new List<MenuItem>();
-
-            MenuItem mib1a = new MenuItem();
-            mib1a.Header = "Text.xaml";
-            MenuOptions.Add(mib1a);
-
         }
     }
 }

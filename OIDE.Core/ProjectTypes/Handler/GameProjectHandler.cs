@@ -13,10 +13,9 @@ using Wide.Interfaces.Services;
 using Module.PFExplorer;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
-using OIDE.Scene.Interface.Services;
-using OIDE.DAL.Model;
 using System.Xml.Serialization;
 using Module.Properties.Interface;
+using OIDE.Scene.Interface.Services;
 
 namespace OIDE.Core.ProjectTypes.Handler
 {
@@ -87,49 +86,13 @@ namespace OIDE.Core.ProjectTypes.Handler
             //---------------------------------------------
             //Projekt Tree
             //---------------------------------------------
-            CategoryModel root = new CategoryModel(null , commandManager, menuService) { Name = "RootNode" };
+            FileCategoryModel root = new FileCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
             GameProjectModel order = new GameProjectModel(commandManager, menuService) { Name = "Game", IsExpanded = true };
             root.Items.Add(order);
             mProjectTreeService.Items.Add(root);
             mProjectTreeService.RootItem = root;
 
-            //---------------------------------------------
-            //Scene Graph Tree
-            //---------------------------------------------
-            Scene.CategoryModel rootScene = new Scene.CategoryModel(null, commandManager, menuService) { Name = "RootNode" };
-            SceneDataModel scene = new SceneDataModel(root, commandManager, menuService) { Name = "Scene 1", IsExpanded = true };
-
-            CategoryModel controllers = new CategoryModel(scene, commandManager, menuService) { Name = "SpawnPoints" };
-            CategoryModel controller1 = new CategoryModel(scene, commandManager, menuService) { Name = "SpawnPoint 1" };
-            controllers.Items.Add(controller1);
-            scene.Items.Add(controllers);
-
-          //  CategoryModel dynamics = new CategoryModel(scene, commandManager, menuService) { Name = "Physics" };
-
-            CategoryModel triggers = new CategoryModel(scene, commandManager, menuService) { Name = "Triggers" };
-            CategoryModel trigger1 = new CategoryModel(scene, commandManager, menuService) { Name = "Trigger 1" };
-            triggers.Items.Add(trigger1);
-            scene.Items.Add(triggers);
-
-            
-            CategoryModel statics = new CategoryModel(scene, commandManager, menuService) { Name = "Statics" };
-            CategoryModel obj1 = new CategoryModel(scene, commandManager, menuService) { Name = "Object1" };
-            CategoryModel physics = new CategoryModel(statics, commandManager, menuService) { Name = "Physics" };
-            PhysicsObjectModel po1 = new PhysicsObjectModel(physics, commandManager, menuService, 0) { Name = "pomChar1" };
-            physics.Items.Add(po1);
-            obj1.Items.Add(physics);
-            CategoryModel obj2 = new CategoryModel(scene, commandManager, menuService) { Name = "Floor (Obj)" };
-            statics.Items.Add(obj2);
-            statics.Items.Add(obj1);
-            scene.Items.Add(statics);
-
-            CategoryModel terrain = new CategoryModel(scene, commandManager, menuService) { Name = "Terrain" };
-            scene.Items.Add(terrain);
-
-
-            rootScene.Items.Add(scene);
-            mSceneService.Items.Add(rootScene);
-            mSceneService.RootItem = rootScene;
+          
 
             return vm;
         }
@@ -188,16 +151,16 @@ namespace OIDE.Core.ProjectTypes.Handler
 
         public ContentViewModel OpenContentFromId(string contentId)
         {
-        //    string[] split = Regex.Split(contentId, ":##:");
-        //    if (split.Count() == 2)
-        //    {
-        //        string identifier = split[0];
-        //        string path = split[1];
-        //        if (identifier == "FILE" && File.Exists(path))
-        //        {
-        //            return OpenContent(path);
-        //        }
-        //    }
+            string[] split = Regex.Split(contentId, ":##:");
+            if (split.Count() == 2)
+            {
+                string identifier = split[0];
+                string path = split[1];
+                if (identifier == "FILE" && File.Exists(path))
+                {
+                    return OpenContent(path);
+                }
+            }
             return null;
         }
 

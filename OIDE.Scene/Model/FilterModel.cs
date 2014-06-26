@@ -23,7 +23,7 @@ using System.Xml.Serialization;
 
 namespace OIDE.Scene
 {
-    public class FilterModel : TextModel, IItem
+    public class SceneFilterModel : TextModel, IItem
     {
         public String Name { get;set; }
         public CollectionOfIItem Items { get; private set; }
@@ -43,13 +43,17 @@ namespace OIDE.Scene
          [XmlIgnore]
         public IItem Parent { get; private set; }
 
-         public FilterModel()
+         public SceneFilterModel()
             : base(null, null)
         {
 
         }
 
-        public FilterModel(IItem parent, ICommandManager commandManager, IMenuService menuService)
+         public Boolean Open() { return true; }
+         public Boolean Save() { return true; }
+         public Boolean Delete() { return true; }
+
+        public SceneFilterModel(IItem parent, ICommandManager commandManager, IMenuService menuService)
             : base(commandManager , menuService)
         {
             Parent = parent;

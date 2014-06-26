@@ -89,12 +89,58 @@ namespace OIDE.Scene.Model
                 RaisePropertyChanged("Result");
             }
         }
+
+        public void SetCurrentScene(IItem root)
+        {
+
+        }
       
-        public SceneViewerModel(ICommandManager commandManager, IMenuService menuService)
+        public SceneViewerModel(ICommandManager commandManager, IMenuService menuService, ISceneService sceneService)
             : base(commandManager, menuService)
         {
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
-            this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation); 
+            this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
+
+
+            //---------------------------------------------
+            //Scene Graph Tree
+            //---------------------------------------------
+            SceneCategoryModel root = new SceneCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
+          
+            Scene.SceneCategoryModel rootScene = new Scene.SceneCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
+            SceneDataModel scene = new SceneDataModel(root, commandManager, menuService) { Name = "Scene 1", IsExpanded = true };
+
+            SceneCategoryModel controllers = new SceneCategoryModel(scene, commandManager, menuService) { Name = "SpawnPoints" };
+            SceneCategoryModel controller1 = new SceneCategoryModel(scene, commandManager, menuService) { Name = "SpawnPoint 1" };
+            controllers.Items.Add(controller1);
+            scene.Items.Add(controllers);
+
+            //  CategoryModel dynamics = new CategoryModel(scene, commandManager, menuService) { Name = "Physics" };
+
+            SceneCategoryModel triggers = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Triggers" };
+            SceneCategoryModel trigger1 = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Trigger 1" };
+            triggers.Items.Add(trigger1);
+            scene.Items.Add(triggers);
+
+
+            SceneCategoryModel statics = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Statics" };
+            SceneCategoryModel obj1 = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Object1" };
+            SceneCategoryModel physics = new SceneCategoryModel(statics, commandManager, menuService) { Name = "Physics" };
+            PhysicsObjectModel po1 = new PhysicsObjectModel(physics, commandManager, menuService, 0) { Name = "pomChar1" };
+            physics.Items.Add(po1);
+            obj1.Items.Add(physics);
+            SceneCategoryModel obj2 = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Floor (Obj)" };
+            statics.Items.Add(obj2);
+            statics.Items.Add(obj1);
+            scene.Items.Add(statics);
+
+            SceneCategoryModel terrain = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Terrain" };
+            scene.Items.Add(terrain);
+
+
+            rootScene.Items.Add(scene);
+            sceneService.Items.Add(rootScene);
+            sceneService.RootItem = rootScene;
         }
 
         internal void SetLocation(object location)

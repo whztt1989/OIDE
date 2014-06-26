@@ -22,8 +22,8 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using Module.PFExplorer;
 using System.Windows.Input;
-using OIDE.DAL.Model;
 using System.Xml.Serialization;
+using OIDE.Scene.Model;
 
 
 namespace OIDE.Core
@@ -69,10 +69,10 @@ namespace OIDE.Core
     }
 
     [System.Xml.Serialization.XmlInclude(typeof(ScenesModel))]
-    [System.Xml.Serialization.XmlInclude(typeof(CategoryModel))]
+    [System.Xml.Serialization.XmlInclude(typeof(FileCategoryModel))]
     [System.Xml.Serialization.XmlInclude(typeof(SceneDataModel))]
     [System.Xml.Serialization.XmlInclude(typeof(PhysicsObjectModel))]
-    public class ScenesModel : CategoryModel
+    public class ScenesModel : FileCategoryModel
     {
         ICommandManager m_CommandManager;
         IMenuService m_MenuService;

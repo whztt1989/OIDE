@@ -44,7 +44,7 @@ namespace OIDE.Scene
         /// <summary>
         /// The save file dialog
         /// </summary>
-   //     private SaveFileDialog _dialog;
+        private SaveFileDialog _dialog;
 
         /// <summary>
         /// Constructor of ECHandler - all parameters are injected
@@ -55,7 +55,7 @@ namespace OIDE.Scene
         {
             _container = container;
             _loggerService = loggerService;
-       //     _dialog = new SaveFileDialog();
+            _dialog = new SaveFileDialog();
         }
 
         #region IContentHandler Members
@@ -80,7 +80,7 @@ namespace OIDE.Scene
             vm.SetHandler(this);
             model.SetDirty(true);
 
-
+            model.SetLocation("SceneViewer");
           
 
             return vm;
@@ -103,17 +103,19 @@ namespace OIDE.Scene
         /// <returns>The <see cref="MDViewModel"/> for the file.</returns>
         public ContentViewModel OpenContent(object info)
         {
-            //var location = info as string;
-            //if (location != null)
-            //{
+            var location = info as string;
+            if (location != null)
+            {
             SceneViewerViewModel vm = _container.Resolve<SceneViewerViewModel>();
             var model = _container.Resolve<SceneViewerModel>();
             var view = _container.Resolve<SceneViewerView>();
 
                 //Model details
-                model.SetLocation(info);
+                model.SetLocation("SceneViewer");
                 try
                 {
+                  //  model.SetLocation("AuftragID:##:" + info + "");
+                 
               //      model.Document.Text = File.ReadAllText(location);
                     model.SetDirty(false);
                 }
@@ -130,27 +132,27 @@ namespace OIDE.Scene
                 //Set the model and view
                 vm.SetModel(model);
                 vm.SetView(view);
-                vm.Title = Path.GetFileName("Scene gefunden");
+                vm.Title = "SceneViewer";//model.nae  // Path.GetFileName("Scene gefunden");
                 vm.View.DataContext = model;
 
                 return vm;
-         //   }
-         //   return null;
+            }
+            return null;
         }
 
         public ContentViewModel OpenContentFromId(string contentId)
         {
-            string[] split = Regex.Split(contentId, ":##:");
-        //    if (split.Count() == 2)
-        //    {
-        //        string identifier = split[0];
-        //        string path = split[1];
-        //        if (identifier == "FILE" && File.Exists(path))
-        //        {
-                    return OpenContent("");
-        //        }
-        //    }
-        //    return null;
+            //string[] split = Regex.Split(contentId, ":##:");
+            //if (split.Count() == 2)
+            //{
+            //    string identifier = split[0];
+            //    string path = split[1];
+            //    if (identifier == "FILE" && File.Exists(path))
+            //    {
+            return OpenContent(contentId);
+            //    }
+            //}
+            //return null;
         }
 
         /// <summary>
@@ -161,7 +163,107 @@ namespace OIDE.Scene
         /// <returns>true, if successful - false, otherwise</returns>
         public virtual bool SaveContent(ContentViewModel contentViewModel, bool saveAs = false)
         {
-            return true;
+            var gameProjectViewModel = contentViewModel as SceneViewerViewModel;
+
+            if (gameProjectViewModel == null)
+            {
+                _loggerService.Log("ContentViewModel needs to be a SceneViewertViewModel to save details", LogCategory.Exception,
+                                   LogPriority.High);
+                throw new ArgumentException("ContentViewModel needs to be a SceneViewertViewModel to save details");
+            }
+
+            var gameProjectModel = gameProjectViewModel.Model as SceneViewerModel;
+
+            if (gameProjectModel == null)
+            {
+                _loggerService.Log("SceneViewertViewModel does not have a SceneViewertModel which should have the text",
+                                   LogCategory.Exception, LogPriority.High);
+                throw new ArgumentException("SceneViewertViewModel does not have a SceneViewertModel which should have the text");
+            }
+
+            var location = gameProjectModel.Location as string;
+
+            if (location == null)
+            {
+                //If there is no location, just prompt for Save As..
+                saveAs = true;
+            }
+
+            if (saveAs)
+            {
+                if (location != null)
+                    _dialog.InitialDirectory = Path.GetDirectoryName(location);
+
+                _dialog.CheckPathExists = true;
+                _dialog.DefaultExt = "gameProj";
+                _dialog.Filter = "SceneViewert files (*.gameProj)|*.gameProj";
+
+                if (_dialog.ShowDialog() == true)
+                {
+                    location = _dialog.FileName;
+                    gameProjectModel.SetLocation(location);
+                    gameProjectViewModel.Title = Path.GetFileName(location);
+                    try
+                    {
+                        //-----------------------------------
+                        // Serialize Object
+                        //-----------------------------------
+                        //using (FileStream Str = new FileStream(location, FileMode.Create))
+                        //{
+                        //    XmlSerializer Ser = new XmlSerializer(typeof(CollectionOfIItem));
+                        //    Ser.Serialize(Str, gameProjectModel.Items);
+                        //    Str.Close();
+                        //}
+
+                //####        gameProjectModel.SerializeObjectToXML();
+                        //using (FileStream fs = new FileStream(location, FileMode.Open))
+                        //{
+                        //    System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
+                        //    x.Serialize(fs, gameProjectModel);
+                        //    fs.Close();
+                        //}
+
+                        gameProjectModel.SetDirty(false);
+                        return true;
+                    }
+                    catch (Exception exception)
+                    {
+                        _loggerService.Log(exception.Message, LogCategory.Exception, LogPriority.High);
+                        if (exception.InnerException != null) _loggerService.Log(exception.InnerException.Message, LogCategory.Exception, LogPriority.High);
+                        _loggerService.Log(exception.StackTrace, LogCategory.Exception, LogPriority.High);
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    //-----------------------------------
+                    // Serialize Object
+                    //-----------------------------------
+                    //####     gameProjectModel.SerializeObjectToXML();
+                    //using (FileStream fs = new FileStream(location, FileMode.Open))
+                    //{
+                    //    System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
+                    //    x.Serialize(fs, gameProjectModel);
+                    //    fs.Close();
+                    //}
+
+                    //  File.WriteAllText(location, gameProjectModel.Ser);
+                    gameProjectModel.SetDirty(false);
+                    return true;
+                }
+                catch (Exception exception)
+                {
+                    _loggerService.Log(exception.Message, LogCategory.Exception, LogPriority.High);
+                    _loggerService.Log(exception.StackTrace, LogCategory.Exception, LogPriority.High);
+                    return false;
+                }
+            }
+
+            return false;
+
         }
 
         /// <summary>
@@ -171,7 +273,17 @@ namespace OIDE.Scene
         /// <returns>True, if valid from content ID - false, otherwise</returns>
         public bool ValidateContentFromId(string contentId)
         {
-
+            //string[] split = Regex.Split(contentId, ":##:");
+            //if (split.Count() == 2)
+            //{
+            //    string identifier = split[0];
+            //    string path = split[1];
+            //    if (identifier == "FILE" && ValidateContentType(path))
+            //    {
+            //        return true;
+            //    }
+            //}
+            //return false; 
             return "SceneViewer" == contentId ? true : false;
         }
 

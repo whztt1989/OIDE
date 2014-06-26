@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OIDE.Scene.Interface.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,18 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using OIDE.Scene.Interface.Services;
 using Module.Properties.Interface;
 
-namespace OIDE.DAL.Model
+namespace OIDE.Scene.Model
 {
-    public class EnvironmentModel : ISceneItem
+    public class TerrainModel : ISceneItem
     {
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-        public String ContentID { get { return "Environment"; } }
+        public String ContentID { get { return "Terrain"; } }
       
 
         public Int32 ID { get; protected set; }
@@ -31,11 +31,15 @@ namespace OIDE.DAL.Model
             get
             {
                 List<MenuItem> list = new List<MenuItem>();
-                MenuItem miSave = new MenuItem() { Header = "Save" };
+                MenuItem miSave = new MenuItem() {  Header = "Save" };
                 list.Add(miSave);
                 return list;
             }
         }
+
+        public Boolean Open() { return true; }
+        public Boolean Save() { return true; }
+        public Boolean Delete() { return true; }
 
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
@@ -43,16 +47,10 @@ namespace OIDE.DAL.Model
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-        #region Environment Data
-
-        
-        #endregion 
-
-        public EnvironmentModel (IItem parent)
+        public TerrainModel(IItem parent)
         {
             Parent = parent;
         }
-
 
     }
 }

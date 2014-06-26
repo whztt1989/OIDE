@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OIDE.Scene.Interface.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,17 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Module.Properties.Interface;
-using OIDE.Scene.Interface.Services;
 
-namespace OIDE.DAL.Model
+namespace OIDE.Scene.Model
 {
-    public class LightModel : ISceneItem
+    public class StaticObjectModel : ISceneItem
     {
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-        public String ContentID { get { return "Light"; } }
+        public String ContentID { get { return "StaticObject"; } }
       
 
         public Int32 ID { get; protected set; }
@@ -43,11 +43,15 @@ namespace OIDE.DAL.Model
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-        
-        public LightModel (IItem parent)
+        public Boolean Open() { return true; }
+        public Boolean Save() { return true; }
+        public Boolean Delete() { return true; }
+
+        public StaticObjectModel(IItem parent)
         {
             Parent = parent;
         }
+
 
     }
 }
