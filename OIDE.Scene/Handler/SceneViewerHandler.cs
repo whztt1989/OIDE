@@ -117,7 +117,7 @@ namespace OIDE.Scene
                     //  model.SetLocation("AuftragID:##:" + info + "");
 
                     //      model.Document.Text = File.ReadAllText(location);
-                    model.SetDirty(false);
+                    model.SetDirty(true);
                 }
                 catch (Exception exception)
                 {
@@ -195,8 +195,8 @@ namespace OIDE.Scene
                     _dialog.InitialDirectory = Path.GetDirectoryName(location);
 
                 _dialog.CheckPathExists = true;
-                _dialog.DefaultExt = "gameProj";
-                _dialog.Filter = "SceneViewert files (*.gameProj)|*.gameProj";
+                _dialog.DefaultExt = "scene";
+                _dialog.Filter = "Scene files (*.scene)|*.scene";
 
                 if (_dialog.ShowDialog() == true)
                 {

@@ -123,7 +123,7 @@ namespace OIDE.Scene.Model
             scene.Items.Add(triggers);
 
 
-            SceneCategoryModel statics = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Statics" };
+            StaticObjectCategoyModel statics = new StaticObjectCategoyModel(scene, commandManager, menuService) { Name = "Statics" };
             SceneCategoryModel obj1 = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Object1" };
             SceneCategoryModel physics = new SceneCategoryModel(statics, commandManager, menuService) { Name = "Physics" };
             PhysicsObjectModel po1 = new PhysicsObjectModel(physics, commandManager, menuService, 0) { Name = "pomChar1" };

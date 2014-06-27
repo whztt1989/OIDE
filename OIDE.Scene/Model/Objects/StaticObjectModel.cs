@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Module.Properties.Interface;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Scene.Model
 {
@@ -33,6 +34,8 @@ namespace OIDE.Scene.Model
                 List<MenuItem> list = new List<MenuItem>();
                 MenuItem miSave = new MenuItem() {  Header = "Save" };
                 list.Add(miSave);
+
+          
                 return list;
             }
         }
@@ -47,7 +50,7 @@ namespace OIDE.Scene.Model
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
-        public StaticObjectModel(IItem parent)
+        public StaticObjectModel(IItem parent, ICommandManager commandManager, IMenuService menuService)
         {
             Parent = parent;
         }
