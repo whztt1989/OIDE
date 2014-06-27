@@ -106,17 +106,17 @@ namespace OIDE.Scene
             var location = info as string;
             if (location != null)
             {
-            SceneViewerViewModel vm = _container.Resolve<SceneViewerViewModel>();
-            var model = _container.Resolve<SceneViewerModel>();
-            var view = _container.Resolve<SceneViewerView>();
+                SceneViewerViewModel vm = _container.Resolve<SceneViewerViewModel>();
+                var model = _container.Resolve<SceneViewerModel>();
+                var view = _container.Resolve<SceneViewerView>();
 
                 //Model details
                 model.SetLocation("SceneViewer");
                 try
                 {
-                  //  model.SetLocation("AuftragID:##:" + info + "");
-                 
-              //      model.Document.Text = File.ReadAllText(location);
+                    //  model.SetLocation("AuftragID:##:" + info + "");
+
+                    //      model.Document.Text = File.ReadAllText(location);
                     model.SetDirty(false);
                 }
                 catch (Exception exception)
@@ -127,7 +127,7 @@ namespace OIDE.Scene
                 }
 
                 //Clear the undo stack
-               // model.Document.UndoStack.ClearAll();
+                // model.Document.UndoStack.ClearAll();
 
                 //Set the model and view
                 vm.SetModel(model);

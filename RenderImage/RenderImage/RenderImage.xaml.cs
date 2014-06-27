@@ -18,6 +18,8 @@ using PInvokeWrapper.DLL;
 
 namespace RenderImage.RenderImage
 {
+    //Alternative ?: http://wpfwin32renderer.codeplex.com/
+
     /// <summary>
     /// Interaktionslogik für RenderImage.xaml
     /// </summary>

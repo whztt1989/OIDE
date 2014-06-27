@@ -115,7 +115,7 @@ namespace OIDE.DAL
             }
              catch(Exception ex)
             {
-                MessageBox.Show("dreck_" + id + "_!!!!");
+           //     MessageBox.Show("dreck_" + id + "_!!!!");
             }
              
             return new byte[0];
