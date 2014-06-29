@@ -17,7 +17,9 @@ namespace OIDE.Scene.Model
         public Boolean Enabled { get; set; }
 
         public String ContentID { get { return "Camera"; } }
-      
+
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+
 
         public Int32 ID { get; protected set; }
         public String Name { get; set; }

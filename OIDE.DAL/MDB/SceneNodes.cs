@@ -12,10 +12,11 @@ namespace OIDE.DAL.MDB
     using System;
     using System.Collections.Generic;
     
-    public partial class Entities
+    public partial class SceneNodes
     {
-        public long EID { get; set; }
-        public Nullable<decimal> CID { get; set; }
+        public long NodeID { get; set; }
+        public Nullable<long> SceneID { get; set; }
+        public Nullable<long> EntID { get; set; }
         public byte[] Data { get; set; }
     }
 }

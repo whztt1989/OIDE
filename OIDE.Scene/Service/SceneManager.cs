@@ -46,7 +46,7 @@ namespace OIDE.Scene.Service
         /// <param name="logger">The injected logger</param>
         public SceneManager(IEventAggregator eventAggregator, ILoggerService logger)
         {
-            Items = new ObservableCollection<ISceneItem>();
+            SceneItems = new ObservableCollection<ISceneItem>();
             _eventAggregator = eventAggregator;
             _logger = logger;
             //Service für project contextmenu buttons .....
@@ -62,8 +62,8 @@ namespace OIDE.Scene.Service
         /// <summary>
         /// The current item selected
         /// </summary>
-        private IItem mSelectedItem;
-        public IItem SelectedItem
+        private ISceneItem mSelectedItem;
+        public ISceneItem SelectedItem
         {
             get
             {
@@ -128,7 +128,7 @@ namespace OIDE.Scene.Service
         /// <summary>
         /// collection of treeview items
         /// </summary>
-        public ObservableCollection<ISceneItem> Items { get; internal set; }
+        public ObservableCollection<ISceneItem> SceneItems { get; internal set; }
 
 
         /// <summary>
@@ -193,9 +193,9 @@ namespace OIDE.Scene.Service
         /// <returns>true, if successful - false, otherwise</returns>
         public bool AddItem(ISceneItem item)
         {
-            if (!Items.Contains(item))
+            if (!SceneItems.Contains(item))
             {
-                Items.Add(item);
+                SceneItems.Add(item);
                 return true;
             }
             return false;

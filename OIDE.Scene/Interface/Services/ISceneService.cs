@@ -23,7 +23,7 @@ namespace OIDE.Scene.Interface.Services
         /// The list of themes registered with the theme manager
         /// </summary>
         /// <value>The themes.</value>
-        ObservableCollection<ISceneItem> Items { get; }
+        ObservableCollection<ISceneItem> SceneItems { get; }
 
         TreeList TreeList { get; set; }
 
@@ -41,7 +41,7 @@ namespace OIDE.Scene.Interface.Services
         /// <returns><c>true</c> if successful, <c>false</c> otherwise</returns>
        // bool SetCurrent(Guid guid);
 
-        IItem SelectedItem { get; set; }
+        ISceneItem SelectedItem { get; set; }
 
         /// <summary>
         /// Returns the current item set in the project/file manager

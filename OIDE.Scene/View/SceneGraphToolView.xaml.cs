@@ -96,8 +96,8 @@ namespace OIDE.Scene.View
                 TreeNode tn = tmp.SelectedNode;
                 if (tn != null)
                 {
-                    mSceneService.SelectedItem = (IItem)tn.Tag;
-                    mPropertiesService.CurrentItem = (IItem)tn.Tag;
+                    mSceneService.SelectedItem = (ISceneItem)tn.Tag;
+                    mPropertiesService.CurrentItem = (ISceneItem)tn.Tag;
                 }
             }
         }

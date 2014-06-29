@@ -46,36 +46,36 @@ namespace OIDE.DAL
 
         #region EntityChar
 
-        public bool insertEntityChar(uint id, byte[] data)
-        {
-            mCtx.EntityChar.Add(new EntityChar() { Data = data });
-            mCtx.SaveChanges();
-            return true;
-        }
+        //public bool insertEntityChar(uint id, byte[] data)
+        //{
+        //    mCtx.EntityChar.Add(new EntityChar() { Data = data });
+        //    mCtx.SaveChanges();
+        //    return true;
+        //}
 
-        public bool updateEntityChar(uint id, byte[] data)
-        {
-            var result = mCtx.EntityChar.Where(x => x.EC_ID == id);
-            if (result.Any())
-            {
-                result.First().Data = data;
-                mCtx.SaveChanges();
-                return true;
-            }
-            else
-                return false;
-        }
+        //public bool updateEntityChar(uint id, byte[] data)
+        //{
+        //    var result = mCtx.EntityChar.Where(x => x.EC_ID == id);
+        //    if (result.Any())
+        //    {
+        //        result.First().Data = data;
+        //        mCtx.SaveChanges();
+        //        return true;
+        //    }
+        //    else
+        //        return false;
+        //}
 
-        public byte[] selectEntityChar(uint id)
-        {
-            var result = mCtx.EntityChar.Where(x => x.EC_ID == id);
-            if (result.Any())
-            {
-                return result.First().Data;
-            }
-            else 
-                return new byte[0];
-        }
+        //public byte[] selectEntityChar(uint id)
+        //{
+        //    var result = mCtx.EntityChar.Where(x => x.EC_ID == id);
+        //    if (result.Any())
+        //    {
+        //        return result.First().Data;
+        //    }
+        //    else 
+        //        return new byte[0];
+        //}
 
         #endregion
 
@@ -123,6 +123,50 @@ namespace OIDE.DAL
 
         #endregion
 
+
+        #region Scene
+
+        public bool insertScene(int id, byte[] data)
+        {
+            Scene tmp = new Scene() { Data = data };
+            mCtx.Scene.Add(tmp);
+            mCtx.SaveChanges();
+            id = (int)tmp.SceneID;
+            return true;
+        }
+
+        public bool updateScene(int id, byte[] data)
+        {
+            var result = mCtx.Scene.Where(x => x.SceneID == id);
+            if (result.Any())
+            {
+                result.First().Data = data;
+                mCtx.SaveChanges();
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public byte[] selectScene(int id)
+        {
+            try
+            {
+                var result = mCtx.Scene.Where(x => x.SceneID == id);
+                if (result.Any())
+                {
+                    return result.First().Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                //     MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+
+            return new byte[0];
+        }
+
+        #endregion
         //public void DownloadBlob(SQLiteConnection sqConnection)
         //{
         //    SQLiteCommand sqCommand = new SQLiteCommand("SELECT * FROM Pictures", sqConnection);

@@ -12,8 +12,12 @@ namespace OIDE.DAL.MDB
     using System;
     using System.Collections.Generic;
     
-    public partial class EntitiyDyn
+    public partial class Scene
     {
-        public long DE_ID { get; set; }
+        public long SceneID { get; set; }
+        public Nullable<long> FogID { get; set; }
+        public Nullable<long> SkyID { get; set; }
+        public Nullable<long> TerrID { get; set; }
+        public byte[] Data { get; set; }
     }
 }

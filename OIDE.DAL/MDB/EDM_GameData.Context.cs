@@ -25,15 +25,16 @@ namespace OIDE.DAL.MDB
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<Entities> Entities { get; set; }
-        public DbSet<EntitiyDyn> EntitiyDyn { get; set; }
-        public DbSet<EntitiyStatic> EntitiyStatic { get; set; }
-        public DbSet<EntityChar> EntityChar { get; set; }
-        public DbSet<Games> Games { get; set; }
-        public DbSet<Meshes> Meshes { get; set; }
-        public DbSet<MeshToChar> MeshToChar { get; set; }
+        public DbSet<Fog> Fog { get; set; }
+        public DbSet<GameEntity> GameEntity { get; set; }
+        public DbSet<Material> Material { get; set; }
         public DbSet<PhysicObject> PhysicObject { get; set; }
         public DbSet<Race> Race { get; set; }
-        public DbSet<Scenes> Scenes { get; set; }
+        public DbSet<SceneNodes> SceneNodes { get; set; }
+        public DbSet<Sky> Sky { get; set; }
+        public DbSet<Terrain> Terrain { get; set; }
+        public DbSet<MatUsedInScene> MatUsedInScene { get; set; }
+        public DbSet<PhysUsedInScene> PhysUsedInScene { get; set; }
+        public DbSet<Scene> Scene { get; set; }
     }
 }

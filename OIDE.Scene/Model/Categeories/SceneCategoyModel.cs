@@ -29,6 +29,8 @@ namespace OIDE.Scene
     public class SceneCategoryModel : ViewModelBase, ISceneItem
     {
         public String Name { get;set; }
+
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
         public CollectionOfIItem Items { get; private set; }
         public Guid Guid { get; private set; }
 
@@ -61,6 +63,7 @@ namespace OIDE.Scene
         {
             Parent = parent;
             Items = new CollectionOfIItem();
+            SceneItems = new ObservableCollection<ISceneItem>();
             Guid = new Guid();
             MenuOptions = new List<MenuItem>();
 

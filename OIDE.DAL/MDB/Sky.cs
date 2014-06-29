@@ -12,8 +12,9 @@ namespace OIDE.DAL.MDB
     using System;
     using System.Collections.Generic;
     
-    public partial class EntitiyStatic
+    public partial class Sky
     {
-        public long SE_ID { get; set; }
+        public long SkyID { get; set; }
+        public byte[] Data { get; set; }
     }
 }

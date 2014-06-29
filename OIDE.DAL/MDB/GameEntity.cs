@@ -12,8 +12,10 @@ namespace OIDE.DAL.MDB
     using System;
     using System.Collections.Generic;
     
-    public partial class Scenes
+    public partial class GameEntity
     {
-        public long S_ID { get; set; }
+        public long EntID { get; set; }
+        public Nullable<decimal> EntType { get; set; }
+        public byte[] Data { get; set; }
     }
 }

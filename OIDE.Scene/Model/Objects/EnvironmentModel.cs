@@ -18,7 +18,9 @@ namespace OIDE.Scene.Model
         public Boolean Enabled { get; set; }
 
         public String ContentID { get { return "Environment"; } }
-      
+
+
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
@@ -55,6 +57,7 @@ namespace OIDE.Scene.Model
         public EnvironmentModel (IItem parent)
         {
             Parent = parent;
+            SceneItems = new ObservableCollection<ISceneItem>();
         }
 
 

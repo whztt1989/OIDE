@@ -12,11 +12,9 @@ namespace OIDE.DAL.MDB
     using System;
     using System.Collections.Generic;
     
-    public partial class Meshes
+    public partial class MatUsedInScene
     {
-        public long MeshID { get; set; }
-        public Nullable<decimal> CID { get; set; }
-        public Nullable<decimal> Category { get; set; }
-        public byte[] Data { get; set; }
+        public long SceneID { get; set; }
+        public Nullable<long> MatID { get; set; }
     }
 }

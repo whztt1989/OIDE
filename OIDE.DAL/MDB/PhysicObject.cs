@@ -15,7 +15,6 @@ namespace OIDE.DAL.MDB
     public partial class PhysicObject
     {
         public long PO_ID { get; set; }
-        public Nullable<decimal> CID { get; set; }
         public byte[] Data { get; set; }
     }
 }

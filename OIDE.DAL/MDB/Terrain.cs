@@ -12,9 +12,9 @@ namespace OIDE.DAL.MDB
     using System;
     using System.Collections.Generic;
     
-    public partial class MeshToChar
+    public partial class Terrain
     {
-        public long MeshID { get; set; }
-        public long EC_ID { get; set; }
+        public long TerrID { get; set; }
+        public byte[] Data { get; set; }
     }
 }

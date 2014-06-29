@@ -12,9 +12,9 @@ namespace OIDE.DAL.MDB
     using System;
     using System.Collections.Generic;
     
-    public partial class Race
+    public partial class Material
     {
-        public long RaceID { get; set; }
-        public byte[] Data { get; set; }
+        public long MatID { get; set; }
+        public string Data { get; set; }
     }
 }

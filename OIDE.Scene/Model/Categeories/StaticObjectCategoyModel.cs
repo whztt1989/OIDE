@@ -32,6 +32,8 @@ namespace OIDE.Scene
         public CollectionOfIItem Items { get; private set; }
         public Guid Guid { get; private set; }
 
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+
         public String ContentID { get { return "SceneCategory"; } }
       
 
@@ -61,6 +63,7 @@ namespace OIDE.Scene
         {
             Parent = parent;
             Items = new CollectionOfIItem();
+            SceneItems = new ObservableCollection<ISceneItem>();
             Guid = new Guid();
             MenuOptions = new List<MenuItem>();
 

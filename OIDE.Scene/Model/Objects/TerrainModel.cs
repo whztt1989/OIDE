@@ -22,6 +22,8 @@ namespace OIDE.Scene.Model
 
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
+
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
         public Guid Guid { get; private set; }
@@ -50,6 +52,7 @@ namespace OIDE.Scene.Model
         public TerrainModel(IItem parent)
         {
             Parent = parent;
+            SceneItems = new ObservableCollection<ISceneItem>();
         }
 
     }

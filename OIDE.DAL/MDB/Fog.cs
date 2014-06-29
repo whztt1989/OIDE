@@ -12,11 +12,9 @@ namespace OIDE.DAL.MDB
     using System;
     using System.Collections.Generic;
     
-    public partial class EntityChar
+    public partial class Fog
     {
-        public long EC_ID { get; set; }
-        public Nullable<decimal> RID { get; set; }
-        public Nullable<decimal> CID { get; set; }
+        public long FogID { get; set; }
         public byte[] Data { get; set; }
     }
 }

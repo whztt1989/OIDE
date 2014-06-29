@@ -12,8 +12,9 @@ namespace OIDE.DAL.MDB
     using System;
     using System.Collections.Generic;
     
-    public partial class Games
+    public partial class PhysUsedInScene
     {
-        public long G_ID { get; set; }
+        public long SceneID { get; set; }
+        public Nullable<long> POID { get; set; }
     }
 }

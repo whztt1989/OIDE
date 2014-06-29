@@ -105,22 +105,22 @@ namespace OIDE.Scene.Model
             //---------------------------------------------
             //Scene Graph Tree
             //---------------------------------------------
-            SceneCategoryModel root = new SceneCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
+            //SceneCategoryModel root = new SceneCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
           
-            Scene.SceneCategoryModel rootScene = new Scene.SceneCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
-            SceneDataModel scene = new SceneDataModel(root, commandManager, menuService) { Name = "Scene 1", IsExpanded = true };
+         //   Scene.SceneCategoryModel rootScene = new Scene.SceneCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
+            SceneDataModel scene = new SceneDataModel(null, commandManager, menuService) { Name = "Scene 1" };
 
             SceneCategoryModel controllers = new SceneCategoryModel(scene, commandManager, menuService) { Name = "SpawnPoints" };
             SceneCategoryModel controller1 = new SceneCategoryModel(scene, commandManager, menuService) { Name = "SpawnPoint 1" };
             controllers.Items.Add(controller1);
-            scene.Items.Add(controllers);
+            scene.SceneItems.Add(controllers);
 
             //  CategoryModel dynamics = new CategoryModel(scene, commandManager, menuService) { Name = "Physics" };
 
             SceneCategoryModel triggers = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Triggers" };
             SceneCategoryModel trigger1 = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Trigger 1" };
             triggers.Items.Add(trigger1);
-            scene.Items.Add(triggers);
+            scene.SceneItems.Add(triggers);
 
 
             StaticObjectCategoyModel statics = new StaticObjectCategoyModel(scene, commandManager, menuService) { Name = "Statics" };
@@ -132,15 +132,15 @@ namespace OIDE.Scene.Model
             SceneCategoryModel obj2 = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Floor (Obj)" };
             statics.Items.Add(obj2);
             statics.Items.Add(obj1);
-            scene.Items.Add(statics);
+            scene.SceneItems.Add(statics);
 
             SceneCategoryModel terrain = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Terrain" };
-            scene.Items.Add(terrain);
+            scene.SceneItems.Add(terrain);
 
 
-            rootScene.Items.Add(scene);
-            sceneService.Items.Add(rootScene);
-            sceneService.RootItem = rootScene;
+        //    scene.Items.Add(scene);
+            sceneService.SceneItems.Add(scene);
+            sceneService.RootItem = scene;
         }
 
         internal void SetLocation(object location)

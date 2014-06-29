@@ -153,6 +153,7 @@
     <Compile Include="Settings\EditorOptions.cs" />
     <Compile Include="Settings\MDSettingsItem.cs" />
     <Compile Include="Types\GameEntity.cs" />
+    <Compile Include="Types\Scene.cs" />
     <Compile Include="Types\SceneNode.cs" />
     <Compile Include="Utils\XML\SampleScene3.cs">
       <DependentUpon>SampleScene3.xsd</DependentUpon>

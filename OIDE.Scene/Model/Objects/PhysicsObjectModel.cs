@@ -32,6 +32,8 @@ namespace OIDE.Scene.Model
         public Int32 ID { get; set; }
         [XmlAttribute]
         public String Name { get; set; }
+
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
         [Browsable(false)]
         public CollectionOfIItem Items { get; set; }
 
@@ -121,6 +123,7 @@ namespace OIDE.Scene.Model
             CmdSave = new CmdSave(this);
            //  mtest = new Byte[10];
             Items = new CollectionOfIItem();
+            SceneItems = new ObservableCollection<ISceneItem>();
             Guid = new Guid();
         }
     }

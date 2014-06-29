@@ -19,8 +19,10 @@ namespace OIDE.Scene.Model
         public Boolean Enabled { get; set; }
 
         public String ContentID { get { return "StaticObject"; } }
-      
 
+
+
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
         [Browsable(false)]
@@ -53,6 +55,7 @@ namespace OIDE.Scene.Model
         public StaticObjectModel(IItem parent, ICommandManager commandManager, IMenuService menuService)
         {
             Parent = parent;
+            SceneItems = new ObservableCollection<ISceneItem>();
         }
 
 

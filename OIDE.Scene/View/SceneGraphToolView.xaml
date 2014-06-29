@@ -162,7 +162,13 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-
+                        <GridViewColumn  Header=""    >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView.Columns>
                 </GridView>
             </tree:TreeList.View>
