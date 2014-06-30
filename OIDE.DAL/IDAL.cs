@@ -148,14 +148,28 @@ namespace OIDE.DAL
                 return false;
         }
 
-        public byte[] selectScene(int id)
+        public class SceneNodeData
+        {
+            public Scene Scene { get; set; }
+            public SceneNodes Nodes { get; set; }
+        }
+
+        public IEnumerable<SceneNodeData> selectScene(int id)
         {
             try
             {
-                var result = mCtx.Scene.Where(x => x.SceneID == id);
+                var result = from n in mCtx.Scene
+
+                             join nj in mCtx.SceneNodes on n.SceneID equals nj.SceneID into gj
+                             from node in gj.DefaultIfEmpty()
+
+                             where n.SceneID == id
+                             select new SceneNodeData { Scene = n, Nodes = node };
+
+                //  var result = mCtx.Scene.Where(x => x.SceneID == id);
                 if (result.Any())
                 {
-                    return result.First().Data;
+                    return result;//.Data;
                 }
             }
             catch (Exception ex)
@@ -163,7 +177,7 @@ namespace OIDE.DAL
                 //     MessageBox.Show("dreck_" + id + "_!!!!");
             }
 
-            return new byte[0];
+            return null;
         }
 
         #endregion

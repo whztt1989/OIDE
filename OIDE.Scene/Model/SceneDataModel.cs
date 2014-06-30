@@ -196,13 +196,28 @@ namespace OIDE.Scene.Model
 
             ID = id;
             IDAL dbI = new IDAL();
-            Byte[] res = dbI.selectScene(id);
-            Console.WriteLine(BitConverter.ToString(res));
+            IEnumerable<OIDE.DAL.IDAL.SceneNodeData> result = dbI.selectScene(id);
+          //  Console.WriteLine(BitConverter.ToString(res));
             try
             {
-                using (MemoryStream stream = new MemoryStream(res))
+                Boolean SceneLoaded = false;
+
+                foreach (OIDE.DAL.IDAL.SceneNodeData node in result)
                 {
-                    mData = ProtoBuf.Serializer.Deserialize<ProtoType.Scene>(stream);
+                    //achtung nur einmal!
+                    if (!SceneLoaded)
+                    {
+                        using (MemoryStream stream = new MemoryStream(node.Scene.Data))
+                        {
+                            mData = ProtoBuf.Serializer.Deserialize<ProtoType.Scene>(stream);
+                            SceneLoaded = true;
+                        }
+                    }
+
+                    using (MemoryStream stream = new MemoryStream(node.Nodes.Data))
+                    {
+                        mData = ProtoBuf.Serializer.Deserialize<ProtoType.Scene>(stream);
+                    }
                 }
             }
             catch
