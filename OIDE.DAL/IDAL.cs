@@ -148,13 +148,19 @@ namespace OIDE.DAL
                 return false;
         }
 
-        public class SceneNodeData
+        public class SceneNodesContainer
         {
-            public Scene Scene { get; set; }
-            public SceneNodes Nodes { get; set; }
+            public SceneNodes SNodes { get; set; }
+            public GameEntity GameEntity { get; set; }
         }
 
-        public IEnumerable<SceneNodeData> selectScene(int id)
+        public class SceneContainer
+        {
+            public Scene Scene { get; set; }
+            public SceneNodesContainer NodeCont { get; set; }
+        }
+
+        public IEnumerable<SceneContainer> selectScene(int id)
         {
             try
             {
@@ -163,8 +169,11 @@ namespace OIDE.DAL
                              join nj in mCtx.SceneNodes on n.SceneID equals nj.SceneID into gj
                              from node in gj.DefaultIfEmpty()
 
+                             join oj in mCtx.GameEntity on node.EntID equals oj.EntID into gjo
+                             from gameEnt in gjo.DefaultIfEmpty()
+
                              where n.SceneID == id
-                             select new SceneNodeData { Scene = n, Nodes = node };
+                             select new SceneContainer { Scene = n, NodeCont.SNodes = node };
 
                 //  var result = mCtx.Scene.Where(x => x.SceneID == id);
                 if (result.Any())

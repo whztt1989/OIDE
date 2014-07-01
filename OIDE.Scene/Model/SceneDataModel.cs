@@ -196,13 +196,13 @@ namespace OIDE.Scene.Model
 
             ID = id;
             IDAL dbI = new IDAL();
-            IEnumerable<OIDE.DAL.IDAL.SceneNodeData> result = dbI.selectScene(id);
+            IEnumerable<OIDE.DAL.IDAL.SceneContainer> result = dbI.selectScene(id);
           //  Console.WriteLine(BitConverter.ToString(res));
             try
             {
                 Boolean SceneLoaded = false;
 
-                foreach (OIDE.DAL.IDAL.SceneNodeData node in result)
+                foreach (OIDE.DAL.IDAL.SceneContainer node in result)
                 {
                     //achtung nur einmal!
                     if (!SceneLoaded)
@@ -214,7 +214,9 @@ namespace OIDE.Scene.Model
                         }
                     }
 
-                    using (MemoryStream stream = new MemoryStream(node.Nodes.Data))
+                    sceneNode t;
+                   
+                    using (MemoryStream stream = new MemoryStream(node.NodeCont.SNodes.Data))
                     {
                         mData = ProtoBuf.Serializer.Deserialize<ProtoType.Scene>(stream);
                     }
@@ -229,9 +231,7 @@ namespace OIDE.Scene.Model
             m_Items = new CollectionOfIItem();
             CmdSave = new CmdSaveScene(this);
         }
-
     }
-
 
     public class CmdSaveScene : ICommand
     {
