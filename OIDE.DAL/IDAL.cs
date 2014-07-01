@@ -148,16 +148,12 @@ namespace OIDE.DAL
                 return false;
         }
 
-        public class SceneNodesContainer
-        {
-            public SceneNodes SNodes { get; set; }
-            public GameEntity GameEntity { get; set; }
-        }
 
         public class SceneContainer
         {
             public Scene Scene { get; set; }
-            public SceneNodesContainer NodeCont { get; set; }
+            public SceneNodes Nodes { get; set; }
+            public GameEntity GameEntity { get; set; }
         }
 
         public IEnumerable<SceneContainer> selectScene(int id)
@@ -173,7 +169,7 @@ namespace OIDE.DAL
                              from gameEnt in gjo.DefaultIfEmpty()
 
                              where n.SceneID == id
-                             select new SceneContainer { Scene = n, NodeCont.SNodes = node };
+                             select new SceneContainer { Scene = n, Nodes = node, GameEntity = gameEnt };
 
                 //  var result = mCtx.Scene.Where(x => x.SceneID == id);
                 if (result.Any())

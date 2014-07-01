@@ -216,7 +216,7 @@ namespace OIDE.Scene.Model
 
                     sceneNode t;
                    
-                    using (MemoryStream stream = new MemoryStream(node.NodeCont.SNodes.Data))
+                    using (MemoryStream stream = new MemoryStream(node.Nodes.Data))
                     {
                         mData = ProtoBuf.Serializer.Deserialize<ProtoType.Scene>(stream);
                     }
