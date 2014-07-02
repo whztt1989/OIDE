@@ -28,15 +28,17 @@ using System.Xml.Serialization;
 using Module.PFExplorer.Interface;
 using System.Xml;
 using System.Xml.Schema;
-using OIDE.Scene.Model;
 using OIDE.DAL;
+using Microsoft.Practices.Unity;
+using OIDE.Scene.Model;
+using OIDE.Scene.Interface.Services;
 
 namespace OIDE.Core
 {
     /// <summary>
     /// Class TextModel which contains the text of the document
     /// </summary>
-    [XmlInclude(typeof(ScenesModel))]
+    [XmlInclude(typeof(ScenesListModel))]
     [XmlInclude(typeof(FileCategoryModel))]
    [XmlInclude(typeof(SceneDataModel))]
    [XmlInclude(typeof(PhysicsObjectModel))]
@@ -50,8 +52,7 @@ namespace OIDE.Core
         [XmlAttribute]
         public String Name { get; set; }
 
-        public String ContentID { get { return "GameProject"; } }
-      
+        public String ContentID { get; set; } 
 
         private CollectionOfIItem m_Items;
 
@@ -95,8 +96,6 @@ namespace OIDE.Core
         //[XmlElement(typeof(PhysicsObjectModel))]
         public CollectionOfIItem Items { get { return m_Items; } set { m_Items = value; } }
 
-        [XmlIgnore]
-        public Guid Guid { get; private set; }
       
         [Browsable(false)]
         [XmlIgnore]
@@ -180,14 +179,17 @@ namespace OIDE.Core
 
         }
 
+        public IUnityContainer UnityContainer { get; private set; }
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
         /// </summary>
         /// <param name="commandManager">The injected command manager.</param>
         /// <param name="menuService">The menu service.</param>
-        public GameProjectModel(ICommandManager commandManager, IMenuService menuService)
+        public GameProjectModel(IUnityContainer container, ISceneService sceneService,ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)
         {
+            UnityContainer = container;
             m_Items = new CollectionOfIItem();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
@@ -211,53 +213,57 @@ namespace OIDE.Core
             //gameData.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService, 0) { Name = "PhysicObjects" });
             //m_Items.Add(gameData);
 
-            FileCategoryModel fileAssets = new FileCategoryModel(this, commandManager, menuService) { Name = "AssetsArchive(ofg)" };
+            FileCategoryModel fileAssets = new FileCategoryModel(this, container) { Name = "AssetsArchive(ofg)" };
             m_Items.Add(fileAssets);
-            fileAssets.Items.Add(new FileCategoryModel(fileAssets, commandManager, menuService) { Name = "Meshes" });
-            fileAssets.Items.Add(new FileCategoryModel(fileAssets, commandManager, menuService) { Name = "Textures" });
-            fileAssets.Items.Add(new FileCategoryModel(fileAssets, commandManager, menuService) { Name = "Sounds" });
+            fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Meshes" });
+            fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Textures" });
+            fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Sounds" });
 
-            DBCategoryModel dbData = new DBCategoryModel(this, commandManager, menuService) { Name = "DBData" };
+            DBCategoryModel dbData = new DBCategoryModel(this, container) { Name = "DBData" };
 
-            DBCategoryModel dbRuntime = new DBCategoryModel(this, commandManager, menuService) { Name = "Runtime Data" };
-            FileCategoryModel players = new FileCategoryModel(dbRuntime, commandManager, menuService) { Name = "Players" };
-            FileCategoryModel player1 = new FileCategoryModel(players, commandManager, menuService) { Name = "Player1" };
-            FileCategoryModel charsPlayer = new FileCategoryModel(player1, commandManager, menuService) { Name = "Characters" };
-            FileCategoryModel char1Player = new FileCategoryModel(charsPlayer, commandManager, menuService) { Name = "Character 1" };
+            DBCategoryModel dbRuntime = new DBCategoryModel(this, container) { Name = "Runtime Data" };
+            FileCategoryModel players = new FileCategoryModel(dbRuntime, container) { Name = "Players" };
+            FileCategoryModel player1 = new FileCategoryModel(players, container) { Name = "Player1" };
+            FileCategoryModel charsPlayer = new FileCategoryModel(player1, container) { Name = "Characters" };
+            FileCategoryModel char1Player = new FileCategoryModel(charsPlayer, container) { Name = "Character 1" };
             charsPlayer.Items.Add(char1Player);
             player1.Items.Add(charsPlayer);
             players.Items.Add(player1);
             dbRuntime.Items.Add(players);
             dbData.Items.Add(dbRuntime);
 
-            FileCategoryModel scriptMats = new FileCategoryModel(dbData, commandManager, menuService) { Name = "Materials (Scripts)" };
-            FileCategoryModel mat1 = new FileCategoryModel(scriptMats, commandManager, menuService) { Name = "MaterialsScript1" };
+            FileCategoryModel scriptMats = new FileCategoryModel(dbData, container) { Name = "Materials (Scripts)" };
+            FileCategoryModel mat1 = new FileCategoryModel(scriptMats, container) { Name = "MaterialsScript1" };
             scriptMats.Items.Add(mat1);
              dbData.Items.Add(scriptMats);
-           
-            FileCategoryModel objects = new FileCategoryModel(dbData, commandManager, menuService) { Name = "Objects" };
 
-            ScenesModel scenesProto = new ScenesModel(objects, commandManager, menuService) { Name = "Scenes" };
-            SceneDataModel sceneProto1 = new SceneDataModel(scenesProto, commandManager, menuService) { Name = "Scene1.proto" };
-            SceneDataModel sceneProto2 = new SceneDataModel(scenesProto, commandManager, menuService) { Name = "Scene2.proto" };
+             FileCategoryModel objects = new FileCategoryModel(dbData, container) { Name = "Objects" };
+
+             ScenesListModel scenesProto = new ScenesListModel(objects, container) { Name = "Scenes" };
+           
+            SceneDataModel sceneProto1 = new SceneDataModel(scenesProto, container) { Name = "Scene1.proto", ContentID  = "SceneID:##:0"};
+            sceneService.AddScene(sceneProto1);
+            SceneDataModel sceneProto2 = new SceneDataModel(scenesProto, container) { Name = "Scene2.proto", ContentID = "SceneID:##:1" };
+            sceneService.AddScene(sceneProto2);
+           
             scenesProto.Items.Add(sceneProto1);
             scenesProto.Items.Add(sceneProto2);
             objects.Items.Add(scenesProto);
 
-            DBCategoryModel staticObjects = new DBCategoryModel(objects, commandManager, menuService) { Name = "Statics" };
-            FileCategoryModel object1 = new FileCategoryModel(staticObjects, commandManager, menuService) { Name = "Floor" };
+            DBCategoryModel staticObjects = new DBCategoryModel(objects, container) { Name = "Statics" };
+            FileCategoryModel object1 = new FileCategoryModel(staticObjects, container) { Name = "Floor" };
             staticObjects.Items.Add(object1);
             objects.Items.Add(staticObjects);
 
-            FileCategoryModel chars = new FileCategoryModel(objects, commandManager, menuService) { Name = "Characters" };
-            FileCategoryModel race = new FileCategoryModel(chars, commandManager, menuService) { Name = "Human" };
-            FileCategoryModel male = new FileCategoryModel(race, commandManager, menuService) { Name = "Male" };
+            FileCategoryModel chars = new FileCategoryModel(objects, container) { Name = "Characters" };
+            FileCategoryModel race = new FileCategoryModel(chars, container) { Name = "Human" };
+            FileCategoryModel male = new FileCategoryModel(race, container) { Name = "Male" };
             race.Items.Add(male);
             chars.Items.Add(race);
             objects.Items.Add(chars);
 
-            DBCategoryModel allPhysics = new DBCategoryModel(objects, commandManager, menuService) { Name = "Physics" };
-             PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, commandManager, menuService, 0) { Name = "pomChar1" };
+            DBCategoryModel allPhysics = new DBCategoryModel(objects, container) { Name = "Physics" };
+            PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, container, 0) { Name = "pomChar1" };
              allPhysics.Items.Add(po1);
              objects.Items.Add(allPhysics);
 

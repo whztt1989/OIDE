@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using Module.Properties.Interface;
 using Wide.Interfaces.Services;
+using Microsoft.Practices.Unity;
 
 namespace OIDE.Scene.Model
 {
@@ -17,17 +18,15 @@ namespace OIDE.Scene.Model
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
-
-        public String ContentID { get { return "StaticObject"; } }
-
-
+        public String ContentID { get; set; }
 
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
-        public Guid Guid { get; private set; }
+    
+
         [Browsable(false)]
         public List<MenuItem> MenuOptions
         {
@@ -46,14 +45,19 @@ namespace OIDE.Scene.Model
         public Boolean IsExpanded { get; set; }
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         public Boolean Open() { return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
-        public StaticObjectModel(IItem parent, ICommandManager commandManager, IMenuService menuService)
+        public IUnityContainer UnityContainer { get; private set; }
+        public TreeNode TreeNode { get; set; }
+
+        public StaticObjectModel(IItem parent, IUnityContainer unityContainer)
         {
+            UnityContainer = unityContainer;
+
             Parent = parent;
             SceneItems = new ObservableCollection<ISceneItem>();
         }

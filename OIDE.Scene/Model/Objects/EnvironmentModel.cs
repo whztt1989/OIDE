@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using OIDE.Scene.Interface.Services;
 using Module.Properties.Interface;
+using Microsoft.Practices.Unity;
 
 namespace OIDE.Scene.Model
 {
@@ -17,8 +18,7 @@ namespace OIDE.Scene.Model
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-        public String ContentID { get { return "Environment"; } }
-
+        public String ContentID { get; set; }
 
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
@@ -26,7 +26,10 @@ namespace OIDE.Scene.Model
         public String Name { get; set; }
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
-        public Guid Guid { get; private set; }
+
+        public TreeNode TreeNode { get; set; }
+    
+
         [Browsable(false)]
         public List<MenuItem> MenuOptions
         {
@@ -43,7 +46,7 @@ namespace OIDE.Scene.Model
         public Boolean IsExpanded { get; set; }
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         #region Environment Data
 
@@ -54,8 +57,12 @@ namespace OIDE.Scene.Model
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
-        public EnvironmentModel (IItem parent)
+        public IUnityContainer UnityContainer { get; private set; }
+
+
+        public EnvironmentModel (IItem parent,IUnityContainer unityContainer)
         {
+            UnityContainer = unityContainer;
             Parent = parent;
             SceneItems = new ObservableCollection<ISceneItem>();
         }

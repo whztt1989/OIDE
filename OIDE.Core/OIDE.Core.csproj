@@ -105,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreModule.cs" />
-    <Compile Include="Model\ScenesModel.cs" />
+    <Compile Include="Model\ScenesListModel.cs" />
     <Compile Include="Model\FilterModel.cs" />
     <Compile Include="ProjectTypes\Handler\GameProjectHandler.cs" />
     <Compile Include="ProjectTypes\Model\GameProjectModel.cs" />

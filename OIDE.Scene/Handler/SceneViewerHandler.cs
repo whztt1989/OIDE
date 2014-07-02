@@ -22,12 +22,13 @@ using Microsoft.Win32;
 using OIDE.Scene;
 using OIDE.Scene.View;
 using OIDE.Scene.Model;
-using OIDE.Scene;
 using OIDE.Scene.Interface.Services;
+using Module.PFExplorer.Interface.Services;
+using Module.Properties.Interface;
 
 namespace OIDE.Scene
 {
-   // [FileContent("EC Leser", "*.md", 1)]
+    // [FileContent("EC Leser", "*.md", 1)]
     [NewContent("Scene", 1, "Scene")]
     internal class SceneViewerHandler : IContentHandler
     {
@@ -40,7 +41,7 @@ namespace OIDE.Scene
         /// The injected logger service
         /// </summary>
         private readonly ILoggerService _loggerService;
-        
+
         /// <summary>
         /// The save file dialog
         /// </summary>
@@ -70,7 +71,7 @@ namespace OIDE.Scene
             _loggerService.Log("Creating a new simple file using SceneHandler", LogCategory.Info, LogPriority.Low);
 
             //Clear the undo stack
-         //   model.Document.UndoStack.ClearAll();
+            //   model.Document.UndoStack.ClearAll();
 
             //Set the model and view
             vm.SetModel(model);
@@ -80,8 +81,25 @@ namespace OIDE.Scene
             vm.SetHandler(this);
             model.SetDirty(true);
 
-            model.SetLocation("SceneViewer");
-          
+            model.SetLocation("SceneID:##:");
+
+            IProjectTreeService pfExplorerService = _container.Resolve<IProjectTreeService>();
+            ISceneService sceneService = _container.Resolve<ISceneService>();
+
+            IItem parent = null;
+
+            if(pfExplorerService.SelectedItem != null)
+              parent = pfExplorerService.SelectedItem;
+
+            SceneDataModel newScene = new SceneDataModel(parent, _container) { Name = "Scene NEW", ContentID = "SceneID:##:" };
+            
+            if(pfExplorerService.SelectedItem != null)
+                pfExplorerService.SelectedItem.Items.Add(newScene);
+         
+            sceneService.Scenes.Add(newScene);
+            sceneService.SelectedScene = newScene;
+            newScene.Open();
+
 
             return vm;
         }
@@ -111,14 +129,33 @@ namespace OIDE.Scene
                 var view = _container.Resolve<SceneViewerView>();
 
                 //Model details
-                model.SetLocation("SceneViewer");
+                model.SetLocation(info);
                 try
                 {
+                    ISceneService sceneService = _container.Resolve<ISceneService>();
+
+                    //          string[] split = Regex.Split(info.ToString(), ":##:");
+                    //if (split.Count() == 2)
+                    //{
+                    //    string identifier = split[0];
+                    //    string ID = split[1];
+                    //    if (identifier == "SceneID")
+                    //    {
+                    var scene = sceneService.Scenes.Where(x => x.ContentID == info.ToString());
+                    if (scene.Any())
+                    {
+                        sceneService.SelectedScene = scene.First();
+                        sceneService.SelectedScene.Open();
+                    }
                     //  model.SetLocation("AuftragID:##:" + info + "");
 
                     //      model.Document.Text = File.ReadAllText(location);
                     model.SetDirty(true);
+                    //   }
                 }
+
+
+
                 catch (Exception exception)
                 {
                     _loggerService.Log(exception.Message, LogCategory.Exception, LogPriority.High);
@@ -215,7 +252,7 @@ namespace OIDE.Scene
                         //    Str.Close();
                         //}
 
-                //####        gameProjectModel.SerializeObjectToXML();
+                        //####        gameProjectModel.SerializeObjectToXML();
                         //using (FileStream fs = new FileStream(location, FileMode.Open))
                         //{
                         //    System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
@@ -273,18 +310,18 @@ namespace OIDE.Scene
         /// <returns>True, if valid from content ID - false, otherwise</returns>
         public bool ValidateContentFromId(string contentId)
         {
-            //string[] split = Regex.Split(contentId, ":##:");
-            //if (split.Count() == 2)
-            //{
-            //    string identifier = split[0];
-            //    string path = split[1];
-            //    if (identifier == "FILE" && ValidateContentType(path))
-            //    {
-            //        return true;
-            //    }
-            //}
-            //return false; 
-            return "SceneViewer" == contentId ? true : false;
+            string[] split = Regex.Split(contentId, ":##:");
+            if (split.Count() == 2)
+            {
+                string identifier = split[0];
+                string path = split[1];
+                if (identifier == "SceneID" && ValidateContentType(path))
+                {
+                    return true;
+                }
+            }
+            return false;
+            //   return "SceneViewer" == contentId ? true : false;
         }
 
         #endregion

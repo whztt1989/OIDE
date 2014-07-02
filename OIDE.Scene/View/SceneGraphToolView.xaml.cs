@@ -37,7 +37,7 @@ namespace OIDE.Scene.View
             mPropertiesService = container.Resolve<IPropertiesService>();
 
             mSceneService = container.Resolve<ISceneService>();
-            mSceneService.SelectedScene.TreeList = _treeList;
+            mSceneService.TreeList = _treeList;
            
         }
 
@@ -84,6 +84,11 @@ namespace OIDE.Scene.View
             {
                 tmp.ItemsSource = mSceneService.SelectedScene.SelectedItem.MenuOptions;
             }
+            //just rootitem exists
+            else if (_treeList.RootItem != null)
+            {
+                tmp.ItemsSource = mSceneService.RootItem.MenuOptions;
+            }
 
             //nothing selected          
         }
@@ -104,7 +109,14 @@ namespace OIDE.Scene.View
 
         private void _treeList_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            if (mSceneService.SelectedScene.SelectedItem == null || mSceneService.SelectedScene.SelectedItem.MenuOptions == null)
+            if (mSceneService.SelectedScene == null)
+            {
+                e.Handled = true;
+            }
+            else if (
+                (mSceneService.SelectedScene.SelectedItem == null
+                || mSceneService.SelectedScene.SelectedItem.MenuOptions == null)
+                && _treeList.RootItem == null )
             {
                 e.Handled = true;
             }

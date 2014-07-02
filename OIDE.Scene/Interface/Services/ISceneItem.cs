@@ -15,7 +15,8 @@ namespace OIDE.Scene.Interface.Services
         /// </summary>
         ObservableCollection<ISceneItem> SceneItems { get; }
 
-        Boolean Visible { get; set; }
-        Boolean Enabled { get; set; }
+        TreeNode TreeNode { get; }
+        //Boolean Visible { get; set; }
+        //Boolean Enabled { get; set; }
     }
 }

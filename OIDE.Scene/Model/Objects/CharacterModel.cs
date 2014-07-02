@@ -34,7 +34,7 @@ namespace OIDE.Scene.Model
         public List<MenuItem> MenuOptions { get; private set; }
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         public CharacterModel(ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)

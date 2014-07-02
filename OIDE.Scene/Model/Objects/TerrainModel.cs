@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using Module.Properties.Interface;
+using Microsoft.Practices.Unity;
 
 namespace OIDE.Scene.Model
 {
@@ -17,7 +18,7 @@ namespace OIDE.Scene.Model
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-        public String ContentID { get { return "Terrain"; } }
+        public String ContentID { get; set; }
       
 
         public Int32 ID { get; protected set; }
@@ -26,7 +27,6 @@ namespace OIDE.Scene.Model
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
-        public Guid Guid { get; private set; }
         [Browsable(false)]
         public List<MenuItem> MenuOptions
         {
@@ -47,12 +47,17 @@ namespace OIDE.Scene.Model
         public Boolean IsExpanded { get; set; }
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        public TerrainModel(IItem parent)
+        public IUnityContainer UnityContainer { get; private set; }
+        public TreeNode TreeNode { get; set; }
+
+        public TerrainModel(ISceneItem parent,IUnityContainer unityContainer )
         {
+            UnityContainer = unityContainer;
             Parent = parent;
             SceneItems = new ObservableCollection<ISceneItem>();
+            parent.SceneItems.Add(this);
         }
 
     }

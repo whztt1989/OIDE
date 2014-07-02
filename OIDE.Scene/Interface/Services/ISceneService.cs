@@ -25,6 +25,9 @@ namespace OIDE.Scene.Interface.Services
         /// <value>The themes.</value>
         ObservableCollection<IScene> Scenes { get; }
 
+        TreeList TreeList { get; set; }
+
+        IScene RootItem { get; set; }
 
         bool AddScene(IScene scene);
 

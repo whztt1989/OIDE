@@ -55,6 +55,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Wide\Build\External\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Module.PFExplorer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.PFExplorer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Module.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\Module.Properties.dll</HintPath>
@@ -112,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\DotSceneSerializeCommand.cs" />
+    <Compile Include="Commands\SceneCommands.cs" />
     <Compile Include="Converter\Collection.cs" />
     <Compile Include="Converter\ConverterGridViewColumn.cs" />
     <Compile Include="Converter\Converters.cs" />
@@ -133,14 +139,15 @@
     <Compile Include="Interface\Services\ISceneService.cs" />
     <Content Include="Model\Objects\CharacterModel.cs" />
     <Content Include="Model\Objects\AICharacterModel.cs" />
+    <Compile Include="Model\Categeories\PhysicCategoryModel.cs" />
+    <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
     <Compile Include="Model\Objects\CameraModel.cs" />
     <Compile Include="Model\Categeories\StaticObjectCategoyModel.cs" />
     <Compile Include="Model\Objects\EnvironmentModel.cs" />
-    <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\Objects\LightModel.cs" />
     <Compile Include="Model\Objects\PhysicsObjectModel.cs" />
     <Compile Include="Model\Categeories\SceneCategoyModel.cs" />
-    <Compile Include="Model\Categeories\FilterModel.cs" />
+    <Compile Include="Model\Categeories\SceneFilterModel.cs" />
     <Compile Include="Model\SceneDataModel.cs" />
     <Compile Include="Model\SceneGraphToolModel.cs" />
     <Compile Include="Model\SceneViewerModel.cs" />

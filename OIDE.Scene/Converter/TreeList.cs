@@ -172,7 +172,7 @@ namespace  OIDE.Scene
 			}
 		}
 
-        public ISceneItem RootItem { get; set; }
+        public IScene RootItem { get; set; }
 
 		private ObservableCollection<ISceneItem> GetChildren(TreeNode parent)
 		{
@@ -196,7 +196,7 @@ namespace  OIDE.Scene
                 if (parent.Tag == null)
                     return RootItem.HasChildren;
                 else
-                    return ((IItem)parent.Tag).HasChildren;
+                    return ((ISceneItem)parent.Tag).HasChildren;
             }
             else
                 return false;

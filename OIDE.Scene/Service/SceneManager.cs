@@ -32,6 +32,30 @@ namespace OIDE.Scene.Service
         /// </summary>
         private readonly IEventAggregator _eventAggregator;
 
+
+        public TreeList TreeList { get; set; }
+
+        private IScene mRootItem;
+
+        /// <summary>
+        /// Root Item
+        /// </summary>
+        public IScene RootItem
+        {
+            get { return mRootItem; }
+            set
+            {
+                if (RootItem != value)
+                {
+                    //TreeList setted in scene modul
+                    TreeList.RootItem = value;
+                    TreeList.Root.Children.Clear();
+                    TreeList.Rows.Clear();
+                    TreeList.CreateChildrenNodes(TreeList.Root);
+                    mRootItem = value;
+                }
+            }
+        }
         /// <summary>
         /// The injected logger
         /// </summary>

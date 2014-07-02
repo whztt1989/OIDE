@@ -10,54 +10,56 @@
 
 #endregion
 
-using Microsoft.Practices.Prism.Commands;
+using Module.Properties.Interface;
+using OIDE.Scene.Interface.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Controls;
-using Module.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 
-namespace OIDE.DAL
+namespace OIDE.Scene
 {
-
-    public class DBCategoryModel : ViewModelBase, IItem
+    public class SceneFilterModel : ViewModelBase, ISceneItem
     {
         public String Name { get;set; }
-        public CollectionOfIItem Items { get; set; }
-
+        public CollectionOfIItem Items { get; private set; }
         public String ContentID { get; set; }
-      
+
+        public Boolean Enabled { get; set; }
+        public Boolean Visible { get; set; }
+
 
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
-        public Boolean Enabled { get; set; }
-        public Boolean Visible { get; set; }
-
-        [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+     
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+       
+         [XmlIgnore]
+        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
          [XmlIgnore]
         public IItem Parent { get; private set; }
+
+         public SceneFilterModel()
+        {
+
+        }
 
          public Boolean Open() { return true; }
          public Boolean Save() { return true; }
          public Boolean Delete() { return true; }
 
-         public DBCategoryModel()
-        {
-
-        }
          public IUnityContainer UnityContainer { get; private set; }
+         public TreeNode TreeNode { get; set; }
 
-         public DBCategoryModel(IItem parent, IUnityContainer unityContainer)
+        public SceneFilterModel(IItem parent, IUnityContainer unityContainer )
         {
             UnityContainer = unityContainer;
             Parent = parent;
@@ -67,7 +69,6 @@ namespace OIDE.DAL
             MenuItem mib1a = new MenuItem();
             mib1a.Header = "Text.xaml";
             MenuOptions.Add(mib1a);
-
         }
     }
 }

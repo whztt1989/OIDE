@@ -14,15 +14,14 @@ using Module.Properties.Interface;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Xml.Serialization;
 using OIDE.DAL;
+using Microsoft.Practices.Unity;
 
 namespace OIDE.Scene.Model
 {
     public class PhysicsObjectModel : ISceneItem
     {
         ICommand CmdSave;
-
-        public String ContentID { get { return "Physics"; } }
-      
+        public String ContentID { get; set; }
 
         [XmlIgnore]
         public IItem Parent { get; private set; }
@@ -37,8 +36,7 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public CollectionOfIItem Items { get; set; }
 
-        [XmlIgnore]
-        public Guid Guid { get; private set; }
+        public TreeNode TreeNode { get; set; }
 
         [Browsable(false)]
         [XmlIgnore]
@@ -57,7 +55,7 @@ namespace OIDE.Scene.Model
         public Boolean IsSelected { get; set; }
 
         [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         private gameentity.PhysicsObject mData;
 
@@ -94,10 +92,12 @@ namespace OIDE.Scene.Model
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
+        public IUnityContainer UnityContainer { get; private set; }
 
-        public PhysicsObjectModel(IItem parent, ICommandManager commandManager, IMenuService menuService,Int32 id = -1)
+        public PhysicsObjectModel(IItem parent,IUnityContainer container,Int32 id = -1)
        //     : base(commandManager, menuService)
         {
+            UnityContainer = container;
             Parent = parent;
 
             ID = id;
@@ -124,7 +124,6 @@ namespace OIDE.Scene.Model
            //  mtest = new Byte[10];
             Items = new CollectionOfIItem();
             SceneItems = new ObservableCollection<ISceneItem>();
-            Guid = new Guid();
         }
     }
 

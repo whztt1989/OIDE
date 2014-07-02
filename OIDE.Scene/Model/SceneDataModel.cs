@@ -5,12 +5,15 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Serialization;
+using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
 using OIDE.DAL;
+using OIDE.Scene.Commands;
 using OIDE.Scene.Interface.Services;
 using PInvokeWrapper.DLL;
 using Wide.Interfaces.Services;
@@ -18,87 +21,12 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace OIDE.Scene.Model
 {
-    public class CmdCreateFile : ICommand
-    {
-        private SceneDataModel m_model;
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            //  m_model.Items.Add(new CameraModel(m_model) { Name = "Camera 1" });
-            //IDAL dbI = new IDAL();
-
-            //// To serialize the hashtable and its key/value pairs,  
-            //// you must first open a stream for writing. 
-            //// In this case, use a file stream.
-            //using (MemoryStream inputStream = new MemoryStream())
-            //{
-            //    // write to a file
-            //    ProtoBuf.Serializer.Serialize(inputStream, mpm.Data);
-
-            //    if (mpm.ID > -1)
-            //        dbI.updatePhysics(mpm.ID, inputStream.ToArray());
-            //    else
-            //        dbI.insertPhysics(mpm.ID, inputStream.ToArray());
-            //}
-
-            //DLL_Singleton.Instance.updateObject(0, (int)ObjType.Physic);
-        }
-
-        public CmdCreateFile(SceneDataModel model)
-        {
-            m_model = model;
-        }
-    }
-
-    public class CmdDeleteScene : ICommand
-    {
-        private SceneDataModel m_model;
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            m_model.Items.Clear();
-            m_model.Parent.Items.Remove(m_model);
-            //IDAL dbI = new IDAL();
-
-            //// To serialize the hashtable and its key/value pairs,  
-            //// you must first open a stream for writing. 
-            //// In this case, use a file stream.
-            //using (MemoryStream inputStream = new MemoryStream())
-            //{
-            //    // write to a file
-            //    ProtoBuf.Serializer.Serialize(inputStream, mpm.Data);
-
-            //    if (mpm.ID > -1)
-            //        dbI.updatePhysics(mpm.ID, inputStream.ToArray());
-            //    else
-            //        dbI.insertPhysics(mpm.ID, inputStream.ToArray());
-            //}
-
-            //DLL_Singleton.Instance.updateObject(0, (int)ObjType.Physic);
-        }
-
-        public CmdDeleteScene(SceneDataModel model)
-        {
-            m_model = model;
-        }
-    }
+  
 
     /// <summary>
     /// Complete Scene description
     /// </summary>
-    public class SceneDataModel : ISceneItem, IScene
+    public class SceneDataModel : IScene
     {
        
         private CollectionOfIItem m_Items;
@@ -108,7 +36,7 @@ namespace OIDE.Scene.Model
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-        public String ContentID { get { return "SceneViewer"; } }
+        public String ContentID { get; set; }
 
         ICommand CmdSave;
 
@@ -132,8 +60,7 @@ namespace OIDE.Scene.Model
             set { mData = value; }
         }
 
-        private ISceneItem mRootItem;
-
+      
         public bool AddItem(ISceneItem item)
         {
             if (!m_SceneItems.Contains(item))
@@ -157,28 +84,7 @@ namespace OIDE.Scene.Model
            }
            set { mSelectedItem = value; }
        }
-
-       public TreeList TreeList { get; set; }
-
-       /// <summary>
-       /// Root Item
-       /// </summary>
-       public ISceneItem RootItem
-       {
-           get { return mRootItem; }
-           set
-           {
-               if (RootItem != value)
-               {
-                   //TreeList setted in scene modul
-                   TreeList.RootItem = value;
-                   TreeList.Root.Children.Clear();
-                   TreeList.Rows.Clear();
-                   TreeList.CreateChildrenNodes(TreeList.Root);
-                   mRootItem = value;
-               }
-           }
-       }
+    
 
         public Int32 ID { get; set; }
         [XmlAttribute]
@@ -212,7 +118,7 @@ namespace OIDE.Scene.Model
         public Boolean IsSelected { get; set; }
 
         [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         [XmlIgnore]
         public IItem Parent { get; private set; }
@@ -223,7 +129,119 @@ namespace OIDE.Scene.Model
 
         #endregion
 
-        public Boolean Open() { return true; }
+        public enum NodeTypes
+        {
+            Unkown = 0,
+            Physic = 1,
+            Character = 2,
+            Static= 3,
+            Terrain = 4,
+            Light = 5,
+            Camera = 6,
+
+        }
+
+        public Boolean Open() {
+
+
+            m_SceneService.SelectedScene = this;
+
+            IDAL dbI = new IDAL();
+            int sceneID = 0;
+            string[] split = Regex.Split(m_SceneService.SelectedScene.ContentID, ":##:");
+            if (split.Count() == 2)
+            {
+                string identifier = split[0];
+                string path = split[1];
+                if (identifier == "SceneID")
+                {
+                    int.TryParse(path, out sceneID);
+                }
+            }
+
+            IEnumerable<OIDE.DAL.IDAL.SceneNodeContainer> result = dbI.selectSceneNodes(sceneID);
+
+            //  Console.WriteLine(BitConverter.ToString(res));
+            try
+            {
+                //select all Nodes
+                foreach (var node in result)
+                {
+                    using (MemoryStream stream = new MemoryStream(node.Node.Data))
+                    {
+                      scenenode.Node nodeDeserialized = ProtoBuf.Serializer.Deserialize<scenenode.Node>(stream);
+    
+                      switch ((NodeTypes)nodeDeserialized.type)
+                      {
+                          case NodeTypes.Camera:
+                              var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+                              if (itemCam.Any())
+                                  itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer));
+                              
+                            break;
+                          case NodeTypes.Light:
+                                
+                              var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+                              if (itemLight.Any())
+                                  itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer));
+                              break;
+                      }        
+                    }
+                }
+            }
+            catch
+            {
+                m_SceneService.SelectedScene.SceneItems.Clear();
+            }
+
+            //---------------------------------------------
+            //Scene Graph Tree
+            //---------------------------------------------
+            //SceneCategoryModel root = new SceneCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
+
+            //   Scene.SceneCategoryModel rootScene = new Scene.SceneCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
+            //SceneDataModel scene = new SceneDataModel(null, m_Container) { Name = "Scene 1" };
+
+            SpawnPointCategoryModel spawns = new SpawnPointCategoryModel(this, m_Container) { Name = "SpawnPoints" };
+            //SceneCategoryModel controller1 = new SceneCategoryModel(scene, m_Container) { Name = "SpawnPoint 1" };
+            //controllers.Items.Add(controller1);
+            this.SceneItems.Add(spawns);
+
+            PhysicCategoryModel dynamics = new PhysicCategoryModel(this, m_Container) { Name = "Physics" };
+
+            this.SceneItems.Add(dynamics);
+
+
+            //PhysicsObjectModel pom = new PhysicsObjectModel(dynamics, dynamics.UnityContainer) { Name = "Phys 1", ContentID = "PhysicID:##" };
+
+            //dynamics.SceneItems.Add(pom);
+            ////SceneCategoryModel triggers = new SceneCategoryModel(scene, m_Container) { Name = "Triggers" };
+            //SceneCategoryModel trigger1 = new SceneCategoryModel(scene, m_Container) { Name = "Trigger 1" };
+            //triggers.Items.Add(trigger1);
+            //scene.SceneItems.Add(triggers);
+
+
+            StaticObjectCategoyModel statics = new StaticObjectCategoyModel(this, m_Container) { Name = "Statics" };
+            this.SceneItems.Add(statics);
+            //SceneCategoryModel obj1 = new SceneCategoryModel(scene, m_Container) { Name = "Object1" };
+            //SceneCategoryModel physics = new SceneCategoryModel(statics, m_Container) { Name = "Physics" };
+            //PhysicsObjectModel po1 = new PhysicsObjectModel(physics, m_Container, 0) { Name = "pomChar1" };
+            //physics.Items.Add(po1);
+            //obj1.Items.Add(physics);
+            //SceneCategoryModel obj2 = new SceneCategoryModel(scene, m_Container) { Name = "Floor (Obj)" };
+            //statics.Items.Add(obj2);
+            //statics.Items.Add(obj1);
+            //scene.SceneItems.Add(statics);
+
+            //SceneCategoryModel terrain = new SceneCategoryModel(scene, m_Container) { Name = "Terrain" };
+            //scene.SceneItems.Add(terrain);
+
+            m_SceneService.RootItem = this;
+            //    scene.Items.Add(scene);
+        //    m_SceneService.Scenes.Add(scene);
+
+            return true; }
+
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
@@ -232,11 +250,18 @@ namespace OIDE.Scene.Model
 
         }
 
-        public SceneDataModel(IItem parent, ICommandManager commandManager, IMenuService menuService, Int32 id = -1)
+        public IUnityContainer UnityContainer { get { return m_Container; } }
+
+        IUnityContainer m_Container;
+        ISceneService m_SceneService;
+
+        public SceneDataModel(IItem parent, IUnityContainer container, Int32 id = -1)
         {
             Parent = parent;
-
+            m_Container = container;
+            m_SceneService = container.Resolve<ISceneService>();
             ID = id;
+
             IDAL dbI = new IDAL();
             DAL.MDB.Scene scene = dbI.selectSceneDataOnly(id);
             //  Console.WriteLine(BitConverter.ToString(res));
@@ -252,48 +277,11 @@ namespace OIDE.Scene.Model
                 mData = new ProtoType.Scene();
             }
 
-       
-
             m_SceneItems = new ObservableCollection<ISceneItem>();
             m_Items = new CollectionOfIItem();
             CmdSave = new CmdSaveScene(this);
         }
     }
 
-    public class CmdSaveScene : ICommand
-    {
-        private SceneDataModel mpm;
-        public event EventHandler CanExecuteChanged;
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            IDAL dbI = new IDAL();
-
-            // To serialize the hashtable and its key/value pairs,  
-            // you must first open a stream for writing. 
-            // In this case, use a file stream.
-            using (MemoryStream inputStream = new MemoryStream())
-            {
-                // write to a file
-                ProtoBuf.Serializer.Serialize(inputStream, mpm.Data);
-
-                if (mpm.ID > -1)
-                    dbI.updateScene(mpm.ID, inputStream.ToArray());
-                else
-                    dbI.insertScene(mpm.ID, inputStream.ToArray());
-            }
-
-            DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
-        }
-
-        public CmdSaveScene(SceneDataModel pm)
-        {
-            mpm = pm;
-        }
-    }
 }

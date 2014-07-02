@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Collections.Specialized;
 using Module.Properties.Interface;
+using OIDE.Scene.Interface.Services;
 
 namespace  OIDE.Scene
 {

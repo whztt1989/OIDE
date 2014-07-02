@@ -22,6 +22,7 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
 using System.Xml.Serialization;
+using Microsoft.Practices.Unity;
 
 namespace OIDE.Scene
 {
@@ -30,11 +31,10 @@ namespace OIDE.Scene
     {
         public String Name { get;set; }
         public CollectionOfIItem Items { get; private set; }
-        public Guid Guid { get; private set; }
 
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
-        public String ContentID { get { return "SceneCategory"; } }
+        public String ContentID { get; set; }
       
 
         [XmlIgnore]
@@ -45,7 +45,7 @@ namespace OIDE.Scene
         public Boolean Visible { get; set; }
 
         [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
          [XmlIgnore]
         public IItem Parent { get; private set; }
@@ -54,17 +54,20 @@ namespace OIDE.Scene
          public Boolean Save() { return true; }
          public Boolean Delete() { return true; }
 
+         public IUnityContainer UnityContainer { get; private set; }
+         public TreeNode TreeNode { get; set; }
+
          public StaticObjectCategoyModel()
         {
 
         }
 
-        public StaticObjectCategoyModel(IItem parent, ICommandManager commandManager, IMenuService menuService)
+        public StaticObjectCategoyModel(IItem parent, IUnityContainer container)
         {
+            UnityContainer = container;
             Parent = parent;
             Items = new CollectionOfIItem();
             SceneItems = new ObservableCollection<ISceneItem>();
-            Guid = new Guid();
             MenuOptions = new List<MenuItem>();
 
             MenuItem miAdd = new MenuItem() { Header = "Add Static Object" };

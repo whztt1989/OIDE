@@ -86,13 +86,15 @@ namespace OIDE.Core.ProjectTypes.Handler
             //---------------------------------------------
             //Projekt Tree
             //---------------------------------------------
-            FileCategoryModel root = new FileCategoryModel(null, commandManager, menuService) { Name = "RootNode" };
+            FileCategoryModel root = new FileCategoryModel(null, _container) { Name = "RootNode" };
           
             //GameProjectModel test = new GameProjectModel(commandManager, menuService) { Name = "Test", IsExpanded = true };
             //root.Items.Add(test);
-           
-            GameProjectModel order = new GameProjectModel(commandManager, menuService) { Name = "Game", IsExpanded = true };
-            root.Items.Add(order);
+
+            GameProjectModel gameProject = _container.Resolve<GameProjectModel>(); //new GameProjectModel(_container) { Name = "Game", IsExpanded = true };
+            gameProject.Name = "Game";
+            gameProject.IsExpanded = true;
+            root.Items.Add(gameProject);
            
             mProjectTreeService.Items.Add(root);
             mProjectTreeService.RootItem = root;

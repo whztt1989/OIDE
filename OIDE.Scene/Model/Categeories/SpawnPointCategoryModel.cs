@@ -20,16 +20,19 @@ using Module.Properties.Interface;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
+using OIDE.Scene.Interface.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 
-namespace OIDE.DAL
+namespace OIDE.Scene
 {
 
-    public class DBCategoryModel : ViewModelBase, IItem
+    public class SpawnPointCategoryModel : ViewModelBase, ISceneItem
     {
         public String Name { get;set; }
-        public CollectionOfIItem Items { get; set; }
+        public CollectionOfIItem Items { get; private set; }
+
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
         public String ContentID { get; set; }
       
@@ -42,7 +45,7 @@ namespace OIDE.DAL
         public Boolean Visible { get; set; }
 
         [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
          [XmlIgnore]
         public IItem Parent { get; private set; }
@@ -51,22 +54,24 @@ namespace OIDE.DAL
          public Boolean Save() { return true; }
          public Boolean Delete() { return true; }
 
-         public DBCategoryModel()
+         public IUnityContainer UnityContainer { get; private set; }
+         public TreeNode TreeNode { get; set; }
+
+         public SpawnPointCategoryModel()
         {
 
         }
-         public IUnityContainer UnityContainer { get; private set; }
 
-         public DBCategoryModel(IItem parent, IUnityContainer unityContainer)
+         public SpawnPointCategoryModel(IItem parent, IUnityContainer container)
         {
-            UnityContainer = unityContainer;
+            UnityContainer = container;
             Parent = parent;
             Items = new CollectionOfIItem();
+            SceneItems = new ObservableCollection<ISceneItem>();
             MenuOptions = new List<MenuItem>();
 
-            MenuItem mib1a = new MenuItem();
-            mib1a.Header = "Text.xaml";
-            MenuOptions.Add(mib1a);
+            MenuItem miAdd = new MenuItem() { Header = "Add Static Object" };
+            MenuOptions.Add(miAdd);
 
         }
     }
