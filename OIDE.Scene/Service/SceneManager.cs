@@ -37,8 +37,6 @@ namespace OIDE.Scene.Service
         /// </summary>
         private readonly ILoggerService _logger;
 
-        public TreeList TreeList { get; set; }
-
         /// <summary>
         /// The theme manager constructor
         /// </summary>
@@ -46,7 +44,7 @@ namespace OIDE.Scene.Service
         /// <param name="logger">The injected logger</param>
         public SceneManager(IEventAggregator eventAggregator, ILoggerService logger)
         {
-            SceneItems = new ObservableCollection<ISceneItem>();
+            Scenes = new ObservableCollection<IScene>();
             _eventAggregator = eventAggregator;
             _logger = logger;
             //Service für project contextmenu buttons .....
@@ -62,33 +60,17 @@ namespace OIDE.Scene.Service
         /// <summary>
         /// The current item selected
         /// </summary>
-        private ISceneItem mSelectedItem;
-        public ISceneItem SelectedItem
+        private IScene mSelectedScene;
+        public IScene SelectedScene
         {
             get
             {
-            return mSelectedItem; } set { mSelectedItem = value; } }
-
-        private ISceneItem mRootItem;
-        /// <summary>
-        /// Root Item
-        /// </summary>
-        public ISceneItem RootItem
-        {
-            get { return mRootItem; }
-            set
-            {
-                if (RootItem != value)
-                {
-                   TreeList.RootItem = value;
-                   TreeList.Root.Children.Clear();
-                   TreeList.Rows.Clear();
-                   TreeList.CreateChildrenNodes(TreeList.Root);
-                   mRootItem = value;
-                }
+                return mSelectedScene;
             }
+            set { mSelectedScene = value; }
         }
 
+ 
         /// <summary>
         /// Adds the specified item.
         /// </summary>
@@ -128,7 +110,7 @@ namespace OIDE.Scene.Service
         /// <summary>
         /// collection of treeview items
         /// </summary>
-        public ObservableCollection<ISceneItem> SceneItems { get; internal set; }
+        public ObservableCollection<IScene> Scenes { get; internal set; }
 
 
         /// <summary>
@@ -191,11 +173,11 @@ namespace OIDE.Scene.Service
         /// </summary>
         /// <param name="theme">The item to add</param>
         /// <returns>true, if successful - false, otherwise</returns>
-        public bool AddItem(ISceneItem item)
+        public bool AddScene(IScene scene)
         {
-            if (!SceneItems.Contains(item))
+            if (!Scenes.Contains(scene))
             {
-                SceneItems.Add(item);
+                Scenes.Add(scene);
                 return true;
             }
             return false;

@@ -12,5 +12,18 @@ namespace OIDE.Scene.Interface.Services
     {
         ObservableCollection<ISceneItem> SceneItems { get; }
 
+        TreeList TreeList { get; set; }
+
+        bool AddItem(ISceneItem item);
+
+        ISceneItem SelectedItem { get; set; }
+
+        /// <summary>
+        /// Returns the current item set in the project/file manager
+        /// </summary>
+        /// <value>The current item.</value>
+        ISceneItem RootItem { get; set; }
+
+
     }
 }

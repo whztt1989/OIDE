@@ -132,11 +132,53 @@ namespace OIDE.Scene.Model
             set { mData = value; }
         }
 
+        private ISceneItem mRootItem;
+
+        public bool AddItem(ISceneItem item)
+        {
+            if (!m_SceneItems.Contains(item))
+            {
+                m_SceneItems.Add(item);
+                return true;
+            }
+            return false;
+        }
         private ObservableCollection<ISceneItem> m_SceneItems; 
 
        [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get { return m_SceneItems; } private set { m_SceneItems = value; } }
 
+       private ISceneItem mSelectedItem;
+       public ISceneItem SelectedItem
+       {
+           get
+           {
+               return mSelectedItem;
+           }
+           set { mSelectedItem = value; }
+       }
+
+       public TreeList TreeList { get; set; }
+
+       /// <summary>
+       /// Root Item
+       /// </summary>
+       public ISceneItem RootItem
+       {
+           get { return mRootItem; }
+           set
+           {
+               if (RootItem != value)
+               {
+                   //TreeList setted in scene modul
+                   TreeList.RootItem = value;
+                   TreeList.Root.Children.Clear();
+                   TreeList.Rows.Clear();
+                   TreeList.CreateChildrenNodes(TreeList.Root);
+                   mRootItem = value;
+               }
+           }
+       }
 
         public Int32 ID { get; set; }
         [XmlAttribute]
@@ -190,42 +232,27 @@ namespace OIDE.Scene.Model
 
         }
 
-        public SceneDataModel(IItem parent, ICommandManager commandManager, IMenuService menuService,Int32 id = -1)
+        public SceneDataModel(IItem parent, ICommandManager commandManager, IMenuService menuService, Int32 id = -1)
         {
             Parent = parent;
 
             ID = id;
             IDAL dbI = new IDAL();
-            IEnumerable<OIDE.DAL.IDAL.SceneContainer> result = dbI.selectScene(id);
-          //  Console.WriteLine(BitConverter.ToString(res));
+            DAL.MDB.Scene scene = dbI.selectSceneDataOnly(id);
+            //  Console.WriteLine(BitConverter.ToString(res));
             try
             {
-                Boolean SceneLoaded = false;
-
-                foreach (OIDE.DAL.IDAL.SceneContainer node in result)
+                using (MemoryStream stream = new MemoryStream(scene.Data))
                 {
-                    //achtung nur einmal!
-                    if (!SceneLoaded)
-                    {
-                        using (MemoryStream stream = new MemoryStream(node.Scene.Data))
-                        {
-                            mData = ProtoBuf.Serializer.Deserialize<ProtoType.Scene>(stream);
-                            SceneLoaded = true;
-                        }
-                    }
-
-                    sceneNode t;
-                   
-                    using (MemoryStream stream = new MemoryStream(node.Nodes.Data))
-                    {
-                        mData = ProtoBuf.Serializer.Deserialize<ProtoType.Scene>(stream);
-                    }
+                    mData = ProtoBuf.Serializer.Deserialize<ProtoType.Scene>(stream);
                 }
             }
             catch
             {
                 mData = new ProtoType.Scene();
             }
+
+       
 
             m_SceneItems = new ObservableCollection<ISceneItem>();
             m_Items = new CollectionOfIItem();

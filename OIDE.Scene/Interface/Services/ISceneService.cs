@@ -23,16 +23,10 @@ namespace OIDE.Scene.Interface.Services
         /// The list of themes registered with the theme manager
         /// </summary>
         /// <value>The themes.</value>
-        ObservableCollection<ISceneItem> SceneItems { get; }
+        ObservableCollection<IScene> Scenes { get; }
 
-        TreeList TreeList { get; set; }
 
-        /// <summary>
-        /// Adds a theme to the theme manager
-        /// </summary>
-        /// <param name="theme">The theme to add</param>
-        /// <returns><c>true</c> if successful, <c>false</c> otherwise</returns>
-        bool AddItem(ISceneItem item);
+        bool AddScene(IScene scene);
 
         /// <summary>
         /// Called to set the current theme from the list of themes
@@ -41,13 +35,8 @@ namespace OIDE.Scene.Interface.Services
         /// <returns><c>true</c> if successful, <c>false</c> otherwise</returns>
        // bool SetCurrent(Guid guid);
 
-        ISceneItem SelectedItem { get; set; }
+        IScene SelectedScene { get; set; }
 
-        /// <summary>
-        /// Returns the current item set in the project/file manager
-        /// </summary>
-        /// <value>The current item.</value>
-        ISceneItem RootItem { get; set; }
 
         /// <summary>
         /// Gets the right click menu.

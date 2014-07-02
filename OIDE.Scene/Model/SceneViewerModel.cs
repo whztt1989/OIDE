@@ -14,6 +14,9 @@ using Microsoft.Practices.Unity;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using Microsoft.Practices.Prism.Commands;
+using OIDE.DAL;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace OIDE.Scene.Model
 {
@@ -94,13 +97,47 @@ namespace OIDE.Scene.Model
         {
 
         }
-      
+
+        ISceneService m_SceneService;
         public SceneViewerModel(ICommandManager commandManager, IMenuService menuService, ISceneService sceneService)
             : base(commandManager, menuService)
         {
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
 
+            m_SceneService = sceneService;
+
+            IDAL dbI = new IDAL();
+            int sceneID = 0;
+              string[] split = Regex.Split(m_SceneService.SelectedScene.ContentID, ":##:");
+              if (split.Count() == 2)
+              {
+                  string identifier = split[0];
+                  string path = split[1];
+                  if (identifier == "SceneID")
+                  {
+                      int.TryParse(path, out sceneID);
+                  }
+              }
+
+              IEnumerable<OIDE.DAL.IDAL.SceneNodeContainer> result = dbI.selectSceneNodes(sceneID);
+
+            //  Console.WriteLine(BitConverter.ToString(res));
+            try
+            {
+                //select all Nodes
+                foreach (var node in result)
+                {
+                    using (MemoryStream stream = new MemoryStream(node.Node.Data))
+                    {
+               //todo!!         m_SceneService.SelectedScene.SceneItems = ProtoBuf.Serializer.Deserialize<ProtoType.SceneNode>(stream);
+                    }
+                }
+            }
+            catch
+            {
+                m_SceneService.SelectedScene.SceneItems.Clear();
+            }
 
             //---------------------------------------------
             //Scene Graph Tree
@@ -137,10 +174,10 @@ namespace OIDE.Scene.Model
             SceneCategoryModel terrain = new SceneCategoryModel(scene, commandManager, menuService) { Name = "Terrain" };
             scene.SceneItems.Add(terrain);
 
-
+            scene.RootItem = scene;
         //    scene.Items.Add(scene);
-            sceneService.SceneItems.Add(scene);
-            sceneService.RootItem = scene;
+            sceneService.Scenes.Add(scene);
+
         }
 
         internal void SetLocation(object location)

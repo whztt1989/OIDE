@@ -156,7 +156,38 @@ namespace OIDE.DAL
             public GameEntity GameEntity { get; set; }
         }
 
-        public IEnumerable<SceneContainer> selectScene(int id)
+        public class SceneNodeContainer
+        {
+            public SceneNodes Node { get; set; }
+            public GameEntity GameEntity { get; set; }
+        }
+
+        public IEnumerable<SceneNodeContainer> selectSceneNodes(int sceneID)
+        {
+            try
+            {
+                var result = from n in mCtx.SceneNodes
+
+                             join oj in mCtx.GameEntity on n.EntID equals oj.EntID into gjo
+                             from gameEnt in gjo.DefaultIfEmpty()
+
+                             where n.SceneID == sceneID
+                             select new SceneNodeContainer { Node = n, GameEntity = gameEnt };
+
+                //  var result = mCtx.Scene.Where(x => x.SceneID == id);
+                if (result.Any())
+                {
+                    return result;//.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                //     MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+
+            return null;
+        }
+        public IEnumerable<SceneContainer> selectCompleteScene(int id)
         {
             try
             {
@@ -175,6 +206,28 @@ namespace OIDE.DAL
                 if (result.Any())
                 {
                     return result;//.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                //     MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+
+            return null;
+        }
+
+        public Scene selectSceneDataOnly(int id)
+        {
+            try
+            {
+                var result = from n in mCtx.Scene
+                             where n.SceneID == id
+                             select n;
+
+                //  var result = mCtx.Scene.Where(x => x.SceneID == id);
+                if (result.Any())
+                {
+                    return result.First();//.Data;
                 }
             }
             catch (Exception ex)
