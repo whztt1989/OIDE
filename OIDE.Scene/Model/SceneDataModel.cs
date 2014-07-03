@@ -167,6 +167,7 @@ namespace OIDE.Scene.Model
                 //select all Nodes
                 foreach (var node in result)
                 {
+                    //add items to scene categories not root !!
                     using (MemoryStream stream = new MemoryStream(node.Node.Data))
                     {
                       scenenode.Node nodeDeserialized = ProtoBuf.Serializer.Deserialize<scenenode.Node>(stream);
@@ -242,7 +243,50 @@ namespace OIDE.Scene.Model
 
             return true; }
 
-        public Boolean Save() { return true; }
+        public Boolean Save() {
+
+
+          
+
+            //todo ...
+            //  Console.WriteLine(BitConverter.ToString(res));
+            try
+            {
+                //select all Nodes
+                foreach (var sceneItem in m_SceneService.SelectedScene.SceneItems)
+                {
+                    //add items to scene categories not root !!
+                    //using (MemoryStream stream = new MemoryStream(sceneItem.SceneItems..Node.Data))
+                    //{
+                    //    scenenode.Node nodeDeserialized = ProtoBuf.Serializer.Deserialize<scenenode.Node>(stream);
+
+                    //    switch ((NodeTypes)nodeDeserialized.type)
+                    //    {
+                    //        case NodeTypes.Camera:
+                    //            var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+                    //            if (itemCam.Any())
+                    //                itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer));
+
+                    //            break;
+                    //        case NodeTypes.Light:
+
+                    //            var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+                    //            if (itemLight.Any())
+                    //                itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer));
+                    //            break;
+                    //    }
+                    //}
+                }
+
+//                IEnumerable<OIDE.DAL.IDAL.SceneNodeContainer> result = dbI.SaveSceneNodes(sceneID);
+
+            }
+            catch
+            {
+            }
+
+            return true;
+        }
         public Boolean Delete() { return true; }
 
         public SceneDataModel()

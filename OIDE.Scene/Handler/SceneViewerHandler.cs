@@ -286,8 +286,10 @@ namespace OIDE.Scene
                     //    x.Serialize(fs, gameProjectModel);
                     //    fs.Close();
                     //}
+                   ISceneService sceneService = _container.Resolve<ISceneService>();
+                   sceneService.SelectedScene.Save();
 
-                    //  File.WriteAllText(location, gameProjectModel.Ser);
+                       //  File.WriteAllText(location, gameProjectModel.Ser);
                     gameProjectModel.SetDirty(false);
                     return true;
                 }
