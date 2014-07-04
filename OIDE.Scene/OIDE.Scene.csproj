@@ -135,6 +135,7 @@
     <Compile Include="Handler\SceneViewerHandler.cs" />
     <Compile Include="Interface\Events\ItemChangedEvent.cs" />
     <Compile Include="Interface\Services\IScene.cs" />
+    <Compile Include="Interface\Services\ISceneNode.cs" />
     <Compile Include="Interface\Services\ISceneItem.cs" />
     <Compile Include="Interface\Services\ISceneService.cs" />
     <Content Include="Model\Objects\CharacterModel.cs" />

@@ -13,12 +13,15 @@ using Microsoft.Practices.Unity;
 
 namespace OIDE.Scene.Model
 {
-    public class StaticObjectModel : ISceneItem
+    public class StaticObjectModel : ISceneItem, ISceneNode
     {
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
         public String ContentID { get; set; }
+
+        public scenenode.Node Node { get; set; }
+
 
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
         public Int32 ID { get; protected set; }

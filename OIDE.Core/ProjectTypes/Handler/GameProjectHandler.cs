@@ -97,7 +97,7 @@ namespace OIDE.Core.ProjectTypes.Handler
             root.Items.Add(gameProject);
            
             mProjectTreeService.Items.Add(root);
-            mProjectTreeService.RootItem = root;
+            mProjectTreeService.SetAsRoot(root);
 
           
 

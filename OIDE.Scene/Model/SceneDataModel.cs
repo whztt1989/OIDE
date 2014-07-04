@@ -18,11 +18,11 @@ using OIDE.Scene.Interface.Services;
 using PInvokeWrapper.DLL;
 using Wide.Interfaces.Services;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using ProtoBuf;
+using Module.Protob.Utilities;
 
 namespace OIDE.Scene.Model
 {
-  
-
     /// <summary>
     /// Complete Scene description
     /// </summary>
@@ -159,6 +159,7 @@ namespace OIDE.Scene.Model
                 }
             }
 
+            //includes Node and GameEntity
             IEnumerable<OIDE.DAL.IDAL.SceneNodeContainer> result = dbI.selectSceneNodes(sceneID);
 
             //  Console.WriteLine(BitConverter.ToString(res));
@@ -167,27 +168,28 @@ namespace OIDE.Scene.Model
                 //select all Nodes
                 foreach (var node in result)
                 {
+                    scenenode.Node nodeDeserialized = ProtoSerialize.Deserialize<scenenode.Node>(node.Node.Data);
+                    gameentity.GameEntity gameEntityDeserialized = ProtoSerialize.Deserialize<gameentity.GameEntity>(node.GameEntity.Data);
+                   
+
                     //add items to scene categories not root !!
-                    using (MemoryStream stream = new MemoryStream(node.Node.Data))
-                    {
-                      scenenode.Node nodeDeserialized = ProtoBuf.Serializer.Deserialize<scenenode.Node>(stream);
-    
-                      switch ((NodeTypes)nodeDeserialized.type)
-                      {
-                          case NodeTypes.Camera:
-                              var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
-                              if (itemCam.Any())
-                                  itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer));
+                    //switch ((NodeTypes)node.GameEntity.type) //todo type!!
+                    //  {
+                    //      case NodeTypes.Camera:
+                    //          //todo contentid for camera
+                    //          var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
+                    //          if (itemCam.Any())
+                    //              itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer)  {   Node = nodeDeserialized  });
                               
-                            break;
-                          case NodeTypes.Light:
+                    //        break;
+                    //      case NodeTypes.Light:
                                 
-                              var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
-                              if (itemLight.Any())
-                                  itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer));
-                              break;
-                      }        
-                    }
+                    //          var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+                    //          if (itemLight.Any())
+                    //              itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer) { Node = nodeDeserialized });
+                    //          break;
+                    //  }        
+                    
                 }
             }
             catch
@@ -206,10 +208,15 @@ namespace OIDE.Scene.Model
             SpawnPointCategoryModel spawns = new SpawnPointCategoryModel(this, m_Container) { Name = "SpawnPoints" };
             //SceneCategoryModel controller1 = new SceneCategoryModel(scene, m_Container) { Name = "SpawnPoint 1" };
             //controllers.Items.Add(controller1);
+       //     spawns.IsExpanded = true;
             this.SceneItems.Add(spawns);
 
+       
+         
             PhysicCategoryModel dynamics = new PhysicCategoryModel(this, m_Container) { Name = "Physics" };
 
+       //     dynamics.IsExpanded = true;
+          
             this.SceneItems.Add(dynamics);
 
 
@@ -223,8 +230,14 @@ namespace OIDE.Scene.Model
 
 
             StaticObjectCategoyModel statics = new StaticObjectCategoyModel(this, m_Container) { Name = "Statics" };
+         //   statics.IsExpanded = true;
             this.SceneItems.Add(statics);
-            //SceneCategoryModel obj1 = new SceneCategoryModel(scene, m_Container) { Name = "Object1" };
+         
+            m_SceneService.SetAsRoot(this);
+
+            //PhysicsObjectModel pom = new PhysicsObjectModel(dynamics, dynamics.UnityContainer) { Name = "Phys 1", ContentID = "PhysicID:##" };
+            //dynamics.SceneItems.Add(pom);
+    //SceneCategoryModel obj1 = new SceneCategoryModel(scene, m_Container) { Name = "Object1" };
             //SceneCategoryModel physics = new SceneCategoryModel(statics, m_Container) { Name = "Physics" };
             //PhysicsObjectModel po1 = new PhysicsObjectModel(physics, m_Container, 0) { Name = "pomChar1" };
             //physics.Items.Add(po1);
@@ -237,7 +250,7 @@ namespace OIDE.Scene.Model
             //SceneCategoryModel terrain = new SceneCategoryModel(scene, m_Container) { Name = "Terrain" };
             //scene.SceneItems.Add(terrain);
 
-            m_SceneService.RootItem = this;
+          
             //    scene.Items.Add(scene);
         //    m_SceneService.Scenes.Add(scene);
 
@@ -245,37 +258,70 @@ namespace OIDE.Scene.Model
 
         public Boolean Save() {
 
+            // ProtoType.Scene protoData = new ProtoType.Scene();
+            // protoData.colourAmbient = new ProtoType.Colour() { r = 5 , b =  6 , g = 7 };
 
-          
 
-            //todo ...
-            //  Console.WriteLine(BitConverter.ToString(res));
+
+             OIDE.DAL.IDAL dbI = new IDAL();
+         
+            Byte[] result;
+
+            result = ProtoSerialize.Serialize(mData);
+
+            //save scene to db
+            if (ID > -1)
+                dbI.updateScene(ID, result);
+            else
+                dbI.insertScene(ID, result);
+
+          //  mData = ProtoSerialize.Deserialize<ProtoType.Scene>(result);
+
+
+            DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
+
+            //---------------------------
+            //Nodes
+            //------------------------------
             try
             {
+                OIDE.DAL.MDB.SceneNodes nodes = new DAL.MDB.SceneNodes();
+
                 //select all Nodes
-                foreach (var sceneItem in m_SceneService.SelectedScene.SceneItems)
+                foreach (var sceneCategoryItem in m_SceneService.SelectedScene.SceneItems)
                 {
-                    //add items to scene categories not root !!
-                    //using (MemoryStream stream = new MemoryStream(sceneItem.SceneItems..Node.Data))
-                    //{
-                    //    scenenode.Node nodeDeserialized = ProtoBuf.Serializer.Deserialize<scenenode.Node>(stream);
+                    foreach (var sceneItem in sceneCategoryItem.SceneItems)
+                    {
+                        //-------------  Camera ----------------------------
+                        if (sceneItem is CameraModel)
+                        {
+                            CameraModel obj = sceneItem as CameraModel;                       
+                            ProtoSerialize.Serialize(obj.Node);//insert into Scene Nodes
+                            result = ProtoSerialize.Serialize(obj.Data);  //insert Object Data
+                        }
+                        
+                        //add items to scene categories not root !!
+                        //using (MemoryStream stream = new MemoryStream(sceneItem.SceneItems..Node.Data))
+                        //{
+                        //    scenenode.Node nodeDeserialized = ProtoBuf.Serializer.Deserialize<scenenode.Node>(stream);
 
-                    //    switch ((NodeTypes)nodeDeserialized.type)
-                    //    {
-                    //        case NodeTypes.Camera:
-                    //            var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
-                    //            if (itemCam.Any())
-                    //                itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer));
+                        //    switch ((NodeTypes)nodeDeserialized.type)
+                        //    {
+                        //        case NodeTypes.Camera:
+                        //            var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+                        //            if (itemCam.Any())
+                        //                itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer));
 
-                    //            break;
-                    //        case NodeTypes.Light:
+                        //            break;
+                        //        case NodeTypes.Light:
 
-                    //            var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
-                    //            if (itemLight.Any())
-                    //                itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer));
-                    //            break;
-                    //    }
-                    //}
+                        //            var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+                        //            if (itemLight.Any())
+                        //                itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer));
+                        //            break;
+                        //    }
+                        //}
+                    }
                 }
 
 //                IEnumerable<OIDE.DAL.IDAL.SceneNodeContainer> result = dbI.SaveSceneNodes(sceneID);
@@ -311,10 +357,7 @@ namespace OIDE.Scene.Model
             //  Console.WriteLine(BitConverter.ToString(res));
             try
             {
-                using (MemoryStream stream = new MemoryStream(scene.Data))
-                {
-                    mData = ProtoBuf.Serializer.Deserialize<ProtoType.Scene>(stream);
-                }
+                mData = ProtoSerialize.Deserialize<ProtoType.Scene>(scene.Data);
             }
             catch
             {

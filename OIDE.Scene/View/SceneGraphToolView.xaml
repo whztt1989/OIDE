@@ -118,7 +118,6 @@
                        ContextMenuOpening="_treeList_ContextMenuOpening" 
                          dd:DragDrop.IsDragSource="True"
                   dd:DragDrop.IsDropTarget="True"
-                       Background="Beige"
                   dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdorner}">
             <ListView.Resources>
                 <ContextMenu  x:Key="RowContextMenu" Opened="ContextMenu_Opened"   >

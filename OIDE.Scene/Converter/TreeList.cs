@@ -107,6 +107,11 @@ namespace  OIDE.Scene
 			}
 		}
 
+        internal void CheckChildren(TreeNode node)
+        {
+            CreateChildrenNodes(node);
+        }
+
 		internal void SetIsExpanded(TreeNode node, bool value)
 		{
 			if (value)
@@ -140,6 +145,7 @@ namespace  OIDE.Scene
 				foreach (object obj in children)
 				{
 					TreeNode child = new TreeNode(this, obj);
+                 //   CreateChildrenNodes(child); //KH
 					child.HasChildren = HasChildren(child);
 					node.Children.Add(child);
                     

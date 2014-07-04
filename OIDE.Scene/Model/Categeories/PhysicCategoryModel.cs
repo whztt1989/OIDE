@@ -103,7 +103,7 @@ namespace OIDE.Scene
 
 
            parent.SceneItems.Add(pom);
-           parent.IsExpanded = true;
+  //         parent.Parent.Items.IsExpanded = true;
         //  parent.Items.Add(pom);
 
             ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();

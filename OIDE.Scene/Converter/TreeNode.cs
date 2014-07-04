@@ -139,6 +139,8 @@ namespace  OIDE.Scene
 			internal set;
 		}
 
+        private Boolean _isInitChecked;
+
 		private bool _isExpanded;
 		public bool IsExpanded
 		{
@@ -150,7 +152,14 @@ namespace  OIDE.Scene
 					Tree.SetIsExpanded(this, value);
 					OnPropertyChanged("IsExpanded");
 					OnPropertyChanged("IsExpandable");
-				}
+				}else
+                {
+                    //if (!_isInitChecked)
+                    //{
+                    //    Tree.CheckChildren(this);
+                    //    _isInitChecked = true;
+                    //}
+                }
 			}
 		}
 
@@ -316,7 +325,7 @@ namespace  OIDE.Scene
 			_tag = tag;
 
             if (tag != null)
-                IsExpanded = ((IItem)tag).IsExpanded;
+                IsExpanded = ((ISceneItem)tag).IsExpanded;
 		}
 
 		public override string ToString()

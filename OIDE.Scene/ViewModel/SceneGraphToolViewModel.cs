@@ -43,7 +43,7 @@ namespace OIDE.Scene
             Name = "Scene";
             Title = "Scene";
             ContentId = "Scene";
-            _model = new SceneGraphToolModel(container.Resolve<ICommandManager>(), container.Resolve<IMenuService>());
+            _model = new SceneGraphToolModel( container);
             Model = _model;
             IsVisible = true;
 

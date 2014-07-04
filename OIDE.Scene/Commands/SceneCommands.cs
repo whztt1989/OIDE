@@ -100,23 +100,8 @@ namespace OIDE.Scene.Commands
 
         public void Execute(object parameter)
         {
-            IDAL dbI = new IDAL();
+            mpm.Save();
 
-            // To serialize the hashtable and its key/value pairs,  
-            // you must first open a stream for writing. 
-            // In this case, use a file stream.
-            using (MemoryStream inputStream = new MemoryStream())
-            {
-                // write to a file
-                ProtoBuf.Serializer.Serialize(inputStream, mpm.Data);
-
-                if (mpm.ID > -1)
-                    dbI.updateScene(mpm.ID, inputStream.ToArray());
-                else
-                    dbI.insertScene(mpm.ID, inputStream.ToArray());
-            }
-
-            DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
         }
 
         public CmdSaveScene(SceneDataModel pm)

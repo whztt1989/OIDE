@@ -9,10 +9,11 @@ using System.Windows.Controls;
 using OIDE.Scene.Interface.Services;
 using Module.Properties.Interface;
 using Microsoft.Practices.Unity;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace OIDE.Scene.Model
 {
-    public class CameraModel : ISceneItem
+    public class CameraModel : ISceneItem, ISceneNode
     {
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
@@ -20,14 +21,29 @@ namespace OIDE.Scene.Model
         public String ContentID { get; set; }
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
+        public scenenode.Node Node { get; set; }
 
-        public Int32 ID { get; protected set; }
+        public Int32 ID { get; set; }
         public String Name { get; set; }
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
 
         public TreeNode TreeNode { get; set; }
-      
+
+        private ProtoType.Camera mData;
+
+        [Category("Conections")]
+        [Description("This property is a complex property and has no default editor.")]
+        [ExpandableObject]
+        public ProtoType.Camera Data
+        {
+            get
+            {
+                return mData;
+            }
+            set { mData = value; }
+        }
+
         [Browsable(false)]
         public List<MenuItem> MenuOptions
         {

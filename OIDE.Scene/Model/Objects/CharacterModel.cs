@@ -24,9 +24,12 @@ using OIDE.Scene.Interface.Services;
 
 namespace OIDE.Scene.Model
 {
-    public class CharacterModel : TextModel, ISceneItem
+    public class CharacterModel : TextModel, ISceneItem , ISceneNode
     {
         public String Name { get; set; }
+
+        public scenenode.Node Node { get; set; }
+
 
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }

@@ -10,6 +10,8 @@
 
 #endregion
 
+using Microsoft.Practices.Unity;
+using OIDE.Scene.Interface.Services;
 using System.Collections.ObjectModel;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
@@ -22,10 +24,13 @@ namespace OIDE.Scene
     /// </summary>
     public class SceneGraphToolModel : ToolModel
     {
+        private ISceneService m_SceneService;
 
-        ObservableCollection<ContentModel> mItems;
+        //ObservableCollection<ContentModel> mItems;
 
-        public ObservableCollection<ContentModel> Items { get { return mItems; } }
+        //public ObservableCollection<ContentModel> Items { get { return mItems; } }
+
+        public ObservableCollection<ISceneItem> Items { get { return m_SceneService.SelectedScene.SceneItems; } }
 
 
         /// <summary>
@@ -33,13 +38,17 @@ namespace OIDE.Scene
         /// </summary>
         /// <param name="commandManager">The injected command manager.</param>
         /// <param name="menuService">The menu service.</param>
-        public SceneGraphToolModel(ICommandManager commandManager, IMenuService menuService)
+        public SceneGraphToolModel(IUnityContainer container) 
         {
+      //      container.Resolve<ICommandManager>(), container.Resolve<IMenuService>()
+     //       ISceneService sceneService, ICommandManager commandManager, IMenuService menuService
+
+            m_SceneService = container.Resolve<ISceneService>();
             //Service für project contextmenu buttons .....
             //tray.ContextMenu = new ContextMenu();
             //tray.ContextMenu.ItemsSource = _children;
 
-            mItems = new ObservableCollection<ContentModel>();
+         //   mItems = new ObservableCollection<ContentModel>();
 
 
             //CategoryModel cdata = new CategoryModel(commandManager, menuService) { Name = "Data" };

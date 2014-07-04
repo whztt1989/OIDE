@@ -12,11 +12,14 @@ using OIDE.Scene.Interface.Services;
 
 namespace OIDE.Scene.Model
 {
-    public class LightModel : ISceneItem
+    public class LightModel : ISceneItem, ISceneNode
     {
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
+
+        public scenenode.Node Node { get; set; }
+
 
         public String ContentID { get; set; }
 

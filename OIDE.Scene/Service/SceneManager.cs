@@ -37,13 +37,36 @@ namespace OIDE.Scene.Service
 
         private IScene mRootItem;
 
+
+        public void SetAsRoot(IScene scene)
+        {
+            // var mProjectTreeService = _container.Resolve<IProjectTreeService>();
+            //var commandManager = _container.Resolve<ICommandManager>();
+            // var menuService = _container.Resolve<IMenuService>();
+            // var dbService = _container.Resolve<IDatabaseService>();
+
+            //---------------------------------------------
+            //Projekt Tree
+            //---------------------------------------------
+            //todo nur ein Projekt!!
+            //ptS.SetProject();
+          //  SceneItems.Clear();
+            RootItem = null;
+
+          //  FileCategoryModel root = new FileCategoryModel(null, null) { Name = "RootNode" };
+            //AuftragModel order = new AuftragModel(root, dbS) { Name = "Auftrag Neu", IsExpanded = true };
+            //root.Items.Add(scene);
+            SelectedScene = scene;
+            RootItem = SelectedScene;
+        }
+
         /// <summary>
         /// Root Item
         /// </summary>
         public IScene RootItem
         {
             get { return mRootItem; }
-            set
+            private set
             {
                 if (RootItem != value)
                 {

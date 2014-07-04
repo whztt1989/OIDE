@@ -27,7 +27,9 @@ namespace OIDE.Scene.Interface.Services
 
         TreeList TreeList { get; set; }
 
-        IScene RootItem { get; set; }
+        IScene RootItem { get; }
+
+        void SetAsRoot(IScene scene);
 
         bool AddScene(IScene scene);
 

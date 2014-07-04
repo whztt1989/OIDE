@@ -18,7 +18,7 @@ using Microsoft.Practices.Unity;
 
 namespace OIDE.Scene.Model
 {
-    public class PhysicsObjectModel : ISceneItem
+    public class PhysicsObjectModel : ISceneItem , ISceneNode
     {
         ICommand CmdSave;
         public String ContentID { get; set; }
@@ -27,6 +27,9 @@ namespace OIDE.Scene.Model
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
+
+        public scenenode.Node Node { get; set; }
+
 
         public Int32 ID { get; set; }
         [XmlAttribute]
@@ -99,6 +102,9 @@ namespace OIDE.Scene.Model
         {
             UnityContainer = container;
             Parent = parent;
+            
+            //treeview!!!
+            //https://97382ac7-a-62cb3a1a-s-sites.googlegroups.com/site/mynetsamples/Home/HeterogeneousHierarchicalGrid_dotnetlearning.zip?attachauth=ANoY7cpVpx5NrxBapNDAY1J9TVZWnC3BbjAV_9eW3oEODR3KipOEtme6DajN31YDXndxPDnBb0IthlB2b3v72ODqSuwSkGoncu4flFwGAN7W1-sFmoOazjUzNwNyEiIiLtaW-iq05MJ8UCZicgNm4AEGonLl-JzzQkkuqP6dugIIxUioXowS9buLI8FDuTvj167BxnXqs6a7tbROPI9d5v_7_Y2soGpuAlP9P64EiaXqdDPD3pZbBEHQkTeOovCu2naswMlbMxCVMpYxXOr1irMwZWHWJcCf1A%3D%3D&attredirects=0
 
             ID = id;
             IDAL dbI = new IDAL();
