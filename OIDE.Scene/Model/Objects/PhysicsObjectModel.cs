@@ -9,16 +9,17 @@ using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
-using PInvokeWrapper.DLL;
 using Module.Properties.Interface;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Xml.Serialization;
 using OIDE.DAL;
 using Microsoft.Practices.Unity;
+using Module.Protob.Utilities;
+using OIDE.EditorInterop.DLL;
 
 namespace OIDE.Scene.Model
 {
-    public class PhysicsObjectModel : ISceneItem , ISceneNode
+    public class PhysicsObjectModel : ISceneItem , ISceneNode, IGameEntity
     {
         ICommand CmdSave;
         public String ContentID { get; set; }
@@ -27,11 +28,17 @@ namespace OIDE.Scene.Model
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
+      
+        public ProtoType.Node Node { get; set; }
+        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
 
-        public scenenode.Node Node { get; set; }
+        public object DBData { get; private set; }
+        private ProtoType.PhysicsObject mData;
+        [Category("Conections")]
+        [Description("This property is a complex property and has no default editor.")]
+        [ExpandableObject]
+        public object ProtoData  {  get { return mData; } }
 
-
-        public Int32 ID { get; set; }
         [XmlAttribute]
         public String Name { get; set; }
 
@@ -60,20 +67,7 @@ namespace OIDE.Scene.Model
         [XmlIgnore]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        private gameentity.PhysicsObject mData;
 
-        [Category("Conections")]
-        [Description("This property is a complex property and has no default editor.")]
-        [ExpandableObject]
-        public gameentity.PhysicsObject Data
-        {
-            get
-            {
-
-                return mData;
-            }
-            set { mData = value; }
-        }
         //private object mtest;
 
         //[Editor(typeof(ByteArrayUserControlEditor), typeof(ByteArrayUserControlEditor))]
@@ -92,41 +86,68 @@ namespace OIDE.Scene.Model
 
 
         public Boolean Open() { return true; }
-        public Boolean Save() { return true; }
+        public Boolean Save() {
+
+            try
+            {
+                (DBData as OIDE.DAL.MDB.GameEntity).Data = ProtoSerialize.Serialize(ProtoData);
+
+                if ((DBData as OIDE.DAL.MDB.GameEntity).EntID > 0)
+                    m_dbI.updateGameEntity(DBData as OIDE.DAL.MDB.GameEntity);
+                else
+                {
+                    (DBData as OIDE.DAL.MDB.GameEntity).EntType = (decimal)ProtoType.EntityTypes.NT_Physic;
+                    m_dbI.insertGameEntity(DBData as OIDE.DAL.MDB.GameEntity);
+                }
+
+                if (DLL_Singleton.Instance.EditorInitialized)
+                    DLL_Singleton.Instance.consoleCmd("cmd physic " + (DBData as OIDE.DAL.MDB.GameEntity).EntID); //.updateObject(0, (int)ObjType.Physic);
+
+            }
+            catch (Exception ex)
+            {
+                //     MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+            return true;
+        }
         public Boolean Delete() { return true; }
 
         public IUnityContainer UnityContainer { get; private set; }
 
-        public PhysicsObjectModel(IItem parent,IUnityContainer container,Int32 id = -1)
+        public IDAL IDAL { get { return m_dbI; } }
+
+        private IDAL m_dbI;
+
+        public PhysicsObjectModel(IItem parent,IUnityContainer container, IDAL dbI = null,Int32 id = 0)
        //     : base(commandManager, menuService)
         {
             UnityContainer = container;
             Parent = parent;
-            
+            Node = new ProtoType.Node();
+
             //treeview!!!
             //https://97382ac7-a-62cb3a1a-s-sites.googlegroups.com/site/mynetsamples/Home/HeterogeneousHierarchicalGrid_dotnetlearning.zip?attachauth=ANoY7cpVpx5NrxBapNDAY1J9TVZWnC3BbjAV_9eW3oEODR3KipOEtme6DajN31YDXndxPDnBb0IthlB2b3v72ODqSuwSkGoncu4flFwGAN7W1-sFmoOazjUzNwNyEiIiLtaW-iq05MJ8UCZicgNm4AEGonLl-JzzQkkuqP6dugIIxUioXowS9buLI8FDuTvj167BxnXqs6a7tbROPI9d5v_7_Y2soGpuAlP9P64EiaXqdDPD3pZbBEHQkTeOovCu2naswMlbMxCVMpYxXOr1irMwZWHWJcCf1A%3D%3D&attredirects=0
 
-            ID = id;
-            IDAL dbI = new IDAL();
-            Byte[] res = dbI.selectPhysics(id);
-            Console.WriteLine(BitConverter.ToString(res));
+            if (dbI != null)
+                m_dbI = dbI;
+            else
+                m_dbI = new IDAL();
+
+            DBData = m_dbI.selectGameEntity(id);
+           // Console.WriteLine(BitConverter.ToString(res));
             try
             {
-                using (MemoryStream stream = new MemoryStream(res))
-                {
-                    mData = ProtoBuf.Serializer.Deserialize<gameentity.PhysicsObject>(stream);
-                }
+                mData = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>((DBData as OIDE.DAL.MDB.GameEntity).Data);       
             }catch
             {
-                mData = new gameentity.PhysicsObject();
+              //  mData = new ProtoType.PhysicsObject();
             }
-            //using (StreamReader outputStream = new StreamReader("DataFile.dat"))
-            //{
-            //    // read from a file
-            //    mData = ProtoBuf.Serializer.Deserialize<Person>(outputStream.BaseStream);
-            //}
 
-            CmdSave = new CmdSave(this);
+            /// ???????????????????????????
+            SceneNode = new DAL.MDB.SceneNodes();
+
+
+            CmdSave = new CmdSavePhysicObject(this);
            //  mtest = new Byte[10];
             Items = new CollectionOfIItem();
             SceneItems = new ObservableCollection<ISceneItem>();
@@ -134,7 +155,7 @@ namespace OIDE.Scene.Model
     }
 
 
-    public class CmdSave : ICommand
+    public class CmdSavePhysicObject : ICommand
     {
         private PhysicsObjectModel mpm;
         public event EventHandler CanExecuteChanged;
@@ -146,26 +167,10 @@ namespace OIDE.Scene.Model
 
         public void Execute(object parameter)
         {
-            IDAL dbI = new IDAL();
-
-            // To serialize the hashtable and its key/value pairs,  
-            // you must first open a stream for writing. 
-            // In this case, use a file stream.
-            using (MemoryStream inputStream = new MemoryStream())
-            {
-                // write to a file
-                ProtoBuf.Serializer.Serialize(inputStream, mpm.Data);
-
-                if (mpm.ID > -1)
-                    dbI.updatePhysics(mpm.ID, inputStream.ToArray());
-                else
-                    dbI.insertPhysics(mpm.ID, inputStream.ToArray());
-            }
-
-            DLL_Singleton.Instance.consoleCmd("cmd physic 0"); //.updateObject(0, (int)ObjType.Physic);
+            mpm.Save();
         }
 
-        public CmdSave(PhysicsObjectModel pm)
+        public CmdSavePhysicObject(PhysicsObjectModel pm)
         {
             mpm = pm;
         }

@@ -81,21 +81,19 @@ namespace OIDE.DAL
 
         #region Physics
 
-        public bool insertPhysics(int id, byte[] data)
+        public bool insertGameEntity(GameEntity po)
         {
-            PhysicObject tmp = new PhysicObject() { Data = data };
-            mCtx.PhysicObject.Add(tmp);
+            mCtx.GameEntity.Add(po);
             mCtx.SaveChanges();
-            id = (int)tmp.PO_ID;
             return true;
         }
 
-        public bool updatePhysics(int id, byte[] data)
+        public bool updateGameEntity(GameEntity po)
         {
-            var result = mCtx.PhysicObject.Where(x => x.PO_ID == id);
+            var result = mCtx.GameEntity.Where(x => x.EntID == po.EntID);
             if (result.Any())
             {
-                result.First().Data = data;
+                result.First().Data = po.Data;
                 mCtx.SaveChanges();
                 return true;
             }
@@ -103,22 +101,22 @@ namespace OIDE.DAL
                 return false;
         }
 
-        public byte[] selectPhysics(int id)
+        public GameEntity selectGameEntity(int id)
         {
             try
             {
-                var result = mCtx.PhysicObject.Where(x => x.PO_ID == id);
+                var result = mCtx.GameEntity.Where(x => x.EntID == id);
                 if (result.Any())
-                {
-                    return result.First().Data;
-                }
+                    return result.First();
+                else
+                    return new GameEntity();
             }
              catch(Exception ex)
             {
            //     MessageBox.Show("dreck_" + id + "_!!!!");
             }
-             
-            return new byte[0];
+
+            return new GameEntity();
         }
 
         #endregion
@@ -126,21 +124,25 @@ namespace OIDE.DAL
 
         #region Scene
 
-        public bool insertScene(int id, byte[] data)
+        public bool insertScene(Scene scene)
         {
-            Scene tmp = new Scene() { Data = data };
-            mCtx.Scene.Add(tmp);
+           // Scene tmp = new Scene() { Data = data };
+            mCtx.Scene.Add(scene);
             mCtx.SaveChanges();
-            id = (int)tmp.SceneID;
+           // id = (int)tmp.SceneID;
             return true;
         }
 
-        public bool updateScene(int id, byte[] data)
+        public bool updateScene(Scene scene)
         {
-            var result = mCtx.Scene.Where(x => x.SceneID == id);
+            var result = mCtx.Scene.Where(x => x.SceneID == scene.SceneID);
             if (result.Any())
             {
-                result.First().Data = data;
+                Scene sceneTmp = result.First();
+                sceneTmp.Data = scene.Data;
+                sceneTmp.FogID = scene.FogID;
+                sceneTmp.SkyID = scene.SkyID;
+                sceneTmp.TerrID = scene.TerrID;
                 mCtx.SaveChanges();
                 return true;
             }
@@ -187,26 +189,72 @@ namespace OIDE.DAL
 
             return null;
         }
-        public IEnumerable<SceneContainer> selectCompleteScene(int id)
+
+
+        public bool insertSceneNode(SceneNodes sceneNode)
+        {
+            mCtx.SceneNodes.Add(sceneNode);
+            mCtx.SaveChanges();
+            return true;
+        }
+
+        public bool updateSceneNode(SceneNodes sceneNode)
+        {
+            var result = mCtx.SceneNodes.Where(x => x.NodeID == sceneNode.NodeID);
+            if (result.Any())
+            {
+                var scenNode = result.First();
+                scenNode.Data = sceneNode.Data;
+                scenNode.SceneID = sceneNode.SceneID;
+                scenNode.EntID = sceneNode.EntID;
+                mCtx.SaveChanges();
+                return true;
+            }
+            else
+                return false;
+        }
+
+        //public IEnumerable<SceneContainer> selectCompleteScene(int id)
+        //{
+        //    try
+        //    {
+        //        var result = from n in mCtx.Scene
+
+        //                     join nj in mCtx.SceneNodes on n.SceneID equals nj.SceneID into gj
+        //                     from node in gj.DefaultIfEmpty()
+
+        //                     join oj in mCtx.GameEntity on node.EntID equals oj.EntID into gjo
+        //                     from gameEnt in gjo.DefaultIfEmpty()
+
+        //                     where n.SceneID == id
+        //                     select new SceneContainer { Scene = n, Nodes = node, GameEntity = gameEnt };
+
+        //        //  var result = mCtx.Scene.Where(x => x.SceneID == id);
+        //        if (result.Any())
+        //        {
+        //            return result;//.Data;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //     MessageBox.Show("dreck_" + id + "_!!!!");
+        //    }
+
+        //    return null;
+        //}
+
+        public IEnumerable<Scene> selectAllScenesDataOnly()
         {
             try
             {
                 var result = from n in mCtx.Scene
-
-                             join nj in mCtx.SceneNodes on n.SceneID equals nj.SceneID into gj
-                             from node in gj.DefaultIfEmpty()
-
-                             join oj in mCtx.GameEntity on node.EntID equals oj.EntID into gjo
-                             from gameEnt in gjo.DefaultIfEmpty()
-
-                             where n.SceneID == id
-                             select new SceneContainer { Scene = n, Nodes = node, GameEntity = gameEnt };
+                             select n;
 
                 //  var result = mCtx.Scene.Where(x => x.SceneID == id);
                 if (result.Any())
-                {
                     return result;//.Data;
-                }
+                else
+                    return null;
             }
             catch (Exception ex)
             {
@@ -226,9 +274,9 @@ namespace OIDE.DAL
 
                 //  var result = mCtx.Scene.Where(x => x.SceneID == id);
                 if (result.Any())
-                {
                     return result.First();//.Data;
-                }
+                else
+                    return new Scene();
             }
             catch (Exception ex)
             {

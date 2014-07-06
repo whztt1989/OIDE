@@ -29,15 +29,18 @@ namespace OIDE.Scene.View
     {
          IPropertiesService mPropertiesService;
         ISceneService mSceneService;
-
+        IUnityContainer mcontainer;
         public SceneGraphToolView(IUnityContainer container)
         {
             InitializeComponent();
-       
+
+
+            mcontainer = container;
+
             mPropertiesService = container.Resolve<IPropertiesService>();
 
             mSceneService = container.Resolve<ISceneService>();
-            mSceneService.TreeList = _treeList;
+            //mSceneService.TreeList = _treeList;
            
         }
 
@@ -72,55 +75,74 @@ namespace OIDE.Scene.View
         {
             ContextMenu tmp = (ContextMenu)sender;
 
+            tmp.ItemsSource = mSceneService.SelectedScene.SelectedItem.MenuOptions;
+
             //multiple items selected
-            if (_treeList.SelectedItems.Count > 1)
-            {
-                List<MenuItem> lmi = new List<MenuItem>();
-                lmi.Add(new MenuItem() { Header = "Multiselected!" });
-                tmp.ItemsSource = lmi;
-            }
-            //one item selected
-            else if(_treeList.SelectedItem != null)
-            {
-                tmp.ItemsSource = mSceneService.SelectedScene.SelectedItem.MenuOptions;
-            }
-            //just rootitem exists
-            else if (_treeList.RootItem != null)
-            {
-                tmp.ItemsSource = mSceneService.RootItem.MenuOptions;
-            }
+            //if (_treeList.SelectedItems.Count > 1)
+            //{
+            //    List<MenuItem> lmi = new List<MenuItem>();
+            //    lmi.Add(new MenuItem() { Header = "Multiselected!" });
+            //    tmp.ItemsSource = lmi;
+            //}
+            ////one item selected
+            //else if(_treeList.SelectedItem != null)
+            //{
+            //    tmp.ItemsSource = mSceneService.SelectedScene.SelectedItem.MenuOptions;
+            //}
+            ////just rootitem exists
+            //else if (_treeList.RootItem != null)
+            //{
+            //    tmp.ItemsSource = mSceneService.RootItem.MenuOptions;
+            //}
 
             //nothing selected          
         }
 
         private void _treeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TreeList tmp = (TreeList)sender;
-            if (tmp != null)
-            {
-                TreeNode tn = tmp.SelectedNode;
-                if (tn != null)
-                {
-                    mSceneService.SelectedScene.SelectedItem = (ISceneItem)tn.Tag;
-                    mPropertiesService.CurrentItem = (ISceneItem)tn.Tag;
-                }
-            }
+        
         }
 
         private void _treeList_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            if (mSceneService.SelectedScene == null)
+            //if (mSceneService.SelectedScene == null)
+            //{
+            //    e.Handled = true;
+            //}
+            //else if (
+            //    (mSceneService.SelectedScene.SelectedItem == null
+            //    || mSceneService.SelectedScene.SelectedItem.MenuOptions == null)
+            //    && _treeList.RootItem == null )
+            //{
+            //    e.Handled = true;
+            //}
+        }
+
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            TreeView tmp = (TreeView)sender;
+            if (tmp != null)
             {
-                e.Handled = true;
-            }
-            else if (
-                (mSceneService.SelectedScene.SelectedItem == null
-                || mSceneService.SelectedScene.SelectedItem.MenuOptions == null)
-                && _treeList.RootItem == null )
-            {
-                e.Handled = true;
+                ISceneItem tn = tmp.SelectedItem as ISceneItem;
+                if (tn != null)
+                {
+                    mSceneService.SelectedScene.SelectedItem = tn;
+                    mPropertiesService.CurrentItem = tn;
+                }
             }
         }
+
+  //      private void Button_Click(object sender, RoutedEventArgs e)
+  //      {
+  //      }
+
+
+  //      private void Button_Click_2(object sender, RoutedEventArgs e)
+  //      {
+  //ISceneService sv = mcontainer.Resolve<ISceneService>();
+  //          sv.SelectedScene.SceneItems.Add(new SceneCategoryModel() {Name= "sdfsdf" });
+  //          sv.SelectedScene.Items.Add(new SceneCategoryModel() { Name = "__sdfsdf" });
+  //      }
 
     }
 }

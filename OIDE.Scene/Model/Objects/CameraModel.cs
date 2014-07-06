@@ -21,7 +21,9 @@ namespace OIDE.Scene.Model
         public String ContentID { get; set; }
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
-        public scenenode.Node Node { get; set; }
+        public ProtoType.Node Node { get; set; }
+        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
+
 
         public Int32 ID { get; set; }
         public String Name { get; set; }
@@ -64,7 +66,12 @@ namespace OIDE.Scene.Model
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
         public IItem Parent { get; private set; }
 
-        public Boolean Open() { return true; }
+        public Boolean Open() {
+
+            //todo ! from db
+           // SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
+                        
+            return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 

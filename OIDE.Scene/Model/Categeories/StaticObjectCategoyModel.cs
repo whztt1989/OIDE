@@ -23,6 +23,8 @@ using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
+using System.Windows.Input;
+using OIDE.Scene.Model;
 
 namespace OIDE.Scene
 {
@@ -70,9 +72,37 @@ namespace OIDE.Scene
             SceneItems = new ObservableCollection<ISceneItem>();
             MenuOptions = new List<MenuItem>();
 
-            MenuItem miAdd = new MenuItem() { Header = "Add Static Object" };
+            MenuItem miAdd = new MenuItem() { Command = new CmdCreateStaticObj(container), CommandParameter = this, Header = "Create static object" };
             MenuOptions.Add(miAdd);
+        }
+    }
 
+    public class CmdCreateStaticObj : ICommand
+    {
+        private IUnityContainer mContainer;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            StaticObjectCategoyModel parent = parameter as StaticObjectCategoyModel;
+
+            StaticObjectModel pom = new StaticObjectModel(parent, parent.UnityContainer) { Name = "Static Obj NEW", ContentID = "StaticEntID:##" };
+
+            pom.Save();
+
+            parent.Items.Add(pom);
+
+            ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+        }
+
+        public CmdCreateStaticObj(IUnityContainer container)
+        {
+            mContainer = container;
         }
     }
 }

@@ -26,6 +26,7 @@ using System.Xml.Serialization;
 using OIDE.Scene.Model;
 using OIDE.Scene;
 using Microsoft.Practices.Unity;
+using OIDE.Scene.Interface.Services;
 
 
 namespace OIDE.Core
@@ -84,7 +85,7 @@ namespace OIDE.Core
         ICommand m_cmdCreateScene;
 
         public IUnityContainer UnityContainer { get; private set; }
-        
+
         public ScenesListModel()
             : base(null, null)
         {
@@ -92,16 +93,33 @@ namespace OIDE.Core
         }
 
         public ScenesListModel(IItem parent, IUnityContainer container) :
-            base(parent , container)
+            base(parent, container)
         {
             UnityContainer = container;
             //m_CommandManager = commandManager;
             //m_MenuService = menuService;
+            ISceneService sceneService = container.Resolve<ISceneService>();
+            OIDE.DAL.IDAL iDAL = new OIDE.DAL.IDAL();
+            
+            var allScenes =  iDAL.selectAllScenesDataOnly();
+
+            foreach (var scene in allScenes)
+            {
+                SceneDataModel sceneProto2 = new SceneDataModel(this, container) { Name = "Scene_" + scene.SceneID, ContentID = "SceneID:##:" + scene.SceneID };
+                sceneService.AddScene(sceneProto2);
+                this.Items.Add(sceneProto2);
+            }
 
             MenuOptions = new List<MenuItem>();
             m_cmdCreateScene = new CmdCreateScene(this);
-            MenuItem mib1a = new MenuItem() { Header = "Create Scene", Command = m_cmdCreateScene , CommandParameter = this};
+            MenuItem mib1a = new MenuItem() { Header = "Create Scene", Command = m_cmdCreateScene, CommandParameter = this };
             MenuOptions.Add(mib1a);
+
+            //SceneDataModel sceneProto1 = new SceneDataModel(this, container) { Name = "Scene1.proto", ContentID = "SceneID:##:0" };
+            //sceneService.AddScene(sceneProto1);
+     
+            //this.Items.Add(sceneProto1);
+           
         }
     }
 }

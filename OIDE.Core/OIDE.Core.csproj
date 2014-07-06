@@ -83,6 +83,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\OIDE.Scene.dll</HintPath>
     </Reference>
+    <Reference Include="OIDE.VFS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\OIDE.VFS.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -105,6 +110,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreModule.cs" />
+    <Compile Include="Model\GameEntityFileModel.cs" />
+    <Compile Include="Model\GameDBFileModel.cs" />
     <Compile Include="Model\ScenesListModel.cs" />
     <Compile Include="Model\FilterModel.cs" />
     <Compile Include="ProjectTypes\Handler\GameProjectHandler.cs" />
@@ -129,8 +136,6 @@
     </Compile>
     <Compile Include="Settings\EditorOptions.cs" />
     <Compile Include="Settings\MDSettingsItem.cs" />
-    <Compile Include="Utils\Commands\Command.cs" />
-    <Compile Include="Utils\Commands\CommandStack.cs" />
     <Compile Include="Utils\Singleton.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

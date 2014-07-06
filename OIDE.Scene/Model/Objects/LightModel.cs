@@ -18,9 +18,10 @@ namespace OIDE.Scene.Model
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-        public scenenode.Node Node { get; set; }
-
-
+        public ProtoType.Node Node { get; set; }
+        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
+        
+        
         public String ContentID { get; set; }
 
         public TreeNode TreeNode { get; set; }

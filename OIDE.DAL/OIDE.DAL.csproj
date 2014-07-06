@@ -38,10 +38,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\OIDE\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Validation">
-      <HintPath>..\ComID-Mgr\extlibs\Microsoft.Practices.EnterpriseLibrary.Validation.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Wide\Libs\Microsoft.Practices.Prism.dll</HintPath>
@@ -124,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreModule.cs" />
+    <Compile Include="DBFileModel.cs" />
     <Compile Include="IDAL.cs" />
     <Compile Include="MDB\EDM_GameData.Context.cs">
       <AutoGen>True</AutoGen>
@@ -152,9 +149,6 @@
     <Compile Include="MDB\MatUsedInScene.cs">
       <DependentUpon>EDM_GameData.tt</DependentUpon>
     </Compile>
-    <Compile Include="MDB\PhysicObject.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
-    </Compile>
     <Compile Include="MDB\PhysUsedInScene.cs">
       <DependentUpon>EDM_GameData.tt</DependentUpon>
     </Compile>
@@ -177,7 +171,6 @@
     <Compile Include="DBCategoyModel.cs" />
     <Content Include="Readme.txt" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

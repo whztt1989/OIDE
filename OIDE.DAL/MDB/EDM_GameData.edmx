@@ -36,13 +36,6 @@ Warnung 6002: Für Tabelle/Sicht 'main.MatUsedInScene' ist kein Primärschlüsse
           <Property Name="SceneID" Type="integer" Nullable="false" />
           <Property Name="MatID" Type="integer" />
         </EntityType>
-        <EntityType Name="PhysicObject">
-          <Key>
-            <PropertyRef Name="PO_ID" />
-          </Key>
-          <Property Name="PO_ID" Type="integer" Nullable="false" />
-          <Property Name="Data" Type="blob" />
-        </EntityType>
         <!--Während der Generierung sind Fehler aufgetreten:
 Warnung 6002: Für Tabelle/Sicht 'main.PhysUsedInScene' ist kein Primärschlüssel definiert. Der Schlüssel wurde abgeleitet, und die Definition wurde als schreibgeschützte Tabelle/Sicht erstellt.-->
         <EntityType Name="PhysUsedInScene">
@@ -96,7 +89,6 @@ Warnung 6002: Für Tabelle/Sicht 'main.PhysUsedInScene' ist kein Primärschlüss
           <EntitySet Name="Fog" EntityType="Self.Fog" store:Type="Tables" />
           <EntitySet Name="GameEntity" EntityType="Self.GameEntity" store:Type="Tables" />
           <EntitySet Name="Material" EntityType="Self.Material" store:Type="Tables" />
-          <EntitySet Name="PhysicObject" EntityType="Self.PhysicObject" store:Type="Tables" />
           <EntitySet Name="Race" EntityType="Self.Race" store:Type="Tables" />
           <EntitySet Name="Scene" EntityType="Self.Scene" store:Type="Tables" />
           <EntitySet Name="SceneNodes" EntityType="Self.SceneNodes" store:Type="Tables" />
@@ -123,7 +115,6 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
           <EntitySet Name="Fog" EntityType="gameDataModel.Fog" />
           <EntitySet Name="GameEntity" EntityType="gameDataModel.GameEntity" />
           <EntitySet Name="Material" EntityType="gameDataModel.Material" />
-          <EntitySet Name="PhysicObject" EntityType="gameDataModel.PhysicObject" />
           <EntitySet Name="Race" EntityType="gameDataModel.Race" />
           <EntitySet Name="SceneNodes" EntityType="gameDataModel.SceneNodes" />
           <EntitySet Name="Sky" EntityType="gameDataModel.Sky" />
@@ -153,13 +144,6 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
           </Key>
           <Property Name="MatID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Data" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="PhysicObject">
-          <Key>
-            <PropertyRef Name="PO_ID" />
-          </Key>
-          <Property Name="PO_ID" Type="Int64" Nullable="false" />
-          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
         </EntityType>
         <EntityType Name="Race">
           <Key>
@@ -243,14 +227,6 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
               <MappingFragment StoreEntitySet="Material">
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="MatID" ColumnName="MatID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PhysicObject">
-            <EntityTypeMapping TypeName="gameDataModel.PhysicObject">
-              <MappingFragment StoreEntitySet="PhysicObject">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="PO_ID" ColumnName="PO_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

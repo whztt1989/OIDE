@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Module.History.Service;
 using OIDE.DAL;
 using OIDE.Scene.Model;
-using PInvokeWrapper.DLL;
 
 namespace OIDE.Scene.Commands
 {
@@ -88,10 +88,16 @@ namespace OIDE.Scene.Commands
         }
     }
 
-    public class CmdSaveScene : ICommand
+    public class CmdSaveScene : IHistoryCommand
     {
         private SceneDataModel mpm;
         public event EventHandler CanExecuteChanged;
+
+        public bool CanRedo() { return true; }
+        public bool CanUndo() { return true; }
+        public void Redo() { }
+        public string ShortMessage() { return "Save Scene"; }
+        public void Undo() { }
 
         public bool CanExecute(object parameter)
         {

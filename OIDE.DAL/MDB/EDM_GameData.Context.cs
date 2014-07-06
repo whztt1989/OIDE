@@ -28,7 +28,6 @@ namespace OIDE.DAL.MDB
         public DbSet<Fog> Fog { get; set; }
         public DbSet<GameEntity> GameEntity { get; set; }
         public DbSet<Material> Material { get; set; }
-        public DbSet<PhysicObject> PhysicObject { get; set; }
         public DbSet<Race> Race { get; set; }
         public DbSet<SceneNodes> SceneNodes { get; set; }
         public DbSet<Sky> Sky { get; set; }

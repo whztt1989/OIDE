@@ -10,6 +10,14 @@ namespace OIDE.Scene.Interface.Services
 {
     public interface ISceneNode
     {
-        scenenode.Node Node { get; set; }
+        /// <summary>
+        /// scenenode from database
+        /// </summary>
+        OIDE.DAL.MDB.SceneNodes SceneNode { get; }
+                    
+        /// <summary>
+        /// deserialized node data
+        /// </summary>
+        ProtoType.Node Node { get; set; }
     }
 }

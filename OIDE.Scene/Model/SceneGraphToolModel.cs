@@ -16,9 +16,13 @@ using System.Collections.ObjectModel;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
+using Module.PFExplorer.Interface.Services;
+using Module.Properties.Interface;
+using OIDE.Scene.Model;
 
 namespace OIDE.Scene
 {
+
     /// <summary>
     /// Class TextModel which contains the text of the document
     /// </summary>
@@ -30,8 +34,25 @@ namespace OIDE.Scene
 
         //public ObservableCollection<ContentModel> Items { get { return mItems; } }
 
-        public ObservableCollection<ISceneItem> Items { get { return m_SceneService.SelectedScene.SceneItems; } }
+        IProjectTreeService mProjectTreeService;
 
+        //  ObservableCollection<ContentModel> mItems;
+
+     //   public CollectionOfIItem Items { get { return mProjectTreeService.Items; } }
+        ObservableCollection<ISceneItem> schjrott;
+        public ObservableCollection<ISceneItem> Items
+        { 
+            get { return schjrott; }
+            set { schjrott = value; RaisePropertyChanged("Items"); }
+        }
+
+
+
+        //public ObservableCollection<ISceneItem> Items { 
+        //    get { 
+        //        return m_SceneService.SceneItems;
+        //    }
+        //}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
@@ -42,8 +63,14 @@ namespace OIDE.Scene
         {
       //      container.Resolve<ICommandManager>(), container.Resolve<IMenuService>()
      //       ISceneService sceneService, ICommandManager commandManager, IMenuService menuService
+            mProjectTreeService = container.Resolve<IProjectTreeService>();
+
+            mProjectTreeService.Items = new CollectionOfIItem();
 
             m_SceneService = container.Resolve<ISceneService>();
+            Items = new ObservableCollection<ISceneItem>();
+         //   m_SceneService.SelectedScene = new SceneDataModel();
+            m_SceneService.SGTM = this;
             //Service für project contextmenu buttons .....
             //tray.ContextMenu = new ContextMenu();
             //tray.ContextMenu.ItemsSource = _children;
@@ -84,5 +111,6 @@ namespace OIDE.Scene
             this.HTMLResult = transform;
             RaisePropertyChanged("HTMLResult");
         }
-    }
+    } 
+    
 }

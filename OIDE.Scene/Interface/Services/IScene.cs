@@ -11,8 +11,10 @@ namespace OIDE.Scene.Interface.Services
 {
     public interface IScene : IItem
     {
-        ObservableCollection<ISceneItem> SceneItems { get; }
-   
+        ObservableCollection<ISceneItem> SceneItems { get; set; }
+
+        DAL.MDB.Scene SceneData { get; }
+
         bool AddItem(ISceneItem item);
 
         ISceneItem SelectedItem { get; set; }

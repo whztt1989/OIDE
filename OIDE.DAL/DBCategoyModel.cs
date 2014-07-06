@@ -68,6 +68,10 @@ namespace OIDE.DAL
             mib1a.Header = "Text.xaml";
             MenuOptions.Add(mib1a);
 
+
+
+         
+
         }
     }
 }

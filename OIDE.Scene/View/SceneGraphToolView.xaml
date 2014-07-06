@@ -10,16 +10,21 @@
              d:DesignWidth="600" 
               xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=Wpf.DragDrop"
      
-             
+               xmlns:handlers="clr-namespace:OIDE.Scene.Handlers"
+           
              	xmlns:tree="clr-namespace:OIDE.Scene"
 
             
              >
     <UserControl.Resources>
+
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary x:Name="ThemeDictionary">
+
                     <ResourceDictionary.MergedDictionaries>
+
                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
@@ -100,7 +105,11 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <handlers:SceneGraphToolViewDragHandler x:Key="SceneGraphToolViewDragHandler" />
+            <handlers:SceneGraphToolViewDropHandler x:Key="SceneGraphToolViewDropHandler" />
+
         </ResourceDictionary>
+
 
     </UserControl.Resources>
 
@@ -111,14 +120,15 @@
     fullrow:
     http://stackoverflow.com/questions/664632/highlight-whole-treeviewitem-line-in-wpf
     -->
-    <Grid  Background="{DynamicResource ControlHighlightedColorBrush}">
 
 
-        <tree:TreeList x:Name="_treeList" tree:ListViewLayoutManager.Enabled="true" SelectionChanged="_treeList_SelectionChanged"
+    <!--<tree:TreeList x:Name="_treeList" tree:ListViewLayoutManager.Enabled="true" SelectionChanged="_treeList_SelectionChanged"
                        ContextMenuOpening="_treeList_ContextMenuOpening" 
                          dd:DragDrop.IsDragSource="True"
                   dd:DragDrop.IsDropTarget="True"
-                  dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdorner}">
+                  dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdorner}"
+                       dd:DragDrop.DragHandler="{StaticResource SceneGraphToolViewDragHandler}"
+                  dd:DragDrop.DropHandler="{StaticResource SceneGraphToolViewDropHandler}">
             <ListView.Resources>
                 <ContextMenu  x:Key="RowContextMenu" Opened="ContextMenu_Opened"   >
 
@@ -127,7 +137,9 @@
             </ListView.Resources>
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
-                    <!--<EventSetter Event="PreviewMouseLeftButtonDown" Handler="OnListViewItem_PreviewMouseLeftButtonDown" />-->
+                    -->
+    <!--<EventSetter Event="PreviewMouseLeftButtonDown" Handler="OnListViewItem_PreviewMouseLeftButtonDown" />-->
+    <!--
 
                     <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}">
 
@@ -144,18 +156,24 @@
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
                     <GridView.Columns>
-                        <!--tree:RangeColumn.MaxWidth="{Binding ActualWidth, ElementName=_treeList, Mode=OneWay}"-->
+                        -->
+    <!--tree:RangeColumn.MaxWidth="{Binding ActualWidth, ElementName=_treeList, Mode=OneWay}"-->
+    <!--
 
                         <GridViewColumn  Header=""    tree:RangeColumn.IsFillColumn="true">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel  Orientation="Horizontal" CanHorizontallyScroll="True">
                                         <tree:RowExpander/>
-                                        <!--<Image Source="{Binding Converter={StaticResource RegImageConverter}}"  Margin="0, 0, 5, 0"/>-->
+                                        -->
+    <!--<Image Source="{Binding Converter={StaticResource RegImageConverter}}"  Margin="0, 0, 5, 0"/>-->
+    <!--
                                         <TextBlock Text="{Binding Name}">
-                                            <!--<TextBlock.ContextMenu>
+                                            -->
+    <!--<TextBlock.ContextMenu>
                                                 <ContextMenu ItemsSource="{Binding MenuOptions}"></ContextMenu>
                                             </TextBlock.ContextMenu>-->
+    <!--
                                         </TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
@@ -172,7 +190,8 @@
                     </GridView.Columns>
                 </GridView>
             </tree:TreeList.View>
-            <!--<tree:TreeList.ItemTemplate>
+            -->
+    <!--<tree:TreeList.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">                      
                         <tree:RowExpander/>
@@ -202,9 +221,10 @@
                     </DataTemplate.Triggers>
                 </DataTemplate>
             </tree:TreeList.ItemTemplate>-->
-        </tree:TreeList>
+    <!--
+        </tree:TreeList>-->
 
-        <!--<TreeView  ItemsSource="{Binding Items}" >
+    <!--<TreeView  ItemsSource="{Binding Items}" >
             <HierarchicalDataTemplate  ItemsSource="{Binding Items}" >
                 <TreeViewItem Foreground="Blue" Header="{Binding Name}" ContextMenu="{Binding ContextMenu}" />
                 <HierarchicalDataTemplate.ItemTemplate>
@@ -215,5 +235,58 @@
                 </HierarchicalDataTemplate.ItemTemplate>
             </HierarchicalDataTemplate>  
         </TreeView>-->
+    <Grid  Background="{DynamicResource ControlHighlightedColorBrush}">
+        <TreeView ItemsSource="{Binding Items}" 
+                   ContextMenuOpening="_treeList_ContextMenuOpening" 
+                  SelectedItemChanged="TreeView_SelectedItemChanged"
+                   dd:DragDrop.IsDragSource="True"
+                  dd:DragDrop.IsDropTarget="True"
+                  dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdorner}"
+                  >
+        <TreeView.Resources>
+            <ContextMenu  x:Key="RowContextMenu" Opened="ContextMenu_Opened"   >
+
+            </ContextMenu>
+
+        </TreeView.Resources>
+        <TreeView.ItemTemplate>
+
+            <HierarchicalDataTemplate ItemsSource="{Binding Items}" >
+                <TextBlock Foreground="Red" Text="{Binding Name}" />
+
+                <HierarchicalDataTemplate.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Items}">
+                        <TextBlock Text="{Binding Name}" >
+                            <TextBlock.InputBindings>
+                                <!--<MouseBinding Gesture="LeftDoubleClick" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=DataContext.OpenElementCommand}"  />-->
+                                <!--<MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenCommand}" />-->
+                            </TextBlock.InputBindings>
+                        </TextBlock>
+                    </HierarchicalDataTemplate>
+
+                </HierarchicalDataTemplate.ItemTemplate>
+            </HierarchicalDataTemplate>
+        </TreeView.ItemTemplate>
+
+        <TreeView.ItemContainerStyle>
+            <Style TargetType="{x:Type TreeViewItem}">
+                <!--<EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>-->
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                <!--<Setter Property="commandBehaviors:MouseDoubleClick.Command"  Value="{Binding YourCommand}"/>-->
+
+                <!--<EventSetter Event="MouseDoubleClick" Handler="ProjItemDoubleClick" />-->
+                <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
+                <!--<Setter Property="IsSelected" Value="{Binding Path=SelectedElement}"/>-->
+                <!--<Style.Triggers>
+                        <Trigger Property="IsSelected"  Value="{Binding IsSelected}">
+                        </Trigger>
+                    </Style.Triggers>-->
+
+            </Style>
+        </TreeView.ItemContainerStyle>
+
+    </TreeView>
+
+
     </Grid>
 </UserControl>

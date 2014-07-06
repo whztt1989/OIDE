@@ -25,11 +25,11 @@ namespace OIDE.Scene.Interface.Services
         /// <value>The themes.</value>
         ObservableCollection<IScene> Scenes { get; }
 
-        TreeList TreeList { get; set; }
+     //   TreeList TreeList { get; set; }
 
-        IScene RootItem { get; }
+      //  IScene RootItem { get; }
 
-        void SetAsRoot(IScene scene);
+      //  void SetAsRoot(IScene scene);
 
         bool AddScene(IScene scene);
 
@@ -42,7 +42,7 @@ namespace OIDE.Scene.Interface.Services
 
         IScene SelectedScene { get; set; }
 
-
+        SceneGraphToolModel SGTM { get; set; }
         /// <summary>
         /// Gets the right click menu.
         /// </summary>

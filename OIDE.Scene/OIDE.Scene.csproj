@@ -55,6 +55,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Wide\Build\External\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Module.History, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.History.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Module.PFExplorer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\Module.PFExplorer.dll</HintPath>
@@ -73,6 +78,16 @@
     <Reference Include="OIDE.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\OIDE.DAL.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OIDE.EditorInterop, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\OIDE.EditorInterop.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="OIDE.RenderImage, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\OIDE.RenderImage.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -132,23 +147,29 @@
     <Compile Include="Converter\TreeListItem.cs" />
     <Compile Include="Converter\TreeNode.cs" />
     <Compile Include="CoreModule.cs" />
+    <Compile Include="Handler\DragDrop\SceneGraphToolViewDragHandler.cs" />
+    <Compile Include="Handler\DragDrop\SceneGraphToolViewDropHandler.cs" />
     <Compile Include="Handler\SceneViewerHandler.cs" />
     <Compile Include="Interface\Events\ItemChangedEvent.cs" />
+    <Compile Include="Interface\Services\IGameEntity.cs" />
     <Compile Include="Interface\Services\IScene.cs" />
     <Compile Include="Interface\Services\ISceneNode.cs" />
     <Compile Include="Interface\Services\ISceneItem.cs" />
     <Compile Include="Interface\Services\ISceneService.cs" />
-    <Content Include="Model\Objects\CharacterModel.cs" />
     <Content Include="Model\Objects\AICharacterModel.cs" />
+    <Compile Include="Model\Categeories\CharacterCategoryModel.cs" />
     <Compile Include="Model\Categeories\PhysicCategoryModel.cs" />
     <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
     <Compile Include="Model\Objects\CameraModel.cs" />
     <Compile Include="Model\Categeories\StaticObjectCategoyModel.cs" />
+    <Compile Include="Model\Objects\CharacterModel.cs" />
     <Compile Include="Model\Objects\EnvironmentModel.cs" />
+    <Compile Include="Model\Objects\GenderModel.cs" />
     <Compile Include="Model\Objects\LightModel.cs" />
     <Compile Include="Model\Objects\PhysicsObjectModel.cs" />
     <Compile Include="Model\Categeories\SceneCategoyModel.cs" />
     <Compile Include="Model\Categeories\SceneFilterModel.cs" />
+    <Compile Include="Model\Objects\RaceModel.cs" />
     <Compile Include="Model\SceneDataModel.cs" />
     <Compile Include="Model\SceneGraphToolModel.cs" />
     <Compile Include="Model\SceneViewerModel.cs" />
@@ -159,9 +180,7 @@
     <Compile Include="Service\SceneManager.cs" />
     <Compile Include="Settings\EditorOptions.cs" />
     <Compile Include="Settings\MDSettingsItem.cs" />
-    <Compile Include="Types\GameEntity.cs" />
-    <Compile Include="Types\Scene.cs" />
-    <Compile Include="Types\SceneNode.cs" />
+    <Compile Include="Types\ProtoType.cs" />
     <Compile Include="Utils\XML\SampleScene3.cs">
       <DependentUpon>SampleScene3.xsd</DependentUpon>
     </Compile>
@@ -186,16 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\SType.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PInvokeWrapper\PInvokeWrapper.csproj">
-      <Project>{6bdcf9e5-128f-4daf-b913-02ccba5fdbd2}</Project>
-      <Name>PInvokeWrapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RenderImage\RenderImage.csproj">
-      <Project>{9f3b07c6-7c14-4afb-bf4b-8eb2fe81d361}</Project>
-      <Name>RenderImage</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\SceneData.xml" />

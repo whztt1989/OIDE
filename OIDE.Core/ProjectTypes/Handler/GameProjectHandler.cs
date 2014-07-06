@@ -86,18 +86,18 @@ namespace OIDE.Core.ProjectTypes.Handler
             //---------------------------------------------
             //Projekt Tree
             //---------------------------------------------
-            FileCategoryModel root = new FileCategoryModel(null, _container) { Name = "RootNode" };
+        //    FileCategoryModel root = new FileCategoryModel(null, _container) { Name = "RootNode" };
           
             //GameProjectModel test = new GameProjectModel(commandManager, menuService) { Name = "Test", IsExpanded = true };
             //root.Items.Add(test);
 
-            GameProjectModel gameProject = _container.Resolve<GameProjectModel>(); //new GameProjectModel(_container) { Name = "Game", IsExpanded = true };
-            gameProject.Name = "Game";
-            gameProject.IsExpanded = true;
-            root.Items.Add(gameProject);
+          //  GameProjectModel gameProject = _container.Resolve<GameProjectModel>(); //new GameProjectModel(_container) { Name = "Game", IsExpanded = true };
+            model.Name = "Game";
+            model.IsExpanded = true;
+         //   root.Items.Add(gameProject);
            
-            mProjectTreeService.Items.Add(root);
-            mProjectTreeService.SetAsRoot(root);
+          //  mProjectTreeService.Items.Add(root);
+            mProjectTreeService.SetAsRoot(model);
 
           
 
@@ -288,6 +288,9 @@ namespace OIDE.Core.ProjectTypes.Handler
         /// <returns>True, if valid from content ID - false, otherwise</returns>
         public bool ValidateContentFromId(string contentId)
         {
+            if (contentId == null)
+                return false;
+
             string[] split = Regex.Split(contentId, ":##:");
             if (split.Count() == 2)
             {

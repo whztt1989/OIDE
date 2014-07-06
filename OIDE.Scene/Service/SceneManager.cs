@@ -33,52 +33,52 @@ namespace OIDE.Scene.Service
         private readonly IEventAggregator _eventAggregator;
 
 
-        public TreeList TreeList { get; set; }
+     //   public TreeList TreeList { get; set; }
 
-        private IScene mRootItem;
+     //   private IScene mRootItem;
 
 
-        public void SetAsRoot(IScene scene)
-        {
-            // var mProjectTreeService = _container.Resolve<IProjectTreeService>();
-            //var commandManager = _container.Resolve<ICommandManager>();
-            // var menuService = _container.Resolve<IMenuService>();
-            // var dbService = _container.Resolve<IDatabaseService>();
+        //public void SetAsRoot(IScene scene)
+        //{
+        //    // var mProjectTreeService = _container.Resolve<IProjectTreeService>();
+        //    //var commandManager = _container.Resolve<ICommandManager>();
+        //    // var menuService = _container.Resolve<IMenuService>();
+        //    // var dbService = _container.Resolve<IDatabaseService>();
 
-            //---------------------------------------------
-            //Projekt Tree
-            //---------------------------------------------
-            //todo nur ein Projekt!!
-            //ptS.SetProject();
-          //  SceneItems.Clear();
-            RootItem = null;
+        //    //---------------------------------------------
+        //    //Projekt Tree
+        //    //---------------------------------------------
+        //    //todo nur ein Projekt!!
+        //    //ptS.SetProject();
+        //  //  SceneItems.Clear();
+        //  //  RootItem = null;
 
-          //  FileCategoryModel root = new FileCategoryModel(null, null) { Name = "RootNode" };
-            //AuftragModel order = new AuftragModel(root, dbS) { Name = "Auftrag Neu", IsExpanded = true };
-            //root.Items.Add(scene);
-            SelectedScene = scene;
-            RootItem = SelectedScene;
-        }
+        //  //  FileCategoryModel root = new FileCategoryModel(null, null) { Name = "RootNode" };
+        //    //AuftragModel order = new AuftragModel(root, dbS) { Name = "Auftrag Neu", IsExpanded = true };
+        //    //root.Items.Add(scene);
+        //    SelectedScene = scene;
+        //   // RootItem = SelectedScene;
+        //}
 
         /// <summary>
         /// Root Item
         /// </summary>
-        public IScene RootItem
-        {
-            get { return mRootItem; }
-            private set
-            {
-                if (RootItem != value)
-                {
-                    //TreeList setted in scene modul
-                    TreeList.RootItem = value;
-                    TreeList.Root.Children.Clear();
-                    TreeList.Rows.Clear();
-                    TreeList.CreateChildrenNodes(TreeList.Root);
-                    mRootItem = value;
-                }
-            }
-        }
+        //public IScene RootItem
+        //{
+        //    get { return mRootItem; }
+        //    private set
+        //    {
+        //        if (RootItem != value)
+        //        {
+        //            //TreeList setted in scene modul
+        //            TreeList.RootItem = value;
+        //            TreeList.Root.Children.Clear();
+        //            TreeList.Rows.Clear();
+        //            TreeList.CreateChildrenNodes(TreeList.Root);
+        //            mRootItem = value;
+        //        }
+        //    }
+        //}
         /// <summary>
         /// The injected logger
         /// </summary>
@@ -100,9 +100,11 @@ namespace OIDE.Scene.Service
             MenuItem mib1a = new MenuItem();
             mib1a.Header = "Text.xaml";
             ContextMenu.Items.Add(mib1a);
+
         }
 
-        
+        public SceneGraphToolModel SGTM { get; set; }
+       
 
         /// <summary>
         /// The current item selected
@@ -114,7 +116,11 @@ namespace OIDE.Scene.Service
             {
                 return mSelectedScene;
             }
-            set { mSelectedScene = value; }
+            set 
+            {
+                SGTM.Items = value.SceneItems;
+                mSelectedScene = value; 
+            }
         }
 
  

@@ -23,6 +23,7 @@ using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
+using System.Windows.Input;
 
 namespace OIDE.Scene
 {
@@ -69,10 +70,12 @@ namespace OIDE.Scene
             SceneItems = new ObservableCollection<ISceneItem>();
             MenuOptions = new List<MenuItem>();
 
-            MenuItem mib1a = new MenuItem();
-            mib1a.Header = "Text.xaml";
-            MenuOptions.Add(mib1a);
+            //MenuItem miAdd = new MenuItem() { Command = new CmdCreateStaticObj(container), CommandParameter = this, Header = "Create static object" };
+            //MenuOptions.Add(miAdd);
 
         }
     }
+
+
+   
 }

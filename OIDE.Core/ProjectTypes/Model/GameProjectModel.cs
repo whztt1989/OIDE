@@ -32,6 +32,8 @@ using OIDE.DAL;
 using Microsoft.Practices.Unity;
 using OIDE.Scene.Model;
 using OIDE.Scene.Interface.Services;
+using OIDE.Scene;
+using OIDE.VFS;
 
 namespace OIDE.Core
 {
@@ -104,8 +106,8 @@ namespace OIDE.Core
             get
             {
                 List<MenuItem> list = new List<MenuItem>();
-                MenuItem miSave = new MenuItem() { Header = "Save" };
-                list.Add(miSave);
+                list.Add(new MenuItem() { Header = "Add Item" });
+                list.Add(new MenuItem() { Header = "Save" });
                 return list;
             }
         }
@@ -213,65 +215,24 @@ namespace OIDE.Core
             //gameData.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService, 0) { Name = "PhysicObjects" });
             //m_Items.Add(gameData);
 
-            FileCategoryModel fileAssets = new FileCategoryModel(this, container) { Name = "AssetsArchive(ofg)" };
+            VFSModel fileAssets = new VFSModel(this, container) { Name = "AssetsArchive(ofg)" };
+            fileAssets.IsExpanded = true;
             m_Items.Add(fileAssets);
-            fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Meshes" });
-            fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Textures" });
-            fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Sounds" });
 
-            DBCategoryModel dbData = new DBCategoryModel(this, container) { Name = "DBData" };
+            //FileCategoryModel fileAssets = new FileCategoryModel(this, container) { Name = "AssetsArchive(ofg)" };
+            //m_Items.Add(fileAssets);
+            //fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Meshes" });
+            //fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Textures" });
+            //fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Sounds" });
 
-            DBCategoryModel dbRuntime = new DBCategoryModel(this, container) { Name = "Runtime Data" };
-            FileCategoryModel players = new FileCategoryModel(dbRuntime, container) { Name = "Players" };
-            FileCategoryModel player1 = new FileCategoryModel(players, container) { Name = "Player1" };
-            FileCategoryModel charsPlayer = new FileCategoryModel(player1, container) { Name = "Characters" };
-            FileCategoryModel char1Player = new FileCategoryModel(charsPlayer, container) { Name = "Character 1" };
-            charsPlayer.Items.Add(char1Player);
-            player1.Items.Add(charsPlayer);
-            players.Items.Add(player1);
-            dbRuntime.Items.Add(players);
-            dbData.Items.Add(dbRuntime);
+            //-----------------------------------------
+            //Customize Database category structure
+            //-----------------------------------------
+            GameDBFileModel dbData = new GameDBFileModel(this, container);
+            dbData.IsExpanded = true;
 
-            FileCategoryModel scriptMats = new FileCategoryModel(dbData, container) { Name = "Materials (Scripts)" };
-            FileCategoryModel mat1 = new FileCategoryModel(scriptMats, container) { Name = "MaterialsScript1" };
-            scriptMats.Items.Add(mat1);
-             dbData.Items.Add(scriptMats);
-
-             FileCategoryModel objects = new FileCategoryModel(dbData, container) { Name = "Objects" };
-
-             ScenesListModel scenesProto = new ScenesListModel(objects, container) { Name = "Scenes" };
            
-            SceneDataModel sceneProto1 = new SceneDataModel(scenesProto, container) { Name = "Scene1.proto", ContentID  = "SceneID:##:0"};
-            sceneService.AddScene(sceneProto1);
-            SceneDataModel sceneProto2 = new SceneDataModel(scenesProto, container) { Name = "Scene2.proto", ContentID = "SceneID:##:1" };
-            sceneService.AddScene(sceneProto2);
-           
-            scenesProto.Items.Add(sceneProto1);
-            scenesProto.Items.Add(sceneProto2);
-            objects.Items.Add(scenesProto);
 
-            DBCategoryModel staticObjects = new DBCategoryModel(objects, container) { Name = "Statics" };
-            FileCategoryModel object1 = new FileCategoryModel(staticObjects, container) { Name = "Floor" };
-            staticObjects.Items.Add(object1);
-            objects.Items.Add(staticObjects);
-
-            FileCategoryModel chars = new FileCategoryModel(objects, container) { Name = "Characters" };
-            FileCategoryModel race = new FileCategoryModel(chars, container) { Name = "Human" };
-            FileCategoryModel male = new FileCategoryModel(race, container) { Name = "Male" };
-            race.Items.Add(male);
-            chars.Items.Add(race);
-            objects.Items.Add(chars);
-
-            DBCategoryModel allPhysics = new DBCategoryModel(objects, container) { Name = "Physics" };
-            PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, container, 0) { Name = "pomChar1" };
-             allPhysics.Items.Add(po1);
-             objects.Items.Add(allPhysics);
-
-
-          
-
-        //    scenes.Items.Add(scene);
-             dbData.Items.Add(objects);
              m_Items.Add(dbData);
          
           

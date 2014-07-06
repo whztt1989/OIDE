@@ -97,7 +97,7 @@ namespace OIDE.Scene
                 pfExplorerService.SelectedItem.Items.Add(newScene);
          
             sceneService.Scenes.Add(newScene);
-            sceneService.SelectedScene = newScene;
+          //  sceneService.SelectedScene = newScene;
             newScene.Open();
 
 
@@ -312,6 +312,9 @@ namespace OIDE.Scene
         /// <returns>True, if valid from content ID - false, otherwise</returns>
         public bool ValidateContentFromId(string contentId)
         {
+            if (contentId == null)
+                return false;
+
             string[] split = Regex.Split(contentId, ":##:");
             if (split.Count() == 2)
             {
