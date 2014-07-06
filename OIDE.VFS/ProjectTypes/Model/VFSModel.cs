@@ -188,6 +188,12 @@ namespace OIDE.VFS
         /// <param name="menuService">The menu service.</param>
         public VFSModel(IItem parent, IUnityContainer container)
         {
+            //ZIP support in .net 4.5
+            //http://www.codeproject.com/Articles/381661/Creating-Zip-Files-Easily-in-NET
+
+            //c++ zip zugriff?=
+            //https://devel.nuclex.org/framework/browser/storage/Nuclex.Storage.Native/trunk/Include/Nuclex/Storage/FileSystem/ContainerFileCodec.h
+
             UnityContainer = container;
             m_Items = new CollectionOfIItem();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
