@@ -34,6 +34,7 @@ using OIDE.Scene.Model;
 using OIDE.Scene.Interface.Services;
 using OIDE.Scene;
 using OIDE.VFS;
+using OIDE.Core.Model;
 
 namespace OIDE.Core
 {
@@ -215,8 +216,8 @@ namespace OIDE.Core
             //gameData.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService, 0) { Name = "PhysicObjects" });
             //m_Items.Add(gameData);
 
-            VFSModel fileAssets = new VFSModel(this, container) { Name = "AssetsArchive(ofg)" };
-            fileAssets.IsExpanded = true;
+            OIDEZipArchive fileAssets = new OIDEZipArchive(this, container, "test.zip") { Name = "AssetsArchive(ofg)" };
+            fileAssets.Open();
             m_Items.Add(fileAssets);
 
             //FileCategoryModel fileAssets = new FileCategoryModel(this, container) { Name = "AssetsArchive(ofg)" };

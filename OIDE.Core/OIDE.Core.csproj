@@ -112,6 +112,7 @@
     <Compile Include="CoreModule.cs" />
     <Compile Include="Model\GameEntityFileModel.cs" />
     <Compile Include="Model\GameDBFileModel.cs" />
+    <Compile Include="Model\OIDEZipArchive.cs" />
     <Compile Include="Model\ScenesListModel.cs" />
     <Compile Include="Model\FilterModel.cs" />
     <Compile Include="ProjectTypes\Handler\GameProjectHandler.cs" />

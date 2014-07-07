@@ -85,6 +85,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -105,10 +107,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreModule.cs" />
+    <Compile Include="Interface\IVFSArchive.cs" />
     <Compile Include="Model\VFSFilterModel.cs" />
-    <Compile Include="ProjectTypes\Model\VFSModel.cs" />
-    <Compile Include="ProjectTypes\ViewModel\VFSViewModel.cs" />
-    <Compile Include="ProjectTypes\View\VFSView.xaml.cs">
+    <Compile Include="Model\zip\VFS_ZipModel.cs" />
+    <Compile Include="TreeViewBinding.cs" />
+    <Compile Include="VFS_Types\zip\Compression.cs" />
+    <Compile Include="VFS_Types\zip\VFS_Zip.cs" />
+    <Compile Include="ViewModel\VFSViewModel.cs" />
+    <Compile Include="View\VFSView.xaml.cs">
       <DependentUpon>VFSView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SaveAsMenuItemViewModel.cs" />
@@ -138,7 +144,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ProjectTypes\View\VFSView.xaml">
+    <Page Include="View\VFSView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -158,9 +164,7 @@
   <ItemGroup>
     <Resource Include="Icons\MDType.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ProjectTypes\Handler\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

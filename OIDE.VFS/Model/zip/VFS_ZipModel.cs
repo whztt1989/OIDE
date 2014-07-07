@@ -33,71 +33,54 @@ using Microsoft.Practices.Unity;
 using OIDE.Scene.Model;
 using OIDE.Scene.Interface.Services;
 using OIDE.Scene;
+using OIDE.VFS.Interface;
+using OIDE.VFS.VFS_Types.zip;
+using System.IO.Compression;
+using System.IO;
+using WpfTreeViewBinding.Model;
 
 namespace OIDE.VFS
 {
     /// <summary>
     /// Class TextModel which contains the text of the document
     /// </summary>
-  //  [XmlInclude(typeof(ScenesListModel))]
-   // [XmlInclude(typeof(FileCategoryModel))]
-   //[XmlInclude(typeof(SceneDataModel))]
-   //[XmlInclude(typeof(PhysicsObjectModel))]
-   //[Serializable]
-    public class VFSModel : ViewModelBase, IItem
+    //  [XmlInclude(typeof(ScenesListModel))]
+    // [XmlInclude(typeof(FileCategoryModel))]
+    //[XmlInclude(typeof(SceneDataModel))]
+    //[XmlInclude(typeof(PhysicsObjectModel))]
+    //[Serializable]
+    public class VFS_ZipModel : ViewModelBase, IItem, IVFSArchive
     {
         private string result;
+        private CollectionOfIItem m_Items;
 
         [XmlAttribute]
         public Int32 ID { get; set; }
+     
         [XmlAttribute]
         public String Name { get; set; }
 
-        public String ContentID { get; set; } 
-
-        private CollectionOfIItem m_Items;
-
-        //public System.Xml.Schema.XmlSchema GetSchema() { return null; }
-
-        //public void ReadXml(System.Xml.XmlReader reader)
-        //{
-        //    //reader.MoveToContent();
-        //    //Name = reader.GetAttribute("Name");
-        //    //Boolean isEmptyElement = reader.IsEmptyElement; // (1)
-        //    //reader.ReadStartElement();
-        //    //if (!isEmptyElement) // (1)
-        //    //{
-        //    //    Birthday = DateTime.ParseExact(reader.
-        //    //        ReadElementString("Birthday"), "yyyy-MM-dd", null);
-        //    //    reader.ReadEndElement();
-        //    //}
-        //}
-
-        //public void WriteXml(System.Xml.XmlWriter writer)
-        //{
-        //    writer.WriteAttributeString("Name", Name);
-
-        //    writer.WriteElementString("Items",
-        //           Birthday.ToString("yyyy-MM-dd"));
-
-        //    foreach (var item in m_Items)
-        //    {
-        //        writer.WriteElementString("Birthday",
-        //            Birthday.ToString("yyyy-MM-dd"));
-        //    }   
-        //}
-
-
+        /// <summary>
+        /// ContentID for WIDE
+        /// </summary>
+        public String ContentID { get; set; }
+       
+        /// <summary>
+        /// Collection of subitems of this object
+        /// </summary>
         [Browsable(false)]
         //[XmlArray("Items")]
-       // [XmlArrayItem(typeof(PhysicsObjectModel)), XmlArrayItem(typeof(SceneDataModel)), XmlArrayItem(typeof(CategoryModel)), XmlArrayItem(typeof(ScenesModel))]
+        // [XmlArrayItem(typeof(PhysicsObjectModel)), XmlArrayItem(typeof(SceneDataModel)), XmlArrayItem(typeof(CategoryModel)), XmlArrayItem(typeof(ScenesModel))]
         //[XmlElement(typeof(ScenesModel))]
         //[XmlElement(typeof(CategoryModel))]
         //[XmlElement(typeof(SceneDataModel))]
         //[XmlElement(typeof(PhysicsObjectModel))]
         public CollectionOfIItem Items { get { return m_Items; } set { m_Items = value; } }
 
-      
+
+        /// <summary>
+        /// List of menu options
+        /// </summary>
         [Browsable(false)]
         [XmlIgnore]
         public List<MenuItem> MenuOptions
@@ -111,26 +94,42 @@ namespace OIDE.VFS
             }
         }
 
+        #region Item
+
+        /// <summary>
+        /// Item ist Expanded
+        /// </summary>
         [Browsable(false)]
         [XmlAttribute]
         public Boolean IsExpanded { get; set; }
-       
+
+        /// <summary>
+        /// Item is selected
+        /// </summary>
         [Browsable(false)]
         [XmlAttribute]
         public Boolean IsSelected { get; set; }
 
+        /// <summary>
+        /// Item has children
+        /// </summary>
         [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-         [XmlIgnore]
+        /// <summary>
+        /// parent of this item
+        /// </summary>
+        [XmlIgnore]
         public IItem Parent { get; private set; }
 
-         [XmlIgnore]
-        public ICommand RaiseConfirmation { get; private set; }
-      //  public ICommand RaiseSelectAEF { get; private set; }
+        #endregion 
 
-     //   public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
-         [XmlIgnore]
+        [XmlIgnore]
+        public ICommand RaiseConfirmation { get; private set; }
+        //  public ICommand RaiseSelectAEF { get; private set; }
+
+        //   public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
+        [XmlIgnore]
         public InteractionRequest<Confirmation> ConfirmationRequest { get; private set; }
 
         private void OnRaiseConfirmation()
@@ -140,53 +139,117 @@ namespace OIDE.VFS
                 (cb) => { Result = cb.Confirmed ? "The user confirmed" : "The user cancelled"; });
         }
 
-
-        //private void OnRaiseSelectAEF()
-        //{
-        //    this.SelectAEFRequest.Raise(
-        //        new PSelectAEFViewModel { Title = "Items" },
-        //        (vm) =>
-        //        {
-        //            if (vm.SelectedItem != null)
-        //            {
-        //                Result = "The user selected: " + vm.SelectedItem;
-        //            }
-        //            else
-        //            {
-        //                Result = "The user didn't select an item.";
-        //            }
-        //        });
-        //}
-
-         [XmlIgnore]
+        [XmlIgnore]
         public string Result
         {
             get { return this.result; }
-            set  {  this.result = value;  RaisePropertyChanged("Result");  }
+            set { this.result = value; RaisePropertyChanged("Result"); }
         }
 
-        //public void SerializeObjectToXML()
-        //{
-        //    ObjectSerialize.SerializeObjectToXML<VFSModel>(this, this.Location.ToString());
-        //}
+        public Boolean Open() {
 
-        public Boolean Open() { return true; }
+           using (ZipArchive archive = ZipFile.OpenRead(FilePath))
+           {
+               //Loops through each file in the zip file
+               foreach (ZipArchiveEntry file in archive.Entries)
+               {
+                   Boolean isFile = false;
+                    Boolean isDirectory = false;
+
+                   //Outputs relevant file information to the console
+                   Console.WriteLine("File Name: {0}", file.Name);
+                   Console.WriteLine("File Size: {0} bytes", file.Length);
+                   Console.WriteLine("Compression Ratio: {0}", ((double)file.CompressedLength / file.Length).ToString("0.0%"));
+
+                   //Identifies the destination file name and path
+                 //  fileUnzipFullName = Path.Combine(dirToUnzipTo, file.FullName);
+
+                   //Extracts the files to the output folder in a safer manner
+                 //  if (!System.IO.File.Exists(fileUnzipFullName))
+                 //  {
+                       //Calculates what the new full path for the unzipped file should be
+                //   var itemProvider = new ItemProvider();
+
+                   //if (Directory.Exists(@"D:\Projekte\Src Game\Data\Data_Release\Assets"))
+                   //    mItems = itemProvider.GetItems(@"D:\Projekte\Src Game\Data\Data_Release\Assets");
+
+                   //####    fileUnzipFullPath = Path.GetDirectoryName(fileUnzipFullName);
+
+                       //Creates the directory (if it doesn't exist) for the new path
+                   //####     Directory.CreateDirectory(fileUnzipFullPath);
+
+                       //Extracts the file to (potentially new) path
+                   //    file.ExtractToFile(fileUnzipFullName);
+
+                       
+                   //var items = new List<Item>();
+
+                       //####       var dirInfo = new DirectoryInfo(path);
+
+                   //create directory node
+                    //   foreach (var directory in dirInfo.GetDirectories())
+                     //  {
+
+                       isFile = true;
+
+                       if (isDirectory)
+                       {
+                           var item = new DirectoryItem
+                           {
+                               //####          Name = directory.Name,
+                               //####          Path = directory.FullName,
+                               //####          Items = GetItems(directory.FullName)
+                           };
+
+                           m_Items.Add(item);
+                       }
+                      // }
+
+                   //create file node
+                     //  foreach (var file in dirInfo.GetFiles())
+                    //   {
+                       if (isFile)
+                       {
+                           var item = new FileItem
+                           {
+                               Name = file.Name,
+                               Path = file.FullName
+                           };
+
+                           m_Items.Add(item);
+                       }
+                   //    }
+
+               //    }
+               }
+           }
+
+       //     VFS_Zip.SimpleUnzip();
+
+            return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
-        public VFSModel()
-        {
 
+        #region Archive Data
+
+        public String FilePath { get; set; }
+
+        #endregion
+
+        public VFS_ZipModel()
+        {
+            m_Items = new CollectionOfIItem();
         }
 
         public IUnityContainer UnityContainer { get; private set; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
         /// </summary>
         /// <param name="commandManager">The injected command manager.</param>
         /// <param name="menuService">The menu service.</param>
-        public VFSModel(IItem parent, IUnityContainer container)
+        public VFS_ZipModel(IItem parent, IUnityContainer container)
         {
             //ZIP support in .net 4.5
             //http://www.codeproject.com/Articles/381661/Creating-Zip-Files-Easily-in-NET
@@ -198,8 +261,8 @@ namespace OIDE.VFS
             m_Items = new CollectionOfIItem();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
-          //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
-          //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
+            //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
+            //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
             //ScenesModel scenes = new ScenesModel(this, commandManager, menuService) { Name = "Scenes" };
             //SceneDataModel scene = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene 1.xml" };
             //SceneDataModel sceneLogin = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene_Login.xml" };
@@ -226,14 +289,14 @@ namespace OIDE.VFS
             //-----------------------------------------
             //Customize Database category structure
             //-----------------------------------------
-          //  GameDBFileModel dbData = new GameDBFileModel(this, container);
-          //  dbData.IsExpanded = true;
+            //  GameDBFileModel dbData = new GameDBFileModel(this, container);
+            //  dbData.IsExpanded = true;
 
-           
+
 
             // m_Items.Add(dbData);
-         
-          
+
+
 
             //------------- Scenes ----------------------
             //VMCategory cScenes = new VMCategory(,commandManager, menuService) { Name = "Scenes" };
@@ -250,16 +313,16 @@ namespace OIDE.VFS
 
         internal void SetLocation(object location)
         {
-    //        this.Location = location;
+            //        this.Location = location;
             RaisePropertyChanged("Location");
         }
 
         internal void SetDirty(bool value)
         {
-           // this.IsDirty = value;
+            // this.IsDirty = value;
         }
 
-         [XmlIgnore]
+        [XmlIgnore]
         public string HTMLResult { get; set; }
 
         public void SetHtml(string transform)
