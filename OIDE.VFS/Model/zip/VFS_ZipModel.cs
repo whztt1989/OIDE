@@ -88,7 +88,12 @@ namespace OIDE.VFS
             get
             {
                 List<MenuItem> list = new List<MenuItem>();
-                list.Add(new MenuItem() { Header = "Add Item" });
+                list.Add(new MenuItem() { Header = "Import File(s)" });
+                list.Add(new MenuItem() { Header = "Create Folder" });
+                list.Add(new MenuItem() { Header = "Delete" });
+                list.Add(new MenuItem() { Header = "Extract File/Folder To" });
+                list.Add(new MenuItem() { Header = "Extract All To" });
+                
                 list.Add(new MenuItem() { Header = "Save" });
                 return list;
             }
