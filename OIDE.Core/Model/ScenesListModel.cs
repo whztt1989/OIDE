@@ -103,11 +103,14 @@ namespace OIDE.Core
             
             var allScenes =  iDAL.selectAllScenesDataOnly();
 
-            foreach (var scene in allScenes)
+            if (allScenes != null)
             {
-                SceneDataModel sceneProto2 = new SceneDataModel(this, container) { Name = "Scene_" + scene.SceneID, ContentID = "SceneID:##:" + scene.SceneID };
-                sceneService.AddScene(sceneProto2);
-                this.Items.Add(sceneProto2);
+                foreach (var scene in allScenes)
+                {
+                    SceneDataModel sceneProto2 = new SceneDataModel(this, container) { Name = "Scene_" + scene.SceneID, ContentID = "SceneID:##:" + scene.SceneID };
+                    sceneService.AddScene(sceneProto2);
+                    this.Items.Add(sceneProto2);
+                }
             }
 
             MenuOptions = new List<MenuItem>();

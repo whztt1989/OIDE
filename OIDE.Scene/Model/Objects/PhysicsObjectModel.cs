@@ -15,7 +15,7 @@ using System.Xml.Serialization;
 using OIDE.DAL;
 using Microsoft.Practices.Unity;
 using Module.Protob.Utilities;
-using OIDE.EditorInterop.DLL;
+using OIDE.InteropEditor.DLL;
 
 namespace OIDE.Scene.Model
 {

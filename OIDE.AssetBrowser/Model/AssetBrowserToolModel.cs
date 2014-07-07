@@ -117,7 +117,8 @@ namespace OIDE.AssetBrowser
 
             var itemProvider = new ItemProvider();
 
-            mItems = itemProvider.GetItems(@"D:\Projekte\Src Game\Data\Data_Release\Assets");
+            if (Directory.Exists(@"D:\Projekte\Src Game\Data\Data_Release\Assets"))
+             mItems = itemProvider.GetItems(@"D:\Projekte\Src Game\Data\Data_Release\Assets");
 
 
            var commandManager = container.Resolve<ICommandManager>();

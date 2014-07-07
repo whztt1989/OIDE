@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CLXEditor.Render;
-using OIDE.EditorInterop.DLL;
+using OIDE.InteropEditor.DLL;
 
 namespace OIDE.Scene.View
 {

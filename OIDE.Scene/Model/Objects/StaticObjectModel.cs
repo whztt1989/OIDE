@@ -14,7 +14,7 @@ using Module.Protob.Utilities;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using OIDE.DAL;
 using System.Windows.Input;
-using OIDE.EditorInterop.DLL;
+using OIDE.InteropEditor.DLL;
 
 namespace OIDE.Scene.Model
 {

@@ -42,9 +42,9 @@ namespace OIDE.Core
     /// </summary>
     [XmlInclude(typeof(ScenesListModel))]
     [XmlInclude(typeof(FileCategoryModel))]
-   [XmlInclude(typeof(SceneDataModel))]
-   [XmlInclude(typeof(PhysicsObjectModel))]
-   [Serializable]
+    [XmlInclude(typeof(SceneDataModel))]
+    [XmlInclude(typeof(PhysicsObjectModel))]
+    [Serializable]
     public class GameProjectModel : TextModel, IItem, ISerializableObj
     {
         private string result;
@@ -54,7 +54,7 @@ namespace OIDE.Core
         [XmlAttribute]
         public String Name { get; set; }
 
-        public String ContentID { get; set; } 
+        public String ContentID { get; set; }
 
         private CollectionOfIItem m_Items;
 
@@ -91,14 +91,14 @@ namespace OIDE.Core
 
         [Browsable(false)]
         //[XmlArray("Items")]
-       // [XmlArrayItem(typeof(PhysicsObjectModel)), XmlArrayItem(typeof(SceneDataModel)), XmlArrayItem(typeof(CategoryModel)), XmlArrayItem(typeof(ScenesModel))]
+        // [XmlArrayItem(typeof(PhysicsObjectModel)), XmlArrayItem(typeof(SceneDataModel)), XmlArrayItem(typeof(CategoryModel)), XmlArrayItem(typeof(ScenesModel))]
         //[XmlElement(typeof(ScenesModel))]
         //[XmlElement(typeof(CategoryModel))]
         //[XmlElement(typeof(SceneDataModel))]
         //[XmlElement(typeof(PhysicsObjectModel))]
         public CollectionOfIItem Items { get { return m_Items; } set { m_Items = value; } }
 
-      
+
         [Browsable(false)]
         [XmlIgnore]
         public List<MenuItem> MenuOptions
@@ -115,7 +115,7 @@ namespace OIDE.Core
         [Browsable(false)]
         [XmlAttribute]
         public Boolean IsExpanded { get; set; }
-       
+
         [Browsable(false)]
         [XmlAttribute]
         public Boolean IsSelected { get; set; }
@@ -123,15 +123,15 @@ namespace OIDE.Core
         [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-         [XmlIgnore]
+        [XmlIgnore]
         public IItem Parent { get; private set; }
 
-         [XmlIgnore]
+        [XmlIgnore]
         public ICommand RaiseConfirmation { get; private set; }
-      //  public ICommand RaiseSelectAEF { get; private set; }
+        //  public ICommand RaiseSelectAEF { get; private set; }
 
-     //   public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
-         [XmlIgnore]
+        //   public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
+        [XmlIgnore]
         public InteractionRequest<Confirmation> ConfirmationRequest { get; private set; }
 
         private void OnRaiseConfirmation()
@@ -159,11 +159,11 @@ namespace OIDE.Core
         //        });
         //}
 
-         [XmlIgnore]
+        [XmlIgnore]
         public string Result
         {
             get { return this.result; }
-            set  {  this.result = value;  RaisePropertyChanged("Result");  }
+            set { this.result = value; RaisePropertyChanged("Result"); }
         }
 
         public void SerializeObjectToXML()
@@ -182,21 +182,21 @@ namespace OIDE.Core
         }
 
         public IUnityContainer UnityContainer { get; private set; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
         /// </summary>
         /// <param name="commandManager">The injected command manager.</param>
         /// <param name="menuService">The menu service.</param>
-        public GameProjectModel(IUnityContainer container, ISceneService sceneService,ICommandManager commandManager, IMenuService menuService)
+        public GameProjectModel(IUnityContainer container, ISceneService sceneService, ICommandManager commandManager, IMenuService menuService)
             : base(commandManager, menuService)
         {
             UnityContainer = container;
             m_Items = new CollectionOfIItem();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
-          //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
-          //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
+            //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
+            //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
             //ScenesModel scenes = new ScenesModel(this, commandManager, menuService) { Name = "Scenes" };
             //SceneDataModel scene = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene 1.xml" };
             //SceneDataModel sceneLogin = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene_Login.xml" };
@@ -231,11 +231,7 @@ namespace OIDE.Core
             GameDBFileModel dbData = new GameDBFileModel(this, container);
             dbData.IsExpanded = true;
 
-           
-
-             m_Items.Add(dbData);
-         
-          
+            m_Items.Add(dbData);
 
             //------------- Scenes ----------------------
             //VMCategory cScenes = new VMCategory(,commandManager, menuService) { Name = "Scenes" };
@@ -261,7 +257,7 @@ namespace OIDE.Core
             this.IsDirty = value;
         }
 
-         [XmlIgnore]
+        [XmlIgnore]
         public string HTMLResult { get; set; }
 
         public void SetHtml(string transform)
