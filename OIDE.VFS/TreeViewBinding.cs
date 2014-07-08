@@ -60,8 +60,12 @@ namespace WpfTreeViewBinding.Model
         public IItem Parent { get; set; }
         public IUnityContainer UnityContainer { get; set; }
 
+        public Boolean Create() { return true; }
         public bool Delete() { return true; }
-        public bool Open() { return true; }
+        public bool Open() {
+            
+            return true;
+        }
         public bool Save() { return true; }
 
     }

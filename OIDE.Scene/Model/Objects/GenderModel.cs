@@ -79,6 +79,7 @@ namespace OIDE.Scene.Model
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
         public IItem Parent { get; private set; }
 
+        public Boolean Create() { return true; }
         public Boolean Open()
         {
 

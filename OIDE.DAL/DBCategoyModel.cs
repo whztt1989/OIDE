@@ -47,6 +47,7 @@ namespace OIDE.DAL
          [XmlIgnore]
         public IItem Parent { get; private set; }
 
+         public Boolean Create() { return true; }
          public Boolean Open() { return true; }
          public Boolean Save() { return true; }
          public Boolean Delete() { return true; }

@@ -48,6 +48,7 @@ namespace OIDE.Scene.Model
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
+        public Boolean Create() { return true; }
         public Boolean Open() { return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }

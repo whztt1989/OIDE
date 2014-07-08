@@ -87,6 +87,7 @@ namespace OIDE.Scene.Model
 
             return true;
         }
+        public Boolean Create() { return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 

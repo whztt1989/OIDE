@@ -35,6 +35,7 @@ using OIDE.Scene.Interface.Services;
 using OIDE.Scene;
 using OIDE.VFS;
 using OIDE.Core.Model;
+using Module.History.Service;
 
 namespace OIDE.Core
 {
@@ -46,7 +47,7 @@ namespace OIDE.Core
     [XmlInclude(typeof(SceneDataModel))]
     [XmlInclude(typeof(PhysicsObjectModel))]
     [Serializable]
-    public class GameProjectModel : TextModel, IItem, ISerializableObj
+    public class GameProjectModel : TextModel, IItem, ISerializableObj, ICategoryItem
     {
         private string result;
 
@@ -107,11 +108,21 @@ namespace OIDE.Core
             get
             {
                 List<MenuItem> list = new List<MenuItem>();
-                list.Add(new MenuItem() { Header = "Add Item" });
+
+                MenuItem miAddItem = new MenuItem() { Header = "Add Item" };
+
+                foreach (var type in CanAddThisItems)
+                {
+                    miAddItem.Items.Add(new MenuItem() { Header = type.Name, Command = new CmdAddExistingItemToGameProject(this), CommandParameter = type });
+               }
+
+                list.Add(miAddItem);
                 list.Add(new MenuItem() { Header = "Save" });
+                list.Add(new MenuItem() { Header = "Rename" });
                 return list;
             }
         }
+
 
         [Browsable(false)]
         [XmlAttribute]
@@ -172,6 +183,7 @@ namespace OIDE.Core
             ObjectSerialize.SerializeObjectToXML<GameProjectModel>(this, this.Location.ToString());
         }
 
+        public Boolean Create() { return true; }
         public Boolean Open() { return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
@@ -182,6 +194,7 @@ namespace OIDE.Core
 
         }
 
+        public List<System.Type> CanAddThisItems { get; private set; }
         public IUnityContainer UnityContainer { get; private set; }
 
         /// <summary>
@@ -196,7 +209,11 @@ namespace OIDE.Core
             m_Items = new CollectionOfIItem();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
-            //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
+            this.CanAddThisItems = new List<Type>();
+
+            CanAddThisItems.Add(typeof(OIDEZipArchive));
+            CanAddThisItems.Add(typeof(GameDBFileModel));
+           //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
             //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
             //ScenesModel scenes = new ScenesModel(this, commandManager, menuService) { Name = "Scenes" };
             //SceneDataModel scene = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene 1.xml" };
@@ -265,6 +282,103 @@ namespace OIDE.Core
         {
             this.HTMLResult = transform;
             RaisePropertyChanged("HTMLResult");
+        }
+    }
+
+    public class CmdRenameGameProject : ICommand
+    {
+        private GameProjectModel mpm;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            mpm.Save();
+        }
+
+        public CmdRenameGameProject(GameProjectModel pm)
+        {
+            mpm = pm;
+        }
+    }
+
+    public class CmdAddNewItemToGameProject : ICommand
+    {
+        private GameProjectModel mpm;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            mpm.Save();
+        }
+
+        public CmdAddNewItemToGameProject(GameProjectModel pm)
+        {
+            mpm = pm;
+        }
+    }
+
+    public class CmdAddExistingItemToGameProject : IHistoryCommand
+    {
+        private GameProjectModel mpm;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            Type t = parameter as Type;
+      
+            //to create the objects i need the parameter data!!!!
+   //         mpm.Save();
+            Type instance = (Type)Activator.CreateInstance(t);
+           object  obj = t.GetConstructor(new Type[] { }).Invoke(new object[] { });
+           mpm.Items.Add(obj as IItem);
+        }
+
+        public CmdAddExistingItemToGameProject(GameProjectModel pm)
+        {
+            mpm = pm;
+        }
+
+        public  bool CanRedo() { return true; }
+        public bool CanUndo() { return true; }
+        public void Redo() { }
+        public string ShortMessage() { return "add item"; }
+        public void Undo() { }
+
+    }
+
+    public class CmdSaveGameProject : ICommand
+    {
+        private GameProjectModel mpm;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            mpm.Save();
+        }
+
+        public CmdSaveGameProject(GameProjectModel pm)
+        {
+            mpm = pm;
         }
     }
 }

@@ -145,6 +145,8 @@ namespace OIDE.Scene.Model
 
         private IDAL m_DBI;
 
+        public Boolean Create() { return true; }
+        
         public Boolean Open()
         {
             m_SceneService.SelectedScene = this;

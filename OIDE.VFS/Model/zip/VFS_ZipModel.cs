@@ -151,10 +151,13 @@ namespace OIDE.VFS
             set { this.result = value; RaisePropertyChanged("Result"); }
         }
 
-        public Boolean Open() {
+        public Boolean Create() { return true; }
+        public Boolean Open()
+        {
 
             if (!File.Exists(FilePath))
                 return false;
+          
 
            using (ZipArchive archive = ZipFile.OpenRead(FilePath))
            {

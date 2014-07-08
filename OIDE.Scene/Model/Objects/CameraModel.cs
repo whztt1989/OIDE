@@ -72,6 +72,7 @@ namespace OIDE.Scene.Model
            // SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
                         
             return true; }
+        public Boolean Create() { return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 

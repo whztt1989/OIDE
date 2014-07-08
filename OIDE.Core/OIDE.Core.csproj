@@ -64,6 +64,11 @@
       <HintPath>..\..\Build\Module.DB.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Module.History, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.History.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Module.PFExplorer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\Module.PFExplorer.dll</HintPath>

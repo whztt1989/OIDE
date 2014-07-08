@@ -92,8 +92,9 @@ namespace OIDE.Scene.Model
             return true;
         }
         ICommand CmdSave;
-      
 
+
+        public Boolean Create() { return true; }
         public Boolean Delete() { return true; }
 
         public IUnityContainer UnityContainer { get; private set; }

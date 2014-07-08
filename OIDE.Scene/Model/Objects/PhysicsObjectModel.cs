@@ -85,6 +85,7 @@ namespace OIDE.Scene.Model
         public PhysicsObjectModel() { }
 
 
+        public Boolean Create() { return true; }
         public Boolean Open() { return true; }
         public Boolean Save() {
 
