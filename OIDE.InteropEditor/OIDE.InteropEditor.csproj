@@ -45,7 +45,6 @@
     <Compile Include="DLL\CDLL_Loader.cs" />
     <Compile Include="DLL\CDLL_XEditor.cs" />
     <Compile Include="DLL\DLL_Structs.cs" />
-    <Compile Include="DLL\OFS_Interop.cs" />
     <Compile Include="Interface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
