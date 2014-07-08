@@ -153,6 +153,9 @@ namespace OIDE.VFS
 
         public Boolean Open() {
 
+            if (!File.Exists(FilePath))
+                return false;
+
            using (ZipArchive archive = ZipFile.OpenRead(FilePath))
            {
                //Loops through each file in the zip file
