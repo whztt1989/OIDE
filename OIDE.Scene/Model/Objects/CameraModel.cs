@@ -10,6 +10,7 @@ using OIDE.Scene.Interface.Services;
 using Module.Properties.Interface;
 using Microsoft.Practices.Unity;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model
 {
@@ -17,21 +18,25 @@ namespace OIDE.Scene.Model
     {
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
-
         public String ContentID { get; set; }
+
+        [Browsable(false)]
+        [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
+        [XmlIgnore]
         public ProtoType.Node Node { get; set; }
-        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
 
+        [XmlIgnore]
+        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
 
         public Int32 ID { get; set; }
         public String Name { get; set; }
+      
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
 
-        public TreeNode TreeNode { get; set; }
-
+        [XmlIgnore]
         private ProtoType.Camera mData;
 
         [Category("Conections")]
@@ -46,6 +51,7 @@ namespace OIDE.Scene.Model
             set { mData = value; }
         }
 
+        [XmlIgnore]
         [Browsable(false)]
         public List<MenuItem> MenuOptions
         {
@@ -57,13 +63,19 @@ namespace OIDE.Scene.Model
                 return list;
             }
         }
-
-        
+   
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
+
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
+
+        [Browsable(false)]
+        [XmlIgnore]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
+
+        [Browsable(false)]
+        [XmlIgnore]
         public IItem Parent { get; private set; }
 
         public Boolean Open() {
@@ -76,14 +88,14 @@ namespace OIDE.Scene.Model
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
+        [Browsable(false)]
+        [XmlIgnore]
         public IUnityContainer UnityContainer { get; private set; }
-
 
         public CameraModel (IItem parent,IUnityContainer unityContainer)
         {
             UnityContainer = unityContainer;
             Parent = parent;
         }
-
     }
 }

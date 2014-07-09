@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using System.Xml.Serialization;
 using Module.Properties.Interface;
 using OIDE.Scene.Interface.Services;
+using Module.PFExplorer.Utilities;
 
 namespace OIDE.Core.ProjectTypes.Handler
 {
@@ -121,19 +122,36 @@ namespace OIDE.Core.ProjectTypes.Handler
         /// <returns>The <see cref="GameProjectViewModel"/> for the file.</returns>
         public ContentViewModel OpenContent(object info)
         {
-            //var location = info as string;
-            //if (location != null)
-            //{
-            GameProjectViewModel vm = _container.Resolve<GameProjectViewModel>();
-            var model = _container.Resolve<GameProjectModel>();
-            var view = _container.Resolve<GameProjectView>();
+            var location = info as string;
+            if (location != null)
+            {
 
-                //Model details
-                model.SetLocation(info);
                 try
                 {
+                    GameProjectViewModel vm = _container.Resolve<GameProjectViewModel>();
+                    var model = _container.Resolve<GameProjectModel>();
+                    var view = _container.Resolve<GameProjectView>();
+
+                    //-----------------------------------
+                    // Deserialize Object
+                    //-----------------------------------
+                    model = ObjectSerialize.DeSerializeObjectFromXML<GameProjectModel>(model, location.ToString());
+
+                    //Model details
+                    model.SetLocation(info); 
+
+                    //Set the model and view
+                    vm.SetModel(model);
+                    vm.SetView(view);
+                    vm.Title = Path.GetFileName(location);
+                    vm.View.DataContext = model;
+
+                  
+
               //      model.Document.Text = File.ReadAllText(location);
                     model.SetDirty(false);
+
+                    return vm;
                 }
                 catch (Exception exception)
                 {
@@ -144,16 +162,8 @@ namespace OIDE.Core.ProjectTypes.Handler
 
                 //Clear the undo stack
              //   model.Document.UndoStack.ClearAll();
-
-                //Set the model and view
-                vm.SetModel(model);
-                vm.SetView(view);
-                vm.Title = Path.GetFileName("Leser gefunden");
-                vm.View.DataContext = model;
-
-                return vm;
-         //   }
-         //   return null;
+            }
+            return null;
         }
 
         public ContentViewModel OpenContentFromId(string contentId)
@@ -224,21 +234,8 @@ namespace OIDE.Core.ProjectTypes.Handler
                         //-----------------------------------
                         // Serialize Object
                         //-----------------------------------
-                        //using (FileStream Str = new FileStream(location, FileMode.Create))
-                        //{
-                        //    XmlSerializer Ser = new XmlSerializer(typeof(CollectionOfIItem));
-                        //    Ser.Serialize(Str, gameProjectModel.Items);
-                        //    Str.Close();
-                        //}
-
-                        gameProjectModel.SerializeObjectToXML();
-                        //using (FileStream fs = new FileStream(location, FileMode.Open))
-                        //{
-                        //    System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
-                        //    x.Serialize(fs, gameProjectModel);
-                        //    fs.Close();
-                        //}
-
+                        gameProjectModel.SerializeObjectToXML();   
+                    
                         gameProjectModel.SetDirty(false);
                         return true;
                     }
@@ -259,15 +256,9 @@ namespace OIDE.Core.ProjectTypes.Handler
                     // Serialize Object
                     //-----------------------------------
                     gameProjectModel.SerializeObjectToXML();
-                    //using (FileStream fs = new FileStream(location, FileMode.Open))
-                    //{
-                    //    System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(gameProjectModel.GetType());
-                    //    x.Serialize(fs, gameProjectModel);
-                    //    fs.Close();
-                    //}
 
-                 //  File.WriteAllText(location, gameProjectModel.Ser);
                     gameProjectModel.SetDirty(false);
+
                     return true;
                 }
                 catch (Exception exception)

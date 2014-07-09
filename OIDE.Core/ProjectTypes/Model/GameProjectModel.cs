@@ -154,6 +154,12 @@ namespace OIDE.Core
         }
 
 
+        [XmlIgnore]
+        public List<System.Type> CanAddThisItems { get; private set; }
+
+        [XmlIgnore]
+        public IUnityContainer UnityContainer { get; private set; }
+
         //private void OnRaiseSelectAEF()
         //{
         //    this.SelectAEFRequest.Raise(
@@ -194,8 +200,6 @@ namespace OIDE.Core
 
         }
 
-        public List<System.Type> CanAddThisItems { get; private set; }
-        public IUnityContainer UnityContainer { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
@@ -215,33 +219,11 @@ namespace OIDE.Core
             CanAddThisItems.Add(typeof(GameDBFileModel));
            //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
             //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
-            //ScenesModel scenes = new ScenesModel(this, commandManager, menuService) { Name = "Scenes" };
-            //SceneDataModel scene = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene 1.xml" };
-            //SceneDataModel sceneLogin = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene_Login.xml" };
-            //SceneDataModel sceneCSelect = new SceneDataModel(scenes, commandManager, menuService) { Name = "Scene_CSelect.xml" };
-            //scenes.Items.Add(sceneLogin);
-            //scenes.Items.Add(sceneCSelect);
+          
 
-            //FileCategoryModel gameData = new FileCategoryModel(this, commandManager, menuService) { Name = "Asset Browser" };
-            //FileCategoryModel objectsAB = new FileCategoryModel(gameData, commandManager, menuService) { Name = "Objects" };
-            //FileCategoryModel objectAB1 = new FileCategoryModel(objectsAB, commandManager, menuService) { Name = "Floor" };
-            //objectsAB.Items.Add(objectAB1);
-            //gameData.Items.Add(objectsAB);
-            //gameData.Items.Add(new FileCategoryModel(scene, commandManager, menuService) { Name = "Meshes" });
-            //gameData.Items.Add(new FileCategoryModel(scene, commandManager, menuService) { Name = "Materials" });
-            //gameData.Items.Add(new FileCategoryModel(scene, commandManager, menuService) { Name = "Sounds" });
-            //gameData.Items.Add(new PhysicsObjectModel(scene, commandManager, menuService, 0) { Name = "PhysicObjects" });
-            //m_Items.Add(gameData);
-
-            OIDEZipArchive fileAssets = new OIDEZipArchive(this, container, "test.zip") { Name = "AssetsArchive(ofg)" };
+            OIDEZipArchive fileAssets = new OIDEZipArchive(this, container, "test.zip");
             fileAssets.Open();
             m_Items.Add(fileAssets);
-
-            //FileCategoryModel fileAssets = new FileCategoryModel(this, container) { Name = "AssetsArchive(ofg)" };
-            //m_Items.Add(fileAssets);
-            //fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Meshes" });
-            //fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Textures" });
-            //fileAssets.Items.Add(new FileCategoryModel(fileAssets, container) { Name = "Sounds" });
 
             //-----------------------------------------
             //Customize Database category structure
@@ -249,19 +231,9 @@ namespace OIDE.Core
             GameDBFileModel dbData = new GameDBFileModel(this, container);
             dbData.IsExpanded = true;
 
+
+
             m_Items.Add(dbData);
-
-            //------------- Scenes ----------------------
-            //VMCategory cScenes = new VMCategory(,commandManager, menuService) { Name = "Scenes" };
-
-            //p1.Items.Add(cScenes);
-
-            //CVMScene sv = new CVMScene() { Name = "Scene 1" };
-            //sv.Items.Add(new CVMCategory() { Name = "Cameras" });
-            //sv.Items.Add(new CVMCategory() { Name = "Models" });
-            //sv.Items.Add(new CVMCategory() { Name = "Sound" });
-            //cScenes.Items.Add(sv);
-
         }
 
         internal void SetLocation(object location)
@@ -343,9 +315,13 @@ namespace OIDE.Core
       
             //to create the objects i need the parameter data!!!!
    //         mpm.Save();
-            Type instance = (Type)Activator.CreateInstance(t);
-           object  obj = t.GetConstructor(new Type[] { }).Invoke(new object[] { });
-           mpm.Items.Add(obj as IItem);
+            if (t.Name == "OIDEZipArchive")
+            {
+                mpm.Items.Add(new OIDEZipArchive(mpm, mpm.UnityContainer , "") { Name = "Unknown.zip" });
+               // Type instance = (Type)Activator.CreateInstance(t);
+               // object obj = t.GetConstructor(new Type[] { }).Invoke(new object[] { });
+             //   mpm.Items.Add(obj as IItem);
+            }
         }
 
         public CmdAddExistingItemToGameProject(GameProjectModel pm)

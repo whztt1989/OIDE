@@ -15,55 +15,80 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using OIDE.DAL;
 using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
+using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model
 {
     public class StaticObjectModel : ISceneItem, ISceneNode, IGameEntity
     {
+        private ProtoType.StaticEntity mData;
+
+        [XmlIgnore]
+        [Browsable(false)]
         public IItem Parent { get; private set; }
+
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
         public String ContentID { get; set; }
 
+        [XmlIgnore]
         public ProtoType.Node Node { get; set; }
+
+        [XmlIgnore]
+        [Browsable(false)]
         public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public object DBData { get; private set; }
-        private ProtoType.StaticEntity mData;
+
+   
+        [XmlIgnore]
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
         public object ProtoData { get { return mData; } }
 
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
-        public Int32 ID { get; protected set; }
-        public String Name { get; set; }
+        [XmlIgnore]
         [Browsable(false)]
-        public CollectionOfIItem Items { get; private set; }
-    
+        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
+        public Int32 ID { get; set; }
+        public String Name { get; set; }
+
+        [Browsable(false)]
+        public CollectionOfIItem Items { get; set; }
+
+
+        [XmlIgnore]
         [Browsable(false)]
         public List<MenuItem> MenuOptions
         {
             get
             {
                 List<MenuItem> list = new List<MenuItem>();
-                MenuItem miSave = new MenuItem() {  Header = "Save" };
+                MenuItem miSave = new MenuItem() { Header = "Save" };
                 list.Add(miSave);
 
-          
+
                 return list;
             }
         }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public IDAL IDAL { get { return m_dbI; } }
 
         private IDAL m_dbI;
 
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
+
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
+
+        [XmlIgnore]
+        [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         public Boolean Open() { return true; }
@@ -81,7 +106,7 @@ namespace OIDE.Scene.Model
                     m_dbI.insertGameEntity(DBData as OIDE.DAL.MDB.GameEntity);
                 }
 
-                if(DLL_Singleton.Instance.EditorInitialized)
+                if (DLL_Singleton.Instance.EditorInitialized)
                     DLL_Singleton.Instance.consoleCmd("cmd physic " + (DBData as OIDE.DAL.MDB.GameEntity).EntID); //.updateObject(0, (int)ObjType.Physic);
 
             }
@@ -91,14 +116,23 @@ namespace OIDE.Scene.Model
             }
             return true;
         }
-        ICommand CmdSave;
 
+        private ICommand CmdSave;
 
         public Boolean Create() { return true; }
         public Boolean Delete() { return true; }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public IUnityContainer UnityContainer { get; private set; }
-        public TreeNode TreeNode { get; set; }
+
+        /// <summary>
+        /// Default contructor for serialization
+        /// </summary>
+        public StaticObjectModel()
+        {
+
+        }
 
         public StaticObjectModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
         {
@@ -106,7 +140,7 @@ namespace OIDE.Scene.Model
 
             Parent = parent;
             SceneItems = new ObservableCollection<ISceneItem>();
-            CmdSave = new CmdSaveStaticObject(this) ;
+            CmdSave = new CmdSaveStaticObject(this);
             //  mtest = new Byte[10];
             Items = new CollectionOfIItem();
 

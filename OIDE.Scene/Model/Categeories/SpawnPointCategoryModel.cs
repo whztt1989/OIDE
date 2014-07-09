@@ -29,41 +29,51 @@ namespace OIDE.Scene
 
     public class SpawnPointCategoryModel : ViewModelBase, ISceneItem
     {
-        public String Name { get;set; }
-        public CollectionOfIItem Items { get; private set; }
+        public String Name { get; set; }
 
+
+        [Browsable(false)]
+        public CollectionOfIItem Items { get; set; }
+
+        [Browsable(false)]
+        [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
         public String ContentID { get; set; }
-      
 
+
+        [Browsable(false)]
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
+
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
         public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
 
+        [Browsable(false)]
         [XmlIgnore]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-         [XmlIgnore]
+        [Browsable(false)]
+        [XmlIgnore]
         public IItem Parent { get; private set; }
 
-         public Boolean Create() { return true; }
-         public Boolean Open() { return true; }
-         public Boolean Save() { return true; }
-         public Boolean Delete() { return true; }
+        public Boolean Create() { return true; }
+        public Boolean Open() { return true; }
+        public Boolean Save() { return true; }
+        public Boolean Delete() { return true; }
 
-         public IUnityContainer UnityContainer { get; private set; }
-         public TreeNode TreeNode { get; set; }
+        [Browsable(false)]
+        [XmlIgnore]
+        public IUnityContainer UnityContainer { get; private set; }
 
-         public SpawnPointCategoryModel()
+        public SpawnPointCategoryModel()
         {
 
         }
 
-         public SpawnPointCategoryModel(IItem parent, IUnityContainer container)
+        public SpawnPointCategoryModel(IItem parent, IUnityContainer container)
         {
             UnityContainer = container;
             Parent = parent;

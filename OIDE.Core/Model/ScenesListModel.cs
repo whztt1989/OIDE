@@ -82,8 +82,9 @@ namespace OIDE.Core
     {
         //ICommandManager m_CommandManager;
         //IMenuService m_MenuService;
-        ICommand m_cmdCreateScene;
+        private ICommand m_cmdCreateScene;
 
+        [XmlIgnore]
         public IUnityContainer UnityContainer { get; private set; }
 
         public ScenesListModel()

@@ -30,39 +30,33 @@ namespace OIDE.Scene.Model
     public class SceneDataModel : IScene
     {
 
+        private IHistoryCommand CmdSave;
+        private ProtoType.Scene mData;
         private CollectionOfIItem m_Items;
+        private ObservableCollection<ISceneItem> m_SceneItems;
+        private ISceneItem mSelectedItem;
         //ICommand m_cmdCreateFile;
         //ICommand m_cmdDelete;
 
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
-
         public String ContentID { get; set; }
 
+        [Browsable(false)]
+        [XmlIgnore]
         public DAL.MDB.Scene SceneData { get; private set; }
 
-        private IHistoryCommand CmdSave;
-
+        [XmlIgnore]
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
         public ProtoType.Colour ColourAmbient { get { return mData.colourAmbient; } set { mData.colourAmbient = value; } }
-
-        private ProtoType.Scene mData;
-
+      
+        [XmlIgnore]
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
-        public ProtoType.Scene Data
-        {
-            get
-            {
-
-                return mData;
-            }
-            set { mData = value; }
-        }
-
+        public ProtoType.Scene Data  {  get { return mData; } set { mData = value; }  }
 
         public bool AddItem(ISceneItem item)
         {
@@ -73,12 +67,13 @@ namespace OIDE.Scene.Model
             }
             return false;
         }
-        private ObservableCollection<ISceneItem> m_SceneItems;
-
+       
+        [Browsable(false)]
         [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get { return m_SceneItems; }  set { m_SceneItems = value; } }
 
-        private ISceneItem mSelectedItem;
+        [XmlIgnore]
+        [Browsable(false)]
         public ISceneItem SelectedItem
         {
             get
@@ -91,11 +86,9 @@ namespace OIDE.Scene.Model
 
         [XmlAttribute]
         public String Name { get; set; }
+      
         [Browsable(false)]
         public CollectionOfIItem Items { get { return m_Items; } set { m_Items = value; } }
-
-        [XmlIgnore]
-        public Guid Guid { get; private set; }
 
         [Browsable(false)]
         [XmlIgnore]
@@ -115,6 +108,7 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         [XmlAttribute]
         public Boolean IsExpanded { get; set; }
+
         [Browsable(false)]
         [XmlAttribute]
         public Boolean IsSelected { get; set; }
@@ -124,7 +118,6 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         public IItem Parent { get; private set; }
-
 
         #region Scene Data
 
@@ -357,6 +350,7 @@ namespace OIDE.Scene.Model
 
             return true;
         }
+
         public Boolean Delete() { return true; }
 
         public SceneDataModel()
@@ -367,8 +361,8 @@ namespace OIDE.Scene.Model
 
         public IUnityContainer UnityContainer { get { return m_Container; } }
 
-        IUnityContainer m_Container;
-        ISceneService m_SceneService;
+        private IUnityContainer m_Container;
+        private ISceneService m_SceneService;
 
         public SceneDataModel(IItem parent, IUnityContainer container, Int32 id = 0)
         {

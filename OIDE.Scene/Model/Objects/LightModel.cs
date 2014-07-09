@@ -9,27 +9,39 @@ using System.Windows.Controls;
 using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
 using OIDE.Scene.Interface.Services;
+using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model
 {
     public class LightModel : ISceneItem, ISceneNode
     {
+        [XmlIgnore]
+        [Browsable(false)]
         public IItem Parent { get; private set; }
+
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
+        [XmlIgnore]
         public ProtoType.Node Node { get; set; }
+
+        [XmlIgnore]
+        [Browsable(false)]
         public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
-        
-        
+            
         public String ContentID { get; set; }
 
-        public TreeNode TreeNode { get; set; }
+        [XmlIgnore]
+        [Browsable(false)]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
-        public Int32 ID { get; protected set; }
+       
+        public Int32 ID { get; set; }
         public String Name { get; set; }
+      
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
+
+        [XmlIgnore]
         [Browsable(false)]
         public List<MenuItem> MenuOptions
         {
@@ -44,8 +56,12 @@ namespace OIDE.Scene.Model
 
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
+
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
+
+        [XmlIgnore]
+        [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         public Boolean Create() { return true; }
@@ -53,8 +69,17 @@ namespace OIDE.Scene.Model
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public IUnityContainer UnityContainer { get; private set; }
 
+        /// <summary>
+        /// default constructor for serlialization
+        /// </summary>
+        public LightModel()
+        {
+
+        }
 
         public LightModel (IItem parent,IUnityContainer unityContainer)
         {

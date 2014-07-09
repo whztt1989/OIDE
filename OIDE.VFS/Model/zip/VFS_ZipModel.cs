@@ -38,6 +38,7 @@ using OIDE.VFS.VFS_Types.zip;
 using System.IO.Compression;
 using System.IO;
 using WpfTreeViewBinding.Model;
+using Microsoft.Win32;
 
 namespace OIDE.VFS
 {
@@ -49,7 +50,7 @@ namespace OIDE.VFS
     //[XmlInclude(typeof(SceneDataModel))]
     //[XmlInclude(typeof(PhysicsObjectModel))]
     //[Serializable]
-    public class VFS_ZipModel : ViewModelBase, IItem, IVFSArchive
+    public class VFS_ZipModel : ContentModel, IItem, IVFSArchive
     {
         private string result;
         private CollectionOfIItem m_Items;
@@ -78,6 +79,8 @@ namespace OIDE.VFS
         public CollectionOfIItem Items { get { return m_Items; } set { m_Items = value; } }
 
 
+        private CmdSaveVFSZip CmdSave;
+
         /// <summary>
         /// List of menu options
         /// </summary>
@@ -93,8 +96,9 @@ namespace OIDE.VFS
                 list.Add(new MenuItem() { Header = "Delete" });
                 list.Add(new MenuItem() { Header = "Extract File/Folder To" });
                 list.Add(new MenuItem() { Header = "Extract All To" });
-                
-                list.Add(new MenuItem() { Header = "Save" });
+
+                list.Add(new MenuItem() { Header = "Remove" });
+                list.Add(new MenuItem() { Command = CmdSave, Header = "Save" });
                 return list;
             }
         }
@@ -118,22 +122,26 @@ namespace OIDE.VFS
         /// <summary>
         /// Item has children
         /// </summary>
+        [Browsable(false)]
         [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
         /// <summary>
         /// parent of this item
         /// </summary>
+        [Browsable(false)]
         [XmlIgnore]
         public IItem Parent { get; private set; }
 
         #endregion 
 
+        [Browsable(false)]
         [XmlIgnore]
         public ICommand RaiseConfirmation { get; private set; }
         //  public ICommand RaiseSelectAEF { get; private set; }
 
         //   public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
+        [Browsable(false)]
         [XmlIgnore]
         public InteractionRequest<Confirmation> ConfirmationRequest { get; private set; }
 
@@ -144,6 +152,7 @@ namespace OIDE.VFS
                 (cb) => { Result = cb.Confirmed ? "The user confirmed" : "The user cancelled"; });
         }
 
+        [Browsable(false)]
         [XmlIgnore]
         public string Result
         {
@@ -156,7 +165,11 @@ namespace OIDE.VFS
         {
 
             if (!File.Exists(FilePath))
+            {
+               Name += " _not found";
+
                 return false;
+            }
           
 
            using (ZipArchive archive = ZipFile.OpenRead(FilePath))
@@ -221,8 +234,12 @@ namespace OIDE.VFS
                     //   {
                        if (isFile)
                        {
-                           var item = new FileItem
+                           ICommandManager commandMgr = UnityContainer.Resolve<ICommandManager>();
+                           IMenuService menuService = UnityContainer.Resolve<IMenuService>();
+                           
+                           var item = new FileItem(commandMgr, menuService)
                            {
+                               ContentID  = "FILE:##:",
                                Name = file.Name,
                                Path = file.FullName
                            };
@@ -238,7 +255,24 @@ namespace OIDE.VFS
        //     VFS_Zip.SimpleUnzip();
 
             return true; }
-        public Boolean Save() { return true; }
+
+        public Boolean Save()
+        {
+            if (!File.Exists(FilePath))
+            {
+                FilePath = FilePath + "/" + Name;
+                File.Create(FilePath);
+                this.IsDirty = false;
+
+                var logger = UnityContainer.Resolve<ILoggerService>();
+                logger.Log("Zip file '" + FilePath + "' created", LogCategory.Info, LogPriority.Medium);
+
+                return true;
+            }
+
+            return false; 
+        
+        }
         public Boolean Delete() { return true; }
 
 
@@ -253,6 +287,8 @@ namespace OIDE.VFS
             m_Items = new CollectionOfIItem();
         }
 
+        [Browsable(false)]
+        [XmlIgnore]
         public IUnityContainer UnityContainer { get; private set; }
 
         /// <summary>
@@ -272,6 +308,7 @@ namespace OIDE.VFS
             m_Items = new CollectionOfIItem();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
+            this.CmdSave = new CmdSaveVFSZip(this);
             //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
             //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
             //ScenesModel scenes = new ScenesModel(this, commandManager, menuService) { Name = "Scenes" };
@@ -340,6 +377,28 @@ namespace OIDE.VFS
         {
             this.HTMLResult = transform;
             RaisePropertyChanged("HTMLResult");
+        }
+    }
+
+
+    public class CmdSaveVFSZip : ICommand
+    {
+        private VFS_ZipModel mpm;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            mpm.Save();
+        }
+
+        public CmdSaveVFSZip(VFS_ZipModel pm)
+        {
+            mpm = pm;
         }
     }
 }

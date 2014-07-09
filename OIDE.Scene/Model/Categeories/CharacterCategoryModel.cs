@@ -33,45 +33,52 @@ namespace OIDE.Scene
 
     public class CharacterCategoryModel : ViewModelBase, ISceneItem
     {
-        public String Name { get;set; }
-        public CollectionOfIItem Items { get; private set; }
+        private Boolean m_IsExpanded;
 
+        public String Name { get; set; }
+
+        [Browsable(false)]
+        public CollectionOfIItem Items { get; set; }
+
+        [Browsable(false)]
+        [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
         public String ContentID { get; set; }
-      
 
+        [Browsable(false)]
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
 
-        private Boolean m_IsExpanded;
-
+      
         public Boolean IsExpanded { get { return m_IsExpanded; } set { m_IsExpanded = value; RaisePropertyChanged("IsExpanded"); } }
         public Boolean IsSelected { get; set; }
         public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
 
+        [Browsable(false)]
         [XmlIgnore]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-         [XmlIgnore]
+        [Browsable(false)]
+        [XmlIgnore]
         public IItem Parent { get; private set; }
 
-         public Boolean Create() { return true; }
-         public Boolean Open() { return true; }
-         public Boolean Save() { return true; }
-         public Boolean Delete() { return true; }
+        public Boolean Create() { return true; }
+        public Boolean Open() { return true; }
+        public Boolean Save() { return true; }
+        public Boolean Delete() { return true; }
 
-         public IUnityContainer UnityContainer { get; private set; }
+        [Browsable(false)]
+        [XmlIgnore]
+        public IUnityContainer UnityContainer { get; private set; }
 
-         public TreeNode TreeNode { get; set; }
-
-         public CharacterCategoryModel()
+        public CharacterCategoryModel()
         {
 
         }
 
-         public CharacterCategoryModel(IItem parent, IUnityContainer container)
+        public CharacterCategoryModel(IItem parent, IUnityContainer container)
         {
             UnityContainer = container;
             Parent = parent;
@@ -99,15 +106,15 @@ namespace OIDE.Scene
         {
             CharacterCategoryModel parent = parameter as CharacterCategoryModel;
 
-        //    PhysicsObjectModel pom = new PhysicsObjectModel(parent, parent.UnityContainer) { Name = "Phys 1" , ContentID = "PhysicID:##" };
+            //    PhysicsObjectModel pom = new PhysicsObjectModel(parent, parent.UnityContainer) { Name = "Phys 1" , ContentID = "PhysicID:##" };
 
 
-      //     parent.SceneItems.Add(pom);
-  //         parent.Parent.Items.IsExpanded = true;
-        //  parent.Items.Add(pom);
+            //     parent.SceneItems.Add(pom);
+            //         parent.Parent.Items.IsExpanded = true;
+            //  parent.Items.Add(pom);
 
             ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
-           // sceneService.TreeList.
+            // sceneService.TreeList.
             //IDAL dbI = new IDAL();
 
             //// To serialize the hashtable and its key/value pairs,  
@@ -124,7 +131,7 @@ namespace OIDE.Scene
             //        dbI.insertPhysics(mpcm.ID, inputStream.ToArray());
             //}
 
-          //todo !!  DLL_Singleton.Instance.consoleCmd("cmd physic 0"); //.updateObject(0, (int)ObjType.Physic);
+            //todo !!  DLL_Singleton.Instance.consoleCmd("cmd physic 0"); //.updateObject(0, (int)ObjType.Physic);
         }
 
         public CmdAddCharacterObj(IUnityContainer container)

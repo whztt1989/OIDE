@@ -21,19 +21,26 @@ namespace OIDE.Scene.Model
 {
     public class PhysicsObjectModel : ISceneItem , ISceneNode, IGameEntity
     {
-        ICommand CmdSave;
+        private ProtoType.PhysicsObject mData;
+        private ICommand CmdSave;
+        
         public String ContentID { get; set; }
 
         [XmlIgnore]
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
-      
+
+        [XmlIgnore]
         public ProtoType.Node Node { get; set; }
+      
+        [XmlIgnore]
         public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
 
+        [XmlIgnore]
         public object DBData { get; private set; }
-        private ProtoType.PhysicsObject mData;
+
+        [XmlIgnore]
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
@@ -42,11 +49,12 @@ namespace OIDE.Scene.Model
         [XmlAttribute]
         public String Name { get; set; }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+
         [Browsable(false)]
         public CollectionOfIItem Items { get; set; }
-
-        public TreeNode TreeNode { get; set; }
 
         [Browsable(false)]
         [XmlIgnore]
@@ -60,11 +68,13 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         [XmlAttribute]
         public Boolean IsExpanded { get; set; }
+
         [Browsable(false)]
         [XmlAttribute]
         public Boolean IsSelected { get; set; }
 
         [XmlIgnore]
+        [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
 
@@ -113,8 +123,12 @@ namespace OIDE.Scene.Model
         }
         public Boolean Delete() { return true; }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public IUnityContainer UnityContainer { get; private set; }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public IDAL IDAL { get { return m_dbI; } }
 
         private IDAL m_dbI;

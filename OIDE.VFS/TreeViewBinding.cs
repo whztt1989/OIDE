@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
 using WpfTreeViewBinding.Model;
+using Wide.Core.TextDocument;
+using Wide.Interfaces.Services;
 
 namespace OIDE.VFS
 {
@@ -44,9 +46,11 @@ namespace OIDE.VFS
     //    }
     //}
 }
+
+
 namespace WpfTreeViewBinding.Model
 {
-    public class Item : IItem
+    public class FileItem : TextModel,  IItem
     {
         public string Name { get; set; }
         public string Path { get; set; }
@@ -62,32 +66,51 @@ namespace WpfTreeViewBinding.Model
 
         public Boolean Create() { return true; }
         public bool Delete() { return true; }
-        public bool Open() {
-            
+        public bool Open()
+        {
+
             return true;
         }
         public bool Save() { return true; }
 
+
+        public FileItem(ICommandManager commandManager, IMenuService menuService)
+            : base(commandManager , menuService)
+        {
+            Items = new CollectionOfIItem();
+        }
     }
 }
 
 namespace WpfTreeViewBinding.Model
 {
-    public class FileItem : Item
+    public class DirectoryItem : IItem
     {
+        public string Name { get; set; }
+        public string Path { get; set; }
 
-    }
-}
+        public string ContentID { get; set; }
+        public bool HasChildren { get; set; }
+        public bool IsExpanded { get; set; }
+        public bool IsSelected { get; set; }
+        public CollectionOfIItem Items { get; set; }
+        public List<System.Windows.Controls.MenuItem> MenuOptions { get; set; }
+        public IItem Parent { get; set; }
+        public IUnityContainer UnityContainer { get; set; }
 
-namespace WpfTreeViewBinding.Model
-{
-    public class DirectoryItem : Item
-    {
-        public List<Item> Items { get; set; }
+        public Boolean Create() { return true; }
+        public bool Delete() { return true; }
+        public bool Open()
+        {
+
+            return true;
+        }
+        public bool Save() { return true; }
+
 
         public DirectoryItem()
         {
-            Items = new List<Item>();
+            Items = new CollectionOfIItem();
         }
     }
 }

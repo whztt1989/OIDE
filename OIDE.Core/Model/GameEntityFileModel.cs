@@ -29,14 +29,13 @@ namespace OIDE.Core
 
     public class GameEntityFileModel : DBFileModel, IItem
     {
-        public String Name { get;set; }
+        public String Name { get; set; }
         public CollectionOfIItem Items { get; set; }
-
         public String ContentID { get; set; }
-      
 
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
+
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
         public Boolean Enabled { get; set; }
@@ -45,20 +44,24 @@ namespace OIDE.Core
         [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-         [XmlIgnore]
+        [XmlIgnore]
         public IItem Parent { get; private set; }
 
-         public Boolean Open() { return true; }
-         public Boolean Save() { return true; }
-         public Boolean Delete() { return true; }
+        [XmlIgnore]
+        public IUnityContainer UnityContainer { get; private set; }
 
-         public GameEntityFileModel()
+
+        public Boolean Open() { return true; }
+        public Boolean Save() { return true; }
+        public Boolean Delete() { return true; }
+
+        public GameEntityFileModel()
         {
 
         }
-         public IUnityContainer UnityContainer { get; private set; }
 
-         public GameEntityFileModel(IItem parent, IUnityContainer unityContainer)
+
+        public GameEntityFileModel(IItem parent, IUnityContainer unityContainer)
         {
             UnityContainer = unityContainer;
             Parent = parent;
@@ -71,7 +74,7 @@ namespace OIDE.Core
 
 
 
-         
+
 
         }
     }

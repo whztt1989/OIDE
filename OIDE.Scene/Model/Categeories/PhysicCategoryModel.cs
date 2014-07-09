@@ -33,45 +33,52 @@ namespace OIDE.Scene
 
     public class PhysicCategoryModel : ViewModelBase, ISceneItem
     {
-        public String Name { get;set; }
-        public CollectionOfIItem Items { get; private set; }
+        private Boolean m_IsExpanded;
+        
+        public String Name { get; set; }
 
+        [Browsable(false)]
+        public CollectionOfIItem Items { get; set; }
+
+        [Browsable(false)]
+        [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
         public String ContentID { get; set; }
-      
 
+        [Browsable(false)]
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
 
-        private Boolean m_IsExpanded;
 
         public Boolean IsExpanded { get { return m_IsExpanded; } set { m_IsExpanded = value; RaisePropertyChanged("IsExpanded"); } }
         public Boolean IsSelected { get; set; }
         public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
 
+        [Browsable(false)]
         [XmlIgnore]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-         [XmlIgnore]
+        [Browsable(false)]
+        [XmlIgnore]
         public IItem Parent { get; private set; }
 
-         public Boolean Create() { return true; }
-         public Boolean Open() { return true; }
-         public Boolean Save() { return true; }
-         public Boolean Delete() { return true; }
+        public Boolean Create() { return true; }
+        public Boolean Open() { return true; }
+        public Boolean Save() { return true; }
+        public Boolean Delete() { return true; }
 
-         public IUnityContainer UnityContainer { get; private set; }
+        [Browsable(false)]
+        [XmlIgnore]
+        public IUnityContainer UnityContainer { get; private set; }
 
-         public TreeNode TreeNode { get; set; }
-
-         public PhysicCategoryModel()
+        public PhysicCategoryModel()
         {
 
         }
 
-         public PhysicCategoryModel(IItem parent, IUnityContainer container)
+        public PhysicCategoryModel(IItem parent, IUnityContainer container)
         {
             UnityContainer = container;
             Parent = parent;
@@ -98,12 +105,12 @@ namespace OIDE.Scene
         public void Execute(object parameter)
         {
             PhysicCategoryModel parent = parameter as PhysicCategoryModel;
-      
-            PhysicsObjectModel pom = new PhysicsObjectModel(parent, parent.UnityContainer) { Name = "Phys NEW" , ContentID = "PhysicID:##" };
+
+            PhysicsObjectModel pom = new PhysicsObjectModel(parent, parent.UnityContainer) { Name = "Phys NEW", ContentID = "PhysicID:##" };
 
             pom.Save();
 
-           parent.Items.Add(pom);
+            parent.Items.Add(pom);
 
             ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
         }

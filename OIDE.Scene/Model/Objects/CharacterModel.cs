@@ -23,6 +23,7 @@ using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
 using Microsoft.Practices.Unity;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model
 {
@@ -32,21 +33,26 @@ namespace OIDE.Scene.Model
         public Boolean Enabled { get; set; }
 
         public String ContentID { get; set; }
+
+        [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
+        [XmlIgnore]
         public ProtoType.Node Node { get; set; }
+
+        [XmlIgnore]
         public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
 
 
         public Int32 ID { get; set; }
         public String Name { get; set; }
+       
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
 
-        public TreeNode TreeNode { get; set; }
-
         private ProtoType.Camera mData;
 
+        [XmlIgnore]
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
@@ -59,6 +65,7 @@ namespace OIDE.Scene.Model
             set { mData = value; }
         }
 
+        [XmlIgnore]
         [Browsable(false)]
         public List<MenuItem> MenuOptions
         {
@@ -74,9 +81,12 @@ namespace OIDE.Scene.Model
 
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
+
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
+
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
+
         public IItem Parent { get; private set; }
 
         public Boolean Create() { return true; }

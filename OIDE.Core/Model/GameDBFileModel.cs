@@ -34,19 +34,23 @@ namespace OIDE.Core
         public CollectionOfIItem Items { get; set; }
 
         public String ContentID { get; set; }
-      
 
+
+        [Browsable(false)]
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
+
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
         public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
 
+        [Browsable(false)]
         [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-         [XmlIgnore]
+        [Browsable(false)]
+        [XmlIgnore]
         public IItem Parent { get; private set; }
 
          public Boolean Open() { return true; }
@@ -59,6 +63,9 @@ namespace OIDE.Core
         {
 
         }
+
+         [Browsable(false)]
+         [XmlIgnore]
          public IUnityContainer UnityContainer { get; private set; }
 
          public GameDBFileModel(IItem parent, IUnityContainer unityContainer)

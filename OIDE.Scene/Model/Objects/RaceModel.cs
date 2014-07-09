@@ -23,6 +23,7 @@ using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
 using Microsoft.Practices.Unity;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model
 {
@@ -32,21 +33,30 @@ namespace OIDE.Scene.Model
         public Boolean Enabled { get; set; }
 
         public String ContentID { get; set; }
+
+        [XmlIgnore]
+        [Browsable(false)]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
+        [XmlIgnore]
+        [ExpandableObject]
         public ProtoType.Node Node { get; set; }
+
+        [XmlIgnore]
+        [Browsable(false)]
         public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
 
 
-        public Int32 ID { get; set; }
         public String Name { get; set; }
+
+
         [Browsable(false)]
-        public CollectionOfIItem Items { get; private set; }
+        public CollectionOfIItem Items { get; set; }
 
-        public TreeNode TreeNode { get; set; }
-
+        [XmlIgnore]
         private ProtoType.Camera mData;
 
+        [XmlIgnore]
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
@@ -59,6 +69,7 @@ namespace OIDE.Scene.Model
             set { mData = value; }
         }
 
+        [XmlIgnore]
         [Browsable(false)]
         public List<MenuItem> MenuOptions
         {
@@ -74,9 +85,16 @@ namespace OIDE.Scene.Model
 
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
+
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
+
+        [XmlIgnore]
+        [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
+
+        [XmlIgnore]
+        [Browsable(false)]
         public IItem Parent { get; private set; }
 
         public Boolean Open()
@@ -87,12 +105,22 @@ namespace OIDE.Scene.Model
 
             return true;
         }
+
         public Boolean Create() { return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public IUnityContainer UnityContainer { get; private set; }
 
+        /// <summary>
+        /// default constructor for serialization
+        /// </summary>
+        public RaceModel()
+        {
+
+        }
 
         public RaceModel(IItem parent, IUnityContainer unityContainer)
         {
