@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using MahApps.Metro.Controls;
+using System.Windows;
 using Wide.Splash;
 
 namespace OIDE
@@ -6,7 +7,7 @@ namespace OIDE
     /// <summary>
     /// Interaction logic for AppSplash.xaml
     /// </summary>
-    public partial class AppSplash : Window, ISplashView
+    internal partial class AppSplash : MetroWindow, ISplashView
     {
         public AppSplash(SplashViewModel model)
         {

@@ -117,6 +117,7 @@
     <Compile Include="CoreModule.cs" />
     <Compile Include="Model\GameEntityFileModel.cs" />
     <Compile Include="Model\GameDBFileModel.cs" />
+    <Compile Include="Model\OIDE_RFS.cs" />
     <Compile Include="Model\OIDEZipArchive.cs" />
     <Compile Include="Model\ScenesListModel.cs" />
     <Compile Include="Model\FilterModel.cs" />

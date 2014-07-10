@@ -215,13 +215,14 @@ namespace OIDE.Core
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
             this.CanAddThisItems = new List<Type>();
 
+            CanAddThisItems.Add(typeof(OIDE_RFS));
             CanAddThisItems.Add(typeof(OIDEZipArchive));
             CanAddThisItems.Add(typeof(GameDBFileModel));
            //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
             //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
-          
 
-            OIDEZipArchive fileAssets = new OIDEZipArchive(this, container, "test.zip");
+
+            OIDE_RFS fileAssets = new OIDE_RFS(this, container, "./Data");
             fileAssets.Open();
             m_Items.Add(fileAssets);
 

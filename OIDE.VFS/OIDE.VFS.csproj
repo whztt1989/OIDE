@@ -111,6 +111,8 @@
     <Compile Include="Model\VFSFilterModel.cs" />
     <Compile Include="Model\zip\VFS_ZipModel.cs" />
     <Compile Include="TreeViewBinding.cs" />
+    <Compile Include="VFS_Types\RootFileSystem\RootVFS.cs" />
+    <Compile Include="VFS_Types\RootFileSystem\TreeViewBinding.cs" />
     <Compile Include="VFS_Types\zip\Compression.cs" />
     <Compile Include="VFS_Types\zip\VFS_Zip.cs" />
     <Compile Include="ViewModel\VFSViewModel.cs" />
