@@ -202,7 +202,12 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         internal void SetDirty(bool value)
         {
             this.IsDirty = value;
-        }           
+        }          
+ 
+        public bool CreateFolder()
+        {
+            return true;
+        }
     }
 
 
@@ -222,6 +227,28 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         }
 
         public CmdSaveRFS(RootVFS pm)
+        {
+            mpm = pm;
+        }
+    }
+
+
+    public class CmdCreateRFSFolder : ICommand
+    {
+        private RootVFS mpm;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            mpm.CreateFolder();
+        }
+
+        public CmdCreateRFSFolder(RootVFS pm)
         {
             mpm = pm;
         }
