@@ -22,6 +22,8 @@ namespace OIDE.Scene.Model
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
+        public void Drop(IItem item) { }
+
         [XmlIgnore]
         public ProtoType.Node Node { get; set; }
 

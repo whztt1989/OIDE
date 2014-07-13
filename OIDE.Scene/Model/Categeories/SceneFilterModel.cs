@@ -34,6 +34,8 @@ namespace OIDE.Scene
 
         public String ContentID { get; set; }
 
+        public void Drop(IItem item) { }
+
         public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
 

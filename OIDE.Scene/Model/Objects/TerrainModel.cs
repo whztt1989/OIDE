@@ -18,6 +18,8 @@ namespace OIDE.Scene.Model
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
+        public void Drop(IItem item) { }
+
         public String ContentID { get; set; }
       
 

@@ -67,5 +67,6 @@ namespace OIDE.Scene.View
             DLL_Singleton.Instance.consoleCmd("cmd");
         }
 
+
     }
 }

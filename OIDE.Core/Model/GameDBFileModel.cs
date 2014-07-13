@@ -25,12 +25,16 @@ using Microsoft.Practices.Unity;
 using OIDE.DAL;
 using OIDE.Scene;
 using OIDE.Scene.Model;
+using OIDE.DAL.MDB;
+using Module.Protob.Utilities;
 
 namespace OIDE.Core
 {
     public class GameDBFileModel : DBFileModel, IItem
     {
-        public String Name { get;set; }
+        private IDAL m_DBI;
+
+        public String Name { get; set; }
         public CollectionOfIItem Items { get; set; }
 
         public String ContentID { get; set; }
@@ -40,7 +44,9 @@ namespace OIDE.Core
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
 
-        public Boolean IsExpanded { get; set; }
+        private Boolean mIsExpanded;
+
+        public Boolean IsExpanded { get { return mIsExpanded; } set { mIsExpanded = value; if (!mOpened) Open(); } }
         public Boolean IsSelected { get; set; }
         public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
@@ -53,22 +59,143 @@ namespace OIDE.Core
         [XmlIgnore]
         public IItem Parent { get; private set; }
 
-         public Boolean Open() { return true; }
-         public Boolean Save() { return true; }
-         public Boolean Delete() { return true; }
 
-         public String Location { get; set; }
+        private Boolean mOpened;
 
-         public GameDBFileModel()
+        public Boolean Open()
         {
+
+
+            ScenesListModel scenesProto = new ScenesListModel(this, UnityContainer) { Name = "Scenes" };
+            scenesProto.IsExpanded = true;
+            this.Items.Add(scenesProto);
+
+            DBCategoryModel dbRuntime = new DBCategoryModel(this, UnityContainer) { Name = "Runtime Data (not needed now)" };
+            //DBCategoryModel players = new DBCategoryModel(dbRuntime, unityContainer) { Name = "Players" };
+            //DBCategoryModel player1 = new DBCategoryModel(players, unityContainer) { Name = "Player1" };
+            //DBCategoryModel charsPlayer = new DBCategoryModel(player1, unityContainer) { Name = "Characters" };
+            //DBCategoryModel char1Player = new DBCategoryModel(charsPlayer, unityContainer) { Name = "Character 1" };
+            //charsPlayer.Items.Add(char1Player);
+            //player1.Items.Add(charsPlayer);
+            //players.Items.Add(player1);
+            //dbRuntime.Items.Add(players);
+            //this.Items.Add(dbRuntime);
+
+            DBCategoryModel scriptMats = new DBCategoryModel(this, UnityContainer) { Name = "Materials (Scripts)" };
+            //DBCategoryModel mat1 = new DBCategoryModel(scriptMats, UnityContainer) { Name = "MaterialsScript1" };
+            //scriptMats.Items.Add(mat1);
+            this.Items.Add(scriptMats);
+
+            DBCategoryModel objects = new DBCategoryModel(this, UnityContainer) { Name = "GameEntites" };
+            objects.IsExpanded = true;
+
+            StaticObjectCategoyModel staticObjects = new StaticObjectCategoyModel(objects, UnityContainer) { Name = "Statics" };
+
+            //StaticObjectModel object1 = new StaticObjectModel(staticObjects, unityContainer) { Name = "Floor" };
+            //staticObjects.Items.Add(object1);
+
+
+
+            CharacterCategoryModel chars = new CharacterCategoryModel(objects, UnityContainer) { Name = "Characters" };
+            //RaceModel race = new RaceModel(chars, unityContainer) { Name = "Human" };
+            //GenderModel male = new GenderModel(race, unityContainer) { Name = "Male" };
+            //race.Items.Add(male);
+            //chars.Items.Add(race);
+
+            PhysicCategoryModel allPhysics = new PhysicCategoryModel(objects, UnityContainer) { Name = "Physics" };
+            //PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, unityContainer) { Name = "pomChar1" };
+            //allPhysics.Items.Add(po1);
+
+
+            try
+            {
+
+
+                IEnumerable<GameEntity> result = m_DBI.selectAllGameEntities();
+
+                if (result != null)
+                {
+                    //select all Nodes
+                    foreach (var gameEntity in result)
+                    {
+                        // ProtoType.Node nodeDeserialized = ProtoSerialize.Deserialize<ProtoType.Node>(node.Node.Data);
+
+                        if (gameEntity.EntType == null)
+                            continue;
+
+                        switch ((NodeTypes)gameEntity.EntType)
+                        {
+                            case NodeTypes.Static:
+
+                                staticObjects.Items.Add(new StaticObjectModel(staticObjects, UnityContainer, m_DBI)
+                                {
+                                    ContentID = "StaticID:##:" + gameEntity.EntID,
+                                    Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID),
+                                    DBData = gameEntity
+                                });// Data = gameEntityDataDeserialized });
+
+                                break;
+                            case NodeTypes.Physic:
+
+                                ProtoType.PhysicsObject dataPhysObj = new ProtoType.PhysicsObject();
+                                if (gameEntity.Data != null)
+                                    dataPhysObj = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>(gameEntity.Data);
+
+                                allPhysics.Items.Add(new PhysicsObjectModel(allPhysics, UnityContainer, dataPhysObj, m_DBI) { ContentID = "PhysicID:##:" + gameEntity.EntID, Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID) });// Data = gameEntityDataDeserialized });
+
+                                break;
+                            case NodeTypes.Camera:
+                                //todo contentid for camera
+
+                                //   SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
+
+
+                                //var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
+                                //if (itemCam.Any())
+                                //    itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer) { Node = nodeDeserialized });
+
+                                break;
+                            case NodeTypes.Light:
+
+                                //var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+                                //if (itemLight.Any())
+                                //    itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer) { Node = nodeDeserialized });
+                                break;
+                        }
+
+                    }
+                }
+
+                objects.Items.Add(staticObjects);
+                objects.Items.Add(chars);
+                objects.Items.Add(allPhysics);
+            }
+            catch (Exception ex)
+            {
+            }
+
+            //    scenes.Items.Add(scene);
+            this.Items.Add(objects);
+
+            return mOpened = true;
+
+        }
+        public Boolean Save() { return true; }
+        public Boolean Delete() { return true; }
+
+        public String Location { get; set; }
+
+        public GameDBFileModel()
+        {
+            m_DBI = new IDAL();
 
         }
 
-         [Browsable(false)]
-         [XmlIgnore]
-         public IUnityContainer UnityContainer { get; private set; }
+        [Browsable(false)]
+        [XmlIgnore]
+        public IUnityContainer UnityContainer { get; private set; }
 
-         public GameDBFileModel(IItem parent, IUnityContainer unityContainer)
+        public GameDBFileModel(IItem parent, IUnityContainer unityContainer)
         {
             Name = "SQLiteDB";
             UnityContainer = unityContainer;
@@ -80,52 +207,12 @@ namespace OIDE.Core
             mib1a.Header = "Text.xaml";
             MenuOptions.Add(mib1a);
 
+            m_DBI = new IDAL();
 
 
-            ScenesListModel scenesProto = new ScenesListModel(this, unityContainer) { Name = "Scenes" };
-            scenesProto.IsExpanded = true;
-            this.Items.Add(scenesProto);
-
-            DBCategoryModel dbRuntime = new DBCategoryModel(this, unityContainer) { Name = "Runtime Data" };
-            DBCategoryModel players = new DBCategoryModel(dbRuntime, unityContainer) { Name = "Players" };
-            DBCategoryModel player1 = new DBCategoryModel(players, unityContainer) { Name = "Player1" };
-            DBCategoryModel charsPlayer = new DBCategoryModel(player1, unityContainer) { Name = "Characters" };
-            DBCategoryModel char1Player = new DBCategoryModel(charsPlayer, unityContainer) { Name = "Character 1" };
-            charsPlayer.Items.Add(char1Player);
-            player1.Items.Add(charsPlayer);
-            players.Items.Add(player1);
-            dbRuntime.Items.Add(players);
-            this.Items.Add(dbRuntime);
-
-            DBCategoryModel scriptMats = new DBCategoryModel(this, unityContainer) { Name = "Materials (Scripts)" };
-            DBCategoryModel mat1 = new DBCategoryModel(scriptMats, unityContainer) { Name = "MaterialsScript1" };
-            scriptMats.Items.Add(mat1);
-            this.Items.Add(scriptMats);
-
-            DBCategoryModel objects = new DBCategoryModel(this, unityContainer) { Name = "Objects" };
-            objects.IsExpanded = true;
 
 
-            StaticObjectCategoyModel staticObjects = new StaticObjectCategoyModel(objects, unityContainer) { Name = "Statics" };
-            StaticObjectModel object1 = new StaticObjectModel(staticObjects, unityContainer) { Name = "Floor" };
-            staticObjects.Items.Add(object1);
-            objects.Items.Add(staticObjects);
 
-            CharacterCategoryModel chars = new CharacterCategoryModel(objects, unityContainer) { Name = "Characters" };
-            RaceModel race = new RaceModel(chars, unityContainer) { Name = "Human" };
-            GenderModel male = new GenderModel(race, unityContainer) { Name = "Male" };
-            race.Items.Add(male);
-            chars.Items.Add(race);
-            objects.Items.Add(chars);
-
-            PhysicCategoryModel allPhysics = new PhysicCategoryModel(objects, unityContainer) { Name = "Physics" };
-            PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, unityContainer) { Name = "pomChar1" };
-            allPhysics.Items.Add(po1);
-            objects.Items.Add(allPhysics);
-
-            //    scenes.Items.Add(scene);
-            this.Items.Add(objects);
-         
 
         }
     }

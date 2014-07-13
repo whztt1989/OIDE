@@ -38,6 +38,8 @@ namespace OIDE.Scene
 
         public CollectionOfIItem Items { get; set; }
 
+        public void Drop(IItem item) { }
+
         public String ContentID { get; set; }
 
         [Browsable(false)]

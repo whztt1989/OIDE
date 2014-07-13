@@ -27,7 +27,7 @@ namespace OIDE.RenderImage.RenderImage
     {
         //uint TIME_INTERVAL_IN_MILLISECONDS = 32;
         //private System.Threading.Timer _timer;
-      
+
 
         /// <summary>
 		/// The Mogre render panel that will be hosted in WPF

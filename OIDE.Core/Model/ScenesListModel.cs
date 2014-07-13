@@ -108,7 +108,14 @@ namespace OIDE.Core
             {
                 foreach (var scene in allScenes)
                 {
-                    SceneDataModel sceneProto2 = new SceneDataModel(this, container) { Name = "Scene_" + scene.SceneID, ContentID = "SceneID:##:" + scene.SceneID };
+                    SceneDataModel sceneProto2 = new SceneDataModel(this, container)
+                    { 
+                        Name = "Scene_" + scene.SceneID,
+                        ContentID = "SceneID:##:" + scene.SceneID, 
+                        SceneID = scene.SceneID ,
+                        SceneData = scene
+                    };
+
                     sceneService.AddScene(sceneProto2);
                     this.Items.Add(sceneProto2);
                 }

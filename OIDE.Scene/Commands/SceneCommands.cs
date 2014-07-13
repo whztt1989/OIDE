@@ -65,6 +65,7 @@ namespace OIDE.Scene.Commands
             m_model.Parent.Items.Remove(m_model);
             //IDAL dbI = new IDAL();
 
+            m_model.Delete();
             //// To serialize the hashtable and its key/value pairs,  
             //// you must first open a stream for writing. 
             //// In this case, use a file stream.
@@ -88,16 +89,16 @@ namespace OIDE.Scene.Commands
         }
     }
 
-    public class CmdSaveScene : IHistoryCommand
+    public class CmdSaveScene : ICommand
     {
         private SceneDataModel mpm;
         public event EventHandler CanExecuteChanged;
 
-        public bool CanRedo() { return true; }
-        public bool CanUndo() { return true; }
-        public void Redo() { }
-        public string ShortMessage() { return "Save Scene"; }
-        public void Undo() { }
+        //public bool CanRedo() { return true; }
+        //public bool CanUndo() { return true; }
+        //public void Redo() { }
+        //public string ShortMessage() { return "Save Scene"; }
+        //public void Undo() { }
 
         public bool CanExecute(object parameter)
         {

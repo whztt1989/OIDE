@@ -17,6 +17,8 @@ using Microsoft.Practices.Prism.Commands;
 using OIDE.DAL;
 using System.IO;
 using System.Text.RegularExpressions;
+using GongSolutions.Wpf.DragDrop;
+using System.Windows;
 
 namespace OIDE.Scene.Model
 {
@@ -26,9 +28,99 @@ namespace OIDE.Scene.Model
     /// <summary>
     /// Complete Scene description
     /// </summary>
-    public class SceneViewerModel : TextModel
+    public class SceneViewerModel : TextModel, IDropTarget
     {
-         private SceneViewerModel m_model;
+
+        void IDropTarget.DragOver(IDropInfo dropInfo)
+        {
+            IItem sourceItem = dropInfo.Data as IItem;
+            IItem targetItem = dropInfo.TargetItem as IItem;
+
+            if (sourceItem != null && targetItem != null)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+                dropInfo.Effects = DragDropEffects.Copy;
+            }
+
+
+            var item = dropInfo.VisualTargetItem as TreeViewItem;
+            if (item != null)
+            {
+                var tc = item.DataContext as SceneViewerModel;
+                if (tc != null)
+                {
+                    if (tc == dropInfo.Data)
+                    {
+                        dropInfo.Effects = DragDropEffects.None;
+                        return;
+                    }
+                }
+
+                //var folderTest = item.DataContext as FolderTestCase;
+                //if (folderTest != null)
+                //{
+                //    if (folderTest.AreNewItemsAllowed())
+                //    {
+                //        folderTest.IsExpanded = true;
+                //        base.DragOver(dropInfo);
+                //    }
+                //    return;
+                //}
+
+                //base.DragOver(dropInfo);
+            }
+            else
+            {
+                var view = dropInfo.VisualTarget as OIDE.Scene.View.SceneViewerView;
+                if (view != null)
+                {
+                    IDropTarget dropHandler = GongSolutions.Wpf.DragDrop.DragDrop.GetDropHandler(view);
+                    if (dropHandler == this)
+                    {
+                        dropInfo.Effects = DragDropEffects.Move;
+                    }
+                }
+            }
+        }
+
+        void IDropTarget.Drop(IDropInfo dropInfo)
+        {
+            IItem sourceItem = dropInfo.Data as IItem;
+            IItem targetItem = dropInfo.TargetItem as IItem;
+
+            var view = dropInfo.VisualTarget as OIDE.Scene.View.SceneViewerView;
+            if (view != null)
+            {
+                IDropTarget dropHandler = GongSolutions.Wpf.DragDrop.DragDrop.GetDropHandler(view);
+                if (dropHandler == this)
+                {
+                    //dropInfo.Effects = DragDropEffects.Move;
+                    SceneViewerModel tmp  = dropHandler as SceneViewerModel;
+
+                    if (sourceItem is ISceneItem)
+                    {
+                        ISceneNode tmpSceneNode = sourceItem as ISceneNode;
+
+                        if (tmpSceneNode.Node == null)
+                        {
+                            tmpSceneNode.Node = new ProtoType.Node();
+                            Point dropPos = dropInfo.DropPosition;
+                            tmpSceneNode.Node.transform = new ProtoType.TransformStateData();
+                            tmpSceneNode.Node.transform.loc = new ProtoType.Vec3f();
+                            tmpSceneNode.Node.transform.loc.x = (float)dropPos.X;
+                            tmpSceneNode.Node.transform.loc.y = (float)dropPos.Y;
+                        }
+                    }
+
+                    tmp.SceneService.SelectedScene.Drop(sourceItem);
+                }
+            }
+
+         //   targetItem.Drop(sourceItem);
+            //targetItem.Children.Add(sourceItem);
+        }
+
+     //    private SceneViewerModel m_model;
 
         public event EventHandler CanExecuteChanged;
 
@@ -93,12 +185,15 @@ namespace OIDE.Scene.Model
             }
         }
 
-        public void SetCurrentScene(IItem root)
-        {
+        //public void SetCurrentScene(IItem root)
+        //{
 
-        }
+        //}
 
         ISceneService m_SceneService;
+
+        public ISceneService SceneService { get { return m_SceneService; } }
+
         public SceneViewerModel(ICommandManager commandManager, IMenuService menuService, ISceneService sceneService)
             : base(commandManager, menuService)
         {

@@ -6,15 +6,15 @@
     <edmx:Diagrams>
       <Diagram DiagramId="1de5a85ead06439aa6c0217dc0e2400c" Name="Diagram1">
         <EntityTypeShape EntityType="gameDataModel.Fog" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="gameDataModel.GameEntity" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="gameDataModel.Material" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="gameDataModel.Race" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="gameDataModel.SceneNodes" Width="1.5" PointX="4.75" PointY="3.75" />
         <EntityTypeShape EntityType="gameDataModel.Sky" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="gameDataModel.Terrain" Width="1.5" PointX="2.75" PointY="6.75" />
         <EntityTypeShape EntityType="gameDataModel.MatUsedInScene" Width="1.5" PointX="6.75" PointY="3.75" />
         <EntityTypeShape EntityType="gameDataModel.PhysUsedInScene" Width="1.5" PointX="4.75" PointY="6.75" />
         <EntityTypeShape EntityType="gameDataModel.Scene" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="gameDataModel.GameEntity" Width="1.5" PointX="2.875" PointY="0.75" />
+        <EntityTypeShape EntityType="gameDataModel.SceneNodes" Width="1.5" PointX="3.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

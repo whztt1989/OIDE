@@ -101,6 +101,24 @@ namespace OIDE.DAL
                 return false;
         }
 
+        public IEnumerable<GameEntity> selectAllGameEntities()
+        {
+            try
+            {
+                var result = mCtx.GameEntity;
+                if (result.Any())
+                    return result;
+                else
+                    return null;
+            }
+             catch(Exception ex)
+            {
+           //     MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+
+            return null;
+        }
+
         public GameEntity selectGameEntity(int id)
         {
             try
@@ -128,6 +146,15 @@ namespace OIDE.DAL
         {
            // Scene tmp = new Scene() { Data = data };
             mCtx.Scene.Add(scene);
+            mCtx.SaveChanges();
+           // id = (int)tmp.SceneID;
+            return true;
+        }
+
+        public bool DeleteScene(Int32 id)
+        {
+           // Scene tmp = new Scene() { Data = data };
+            mCtx.Scene.Remove(mCtx.Scene.Where(x => x.SceneID == id).First());
             mCtx.SaveChanges();
            // id = (int)tmp.SceneID;
             return true;
@@ -164,17 +191,20 @@ namespace OIDE.DAL
             public GameEntity GameEntity { get; set; }
         }
 
-        public IEnumerable<SceneNodeContainer> selectSceneNodes(int sceneID)
+        public IEnumerable<SceneNodes> selectSceneNodes(int sceneID)
         {
             try
             {
                 var result = from n in mCtx.SceneNodes
 
-                             join oj in mCtx.GameEntity on n.EntID equals oj.EntID into gjo
-                             from gameEnt in gjo.DefaultIfEmpty()
+                             //join oj in mCtx.GameEntity on n.EntID equals oj.EntID into gjo
+                             //from gameEnt in gjo.DefaultIfEmpty()
+
+                             //where n.SceneID == sceneID
+                             //select new SceneNodeContainer { Node = n, GameEntity = gameEnt };
 
                              where n.SceneID == sceneID
-                             select new SceneNodeContainer { Node = n, GameEntity = gameEnt };
+                             select n;
 
                 //  var result = mCtx.Scene.Where(x => x.SceneID == id);
                 if (result.Any())
@@ -195,6 +225,15 @@ namespace OIDE.DAL
         {
             mCtx.SceneNodes.Add(sceneNode);
             mCtx.SaveChanges();
+            return true;
+        }
+
+        public bool DeleteSceneNode(Int32 id)
+        {
+            // Scene tmp = new Scene() { Data = data };
+            mCtx.SceneNodes.Remove(mCtx.SceneNodes.Where(x => x.NodeID == id).First());
+            mCtx.SaveChanges();
+            // id = (int)tmp.SceneID;
             return true;
         }
 

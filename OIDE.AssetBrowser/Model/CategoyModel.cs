@@ -32,6 +32,9 @@ namespace OIDE.AssetBrowser
         public String Name { get;set; }
         public CollectionOfIItem Items { get; set; }
 
+        public void Drop(IItem item) { }
+        
+
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
         [XmlAttribute]

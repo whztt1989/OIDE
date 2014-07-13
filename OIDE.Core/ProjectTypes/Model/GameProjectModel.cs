@@ -51,6 +51,8 @@ namespace OIDE.Core
     {
         private string result;
 
+        public void Drop(IItem item) { }
+
         [XmlAttribute]
         public Int32 ID { get; set; }
         [XmlAttribute]
@@ -222,7 +224,7 @@ namespace OIDE.Core
             //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
 
 
-            OIDE_RFS fileAssets = new OIDE_RFS(this, container, "./Data");
+            OIDE_RFS fileAssets = new OIDE_RFS(this, container, "D:\\Projekte\\coop\\Build\\Data");
             fileAssets.Open();
             m_Items.Add(fileAssets);
 

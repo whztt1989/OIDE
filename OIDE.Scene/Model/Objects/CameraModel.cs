@@ -24,6 +24,8 @@ namespace OIDE.Scene.Model
         [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
+        public void Drop(IItem item) { }
+
         [XmlIgnore]
         public ProtoType.Node Node { get; set; }
 

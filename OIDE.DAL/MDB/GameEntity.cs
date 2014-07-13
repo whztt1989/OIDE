@@ -16,6 +16,7 @@ namespace OIDE.DAL.MDB
     {
         public long EntID { get; set; }
         public Nullable<decimal> EntType { get; set; }
+        public string Name { get; set; }
         public byte[] Data { get; set; }
     }
 }

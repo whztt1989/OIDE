@@ -33,6 +33,8 @@ namespace OIDE.DAL
 
         public String ContentID { get; set; }
 
+        public void Drop(IItem item) { }
+
         [Browsable(false)]
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }

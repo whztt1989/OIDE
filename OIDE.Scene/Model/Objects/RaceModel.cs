@@ -34,6 +34,8 @@ namespace OIDE.Scene.Model
 
         public String ContentID { get; set; }
 
+        public void Drop(IItem item) { }
+
         [XmlIgnore]
         [Browsable(false)]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }

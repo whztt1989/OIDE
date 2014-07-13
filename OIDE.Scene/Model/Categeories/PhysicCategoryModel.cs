@@ -40,6 +40,8 @@ namespace OIDE.Scene
         [Browsable(false)]
         public CollectionOfIItem Items { get; set; }
 
+        public void Drop(IItem item) { }
+
         [Browsable(false)]
         [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
@@ -106,7 +108,8 @@ namespace OIDE.Scene
         {
             PhysicCategoryModel parent = parameter as PhysicCategoryModel;
 
-            PhysicsObjectModel pom = new PhysicsObjectModel(parent, parent.UnityContainer) { Name = "Phys NEW", ContentID = "PhysicID:##" };
+            PhysicsObjectModel pom = new PhysicsObjectModel(parent, parent.UnityContainer,new ProtoType.PhysicsObject())
+            { Name = "Phys NEW", ContentID = "PhysicID:##"};
 
             pom.Save();
 

@@ -37,6 +37,8 @@ namespace OIDE.Scene
 
         public String Name { get; set; }
 
+        public void Drop(IItem item) { }
+
         [Browsable(false)]
         public CollectionOfIItem Items { get; set; }
 

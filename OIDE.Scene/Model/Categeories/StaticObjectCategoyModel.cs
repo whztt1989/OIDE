@@ -40,6 +40,8 @@ namespace OIDE.Scene
         [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
+        public void Drop(IItem item) { }
+
         public String ContentID { get; set; }
 
         [Browsable(false)]

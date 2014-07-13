@@ -338,8 +338,15 @@ namespace ProtoType
   {
     public StaticEntity() {}
     
+    private ProtoType.GameEntity _gameEntity;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"gameEntity", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.GameEntity gameEntity
+    {
+      get { return _gameEntity; }
+      set { _gameEntity = value; }
+    }
     private int _group = default(int);
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"group", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"group", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
     [global::System.ComponentModel.DefaultValue(default(int))]
     public int group
     {
@@ -397,9 +404,9 @@ namespace ProtoType
       get { return _materials; }
     }
   
-    private readonly global::System.Collections.Generic.List<ProtoType.PhysicsObject> _physics = new global::System.Collections.Generic.List<ProtoType.PhysicsObject>();
-    [global::ProtoBuf.ProtoMember(4, Name=@"physics", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<ProtoType.PhysicsObject> physics
+    private readonly global::System.Collections.Generic.List<int> _physics = new global::System.Collections.Generic.List<int>();
+    [global::ProtoBuf.ProtoMember(4, Name=@"physics", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public global::System.Collections.Generic.List<int> physics
     {
       get { return _physics; }
     }

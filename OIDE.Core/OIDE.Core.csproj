@@ -79,6 +79,11 @@
       <HintPath>..\..\Build\Module.Properties.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Module.Protob, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.Protob.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="OIDE.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\OIDE.DAL.dll</HintPath>
@@ -91,6 +96,11 @@
     <Reference Include="OIDE.VFS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\OIDE.VFS.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Modules\extlibs\protobuf-net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

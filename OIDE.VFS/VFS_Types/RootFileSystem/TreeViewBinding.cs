@@ -49,6 +49,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         public string Name { get; set; }
         public string Path { get; set; }
 
+        public void Drop(IItem item) { }
 
         public string ContentID { get; set; }
         public bool HasChildren { get; set; }

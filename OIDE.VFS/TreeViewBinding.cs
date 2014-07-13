@@ -55,6 +55,8 @@ namespace WpfTreeViewBinding.Model
         public string Name { get; set; }
         public string Path { get; set; }
 
+        public void Drop(IItem item) { }
+
         public string ContentID { get; set; }
         public bool HasChildren { get; set; }
         public bool IsExpanded { get; set; }
@@ -88,6 +90,8 @@ namespace WpfTreeViewBinding.Model
     {
         public string Name { get; set; }
         public string Path { get; set; }
+
+        public void Drop(IItem item) { }
 
         public string ContentID { get; set; }
         public bool HasChildren { get; set; }

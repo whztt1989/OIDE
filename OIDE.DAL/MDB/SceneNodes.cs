@@ -18,5 +18,6 @@ namespace OIDE.DAL.MDB
         public Nullable<long> SceneID { get; set; }
         public Nullable<long> EntID { get; set; }
         public byte[] Data { get; set; }
+        public string Name { get; set; }
     }
 }

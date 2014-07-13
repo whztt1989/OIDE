@@ -16,12 +16,26 @@ using OIDE.DAL;
 using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
+using Module.Properties.Helpers;
+using OIDE.DAL.MDB;
+using OIDE.VFS.VFS_Types.RootFileSystem;
 
 namespace OIDE.Scene.Model
 {
-    public class StaticObjectModel : ISceneItem, ISceneNode, IGameEntity
+    public class StaticObjectModel : ISceneItem, IGameEntity
     {
         private ProtoType.StaticEntity mData;
+
+        public void Drop(IItem item) 
+        { 
+             if(item is FileItem)
+             {
+                 if (mData.gameEntity == null)
+                     mData.gameEntity = new ProtoType.GameEntity();
+
+                 mData.gameEntity.meshes.Add((item as FileItem).Path);
+             }
+        }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -32,28 +46,57 @@ namespace OIDE.Scene.Model
         public String ContentID { get; set; }
 
         [XmlIgnore]
+        [Browsable(false)]
         public ProtoType.Node Node { get; set; }
 
         [XmlIgnore]
         [Browsable(false)]
         public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
 
+        private GameEntity mDBData;
+
         [XmlIgnore]
         [Browsable(false)]
-        public object DBData { get; private set; }
+        public object DBData
+        {
+            get   {  return mDBData;  }
+            set
+            {
+                mDBData = value as GameEntity;
 
-   
+                GameEntity dbData = value as GameEntity;
+                ProtoType.StaticEntity dataStaticObj = new ProtoType.StaticEntity();
+
+                if (dbData.Data != null)
+                    mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>(dbData.Data);
+
+            }
+        }
+
+      //  private List<String> mMeshes;
+
+        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor))]
+        public List<String> Meshes { get { return mData.gameEntity.meshes; } }
+
+
+       [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor))]
+        public List<Int32> Physics { get { return mData.gameEntity.physics; } } 
+
         [XmlIgnore]
-        [Category("Conections")]
-        [Description("This property is a complex property and has no default editor.")]
-        [ExpandableObject]
-        public object ProtoData { get { return mData; } }
+        //[Category("Conections")]
+        //[Description("This property is a complex property and has no default editor.")]
+        //[ExpandableObject]
+        [Browsable(false)]
+        public object ProtoData { get { return mData; }  }
+
+
+        [XmlIgnore]
+        public Int32 StaticGroup { get { return mData.group; } set { mData.group = value; } }
 
         [XmlIgnore]
         [Browsable(false)]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
-        public Int32 ID { get; set; }
         public String Name { get; set; }
 
         [Browsable(false)]
@@ -67,9 +110,18 @@ namespace OIDE.Scene.Model
             get
             {
                 List<MenuItem> list = new List<MenuItem>();
-                MenuItem miSave = new MenuItem() { Header = "Save" };
+                MenuItem miSave = new MenuItem() { Command = CmdSaveStaticObj, Header = "Save" };
                 list.Add(miSave);
+            
+                MenuItem miObjects = new MenuItem() { Header = "Add new object" };
 
+                MenuItem miObj1 = new MenuItem() {  Header = "Add Plane" };
+                MenuItem miObj2 = new MenuItem() {  Header = "Add Cube" };
+                miObjects.Items.Add(miObj1);
+                miObjects.Items.Add(miObj2);
+
+                list.Add(miObjects);
+                list.Add(miSave);
 
                 return list;
             }
@@ -91,23 +143,45 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        public Boolean Open() { return true; }
+        public Boolean Open() {
+
+            DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
+            // Console.WriteLine(BitConverter.ToString(res));
+            try
+            {
+                mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>((DBData as OIDE.DAL.MDB.GameEntity).Data);
+            }
+            catch
+            {
+                mData = new ProtoType.StaticEntity();
+            }
+            return true; 
+        }
+
         public Boolean Save()
         {
             try
             {
-                (DBData as OIDE.DAL.MDB.GameEntity).Data = ProtoSerialize.Serialize(ProtoData);
+                OIDE.DAL.MDB.GameEntity gameEntity = DBData as OIDE.DAL.MDB.GameEntity;
 
-                if ((DBData as OIDE.DAL.MDB.GameEntity).EntID > 0)
-                    m_dbI.updateGameEntity(DBData as OIDE.DAL.MDB.GameEntity);
+                //mData.gameEntity.meshes.Clear();
+                //foreach(var mesh in mMeshes)
+                //    mData.gameEntity.meshes.Add(mesh);
+             
+
+                gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
+                gameEntity.Name = this.Name;
+
+                if (gameEntity.EntID > 0)
+                    m_dbI.updateGameEntity(gameEntity);
                 else
                 {
-                    (DBData as OIDE.DAL.MDB.GameEntity).EntType = (decimal)ProtoType.EntityTypes.NT_Static;
-                    m_dbI.insertGameEntity(DBData as OIDE.DAL.MDB.GameEntity);
+                    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Static;
+                    m_dbI.insertGameEntity(gameEntity);
                 }
 
                 if (DLL_Singleton.Instance.EditorInitialized)
-                    DLL_Singleton.Instance.consoleCmd("cmd physic " + (DBData as OIDE.DAL.MDB.GameEntity).EntID); //.updateObject(0, (int)ObjType.Physic);
+                    DLL_Singleton.Instance.consoleCmd("cmd physic " + gameEntity.EntID); //.updateObject(0, (int)ObjType.Physic);
 
             }
             catch (Exception ex)
@@ -117,7 +191,7 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        private ICommand CmdSave;
+        private ICommand CmdSaveStaticObj;
 
         public Boolean Create() { return true; }
         public Boolean Delete() { return true; }
@@ -138,9 +212,10 @@ namespace OIDE.Scene.Model
         {
             UnityContainer = unityContainer;
 
+            //mMeshes = new List<string>();
             Parent = parent;
             SceneItems = new ObservableCollection<ISceneItem>();
-            CmdSave = new CmdSaveStaticObject(this);
+            CmdSaveStaticObj = new CmdSaveStaticObject(this);
             //  mtest = new Byte[10];
             Items = new CollectionOfIItem();
 
@@ -149,17 +224,8 @@ namespace OIDE.Scene.Model
             else
                 m_dbI = new IDAL();
 
-            DBData = m_dbI.selectGameEntity(id);
-            // Console.WriteLine(BitConverter.ToString(res));
-            try
-            {
-                mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>((DBData as OIDE.DAL.MDB.GameEntity).Data);
-            }
-            catch
-            {
-                //  mData = new ProtoType.PhysicsObject();
-            }
 
+            mData = new ProtoType.StaticEntity();
             /// ???????????????????????????
             SceneNode = new DAL.MDB.SceneNodes();
 

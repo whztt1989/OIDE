@@ -57,7 +57,9 @@ namespace OIDE.VFS
 
         [XmlAttribute]
         public Int32 ID { get; set; }
-     
+
+        public void Drop(IItem item) { }
+
         [XmlAttribute]
         public String Name { get; set; }
 

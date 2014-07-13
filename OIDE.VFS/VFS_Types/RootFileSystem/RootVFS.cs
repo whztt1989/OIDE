@@ -24,6 +24,8 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         private string result;
         private CollectionOfIItem m_Items;
 
+        public void Drop(IItem item) { }
+
         [XmlAttribute]
         public Int32 ID { get; set; }
      
@@ -125,8 +127,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         public Boolean Create() { return true; }
         public Boolean Open()
         {
-
-            if (!File.Exists(FilePath))
+            if (!Directory.Exists(FilePath))
             {
                Name += " _not found";
 
