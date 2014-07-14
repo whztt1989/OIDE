@@ -36,6 +36,7 @@ using OIDE.Scene;
 using OIDE.VFS;
 using OIDE.Core.Model;
 using Module.History.Service;
+using OIDE.Service;
 
 namespace OIDE.Core
 {
@@ -234,7 +235,11 @@ namespace OIDE.Core
             GameDBFileModel dbData = new GameDBFileModel(this, container);
             dbData.IsExpanded = true;
 
+            PredefObjectCategoyModel predefCategory = new PredefObjectCategoyModel(this, container) { Name = "Ogre System Objects" };
 
+            predefCategory.Items.Add(new PredefObjectModel() { Name = "Cube" });
+//sceneService.PredefObjects  ??????
+            m_Items.Add(predefCategory);
 
             m_Items.Add(dbData);
         }

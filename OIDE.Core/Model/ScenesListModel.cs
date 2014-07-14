@@ -46,7 +46,7 @@ namespace OIDE.Core
         {
             ScenesListModel sceneCategoryModel = parameter as ScenesListModel;
 
-            sceneCategoryModel.Items.Add(new SceneDataModel(sceneCategoryModel, sceneCategoryModel.UnityContainer) { Name = "Scene 1" }); //CreateScene();
+            sceneCategoryModel.Items.Add(new SceneDataModel(sceneCategoryModel, sceneCategoryModel.UnityContainer) { Name = "Scene 1", ContentID = "SceneID:##:" }); //CreateScene();
 
             //IDAL dbI = new IDAL();
 

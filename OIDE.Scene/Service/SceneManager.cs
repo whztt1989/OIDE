@@ -15,6 +15,7 @@ using Wide.Interfaces.Services;
 using Module.Properties.Interface;
 using System.ComponentModel;
 using OIDE.Scene;
+using OIDE.Scene.Model;
 
 namespace OIDE.Scene.Service
 {
@@ -100,8 +101,10 @@ namespace OIDE.Scene.Service
             MenuItem mib1a = new MenuItem();
             mib1a.Header = "Text.xaml";
             ContextMenu.Items.Add(mib1a);
-
+            mPredefObjects = new ObservableCollection<IItem>();
         }
+
+        private ObservableCollection<IItem> mPredefObjects;
 
         public SceneGraphToolModel SGTM { get; set; }
        
@@ -165,6 +168,8 @@ namespace OIDE.Scene.Service
         /// </summary>
         public ObservableCollection<IScene> Scenes { get; internal set; }
 
+
+        public ObservableCollection<IItem> PredefObjects { get { return mPredefObjects; } }
 
         /// <summary>
         /// Set the current item

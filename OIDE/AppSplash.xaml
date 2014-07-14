@@ -20,7 +20,7 @@
                       WindowTransitionsEnabled="False" 
                       GlowBrush="{Binding ElementName=WideStatusBar, Path=Background}"
               
-        Title="Initialize"  ShowMaxRestoreButton="False" ShowMinButton="False">
+        Title="Initialize"  ShowMaxRestoreButton="False" ShowMinButton="False" ShowTitleBar="False">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

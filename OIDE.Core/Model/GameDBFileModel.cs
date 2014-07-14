@@ -106,6 +106,19 @@ namespace OIDE.Core
             //PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, unityContainer) { Name = "pomChar1" };
             //allPhysics.Items.Add(po1);
 
+            SpawnPointCategoryModel allSpawns = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "SpawnPoints" };
+            PhysicCategoryModel allTrigger = new PhysicCategoryModel(objects, UnityContainer) { Name = "Triggers" };
+            PhysicCategoryModel allLights = new PhysicCategoryModel(objects, UnityContainer) { Name = "Lights" };
+            PhysicCategoryModel allSkies = new PhysicCategoryModel(objects, UnityContainer) { Name = "Skies" };
+            PhysicCategoryModel allTerrains = new PhysicCategoryModel(objects, UnityContainer) { Name = "Terrains" };
+            PhysicCategoryModel allSounds = new PhysicCategoryModel(objects, UnityContainer) { Name = "Sounds" };
+
+
+            StaticObjectCategoyModel DynamicObjects = new StaticObjectCategoyModel(objects, UnityContainer) { Name = "Dynamics" };
+            
+            //PhysicCategoryModel allOgreObjects = new PhysicCategoryModel(objects, UnityContainer) { Name = "Ogre Objects" };
+            //allOgreObjects.Items.Add(new StaticObjectModel(allOgreObjects, UnityContainer) { Name = "Plane" });
+            //allOgreObjects.Items.Add(new StaticObjectModel(allOgreObjects, UnityContainer) { Name = "Cube" });
 
             try
             {
@@ -169,7 +182,15 @@ namespace OIDE.Core
                 objects.Items.Add(staticObjects);
                 objects.Items.Add(chars);
                 objects.Items.Add(allPhysics);
-            }
+
+                objects.Items.Add(allTrigger);
+                objects.Items.Add(allSpawns);
+              objects.Items.Add(allLights);
+                objects.Items.Add(allSkies);
+                objects.Items.Add(allTerrains);
+                objects.Items.Add(allSounds);
+                objects.Items.Add(DynamicObjects);
+         }
             catch (Exception ex)
             {
             }

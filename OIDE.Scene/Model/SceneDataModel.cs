@@ -376,6 +376,7 @@ namespace OIDE.Scene.Model
         {
             m_DBI = new IDAL();
             m_SceneItems = new ObservableCollection<ISceneItem>();
+            mData = new ProtoType.Scene();
         }
 
         public IUnityContainer UnityContainer { get { return m_Container; } }
@@ -389,6 +390,7 @@ namespace OIDE.Scene.Model
             m_Container = container;
             m_SceneService = container.Resolve<ISceneService>();
             m_DBI = new IDAL();
+            mData = new ProtoType.Scene();
 
             ////if (dbData == null)
             ////    SceneData = m_DBI.selectSceneDataOnly(id);

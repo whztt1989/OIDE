@@ -30,7 +30,6 @@ namespace OIDE.Scene.Model
 
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
-        public Guid Guid { get; private set; }
         public List<MenuItem> MenuOptions { get; private set; }
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
@@ -40,7 +39,6 @@ namespace OIDE.Scene.Model
             : base(commandManager, menuService)
         {
             Items = new CollectionOfIItem();
-            Guid = new Guid();
         }
     }
 }

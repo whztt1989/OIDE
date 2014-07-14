@@ -9,6 +9,7 @@ using Module.Properties.Interface;
 using Wide.Interfaces;
 using Wide.Interfaces.Controls;
 using OIDE.Scene;
+using OIDE.Scene.Model;
 
 namespace OIDE.Scene.Interface.Services
 {
@@ -18,6 +19,8 @@ namespace OIDE.Scene.Interface.Services
     public interface ISceneService
     {
         System.Windows.Controls.ContextMenu ContextMenu { get; }
+
+        ObservableCollection<IItem> PredefObjects { get; }
 
         /// <summary>
         /// The list of themes registered with the theme manager

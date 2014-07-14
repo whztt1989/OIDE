@@ -22,7 +22,7 @@ using OIDE.VFS.VFS_Types.RootFileSystem;
 
 namespace OIDE.Scene.Model
 {
-    public class StaticObjectModel : ISceneItem, IGameEntity
+    public class PredefObjectModel : ISceneItem, IGameEntity
     {
         private ProtoType.StaticEntity mData;
 
@@ -110,7 +110,7 @@ namespace OIDE.Scene.Model
             get
             {
                 List<MenuItem> list = new List<MenuItem>();
-                MenuItem miSave = new MenuItem() { Command = CmdSaveStaticObj, Header = "Save" };
+                MenuItem miSave = new MenuItem() { Command = CmdSavePredefObj, Header = "Save" };
                 list.Add(miSave);
             
                 MenuItem miObjects = new MenuItem() { Header = "Add new object" };
@@ -191,7 +191,7 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        private ICommand CmdSaveStaticObj;
+        private ICommand CmdSavePredefObj;
 
         public Boolean Create() { return true; }
         public Boolean Delete() { return true; }
@@ -203,19 +203,19 @@ namespace OIDE.Scene.Model
         /// <summary>
         /// Default contructor for serialization
         /// </summary>
-        public StaticObjectModel()
+        public PredefObjectModel()
         {
 
         }
 
-        public StaticObjectModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
+        public PredefObjectModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
         {     
             UnityContainer = unityContainer;
 
             //mMeshes = new List<string>();
             Parent = parent;
             SceneItems = new ObservableCollection<ISceneItem>();
-            CmdSaveStaticObj = new CmdSaveStaticObject(this);
+            CmdSavePredefObj = new CmdSavePredefObject(this);
             //  mtest = new Byte[10];
             Items = new CollectionOfIItem();
 
@@ -236,9 +236,9 @@ namespace OIDE.Scene.Model
     }
 
 
-    public class CmdSaveStaticObject : ICommand
+    public class CmdSavePredefObject : ICommand
     {
-        private StaticObjectModel m_StaticObjectModel;
+        private PredefObjectModel m_PredefObjectModel;
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
@@ -248,12 +248,12 @@ namespace OIDE.Scene.Model
 
         public void Execute(object parameter)
         {
-            m_StaticObjectModel.Save();
+            m_PredefObjectModel.Save();
         }
 
-        public CmdSaveStaticObject(StaticObjectModel som)
+        public CmdSavePredefObject(PredefObjectModel som)
         {
-            m_StaticObjectModel = som;
+            m_PredefObjectModel = som;
         }
     }
 }
