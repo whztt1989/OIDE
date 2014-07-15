@@ -19,6 +19,7 @@ using System.Xml.Serialization;
 using Module.Properties.Helpers;
 using OIDE.DAL.MDB;
 using OIDE.VFS.VFS_Types.RootFileSystem;
+using OIDE.Scene.Model.Objects;
 
 namespace OIDE.Scene.Model
 {
@@ -63,12 +64,21 @@ namespace OIDE.Scene.Model
             set
             {
                 mDBData = value as GameEntity;
-
+             
+               
                 GameEntity dbData = value as GameEntity;
                 ProtoType.StaticEntity dataStaticObj = new ProtoType.StaticEntity();
 
                 if (dbData.Data != null)
+                {
                     mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>(dbData.Data);
+ 
+                    if (mData.gameEntity == null)
+                       mData.gameEntity = new ProtoType.GameEntity();
+
+                    foreach (var item in mData.gameEntity.physics)
+                        m_Physics.Add(new PhysicObject() { ProtoData = item });
+                }
 
             }
         }
@@ -79,15 +89,18 @@ namespace OIDE.Scene.Model
         public List<String> Meshes { get { return mData.gameEntity.meshes; } }
 
 
-       [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor))]
-        public List<Int32> Physics { get { return mData.gameEntity.physics; } } 
+
+        private List<PhysicObject> m_Physics;
+        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        public List<PhysicObject> Physics {  get   {  return m_Physics; } } 
+
 
         [XmlIgnore]
         //[Category("Conections")]
         //[Description("This property is a complex property and has no default editor.")]
-        //[ExpandableObject]
+      //  [ExpandableObject]
         [Browsable(false)]
-        public object ProtoData { get { return mData; }  }
+        public ProtoType.StaticEntity ProtoData { get { return mData; } }
 
 
         [XmlIgnore]
@@ -164,10 +177,10 @@ namespace OIDE.Scene.Model
             {
                 OIDE.DAL.MDB.GameEntity gameEntity = DBData as OIDE.DAL.MDB.GameEntity;
 
-                //mData.gameEntity.meshes.Clear();
-                //foreach(var mesh in mMeshes)
-                //    mData.gameEntity.meshes.Add(mesh);
-             
+                //Update Phyiscs Data
+                ProtoData.gameEntity.physics.Clear();
+                foreach(var item in m_Physics)
+                    ProtoData.gameEntity.physics.Add(item.ProtoData);
 
                 gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
                 gameEntity.Name = this.Name;
@@ -224,7 +237,7 @@ namespace OIDE.Scene.Model
             else
                 m_dbI = new IDAL();
 
-
+            m_Physics = new List<PhysicObject>();
             mData = new ProtoType.StaticEntity();
             mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????

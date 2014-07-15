@@ -46,7 +46,7 @@ namespace OIDE.Core
     [XmlInclude(typeof(ScenesListModel))]
     [XmlInclude(typeof(FileCategoryModel))]
     [XmlInclude(typeof(SceneDataModel))]
-    [XmlInclude(typeof(PhysicsObjectModel))]
+  //  [XmlInclude(typeof(PhysicsObjectModel))]
     [Serializable]
     public class GameProjectModel : TextModel, IItem, ISerializableObj, ICategoryItem
     {

@@ -44,15 +44,15 @@ namespace OIDE.InteropEditor.DLL
         //  public delegate bool StartStateDelegate(IntPtr hwnd);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        unsafe public delegate bool stateInitDelegate(IntPtr hwnd);
+        public delegate bool stateInitDelegate(IntPtr hwnd);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        unsafe public delegate bool stateUpdateDelegate();
+        public delegate bool stateUpdateDelegate();
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        unsafe public delegate void quitDelegate();
+        public delegate void quitDelegate();
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        unsafe public delegate int updateObjectDelegate(uint id, int type);
+        public delegate int updateObjectDelegate(uint id, int type);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        unsafe public delegate void consoleCmdDelegate(String command);
+        public delegate void consoleCmdDelegate(String command);
 
         //http://geekswithblogs.net/VROD/archive/2009/04/07/130805.aspx
         //-----------------------------------------------------------------------

@@ -8,7 +8,7 @@ namespace OIDE.Scene.Interface.Services
 {
     public interface IGameEntity
     {
-        object DBData { get; }
-        object ProtoData { get; }
+      //  object DBData { get; }
+      //  object ProtoData { get; }
     }
 }

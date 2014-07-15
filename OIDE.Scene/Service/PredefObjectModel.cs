@@ -79,8 +79,8 @@ namespace OIDE.Scene.Model
         public List<String> Meshes { get { return mData.gameEntity.meshes; } }
 
 
-       [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor))]
-        public List<Int32> Physics { get { return mData.gameEntity.physics; } } 
+       [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        public List<ProtoType.PhysicsObject> Physics { get { return mData.gameEntity.physics; } } 
 
         [XmlIgnore]
         //[Category("Conections")]

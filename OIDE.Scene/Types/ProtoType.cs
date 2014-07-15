@@ -167,21 +167,21 @@ namespace ProtoType
   {
     public Clipping() {}
     
-    private float _near = (float)0;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"near", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    private float _nearClip = (float)0;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = false, Name=@"nearClip", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
     [global::System.ComponentModel.DefaultValue((float)0)]
-    public float near
+    public float nearClip
     {
-      get { return _near; }
-      set { _near = value; }
+      get { return _nearClip; }
+      set { _nearClip = value; }
     }
-    private float _far = (float)0;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"far", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    private float _farClip = (float)0;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = false, Name=@"farClip", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
     [global::System.ComponentModel.DefaultValue((float)0)]
-    public float far
+    public float farClip
     {
-      get { return _far; }
-      set { _far = value; }
+      get { return _farClip; }
+      set { _farClip = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -328,6 +328,14 @@ namespace ProtoType
       get { return _charFallSpeed; }
       set { _charFallSpeed = value; }
     }
+    private string _boneparent = "";
+    [global::ProtoBuf.ProtoMember(19, IsRequired = false, Name=@"boneparent", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string boneparent
+    {
+      get { return _boneparent; }
+      set { _boneparent = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -404,9 +412,9 @@ namespace ProtoType
       get { return _materials; }
     }
   
-    private readonly global::System.Collections.Generic.List<int> _physics = new global::System.Collections.Generic.List<int>();
-    [global::ProtoBuf.ProtoMember(4, Name=@"physics", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public global::System.Collections.Generic.List<int> physics
+    private readonly global::System.Collections.Generic.List<ProtoType.PhysicsObject> _physics = new global::System.Collections.Generic.List<ProtoType.PhysicsObject>();
+    [global::ProtoBuf.ProtoMember(4, Name=@"physics", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.PhysicsObject> physics
     {
       get { return _physics; }
     }
@@ -417,6 +425,21 @@ namespace ProtoType
     {
       get { return _Type; }
       set { _Type = value; }
+    }
+    private string _boneparent = "";
+    [global::ProtoBuf.ProtoMember(6, IsRequired = false, Name=@"boneparent", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string boneparent
+    {
+      get { return _boneparent; }
+      set { _boneparent = value; }
+    }
+    private int _mode;
+    [global::ProtoBuf.ProtoMember(7, IsRequired = true, Name=@"mode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int mode
+    {
+      get { return _mode; }
+      set { _mode = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

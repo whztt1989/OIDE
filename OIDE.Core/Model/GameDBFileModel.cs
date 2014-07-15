@@ -102,16 +102,16 @@ namespace OIDE.Core
             //race.Items.Add(male);
             //chars.Items.Add(race);
 
-            PhysicCategoryModel allPhysics = new PhysicCategoryModel(objects, UnityContainer) { Name = "Physics" };
+         //   PhysicCategoryModel allPhysics = new PhysicCategoryModel(objects, UnityContainer) { Name = "Physics" };
             //PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, unityContainer) { Name = "pomChar1" };
             //allPhysics.Items.Add(po1);
 
             SpawnPointCategoryModel allSpawns = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "SpawnPoints" };
-            PhysicCategoryModel allTrigger = new PhysicCategoryModel(objects, UnityContainer) { Name = "Triggers" };
-            PhysicCategoryModel allLights = new PhysicCategoryModel(objects, UnityContainer) { Name = "Lights" };
-            PhysicCategoryModel allSkies = new PhysicCategoryModel(objects, UnityContainer) { Name = "Skies" };
-            PhysicCategoryModel allTerrains = new PhysicCategoryModel(objects, UnityContainer) { Name = "Terrains" };
-            PhysicCategoryModel allSounds = new PhysicCategoryModel(objects, UnityContainer) { Name = "Sounds" };
+            SpawnPointCategoryModel allTrigger = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Triggers" };
+            SpawnPointCategoryModel allLights = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Lights" };
+            SpawnPointCategoryModel allSkies = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Skies" };
+            SpawnPointCategoryModel allTerrains = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Terrains" };
+            SpawnPointCategoryModel allSounds = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Sounds" };
 
 
             StaticObjectCategoyModel DynamicObjects = new StaticObjectCategoyModel(objects, UnityContainer) { Name = "Dynamics" };
@@ -140,23 +140,24 @@ namespace OIDE.Core
                         {
                             case NodeTypes.Static:
 
-                                staticObjects.Items.Add(new StaticObjectModel(staticObjects, UnityContainer, m_DBI)
+                                StaticObjectModel tmp = new StaticObjectModel(staticObjects, UnityContainer, m_DBI)
                                 {
                                     ContentID = "StaticID:##:" + gameEntity.EntID,
                                     Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID),
                                     DBData = gameEntity
-                                });// Data = gameEntityDataDeserialized });
+                                };// Data = gameEntityDataDeserialized });
 
+                                staticObjects.Items.Add(tmp);
                                 break;
-                            case NodeTypes.Physic:
+                            //case NodeTypes.Physic:
 
-                                ProtoType.PhysicsObject dataPhysObj = new ProtoType.PhysicsObject();
-                                if (gameEntity.Data != null)
-                                    dataPhysObj = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>(gameEntity.Data);
+                            //    ProtoType.PhysicsObject dataPhysObj = new ProtoType.PhysicsObject();
+                            //    if (gameEntity.Data != null)
+                            //        dataPhysObj = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>(gameEntity.Data);
 
-                                allPhysics.Items.Add(new PhysicsObjectModel(allPhysics, UnityContainer, dataPhysObj, m_DBI) { ContentID = "PhysicID:##:" + gameEntity.EntID, Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID) });// Data = gameEntityDataDeserialized });
+                            //    allPhysics.Items.Add(new PhysicsObjectModel(allPhysics, UnityContainer, dataPhysObj, m_DBI) { ContentID = "PhysicID:##:" + gameEntity.EntID, Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID) });// Data = gameEntityDataDeserialized });
 
-                                break;
+                            //    break;
                             case NodeTypes.Camera:
                                 //todo contentid for camera
 
@@ -181,7 +182,7 @@ namespace OIDE.Core
 
                 objects.Items.Add(staticObjects);
                 objects.Items.Add(chars);
-                objects.Items.Add(allPhysics);
+               // objects.Items.Add(allPhysics);
 
                 objects.Items.Add(allTrigger);
                 objects.Items.Add(allSpawns);

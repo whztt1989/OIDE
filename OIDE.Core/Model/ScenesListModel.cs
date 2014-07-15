@@ -77,7 +77,7 @@ namespace OIDE.Core
     [System.Xml.Serialization.XmlInclude(typeof(ScenesListModel))]
     [System.Xml.Serialization.XmlInclude(typeof(FileCategoryModel))]
     [System.Xml.Serialization.XmlInclude(typeof(SceneDataModel))]
-    [System.Xml.Serialization.XmlInclude(typeof(PhysicsObjectModel))]
+  //  [System.Xml.Serialization.XmlInclude(typeof(PhysicsObjectModel))]
     public class ScenesListModel : FileCategoryModel
     {
         //ICommandManager m_CommandManager;
