@@ -102,6 +102,7 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public CollectionOfIItem Items { get; set; }
 
+        public Boolean Closing() { return true; }
 
         [XmlIgnore]
         [Browsable(false)]

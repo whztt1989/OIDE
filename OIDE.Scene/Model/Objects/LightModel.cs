@@ -56,6 +56,7 @@ namespace OIDE.Scene.Model
             }
         }
 
+        public Boolean Closing() { return true; }
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
 

@@ -74,6 +74,7 @@ namespace WpfTreeViewBinding.Model
             return true;
         }
         public bool Save() { return true; }
+        public Boolean Closing() { return true; }
 
 
         public FileItem(ICommandManager commandManager, IMenuService menuService)
@@ -103,6 +104,7 @@ namespace WpfTreeViewBinding.Model
         public IUnityContainer UnityContainer { get; set; }
 
         public Boolean Create() { return true; }
+        public Boolean Closing() { return true; }
         public bool Delete() { return true; }
         public bool Open()
         {

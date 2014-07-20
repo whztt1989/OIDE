@@ -91,6 +91,7 @@ namespace OIDE.Scene.Model
 
         public IItem Parent { get; private set; }
 
+        public Boolean Closing() { return true; }
         public Boolean Create() { return true; }
         public Boolean Open()
         {

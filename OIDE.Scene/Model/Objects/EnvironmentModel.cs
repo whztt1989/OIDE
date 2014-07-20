@@ -85,6 +85,7 @@ namespace OIDE.Scene.Model
         [XmlIgnore]
         [Browsable(false)]
         public IItem Parent { get; private set; }
+        public Boolean Closing() { return true; }
 
         public Boolean Open()
         {

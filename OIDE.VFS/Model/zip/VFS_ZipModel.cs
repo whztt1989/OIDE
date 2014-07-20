@@ -60,6 +60,7 @@ namespace OIDE.VFS
         [XmlAttribute]
         public String Name { get; set; }
 
+        public Boolean Closing() { return true; }
         /// <summary>
         /// ContentID for WIDE
         /// </summary>

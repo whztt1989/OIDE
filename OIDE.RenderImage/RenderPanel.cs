@@ -53,7 +53,7 @@ namespace OIDE.RenderImage
         {
             //DLL_Singleton.stateUpdate();
 
-            DLL_Singleton.Instance.stateUpdate();
+          bool res =   DLL_Singleton.Instance.stateUpdate();
         }
     }
 }

@@ -114,6 +114,7 @@ namespace OIDE.Scene.Service
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         public Boolean Create() { return true; }
+        public Boolean Closing() { return true; }
         public Boolean Open()
         {
 

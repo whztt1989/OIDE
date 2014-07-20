@@ -30,7 +30,7 @@ namespace OIDE.Scene.Model.Objects
         public String AttachToBone { get; set; }
 
         public uint colMask { get { return ProtoData.colMask; } set { ProtoData.colMask = value; } }
-        public int type { get { return ProtoData.type; } set { ProtoData.type = value; } }
+        public ProtoType.PhysicsType type { get { return ProtoData.type; } set { ProtoData.type = value; } }
         public int mode { get { return ProtoData.mode; } set { ProtoData.mode = value; } }
         public ShapeType shape { get { return (ShapeType)ProtoData.shape; } set { ProtoData.shape = (int)value; } }
         public float mass { get { return ProtoData.mass; } set { ProtoData.mass = value; } }

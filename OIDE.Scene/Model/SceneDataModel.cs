@@ -23,6 +23,7 @@ using OIDE.DAL.MDB;
 using Module.History.Service;
 using Module.Properties.Helpers;
 using OIDE.Scene.Service;
+using Wide.Interfaces;
 
 namespace OIDE.Scene.Model
 {
@@ -42,12 +43,12 @@ namespace OIDE.Scene.Model
     /// <summary>
     /// Complete Scene description
     /// </summary>
-    public class SceneDataModel : IScene
+    public class SceneDataModel : ViewModelBase, IScene
     {
 
         private ICommand CmdDeleteScene;
         private ICommand CmdSaveScene;
-        private ProtoType.Scene mData;
+        private ProtoType.Scene mProtoData;
         private CollectionOfIItem m_Items;
         private ObservableCollection<ISceneItem> m_SceneItems;
         private ISceneItem mSelectedItem;
@@ -83,26 +84,38 @@ namespace OIDE.Scene.Model
 
                 try
                 {
-                    mData = ProtoSerialize.Deserialize<ProtoType.Scene>(mDBData.Data);
+                    mProtoData = ProtoSerialize.Deserialize<ProtoType.Scene>(mDBData.Data);
+                    if (ProtoData.colourAmbient == null)
+                        ProtoData.colourAmbient = new ProtoType.Colour();
                 }
                 catch
                 {
-                    mData = new ProtoType.Scene();
+                    mProtoData = new ProtoType.Scene();
                 }
             }
         }
 
+        //public struct Ambient
+        //{
+        //    public float r { get; set; }
+        //    public float g { get; set; }
+        //    public float b { get; set; }
+        //    public float a { get; set; }
+        //}
+
+        //private Ambient m_Ambient;
         [XmlIgnore]
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
-        public ProtoType.Colour ColourAmbient { get { return mData.colourAmbient; } set { mData.colourAmbient = value; } }
+        public ProtoType.Colour ColourAmbient { get { return ProtoData.colourAmbient; } set { ProtoData.colourAmbient = value; RaisePropertyChanged("ColourAmbient"); } }
 
         [XmlIgnore]
-        [Category("Conections")]
-        [Description("This property is a complex property and has no default editor.")]
-        [ExpandableObject]
-        public ProtoType.Scene Data { get { return mData; } set { mData = value; } }
+        //[Category("Conections")]
+        //[Description("This property is a complex property and has no default editor.")]
+        //[ExpandableObject]
+        [Browsable(false)]
+        public ProtoType.Scene ProtoData { get { return mProtoData; } set { mProtoData = value; } }
 
         public bool AddItem(ISceneItem item)
         {
@@ -176,6 +189,7 @@ namespace OIDE.Scene.Model
 
         public Boolean Create() { return true; }
 
+        public Boolean Closing() { return true; }
         public Boolean Open()
         {
             m_SceneService.SelectedScene = this;
@@ -271,18 +285,22 @@ namespace OIDE.Scene.Model
 
         public Boolean Save()
         {
+            mDBData.Data = ProtoSerialize.Serialize(mProtoData);
 
+
+            //  mData = ProtoSerialize.Deserialize<ProtoType.Scene>(result);
+
+      
             // ProtoType.Scene protoData = new ProtoType.Scene();
             // protoData.colourAmbient = new ProtoType.Colour() { r = 5 , b =  6 , g = 7 };
-
+    
             //save scene to db
             if (SceneData.SceneID > 0)
                 m_DBI.updateScene(SceneData);
             else
                 m_DBI.insertScene(SceneData);
 
-            //  mData = ProtoSerialize.Deserialize<ProtoType.Scene>(result);
-
+           
 
             //##   DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
 
@@ -377,7 +395,7 @@ namespace OIDE.Scene.Model
         {
             m_DBI = new IDAL();
             m_SceneItems = new ObservableCollection<ISceneItem>();
-            mData = new ProtoType.Scene();
+            mProtoData = new ProtoType.Scene();
         }
 
         public IUnityContainer UnityContainer { get { return m_Container; } }
@@ -391,7 +409,7 @@ namespace OIDE.Scene.Model
             m_Container = container;
             m_SceneService = container.Resolve<ISceneService>();
             m_DBI = new IDAL();
-            mData = new ProtoType.Scene();
+            mProtoData = new ProtoType.Scene();
 
             ////if (dbData == null)
             ////    SceneData = m_DBI.selectSceneDataOnly(id);

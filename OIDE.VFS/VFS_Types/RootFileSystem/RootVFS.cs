@@ -24,6 +24,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         private string result;
         private CollectionOfIItem m_Items;
 
+        public Boolean Closing() { return true; }
         public void Drop(IItem item) { }
 
         [XmlAttribute]

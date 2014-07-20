@@ -33,7 +33,7 @@ namespace OIDE.InteropEditor.DLL
             {
                 if (instance == null)
                 {
-                    instance = new DLL_Singleton(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\EditorI.dll");
+                    instance = new DLL_Singleton(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\XE_IEditor.dll");
                 }
                 return instance;
             }
@@ -43,8 +43,15 @@ namespace OIDE.InteropEditor.DLL
 
         //  public delegate bool StartStateDelegate(IntPtr hwnd);
 
+    //        SFML_EDITOR_API unsigned char* consoleCmd(const char* command, unsigned char* data);
+	
+    //SFML_EDITOR_API bool stateInit(sf::WindowHandle hwnd, const char* stateName);
+    //SFML_EDITOR_API bool moveToState(const char* stateName);
+    //SFML_EDITOR_API bool stateUpdate();
+    //SFML_EDITOR_API void quit();
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate bool stateInitDelegate(IntPtr hwnd);
+        public delegate bool stateInitDelegate(IntPtr hwnd, String stateName);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate bool stateUpdateDelegate();
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
