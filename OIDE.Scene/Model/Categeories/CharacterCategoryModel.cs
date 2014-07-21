@@ -50,7 +50,17 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public List<MenuItem> MenuOptions { get; protected set; }
+        public List<MenuItem> MenuOptions 
+        {
+              get
+            {
+                List<MenuItem>  menuOptions = new List<MenuItem>();
+                MenuItem miAdd = new MenuItem() { Command = new CmdAddCharacterObj(UnityContainer), CommandParameter = this, Header = "Create character object" };
+                menuOptions.Add(miAdd);
+
+                return menuOptions;
+            }
+        }
 
       
         public Boolean IsExpanded { get { return m_IsExpanded; } set { m_IsExpanded = value; RaisePropertyChanged("IsExpanded"); } }
@@ -87,11 +97,6 @@ namespace OIDE.Scene
             Parent = parent;
             Items = new CollectionOfIItem();
             SceneItems = new ObservableCollection<ISceneItem>();
-            MenuOptions = new List<MenuItem>();
-
-            MenuItem miAdd = new MenuItem() { Command = new CmdAddCharacterObj(container), CommandParameter = this, Header = "Add physic object" };
-            MenuOptions.Add(miAdd);
-
         }
     }
 
@@ -109,32 +114,13 @@ namespace OIDE.Scene
         {
             CharacterCategoryModel parent = parameter as CharacterCategoryModel;
 
-            //    PhysicsObjectModel pom = new PhysicsObjectModel(parent, parent.UnityContainer) { Name = "Phys 1" , ContentID = "PhysicID:##" };
+            CharacterObjModel pom = new CharacterObjModel(parent, parent.UnityContainer) { Name = "Character Obj NEW", ContentID = "CharacterEntID:##" };
 
+            pom.Create();
 
-            //     parent.SceneItems.Add(pom);
-            //         parent.Parent.Items.IsExpanded = true;
-            //  parent.Items.Add(pom);
+            parent.Items.Add(pom);
 
             ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
-            // sceneService.TreeList.
-            //IDAL dbI = new IDAL();
-
-            //// To serialize the hashtable and its key/value pairs,  
-            //// you must first open a stream for writing. 
-            //// In this case, use a file stream.
-            //using (MemoryStream inputStream = new MemoryStream())
-            //{
-            //    // write to a file
-            //    ProtoBuf.Serializer.Serialize(inputStream, mpcm.Data);
-
-            //    if (mpcm.ID > -1)
-            //        dbI.updatePhysics(mpcm.ID, inputStream.ToArray());
-            //    else
-            //        dbI.insertPhysics(mpcm.ID, inputStream.ToArray());
-            //}
-
-            //todo !!  DLL_Singleton.Instance.consoleCmd("cmd physic 0"); //.updateObject(0, (int)ObjType.Physic);
         }
 
         public CmdAddCharacterObj(IUnityContainer container)

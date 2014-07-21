@@ -338,7 +338,7 @@ namespace OIDE.Scene.Model
 
                     //Create scenenode for database
                     sNode.SceneNode.EntID = Helper.StringToContentIDData(sItem.ContentID).IntValue;
-                 
+                    
                     sNode.SceneNode.SceneID = Helper.StringToContentIDData(ContentID).IntValue;
                     sNode.SceneNode.Name = sItem.Name;
                     sNode.SceneNode.Data = ProtoSerialize.Serialize(sNode.Node);//Node data
