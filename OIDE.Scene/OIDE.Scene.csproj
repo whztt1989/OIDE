@@ -167,7 +167,7 @@
     <Compile Include="Service\PredefObjectCategoyModel.cs" />
     <Compile Include="Model\Objects\CameraModel.cs" />
     <Compile Include="Model\Categeories\StaticObjectCategoyModel.cs" />
-    <Compile Include="Model\Objects\CharacterModel.cs" />
+    <Compile Include="Model\Objects\CharacterObjModel.cs" />
     <Compile Include="Model\Objects\EnvironmentModel.cs" />
     <Compile Include="Model\Objects\GenderModel.cs" />
     <Compile Include="Model\Objects\LightModel.cs" />

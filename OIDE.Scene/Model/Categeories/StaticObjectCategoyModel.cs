@@ -44,9 +44,20 @@ namespace OIDE.Scene
 
         public String ContentID { get; set; }
 
+
         [Browsable(false)]
         [XmlIgnore]
-        public List<MenuItem> MenuOptions { get; protected set; }
+        public List<MenuItem> MenuOptions
+        {
+            get
+            {
+                List<MenuItem>  menuOptions = new List<MenuItem>();
+                MenuItem miAdd = new MenuItem() { Command = new CmdCreateStaticObj(UnityContainer), CommandParameter = this, Header = "Create static object" };
+                menuOptions.Add(miAdd);
+
+                return menuOptions;
+            }
+        }
 
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
@@ -65,6 +76,7 @@ namespace OIDE.Scene
         public Boolean Open() { return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
+        public Boolean Closing() { return true; }
 
         [Browsable(false)]
         [XmlIgnore]
@@ -81,10 +93,8 @@ namespace OIDE.Scene
             Parent = parent;
             Items = new CollectionOfIItem();
             SceneItems = new ObservableCollection<ISceneItem>();
-            MenuOptions = new List<MenuItem>();
+        
 
-            MenuItem miAdd = new MenuItem() { Command = new CmdCreateStaticObj(container), CommandParameter = this, Header = "Create static object" };
-            MenuOptions.Add(miAdd);
         }
     }
 

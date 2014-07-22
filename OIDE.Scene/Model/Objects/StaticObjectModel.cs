@@ -92,8 +92,11 @@ namespace OIDE.Scene.Model
 
         private List<PhysicObject> m_Physics;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        public List<PhysicObject> Physics {  get   {  return m_Physics; } } 
+        public List<PhysicObject> Physics {  get   {  return m_Physics; } }
 
+
+        [XmlIgnore]
+        public ProtoType.OgreSystemTypes OgreSystemType { get { return mData.gameEntity.ogreSystemType; } set { mData.gameEntity.ogreSystemType = value; } }
 
         [XmlIgnore]
         //[Category("Conections")]
@@ -208,6 +211,7 @@ namespace OIDE.Scene.Model
 
         public Boolean Create() { return true; }
         public Boolean Delete() { return true; }
+        public Boolean Closing() { return true; }
 
         [XmlIgnore]
         [Browsable(false)]

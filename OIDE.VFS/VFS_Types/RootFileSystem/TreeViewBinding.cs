@@ -60,6 +60,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         public IItem Parent { get; set; }
         public IUnityContainer UnityContainer { get; set; }
 
+        public Boolean Closing() { return true; }
         public bool Create() { return true; }
         public bool Delete() { return true; }
         public bool Open() { return true; }

@@ -96,7 +96,7 @@ namespace OIDE.Core
 
 
 
-            CharacterCategoryModel chars = new CharacterCategoryModel(objects, UnityContainer) { Name = "Characters" };
+            CharacterCategoryModel characterObjects = new CharacterCategoryModel(objects, UnityContainer) { Name = "Characters" };
             //RaceModel race = new RaceModel(chars, unityContainer) { Name = "Human" };
             //GenderModel male = new GenderModel(race, unityContainer) { Name = "Male" };
             //race.Items.Add(male);
@@ -143,11 +143,22 @@ namespace OIDE.Core
                                 StaticObjectModel tmp = new StaticObjectModel(staticObjects, UnityContainer, m_DBI)
                                 {
                                     ContentID = "StaticID:##:" + gameEntity.EntID,
-                                    Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID),
+                                    Name = gameEntity.Name ?? ("Noname Static " + (int)gameEntity.EntID),
                                     DBData = gameEntity
                                 };// Data = gameEntityDataDeserialized });
 
                                 staticObjects.Items.Add(tmp);
+                                break;
+                            case NodeTypes.Character:
+
+                                CharacterObjModel tmpChar = new CharacterObjModel(characterObjects, UnityContainer, m_DBI)
+                                {
+                                    ContentID = "CharacterObjID:##:" + gameEntity.EntID,
+                                    Name = gameEntity.Name ?? ("Noname CharObj " + (int)gameEntity.EntID),
+                                    DBData = gameEntity
+                                };// Data = gameEntityDataDeserialized });
+
+                                characterObjects.Items.Add(tmpChar);
                                 break;
                             //case NodeTypes.Physic:
 
@@ -181,7 +192,7 @@ namespace OIDE.Core
                 }
 
                 objects.Items.Add(staticObjects);
-                objects.Items.Add(chars);
+                objects.Items.Add(characterObjects);
                // objects.Items.Add(allPhysics);
 
                 objects.Items.Add(allTrigger);

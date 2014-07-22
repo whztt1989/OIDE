@@ -102,6 +102,7 @@ namespace OIDE.Scene.Model
         public PhysicsObjectModel_deprecated() { }
 
 
+        public Boolean Closing() { return true; }
         public Boolean Create() { return true; }
         public Boolean Open() {
 

@@ -196,6 +196,7 @@ namespace OIDE.Core
         public Boolean Open() { return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
+        public Boolean Closing() { return true; }
 
         public GameProjectModel()
             : base(null, null)
