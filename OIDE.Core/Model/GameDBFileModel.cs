@@ -102,7 +102,7 @@ namespace OIDE.Core
             //race.Items.Add(male);
             //chars.Items.Add(race);
 
-         //   PhysicCategoryModel allPhysics = new PhysicCategoryModel(objects, UnityContainer) { Name = "Physics" };
+            //   PhysicCategoryModel allPhysics = new PhysicCategoryModel(objects, UnityContainer) { Name = "Physics" };
             //PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, unityContainer) { Name = "pomChar1" };
             //allPhysics.Items.Add(po1);
 
@@ -115,7 +115,7 @@ namespace OIDE.Core
 
 
             StaticObjectCategoyModel DynamicObjects = new StaticObjectCategoyModel(objects, UnityContainer) { Name = "Dynamics" };
-            
+
             //PhysicCategoryModel allOgreObjects = new PhysicCategoryModel(objects, UnityContainer) { Name = "Ogre Objects" };
             //allOgreObjects.Items.Add(new StaticObjectModel(allOgreObjects, UnityContainer) { Name = "Plane" });
             //allOgreObjects.Items.Add(new StaticObjectModel(allOgreObjects, UnityContainer) { Name = "Cube" });
@@ -193,16 +193,16 @@ namespace OIDE.Core
 
                 objects.Items.Add(staticObjects);
                 objects.Items.Add(characterObjects);
-               // objects.Items.Add(allPhysics);
+                // objects.Items.Add(allPhysics);
 
                 objects.Items.Add(allTrigger);
                 objects.Items.Add(allSpawns);
-              objects.Items.Add(allLights);
+                objects.Items.Add(allLights);
                 objects.Items.Add(allSkies);
                 objects.Items.Add(allTerrains);
                 objects.Items.Add(allSounds);
                 objects.Items.Add(DynamicObjects);
-         }
+            }
             catch (Exception ex)
             {
             }
