@@ -80,7 +80,8 @@ namespace OIDE.Scene.Model
         [XmlIgnore]
         public IItem Parent { get; private set; }
 
-        public Boolean Open() {
+        public Boolean Open(object id)
+        {
 
             //todo ! from db
            // SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };

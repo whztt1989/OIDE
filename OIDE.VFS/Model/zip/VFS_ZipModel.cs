@@ -161,7 +161,7 @@ namespace OIDE.VFS
         }
 
         public Boolean Create() { return true; }
-        public Boolean Open()
+        public Boolean Open(object id)
         {
 
             if (!File.Exists(FilePath))

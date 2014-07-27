@@ -63,12 +63,23 @@ namespace OIDE.Scene.Model
         {
             if (item is ISceneItem)
             {
-                ISceneNode tmp = item as ISceneNode;
+                var sceneItem  = item as ISceneItem;
 
-                if (tmp.Node == null)
-                    tmp.Node = new ProtoType.Node();
+                OIDE.DAL.MDB.SceneNodes node = new SceneNodes() 
+                {
+                    Name = "NEWNode_" + sceneItem.Name,
+                    EntID = Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
+                     
+                };
+                m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer, m_DBI)
+                { SceneNode = node, Name = node.Name ?? "NodeNoname" });
+                
+                //ISceneNode tmp = item as ISceneNode;
+            
+                //if (tmp.Node == null)
+                //    tmp.Node = new ProtoType.Node();
 
-                m_SceneItems.Add(tmp as ISceneItem);
+                //m_SceneItems.Add(tmp as ISceneItem);
             }
         }
 
@@ -190,7 +201,7 @@ namespace OIDE.Scene.Model
         public Boolean Create() { return true; }
 
         public Boolean Closing() { return true; }
-        public Boolean Open()
+        public Boolean Open(object id)
         {
             m_SceneService.SelectedScene = this;
             int sceneID = 0;
@@ -337,7 +348,7 @@ namespace OIDE.Scene.Model
                     //}
 
                     //Create scenenode for database
-                    sNode.SceneNode.EntID = Helper.StringToContentIDData(sItem.ContentID).IntValue;
+                    sNode.SceneNode.EntID = sNode.SceneNode.EntID;
                     
                     sNode.SceneNode.SceneID = Helper.StringToContentIDData(ContentID).IntValue;
                     sNode.SceneNode.Name = sItem.Name;

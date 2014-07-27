@@ -23,7 +23,6 @@ using Wide.Interfaces.Controls;
 using Wide.Interfaces.Events;
 using Wide.Interfaces.Services;
 using Wide.Interfaces.Settings;
-using Wide.Interfaces.Themes;
 using XIDE.Gorilla.Settings;
 using System.Windows;
 //using ComID.DBI;

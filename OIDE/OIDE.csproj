@@ -36,9 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AvalonDock.Themes.VS2012">
-      <HintPath>..\Wide\Libs\AvalonDock.Themes.VS2012.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
@@ -91,12 +88,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Wide, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Wide, Version=0.2.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Wide\Build\Internal\Wide.dll</HintPath>
-    </Reference>
-    <Reference Include="Wide.Tools.Logger">
-      <HintPath>..\..\Wide\Build\Internal\Wide.Tools.Logger.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />

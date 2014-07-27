@@ -35,6 +35,7 @@ using Module.Properties.Helpers;
 
 namespace OIDE.Scene.Model
 {
+
     public class CharacterObjModel : ISceneItem, ISceneNode
     {
         public Boolean Visible { get; set; }
@@ -49,7 +50,9 @@ namespace OIDE.Scene.Model
                 if (mData.gameEntity == null)
                     mData.gameEntity = new ProtoType.GameEntity();
 
-                mData.gameEntity.meshes.Add((item as FileItem).Path);
+                ProtoType.Mesh mesh = new ProtoType.Mesh();
+                mesh.Name = (item as FileItem).Path;
+                mData.gameEntity.meshes.Add(mesh);
             }
         }
 
@@ -93,10 +96,13 @@ namespace OIDE.Scene.Model
             }
         }
 
+       
         //  private List<String> mMeshes;
-
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor))]
-        public List<String> Meshes { get { return mData.gameEntity.meshes; } }
+        private List<Mesh> mMeshes;
+        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
+        public List<Mesh> Meshes { get { return mMeshes; } }
+  //public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
 
 
@@ -105,8 +111,8 @@ namespace OIDE.Scene.Model
         public List<PhysicObject> Physics { get { return m_Physics; } }
 
 
-        [XmlIgnore]
-        public ProtoType.OgreSystemTypes OgreSystemType { get { return mData.gameEntity.ogreSystemType; } set { mData.gameEntity.ogreSystemType = value; } }
+       // [XmlIgnore]
+       // public ProtoType.OgreSysType OgreSystemType { get { return mData.gameEntity.ogreSysType; } set { mData.gameEntity.ogreSysType = value; } }
 
         [XmlIgnore]
         //[Category("Conections")]
@@ -159,7 +165,7 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public Boolean Open()
+        public Boolean Open(object id)
         {
             int contentID = Helper.StringToContentIDData(ContentID).IntValue;
             if (contentID > 0)
@@ -231,6 +237,7 @@ namespace OIDE.Scene.Model
         {     
             UnityContainer = unityContainer;
 
+            mMeshes = new List<Mesh>();
             //mMeshes = new List<string>();
             Parent = parent;
             SceneItems = new ObservableCollection<ISceneItem>();

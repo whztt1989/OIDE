@@ -126,8 +126,11 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         }
 
         public Boolean Create() { return true; }
-        public Boolean Open()
+        public Boolean Open(object id)
         {
+            FilePath = id.ToString();
+            Name = Path.GetFileName(FilePath);
+
             if (!Directory.Exists(FilePath))
             {
                Name += " _not found";

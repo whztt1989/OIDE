@@ -104,7 +104,8 @@ namespace OIDE.Scene.Model
 
         public Boolean Closing() { return true; }
         public Boolean Create() { return true; }
-        public Boolean Open() {
+        public Boolean Open(object id)
+        {
 
             DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));

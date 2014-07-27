@@ -23,11 +23,10 @@ namespace OIDE.Core.Model
         }
 
         //todo OnExpand Event .. to load zip file not in constructor?
-        public OIDE_RFS(IItem parent, IUnityContainer container, String filepath)
+        public OIDE_RFS(IItem parent, IUnityContainer container)
             : base(parent , container)
         {
-            FilePath = filepath;
-            Name = Path.GetFileName(filepath);
+
             IsDirty = true;
         }
     }

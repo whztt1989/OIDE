@@ -100,7 +100,7 @@ namespace OIDE.Scene.Model
         public IItem Parent { get; private set; }
 
         public Boolean Closing() { return true; }
-        public Boolean Open()
+        public Boolean Open(object id)
         {
 
             //todo ! from db

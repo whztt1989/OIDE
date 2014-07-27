@@ -68,7 +68,7 @@ namespace WpfTreeViewBinding.Model
 
         public Boolean Create() { return true; }
         public bool Delete() { return true; }
-        public bool Open()
+        public bool Open(object id)
         {
 
             return true;
@@ -106,7 +106,7 @@ namespace WpfTreeViewBinding.Model
         public Boolean Create() { return true; }
         public Boolean Closing() { return true; }
         public bool Delete() { return true; }
-        public bool Open()
+        public bool Open(object id)
         {
 
             return true;

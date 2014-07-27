@@ -23,6 +23,55 @@ using OIDE.Scene.Model.Objects;
 
 namespace OIDE.Scene.Model
 {
+    public class Plane : Mesh
+    {
+        public ProtoType.Vec3f normal { get { return ProtoData.plane.normal; } set { ProtoData.plane.normal = value; } }
+        public float constant { get { return ProtoData.plane.constant; } set { ProtoData.plane.constant = value; } }
+        public float width { get { return ProtoData.plane.width; } set { ProtoData.plane.width = value; } }
+        public float height { get { return ProtoData.plane.height; } set { ProtoData.plane.height = value; } }
+        public Int32 xsegments { get { return ProtoData.plane.xsegments; } set { ProtoData.plane.xsegments = value; } }
+        public Int32 ysegments { get { return ProtoData.plane.ysegments; } set { ProtoData.plane.ysegments = value; } }
+        public bool normals { get { return ProtoData.plane.normals; } set { ProtoData.plane.normals = value; } }
+        public Int32 numTexCoordSets { get { return ProtoData.plane.numTexCoordSets; } set { ProtoData.plane.numTexCoordSets = value; } }
+        public float xTile { get { return ProtoData.plane.xTile; } set { ProtoData.plane.xTile = value; } }
+        public float yTile { get { return ProtoData.plane.yTile; } set { ProtoData.plane.yTile = value; } }
+      
+        public ProtoType.Vec3f upVector { get { return ProtoData.plane.normal; } set { ProtoData.plane.normal = value; } }
+
+        public Plane()
+        {
+            ProtoData.plane = new ProtoType.OgrePlane();
+            ProtoData.plane.upVector = new ProtoType.Vec3f();
+            ProtoData.plane.normal = new ProtoType.Vec3f();
+        }
+    }
+
+    public class Cube : Mesh
+    {
+        public float width { get { return ProtoData.cube.width; } set { ProtoData.cube.width = value; } }
+
+        public Cube()
+        {
+            ProtoData.cube = new ProtoType.OgreCube();
+        }
+    }
+
+    public class Mesh
+    {
+        public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
+        public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
+        
+        [XmlIgnore]
+        [Browsable(false)]
+        public ProtoType.Mesh ProtoData { get; set; }
+
+        public Mesh()
+        {
+            ProtoData = new ProtoType.Mesh();
+        }
+    }
+
+
     public class StaticObjectModel : ISceneItem, IGameEntity
     {
         private ProtoType.StaticEntity mData;
@@ -34,7 +83,9 @@ namespace OIDE.Scene.Model
                  if (mData.gameEntity == null)
                      mData.gameEntity = new ProtoType.GameEntity();
 
-                 mData.gameEntity.meshes.Add((item as FileItem).Path);
+                 ProtoType.Mesh mesh = new ProtoType.Mesh();
+                 mesh.Name = (item as FileItem).Path;
+                 mData.gameEntity.meshes.Add(mesh);
              }
         }
 
@@ -78,6 +129,16 @@ namespace OIDE.Scene.Model
 
                     foreach (var item in mData.gameEntity.physics)
                         m_Physics.Add(new PhysicObject() { ProtoData = item });
+
+                    foreach (var item in mData.gameEntity.meshes)
+                    {
+                        if (item.cube != null)
+                            mMeshes.Add(new Cube() { ProtoData = item });
+                        else if (item.plane != null)
+                            mMeshes.Add(new Plane() { ProtoData = item });
+                        else
+                            mMeshes.Add(new Mesh() { ProtoData = item });
+                    }
                 }
 
             }
@@ -85,18 +146,23 @@ namespace OIDE.Scene.Model
 
       //  private List<String> mMeshes;
 
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor))]
-        public List<String> Meshes { get { return mData.gameEntity.meshes; } }
+        private List<Mesh> mMeshes;
+     
+        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
+        public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
+
+     //   public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
 
 
         private List<PhysicObject> m_Physics;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        public List<PhysicObject> Physics {  get   {  return m_Physics; } }
+        public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
 
 
-        [XmlIgnore]
-        public ProtoType.OgreSystemTypes OgreSystemType { get { return mData.gameEntity.ogreSystemType; } set { mData.gameEntity.ogreSystemType = value; } }
+    //    [XmlIgnore]
+   //     public ProtoType.OgreSysType OgreSystemType { get { return mData.gameEntity.ogreSysType; } set { mData.gameEntity.ogreSysType = value; } }
 
         [XmlIgnore]
         //[Category("Conections")]
@@ -159,7 +225,8 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        public Boolean Open() {
+        public Boolean Open(object id)
+        {
 
             DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));
@@ -184,6 +251,12 @@ namespace OIDE.Scene.Model
                 ProtoData.gameEntity.physics.Clear();
                 foreach(var item in m_Physics)
                     ProtoData.gameEntity.physics.Add(item.ProtoData);
+
+                //Update mesh Data
+                ProtoData.gameEntity.meshes.Clear();
+                foreach (var item in mMeshes)
+                    ProtoData.gameEntity.meshes.Add(item.ProtoData);
+
 
                 gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
                 gameEntity.Name = this.Name;
@@ -241,6 +314,7 @@ namespace OIDE.Scene.Model
             else
                 m_dbI = new IDAL();
 
+            mMeshes = new List<Mesh>();
             m_Physics = new List<PhysicObject>();
             mData = new ProtoType.StaticEntity();
             mData.gameEntity = new ProtoType.GameEntity();
