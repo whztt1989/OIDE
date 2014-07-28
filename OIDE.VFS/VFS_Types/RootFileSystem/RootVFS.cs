@@ -2,6 +2,7 @@
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
+using Module.Properties.Types;
 using OIDE.VFS.Interface;
 using System;
 using System.Collections.Generic;
@@ -170,6 +171,10 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
 
         #region Archive Data
 
+        /// <summary>
+        /// in this case (root virtual filesystem) the filepath is the folderpath(root path)
+        /// </summary>
+        [Editor(typeof(FilePathEditor), typeof(FilePathEditor))]
         public String FilePath { get; set; }
 
         #endregion

@@ -255,15 +255,6 @@ namespace OIDE.Core
         {
             this.IsDirty = value;
         }
-
-        [XmlIgnore]
-        public string HTMLResult { get; set; }
-
-        public void SetHtml(string transform)
-        {
-            this.HTMLResult = transform;
-            RaisePropertyChanged("HTMLResult");
-        }
     }
 
     public class CmdRenameGameProject : ICommand

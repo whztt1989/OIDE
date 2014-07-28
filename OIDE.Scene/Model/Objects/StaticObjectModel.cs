@@ -20,12 +20,15 @@ using Module.Properties.Helpers;
 using OIDE.DAL.MDB;
 using OIDE.VFS.VFS_Types.RootFileSystem;
 using OIDE.Scene.Model.Objects;
+using Module.Properties.Types;
 
 namespace OIDE.Scene.Model
 {
     public class Plane : Mesh
     {
+        [Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
         public ProtoType.Vec3f normal { get { return ProtoData.plane.normal; } set { ProtoData.plane.normal = value; } }
+       
         public float constant { get { return ProtoData.plane.constant; } set { ProtoData.plane.constant = value; } }
         public float width { get { return ProtoData.plane.width; } set { ProtoData.plane.width = value; } }
         public float height { get { return ProtoData.plane.height; } set { ProtoData.plane.height = value; } }
@@ -35,9 +38,13 @@ namespace OIDE.Scene.Model
         public Int32 numTexCoordSets { get { return ProtoData.plane.numTexCoordSets; } set { ProtoData.plane.numTexCoordSets = value; } }
         public float xTile { get { return ProtoData.plane.xTile; } set { ProtoData.plane.xTile = value; } }
         public float yTile { get { return ProtoData.plane.yTile; } set { ProtoData.plane.yTile = value; } }
-      
-        public ProtoType.Vec3f upVector { get { return ProtoData.plane.normal; } set { ProtoData.plane.normal = value; } }
 
+        [Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
+        public ProtoType.Vec3f upVector { get { return ProtoData.plane.upVector; } set { ProtoData.plane.upVector = value; } }
+
+
+
+//new Vector3(ProtoData.plane.normal.x, ProtoData.plane.normal.y, ProtoData.plane.normal.z)
         public Plane()
         {
             ProtoData.plane = new ProtoType.OgrePlane();
