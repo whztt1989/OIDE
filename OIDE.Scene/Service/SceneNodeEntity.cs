@@ -115,7 +115,7 @@ namespace OIDE.Scene.Service
 
         public Boolean Create() { return true; }
         public Boolean Closing() { return true; }
-        public Boolean Open()
+        public Boolean Open(object id)
         {
 
            

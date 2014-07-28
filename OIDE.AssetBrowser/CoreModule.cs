@@ -23,7 +23,6 @@ using Wide.Interfaces.Controls;
 using Wide.Interfaces.Events;
 using Wide.Interfaces.Services;
 using Wide.Interfaces.Settings;
-using Wide.Interfaces.Themes;
 using System.Windows;
 using OIDE.AssetBrowser.Interface.Services;
 using OIDE.AssetBrowser.View;
@@ -186,12 +185,12 @@ namespace OIDE.AssetBrowser
         {
             _eventAggregator.GetEvent<SplashMessageUpdateEvent>().Publish(new SplashMessageUpdateEvent
                                                                               {Message = "Themes.."});
-            var manager = _container.Resolve<IThemeManager>();
-            var themeSettings = _container.Resolve<IThemeSettings>();
-            var win = _container.Resolve<IShell>() as Window;
-            manager.AddTheme(new LightTheme());
-            manager.AddTheme(new DarkTheme());
-            win.Dispatcher.InvokeAsync(() => manager.SetCurrent(themeSettings.SelectedTheme));
+            //var manager = _container.Resolve<IThemeManager>();
+            //var themeSettings = _container.Resolve<IThemeSettings>();
+            //var win = _container.Resolve<IShell>() as Window;
+            //manager.AddTheme(new LightTheme());
+            //manager.AddTheme(new DarkTheme());
+            //win.Dispatcher.InvokeAsync(() => manager.SetCurrent(themeSettings.SelectedTheme));
         }
 
         private void LoadCommands()

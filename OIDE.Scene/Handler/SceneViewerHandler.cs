@@ -98,7 +98,7 @@ namespace OIDE.Scene
          
             sceneService.Scenes.Add(newScene);
           //  sceneService.SelectedScene = newScene;
-            newScene.Open();
+            newScene.Open(-1);
 
 
             return vm;
@@ -145,7 +145,7 @@ namespace OIDE.Scene
                     if (scene.Any())
                     {
                         sceneService.SelectedScene = scene.First();
-                        sceneService.SelectedScene.Open();
+                        sceneService.SelectedScene.Open(info);
                     }
                     //  model.SetLocation("AuftragID:##:" + info + "");
 

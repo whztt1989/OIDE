@@ -33,7 +33,9 @@ namespace OIDE.Scene.Model
                  if (mData.gameEntity == null)
                      mData.gameEntity = new ProtoType.GameEntity();
 
-                 mData.gameEntity.meshes.Add((item as FileItem).Path);
+                 ProtoType.Mesh mesh = new ProtoType.Mesh();
+                 mesh.Name = (item as FileItem).Path;
+                 mData.gameEntity.meshes.Add(mesh);
              }
         }
 
@@ -75,8 +77,8 @@ namespace OIDE.Scene.Model
 
       //  private List<String> mMeshes;
 
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.PrimitiveTypeCollectionEditor))]
-        public List<String> Meshes { get { return mData.gameEntity.meshes; } }
+        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
 
        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
@@ -144,7 +146,8 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        public Boolean Open() {
+        public Boolean Open(object id)
+        {
 
             DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));

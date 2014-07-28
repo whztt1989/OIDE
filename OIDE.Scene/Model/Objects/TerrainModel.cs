@@ -42,7 +42,7 @@ namespace OIDE.Scene.Model
         }
 
         public Boolean Create() { return true; }
-        public Boolean Open() { return true; }
+        public Boolean Open(object id) { return true; }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }

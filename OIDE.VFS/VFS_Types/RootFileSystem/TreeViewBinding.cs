@@ -63,7 +63,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         public Boolean Closing() { return true; }
         public bool Create() { return true; }
         public bool Delete() { return true; }
-        public bool Open() { return true; }
+        public bool Open(object id) { return true; }
         public bool Save() { return true; }
 
     }
