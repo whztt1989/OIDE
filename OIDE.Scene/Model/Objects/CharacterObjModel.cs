@@ -96,15 +96,12 @@ namespace OIDE.Scene.Model
             }
         }
 
-       
         //  private List<String> mMeshes;
         private List<Mesh> mMeshes;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
         [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
         public List<Mesh> Meshes { get { return mMeshes; } }
   //public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
-
-
 
         private List<PhysicObject> m_Physics;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
