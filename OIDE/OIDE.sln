@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE", "OIDE.csproj", "{3AF9375C-A620-45CC-8397-8F678BEE0E2B}"
 EndProject
@@ -31,8 +31,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Wizard", "..\..\Modu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.XML", "..\..\Modules\Module.XML\Module.XML.csproj", "{CCD23C66-D7EF-42FD-82CF-701E8D59009E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wide", "..\..\Wide\Src\Wide\Wide.csproj", "{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf.DragDrop (NET4)", "..\..\Modules\Wpf.DragDrop\Wpf.DragDrop (NET4).csproj", "{0C6674CC-6D49-414A-9B41-D4E175028FFB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.History", "..\..\Modules\Module.History\Module.History.csproj", "{2523F3DD-8629-41E5-BCC5-79EA9A439E38}"
@@ -44,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.RenderImage", "..\OIDE.RenderImage\OIDE.RenderImage.csproj", "{9F3B07C6-7C14-4AFB-BF4B-8EB2FE81D361}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.InteropEditor", "..\OIDE.InteropEditor\OIDE.InteropEditor.csproj", "{6BDCF9E5-128F-4DAF-B913-02CCBA5FDBD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wide", "..\..\WPF_IDE\Wide.csproj", "{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,10 +107,6 @@ Global
 		{CCD23C66-D7EF-42FD-82CF-701E8D59009E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCD23C66-D7EF-42FD-82CF-701E8D59009E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCD23C66-D7EF-42FD-82CF-701E8D59009E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0C6674CC-6D49-414A-9B41-D4E175028FFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0C6674CC-6D49-414A-9B41-D4E175028FFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C6674CC-6D49-414A-9B41-D4E175028FFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -135,6 +131,10 @@ Global
 		{6BDCF9E5-128F-4DAF-B913-02CCBA5FDBD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BDCF9E5-128F-4DAF-B913-02CCBA5FDBD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BDCF9E5-128F-4DAF-B913-02CCBA5FDBD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F20F5EF-4F7E-4AE2-A462-4CD2256FB3FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
