@@ -59,6 +59,7 @@ namespace OIDE.Scene.Model
         public String ContentID { get; set; }
 
         [XmlIgnore]
+        [Browsable(false)]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
 
         [XmlIgnore]
@@ -100,16 +101,16 @@ namespace OIDE.Scene.Model
         private List<Mesh> mMeshes;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
         [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
-        public List<Mesh> Meshes { get { return mMeshes; } }
-  //public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
+        public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
+        //public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
         private List<PhysicObject> m_Physics;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        public List<PhysicObject> Physics { get { return m_Physics; } }
+        public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
 
 
-       // [XmlIgnore]
-       // public ProtoType.OgreSysType OgreSystemType { get { return mData.gameEntity.ogreSysType; } set { mData.gameEntity.ogreSysType = value; } }
+        // [XmlIgnore]
+        // public ProtoType.OgreSysType OgreSystemType { get { return mData.gameEntity.ogreSysType; } set { mData.gameEntity.ogreSysType = value; } }
 
         [XmlIgnore]
         //[Category("Conections")]
@@ -118,15 +119,15 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public ProtoType.CharEntity ProtoData { get { return mData; } }
 
-
         private IDAL m_dbI;
-        
+
         public Int32 ID { get; set; }
         public String Name { get; set; }
-       
+
+        [XmlIgnore]
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
-        
+
         [XmlIgnore]
         [Browsable(false)]
         public List<MenuItem> MenuOptions
@@ -147,18 +148,22 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public IItem Parent { get; private set; }
 
         public Boolean Closing() { return true; }
-        
-        public Boolean Create() 
+
+        public Boolean Create()
         {
             mData = new ProtoType.CharEntity();
             mData.gameEntity = new ProtoType.GameEntity();
 
-            DBData = new GameEntity() {  EntType = (decimal)ProtoType.EntityTypes.NT_Character  };
+            DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Character };
             return true;
         }
 
@@ -177,13 +182,14 @@ namespace OIDE.Scene.Model
                 {
                     mData = new ProtoType.CharEntity();
                 }
-            }else
+            }
+            else
             {
                 mData = new ProtoType.CharEntity();
 
                 DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Character };
             }
-            return true; 
+            return true;
         }
 
         private ICommand CmdSaveCharacterObj;
@@ -223,15 +229,17 @@ namespace OIDE.Scene.Model
 
         public Boolean Delete() { return true; }
 
+        [XmlIgnore]
+        [Browsable(false)]
         public IUnityContainer UnityContainer { get; private set; }
 
-
-        public CharacterObjModel ()
+        public CharacterObjModel()
         {
+
         }
 
         public CharacterObjModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
-        {     
+        {
             UnityContainer = unityContainer;
 
             mMeshes = new List<Mesh>();
@@ -252,7 +260,6 @@ namespace OIDE.Scene.Model
             mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
             SceneNode = new DAL.MDB.SceneNodes();
-
         }
     }
 

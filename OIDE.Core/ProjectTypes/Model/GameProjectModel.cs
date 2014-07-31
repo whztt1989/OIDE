@@ -227,7 +227,7 @@ namespace OIDE.Core
 
 
             OIDE_RFS fileAssets = new OIDE_RFS(this, container);
-            fileAssets.Open("D:\\Projekte\\coop\\Build\\Data");
+            fileAssets.Open("D:\\Projekte\\coop\\AssetData");
             m_Items.Add(fileAssets);
 
             //-----------------------------------------
