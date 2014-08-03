@@ -97,6 +97,7 @@ namespace OIDE.Core
 
 
             CharacterCategoryModel characterObjects = new CharacterCategoryModel(objects, UnityContainer) { Name = "Characters" };
+            CreatureCategoryModel creatureObjects = new CreatureCategoryModel(objects, UnityContainer) { Name = "Creatures" };
             //RaceModel race = new RaceModel(chars, unityContainer) { Name = "Human" };
             //GenderModel male = new GenderModel(race, unityContainer) { Name = "Male" };
             //race.Items.Add(male);
@@ -193,7 +194,8 @@ namespace OIDE.Core
 
                 objects.Items.Add(staticObjects);
                 objects.Items.Add(characterObjects);
-                // objects.Items.Add(allPhysics);
+                objects.Items.Add(creatureObjects);
+               // objects.Items.Add(allPhysics);
 
                 objects.Items.Add(allTrigger);
                 objects.Items.Add(allSpawns);

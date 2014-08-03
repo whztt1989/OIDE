@@ -381,6 +381,46 @@ namespace ProtoType
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Mesh")]
+  public partial class Mesh : global::ProtoBuf.IExtensible
+  {
+    public Mesh() {}
+    
+    private string _Name;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string Name
+    {
+      get { return _Name; }
+      set { _Name = value; }
+    }
+    private string _RessGrp;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"RessGrp", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string RessGrp
+    {
+      get { return _RessGrp; }
+      set { _RessGrp = value; }
+    }
+    private ProtoType.OgrePlane _plane = null;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"plane", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public ProtoType.OgrePlane plane
+    {
+      get { return _plane; }
+      set { _plane = value; }
+    }
+    private ProtoType.OgreCube _cube = null;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"cube", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public ProtoType.OgreCube cube
+    {
+      get { return _cube; }
+      set { _cube = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"StaticEntity")]
   public partial class StaticEntity : global::ProtoBuf.IExtensible
   {
@@ -406,17 +446,246 @@ namespace ProtoType
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CharEntity")]
-  public partial class CharEntity : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Sound")]
+  public partial class Sound : global::ProtoBuf.IExtensible
   {
-    public CharEntity() {}
+    public Sound() {}
     
-    private ProtoType.GameEntity _gameEntity;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"gameEntity", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.GameEntity gameEntity
+    private string _name;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string name
     {
-      get { return _gameEntity; }
-      set { _gameEntity = value; }
+      get { return _name; }
+      set { _name = value; }
+    }
+    private string _fileName;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"fileName", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string fileName
+    {
+      get { return _fileName; }
+      set { _fileName = value; }
+    }
+    private string _ressGrp;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"ressGrp", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string ressGrp
+    {
+      get { return _ressGrp; }
+      set { _ressGrp = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Face")]
+  public partial class Face : global::ProtoBuf.IExtensible
+  {
+    public Face() {}
+    
+    private string _textName;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"textName", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string textName
+    {
+      get { return _textName; }
+      set { _textName = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Skin")]
+  public partial class Skin : global::ProtoBuf.IExtensible
+  {
+    public Skin() {}
+    
+    private string _textName;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"textName", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string textName
+    {
+      get { return _textName; }
+      set { _textName = value; }
+    }
+    private string _mesh;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"mesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string mesh
+    {
+      get { return _mesh; }
+      set { _mesh = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"HairColor")]
+  public partial class HairColor : global::ProtoBuf.IExtensible
+  {
+    public HairColor() {}
+    
+    private string _textName;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"textName", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string textName
+    {
+      get { return _textName; }
+      set { _textName = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"HairStyle")]
+  public partial class HairStyle : global::ProtoBuf.IExtensible
+  {
+    public HairStyle() {}
+    
+    private string _mesh;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"mesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string mesh
+    {
+      get { return _mesh; }
+      set { _mesh = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"FacialFeature")]
+  public partial class FacialFeature : global::ProtoBuf.IExtensible
+  {
+    public FacialFeature() {}
+    
+    private string _mesh;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"mesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string mesh
+    {
+      get { return _mesh; }
+      set { _mesh = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"FacialColor")]
+  public partial class FacialColor : global::ProtoBuf.IExtensible
+  {
+    public FacialColor() {}
+    
+    private string _textName;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"textName", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string textName
+    {
+      get { return _textName; }
+      set { _textName = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Shoulder")]
+  public partial class Shoulder : global::ProtoBuf.IExtensible
+  {
+    public Shoulder() {}
+    
+    private string _mesh;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"mesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string mesh
+    {
+      get { return _mesh; }
+      set { _mesh = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Boots")]
+  public partial class Boots : global::ProtoBuf.IExtensible
+  {
+    public Boots() {}
+    
+    private string _mesh;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"mesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string mesh
+    {
+      get { return _mesh; }
+      set { _mesh = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"OneHandWeapon")]
+  public partial class OneHandWeapon : global::ProtoBuf.IExtensible
+  {
+    public OneHandWeapon() {}
+    
+    private string _name;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string name
+    {
+      get { return _name; }
+      set { _name = value; }
+    }
+    private string _mesh;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"mesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string mesh
+    {
+      get { return _mesh; }
+      set { _mesh = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"TwoHandWeapon")]
+  public partial class TwoHandWeapon : global::ProtoBuf.IExtensible
+  {
+    public TwoHandWeapon() {}
+    
+    private string _name;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string name
+    {
+      get { return _name; }
+      set { _name = value; }
+    }
+    private string _mesh;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"mesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string mesh
+    {
+      get { return _mesh; }
+      set { _mesh = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Race")]
+  public partial class Race : global::ProtoBuf.IExtensible
+  {
+    public Race() {}
+    
+    private string _name;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string name
+    {
+      get { return _name; }
+      set { _name = value; }
+    }
+    private string _description;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"description", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string description
+    {
+      get { return _description; }
+      set { _description = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -440,10 +709,146 @@ namespace ProtoType
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AIEntity")]
-  public partial class AIEntity : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RaceGender")]
+  public partial class RaceGender : global::ProtoBuf.IExtensible
   {
-    public AIEntity() {}
+    public RaceGender() {}
+    
+    private ProtoType.Race _race;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"race", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.Race race
+    {
+      get { return _race; }
+      set { _race = value; }
+    }
+    private ProtoType.PhysicsObject _bodyPhys;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"bodyPhys", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.PhysicsObject bodyPhys
+    {
+      get { return _bodyPhys; }
+      set { _bodyPhys = value; }
+    }
+    private ProtoType.PhysicsObject _footLPhys;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"footLPhys", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.PhysicsObject footLPhys
+    {
+      get { return _footLPhys; }
+      set { _footLPhys = value; }
+    }
+    private ProtoType.PhysicsObject _footRPhys;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"footRPhys", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.PhysicsObject footRPhys
+    {
+      get { return _footRPhys; }
+      set { _footRPhys = value; }
+    }
+    private ProtoType.PhysicsObject _HandLPhys;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"HandLPhys", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.PhysicsObject HandLPhys
+    {
+      get { return _HandLPhys; }
+      set { _HandLPhys = value; }
+    }
+    private ProtoType.PhysicsObject _HandRPhys;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = true, Name=@"HandRPhys", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.PhysicsObject HandRPhys
+    {
+      get { return _HandRPhys; }
+      set { _HandRPhys = value; }
+    }
+    private float _turnSpeed;
+    [global::ProtoBuf.ProtoMember(7, IsRequired = true, Name=@"turnSpeed", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float turnSpeed
+    {
+      get { return _turnSpeed; }
+      set { _turnSpeed = value; }
+    }
+    private ProtoType.Gender _gender;
+    [global::ProtoBuf.ProtoMember(8, IsRequired = true, Name=@"gender", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public ProtoType.Gender gender
+    {
+      get { return _gender; }
+      set { _gender = value; }
+    }
+    private readonly global::System.Collections.Generic.List<ProtoType.Sound> _sounds = new global::System.Collections.Generic.List<ProtoType.Sound>();
+    [global::ProtoBuf.ProtoMember(9, Name=@"sounds", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.Sound> sounds
+    {
+      get { return _sounds; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoType.Face> _faces = new global::System.Collections.Generic.List<ProtoType.Face>();
+    [global::ProtoBuf.ProtoMember(10, Name=@"faces", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.Face> faces
+    {
+      get { return _faces; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoType.Skin> _skins = new global::System.Collections.Generic.List<ProtoType.Skin>();
+    [global::ProtoBuf.ProtoMember(11, Name=@"skins", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.Skin> skins
+    {
+      get { return _skins; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoType.HairColor> _hairColors = new global::System.Collections.Generic.List<ProtoType.HairColor>();
+    [global::ProtoBuf.ProtoMember(12, Name=@"hairColors", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.HairColor> hairColors
+    {
+      get { return _hairColors; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoType.HairStyle> _hairStyles = new global::System.Collections.Generic.List<ProtoType.HairStyle>();
+    [global::ProtoBuf.ProtoMember(13, Name=@"hairStyles", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.HairStyle> hairStyles
+    {
+      get { return _hairStyles; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoType.FacialFeature> _facials = new global::System.Collections.Generic.List<ProtoType.FacialFeature>();
+    [global::ProtoBuf.ProtoMember(14, Name=@"facials", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.FacialFeature> facials
+    {
+      get { return _facials; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoType.FacialColor> _facialcolors = new global::System.Collections.Generic.List<ProtoType.FacialColor>();
+    [global::ProtoBuf.ProtoMember(15, Name=@"facialcolors", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.FacialColor> facialcolors
+    {
+      get { return _facialcolors; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoType.Shoulder> _shoulder = new global::System.Collections.Generic.List<ProtoType.Shoulder>();
+    [global::ProtoBuf.ProtoMember(16, Name=@"shoulder", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.Shoulder> shoulder
+    {
+      get { return _shoulder; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoType.Boots> _boots = new global::System.Collections.Generic.List<ProtoType.Boots>();
+    [global::ProtoBuf.ProtoMember(17, Name=@"boots", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.Boots> boots
+    {
+      get { return _boots; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<ProtoType.SpellEntity> _spells = new global::System.Collections.Generic.List<ProtoType.SpellEntity>();
+    [global::ProtoBuf.ProtoMember(18, Name=@"spells", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<ProtoType.SpellEntity> spells
+    {
+      get { return _spells; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"CharEntity")]
+  public partial class CharEntity : global::ProtoBuf.IExtensible
+  {
+    public CharEntity() {}
     
     private ProtoType.GameEntity _gameEntity;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"gameEntity", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -451,6 +856,118 @@ namespace ProtoType
     {
       get { return _gameEntity; }
       set { _gameEntity = value; }
+    }
+    private ProtoType.RaceGender _gender;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"gender", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.RaceGender gender
+    {
+      get { return _gender; }
+      set { _gender = value; }
+    }
+    private ProtoType.Face _face;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"face", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.Face face
+    {
+      get { return _face; }
+      set { _face = value; }
+    }
+    private ProtoType.Skin _skin;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"skin", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.Skin skin
+    {
+      get { return _skin; }
+      set { _skin = value; }
+    }
+    private ProtoType.HairColor _hairColor;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"hairColor", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.HairColor hairColor
+    {
+      get { return _hairColor; }
+      set { _hairColor = value; }
+    }
+    private ProtoType.HairStyle _hairStyle;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = true, Name=@"hairStyle", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.HairStyle hairStyle
+    {
+      get { return _hairStyle; }
+      set { _hairStyle = value; }
+    }
+    private ProtoType.FacialFeature _facialfeature;
+    [global::ProtoBuf.ProtoMember(7, IsRequired = true, Name=@"facialfeature", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.FacialFeature facialfeature
+    {
+      get { return _facialfeature; }
+      set { _facialfeature = value; }
+    }
+    private ProtoType.FacialColor _facialcolor;
+    [global::ProtoBuf.ProtoMember(8, IsRequired = true, Name=@"facialcolor", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.FacialColor facialcolor
+    {
+      get { return _facialcolor; }
+      set { _facialcolor = value; }
+    }
+    private ProtoType.Boots _boots;
+    [global::ProtoBuf.ProtoMember(9, IsRequired = true, Name=@"boots", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.Boots boots
+    {
+      get { return _boots; }
+      set { _boots = value; }
+    }
+    private ProtoType.Shoulder _shoulderMesh;
+    [global::ProtoBuf.ProtoMember(10, IsRequired = true, Name=@"shoulderMesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.Shoulder shoulderMesh
+    {
+      get { return _shoulderMesh; }
+      set { _shoulderMesh = value; }
+    }
+    private ProtoType.OneHandWeapon _oneHLWeapon = null;
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"oneHLWeapon", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public ProtoType.OneHandWeapon oneHLWeapon
+    {
+      get { return _oneHLWeapon; }
+      set { _oneHLWeapon = value; }
+    }
+    private ProtoType.OneHandWeapon _oneHRWeapon = null;
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"oneHRWeapon", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public ProtoType.OneHandWeapon oneHRWeapon
+    {
+      get { return _oneHRWeapon; }
+      set { _oneHRWeapon = value; }
+    }
+    private ProtoType.TwoHandWeapon _twoHWeapon = null;
+    [global::ProtoBuf.ProtoMember(13, IsRequired = false, Name=@"twoHWeapon", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public ProtoType.TwoHandWeapon twoHWeapon
+    {
+      get { return _twoHWeapon; }
+      set { _twoHWeapon = value; }
+    }
+    private ProtoType.AI _ai = null;
+    [global::ProtoBuf.ProtoMember(14, IsRequired = false, Name=@"ai", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue(null)]
+    public ProtoType.AI ai
+    {
+      get { return _ai; }
+      set { _ai = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"AI")]
+  public partial class AI : global::ProtoBuf.IExtensible
+  {
+    public AI() {}
+    
+    private string _scriptName;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"scriptName", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string scriptName
+    {
+      get { return _scriptName; }
+      set { _scriptName = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -662,70 +1179,6 @@ namespace ProtoType
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Mesh")]
-  public partial class Mesh : global::ProtoBuf.IExtensible
-  {
-    public Mesh() {}
-    
-    private string _Name;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Name", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Name
-    {
-      get { return _Name; }
-      set { _Name = value; }
-    }
-    private string _RessGrp;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"RessGrp", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string RessGrp
-    {
-      get { return _RessGrp; }
-      set { _RessGrp = value; }
-    }
-    private ProtoType.OgrePlane _plane = null;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = false, Name=@"plane", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public ProtoType.OgrePlane plane
-    {
-      get { return _plane; }
-      set { _plane = value; }
-    }
-    private ProtoType.OgreCube _cube = null;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"cube", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public ProtoType.OgreCube cube
-    {
-      get { return _cube; }
-      set { _cube = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Sound")]
-  public partial class Sound : global::ProtoBuf.IExtensible
-  {
-    public Sound() {}
-    
-    private string _Name;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"Name", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string Name
-    {
-      get { return _Name; }
-      set { _Name = value; }
-    }
-    private string _RessGrp;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"RessGrp", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public string RessGrp
-    {
-      get { return _RessGrp; }
-      set { _RessGrp = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"GameEntity")]
   public partial class GameEntity : global::ProtoBuf.IExtensible
   {
@@ -796,6 +1249,22 @@ namespace ProtoType
     {
       get { return _debug; }
       set { _debug = value; }
+    }
+    private string _animationTree = "";
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"animationTree", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string animationTree
+    {
+      get { return _animationTree; }
+      set { _animationTree = value; }
+    }
+    private string _animationInfo = "";
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"animationInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string animationInfo
+    {
+      get { return _animationInfo; }
+      set { _animationInfo = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -1068,6 +1537,20 @@ namespace ProtoType
             
       [global::ProtoBuf.ProtoEnum(Name=@"PT_CHARACTER", Value=7)]
       PT_CHARACTER = 7
+    }
+  
+    [global::ProtoBuf.ProtoContract(Name=@"Gender")]
+    public enum Gender
+    {
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Male", Value=0)]
+      Male = 0,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Female", Value=1)]
+      Female = 1,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"Child", Value=2)]
+      Child = 2
     }
   
     [global::ProtoBuf.ProtoContract(Name=@"EntityTypes")]

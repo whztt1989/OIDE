@@ -193,7 +193,11 @@ namespace OIDE.Core
         }
 
         public Boolean Create() { return true; }
-        public Boolean Open(object id) { return true; }
+        public Boolean Open(object id) 
+        { 
+        
+            return true; 
+        }
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
@@ -222,12 +226,12 @@ namespace OIDE.Core
             CanAddThisItems.Add(typeof(OIDE_RFS));
             CanAddThisItems.Add(typeof(OIDEZipArchive));
             CanAddThisItems.Add(typeof(GameDBFileModel));
-           //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
+            //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
             //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
 
 
-            OIDE_RFS fileAssets = new OIDE_RFS(this, container);
-            fileAssets.Open("D:\\Projekte\\coop\\AssetData");
+            OIDE_RFS fileAssets = new OIDE_RFS(this, container) { Name = "Assets VFS", ContentID = "RootVFSID:##:" };
+            //fileAssets.Open("D:\\Projekte\\coop\\AssetData");
             m_Items.Add(fileAssets);
 
             //-----------------------------------------
@@ -236,11 +240,11 @@ namespace OIDE.Core
             GameDBFileModel dbData = new GameDBFileModel(this, container);
             dbData.IsExpanded = true;
 
-//            PredefObjectCategoyModel predefCategory = new PredefObjectCategoyModel(this, container) { Name = "Ogre System Objects" };
+            //            PredefObjectCategoyModel predefCategory = new PredefObjectCategoyModel(this, container) { Name = "Ogre System Objects" };
 
-//            predefCategory.Items.Add(new PredefObjectModel() { Name = "Cube" });
-////sceneService.PredefObjects  ??????
-//            m_Items.Add(predefCategory);
+            //            predefCategory.Items.Add(new PredefObjectModel() { Name = "Cube" });
+            ////sceneService.PredefObjects  ??????
+            //            m_Items.Add(predefCategory);
 
             m_Items.Add(dbData);
         }
