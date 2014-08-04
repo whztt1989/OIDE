@@ -80,6 +80,9 @@ namespace OIDE.Scene.Model
         HumaWEU
     }
 
+    //itamsource combobox
+    //http://wpftoolkit.codeplex.com/discussions/351513
+
     public class RaceGenderItemsSource : IItemsSource
     {
         public Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ItemCollection GetValues()
