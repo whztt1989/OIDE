@@ -24,6 +24,10 @@ namespace OIDE
         void App_Unloaded(object sender, System.EventArgs e)
         {
             var shell = b.Container.Resolve<IShell>();
+
+            var workspace = b.Container.Resolve<AbstractWorkspace>();
+            workspace.Documents.Clear(); // Clear Documents before app close
+
             shell.SaveLayout();
         }
 

@@ -19,6 +19,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using GongSolutions.Wpf.DragDrop;
 using System.Windows;
+using Wide.Interfaces;
 
 namespace OIDE.Scene.Model
 {
@@ -28,7 +29,7 @@ namespace OIDE.Scene.Model
     /// <summary>
     /// Complete Scene description
     /// </summary>
-    public class SceneViewerModel : TextModel, IDropTarget
+    public class SceneViewerModel : ContentModel, IDropTarget
     {
 
         void IDropTarget.DragOver(IDropInfo dropInfo)
@@ -195,7 +196,6 @@ namespace OIDE.Scene.Model
         public ISceneService SceneService { get { return m_SceneService; } }
 
         public SceneViewerModel(ICommandManager commandManager, IMenuService menuService, ISceneService sceneService)
-            : base(commandManager, menuService)
         {
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);

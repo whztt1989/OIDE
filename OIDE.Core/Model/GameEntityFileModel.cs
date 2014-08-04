@@ -31,7 +31,6 @@ namespace OIDE.Core
     {
         public String Name { get; set; }
         public CollectionOfIItem Items { get; set; }
-        public String ContentID { get; set; }
 
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
