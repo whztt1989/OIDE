@@ -165,9 +165,11 @@
     <Compile Include="Interface\Services\ISceneItem.cs" />
     <Compile Include="Interface\Services\ISceneService.cs" />
     <Content Include="Model\Objects\AICharacterModel.cs" />
+    <Compile Include="Model\Categeories\RaceCategoryModel.cs" />
     <Compile Include="Model\Categeories\CreatureCategoryModel.cs" />
     <Compile Include="Model\Categeories\CharacterCategoryModel.cs" />
     <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
+    <Compile Include="Model\Objects\CharacterCustomizeModel.cs" />
     <Compile Include="Model\Objects\RaceModel.cs" />
     <Compile Include="Model\Objects\CreatureModel.cs" />
     <Compile Include="Model\Objects\PhysicObject.cs" />
@@ -197,8 +199,12 @@
     <Compile Include="Utils\XML\SampleScene3.cs">
       <DependentUpon>SampleScene3.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\RaceGenderViewModel.cs" />
     <Compile Include="ViewModel\SceneGraphToolViewModel.cs" />
     <Compile Include="ViewModel\SceneViewerViewModel.cs" />
+    <Compile Include="View\Editor\CharacterCustomizeEditor.xaml.cs">
+      <DependentUpon>CharacterCustomizeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SceneGraphToolView.xaml.cs">
       <DependentUpon>SceneGraphToolView.xaml</DependentUpon>
     </Compile>
@@ -207,6 +213,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="View\Editor\CharacterCustomizeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SceneGraphToolView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

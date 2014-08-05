@@ -32,23 +32,24 @@ using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using OIDE.DAL;
 using Module.Properties.Helpers;
+using OIDE.Scene.ViewModel;
 
 namespace OIDE.Scene.Model
 {
     public class RaceModel : IItem
     {
-        private ProtoType.CharEntity mData;
+        private ProtoType.RaceGender mData;
 
         public void Drop(IItem item)
         {
             if (item is FileItem)
             {
-                if (mData.gameEntity == null)
-                    mData.gameEntity = new ProtoType.GameEntity();
+                //if (mData.gameEntity == null)
+                //    mData.gameEntity = new ProtoType.GameEntity();
 
-                ProtoType.Mesh mesh = new ProtoType.Mesh();
-                mesh.Name = (item as FileItem).Path;
-                mData.gameEntity.meshes.Add(mesh);
+                //ProtoType.Mesh mesh = new ProtoType.Mesh();
+                //mesh.Name = (item as FileItem).Path;
+                //mData.gameEntity.meshes.Add(mesh);
             }
         }
 
@@ -66,7 +67,7 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
 
-        private GameEntity mDBData;
+        private Race mDBData;
 
         [XmlIgnore]
         [Browsable(false)]
@@ -75,34 +76,37 @@ namespace OIDE.Scene.Model
             get { return mDBData; }
             set
             {
-                mDBData = value as GameEntity;
+                mDBData = value as Race;
 
-                GameEntity dbData = value as GameEntity;
-                ProtoType.CharEntity dataStaticObj = new ProtoType.CharEntity();
+                Race dbData = value as Race;
+                ProtoType.RaceGender data = new ProtoType.RaceGender();
 
                 if (dbData.Data != null)
                 {
-                    mData = ProtoSerialize.Deserialize<ProtoType.CharEntity>(dbData.Data);
+                    mData = ProtoSerialize.Deserialize<ProtoType.RaceGender>(dbData.Data);
 
-                    if (mData.gameEntity == null)
-                        mData.gameEntity = new ProtoType.GameEntity();
+                    if (mData == null)
+                    {
+                        mData = new ProtoType.RaceGender();
+                        mData.race = new ProtoType.Race();
+                    }
 
-                    foreach (var item in mData.gameEntity.physics)
-                        m_Physics.Add(new PhysicObject() { ProtoData = item });
+                    //foreach (var item in mData.gameEntity.physics)
+                    //    m_Physics.Add(new PhysicObject() { ProtoData = item });
                 }
             }
         }
 
         //  private List<String> mMeshes;
-        private List<Mesh> mMeshes;
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
-        public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
-        //public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
+        //private List<Mesh> mMeshes;
+        //[Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        //[NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
+        //public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
+        ////public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
-        private List<PhysicObject> m_Physics;
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
+        //private List<PhysicObject> m_Physics;
+        //[Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        //public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
 
 
         // [XmlIgnore]
@@ -113,7 +117,13 @@ namespace OIDE.Scene.Model
         //[Description("This property is a complex property and has no default editor.")]
         //  [ExpandableObject]
         [Browsable(false)]
-        public ProtoType.CharEntity ProtoData { get { return mData; } }
+        public ProtoType.RaceGender ProtoData { get { return mData; } }
+
+        private RaceGenderViewModel mRaceGenderVM;
+
+        [XmlIgnore]
+        [ExpandableObject]
+        public RaceGenderViewModel RaceGender { get { return mRaceGenderVM; } }
 
         private IDAL m_dbI;
 
@@ -156,8 +166,8 @@ namespace OIDE.Scene.Model
 
         public Boolean Create()
         {
-            mData = new ProtoType.CharEntity();
-            mData.gameEntity = new ProtoType.GameEntity();
+            mData = new ProtoType.RaceGender();
+           // mData.gameEntity = new ProtoType.GameEntity();
 
             //DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Race };
             return true;
@@ -172,16 +182,18 @@ namespace OIDE.Scene.Model
                 // Console.WriteLine(BitConverter.ToString(res));
                 try
                 {
-                    mData = ProtoSerialize.Deserialize<ProtoType.CharEntity>((DBData as OIDE.DAL.MDB.GameEntity).Data);
+                    mData = ProtoSerialize.Deserialize<ProtoType.RaceGender>((DBData as OIDE.DAL.MDB.Race).Data);
                 }
                 catch
                 {
-                    mData = new ProtoType.CharEntity();
+                    mData = new ProtoType.RaceGender();
+                    mData.race = new ProtoType.Race();
                 }
             }
             else
             {
-                mData = new ProtoType.CharEntity();
+                mData = new ProtoType.RaceGender();
+                mData.race = new ProtoType.Race();
 
                // DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Race };
             }
@@ -194,26 +206,26 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                OIDE.DAL.MDB.GameEntity gameEntity = DBData as OIDE.DAL.MDB.GameEntity;
+                OIDE.DAL.MDB.Race race = DBData as OIDE.DAL.MDB.Race;
 
                 //Update Phyiscs Data
-                ProtoData.gameEntity.physics.Clear();
-                foreach (var item in m_Physics)
-                    ProtoData.gameEntity.physics.Add(item.ProtoData);
+                //ProtoData.gameEntity.physics.Clear();
+                //foreach (var item in m_Physics)
+                //    ProtoData.gameEntity.physics.Add(item.ProtoData);
 
-                gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
-                gameEntity.Name = this.Name;
+                race.Data = ProtoSerialize.Serialize(ProtoData);
+                //race.Data..Name = this.Name;
 
-                if (gameEntity.EntID > 0)
-                    m_dbI.updateGameEntity(gameEntity);
-                else
-                {
-              //      gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Race;
-                    m_dbI.insertGameEntity(gameEntity);
-                }
+              //  if (gameEntity.EntID > 0)
+              //      m_dbI.updateGameEntity(gameEntity);
+              //  else
+              //  {
+              ////      gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Race;
+              //      m_dbI.insertGameEntity(gameEntity);
+            //    }
 
-                if (DLL_Singleton.Instance.EditorInitialized)
-                    DLL_Singleton.Instance.consoleCmd("cmd physic " + gameEntity.EntID); //.updateObject(0, (int)ObjType.Physic);
+           //     if (DLL_Singleton.Instance.EditorInitialized)
+           //         DLL_Singleton.Instance.consoleCmd("cmd physic " + gameEntity.EntID); //.updateObject(0, (int)ObjType.Physic);
 
             }
             catch (Exception ex)
@@ -238,7 +250,7 @@ namespace OIDE.Scene.Model
         {
             UnityContainer = unityContainer;
 
-            mMeshes = new List<Mesh>();
+           // mMeshes = new List<Mesh>();
             //mMeshes = new List<string>();
             Parent = parent;
             SceneItems = new ObservableCollection<ISceneItem>();
@@ -251,9 +263,11 @@ namespace OIDE.Scene.Model
             else
                 m_dbI = new IDAL();
 
-            m_Physics = new List<PhysicObject>();
-            mData = new ProtoType.CharEntity();
-            mData.gameEntity = new ProtoType.GameEntity();
+          //  m_Physics = new List<PhysicObject>();
+            mData = new ProtoType.RaceGender();
+            mData.race = new ProtoType.Race();
+            mRaceGenderVM = new RaceGenderViewModel(mData);
+           // mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
             SceneNode = new DAL.MDB.SceneNodes();
         }

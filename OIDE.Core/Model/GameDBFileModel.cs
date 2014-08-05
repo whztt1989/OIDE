@@ -152,7 +152,7 @@ namespace OIDE.Core
                                 break;
                             case NodeTypes.Character:
 
-                                CharacterObjModel tmpChar = new CharacterObjModel(characterObjects, UnityContainer, m_DBI)
+                                CharacterCustomizeModel tmpChar = new CharacterCustomizeModel(characterObjects, UnityContainer, m_DBI)
                                 {
                                     ContentID = "CharacterObjID:##:" + gameEntity.EntID,
                                     Name = gameEntity.Name ?? ("Noname CharObj " + (int)gameEntity.EntID),
@@ -212,6 +212,28 @@ namespace OIDE.Core
             //    scenes.Items.Add(scene);
             this.Items.Add(objects);
 
+            RaceCategoryModel races = new RaceCategoryModel(this, UnityContainer) { Name = "Races" };
+
+            try
+            {
+                IEnumerable<Race> result = m_DBI.selectAllRace();
+                if (result != null)
+                {
+                    //select all Races
+                    foreach (var race in result)
+                    {
+                        ProtoType.Race newRaceData = new ProtoType.Race();
+                        RaceModel newRace = new RaceModel() { DBData = newRaceData };
+
+                        races.Items.Add(newRace);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            this.Items.Add(races);
+           
             return mOpened = true;
 
         }

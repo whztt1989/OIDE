@@ -31,7 +31,7 @@ using OIDE.Scene.Model;
 namespace OIDE.Scene
 {
 
-    public class CharacterCategoryModel : ViewModelBase, ISceneItem
+    public class RaceCategoryModel : ViewModelBase, ISceneItem
     {
         private Boolean m_IsExpanded;
 
@@ -55,11 +55,8 @@ namespace OIDE.Scene
               get
             {
                 List<MenuItem>  menuOptions = new List<MenuItem>();
-                MenuItem miAdd = new MenuItem() { Command = new CmdAddCharacterObj(UnityContainer), CommandParameter = this, Header = "Create character object" };
+                MenuItem miAdd = new MenuItem() { Command = new CmdAddRaceObj(UnityContainer), CommandParameter = this, Header = "Create Race object" };
                 menuOptions.Add(miAdd);
-
-                MenuItem miAdd2 = new MenuItem() { Command = new CmdAddCharacterCustomizeObj(UnityContainer), CommandParameter = this, Header = "Create character cust object" };
-                menuOptions.Add(miAdd2);
 
                 return menuOptions;
             }
@@ -89,12 +86,12 @@ namespace OIDE.Scene
         [XmlIgnore]
         public IUnityContainer UnityContainer { get; private set; }
 
-        public CharacterCategoryModel()
+        public RaceCategoryModel()
         {
 
         }
 
-        public CharacterCategoryModel(IItem parent, IUnityContainer container)
+        public RaceCategoryModel(IItem parent, IUnityContainer container)
         {
             UnityContainer = container;
             Parent = parent;
@@ -103,7 +100,7 @@ namespace OIDE.Scene
         }
     }
 
-    public class CmdAddCharacterObj : ICommand
+    public class CmdAddRaceObj : ICommand
     {
         private IUnityContainer mContainer;
         public event EventHandler CanExecuteChanged;
@@ -115,39 +112,9 @@ namespace OIDE.Scene
 
         public void Execute(object parameter)
         {
-            CharacterCategoryModel parent = parameter as CharacterCategoryModel;
+            RaceCategoryModel parent = parameter as RaceCategoryModel;
 
-            CharacterObjModel pom = new CharacterObjModel(parent, parent.UnityContainer) { Name = "Character Obj NEW", ContentID = "CharacterEntID:##" };
-
-            pom.Create();
-
-            parent.Items.Add(pom);
-
-            ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
-        }
-
-        public CmdAddCharacterObj(IUnityContainer container)
-        {
-            mContainer = container;
-        }
-    }
-
-
-    public class CmdAddCharacterCustomizeObj : ICommand
-    {
-        private IUnityContainer mContainer;
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            CharacterCategoryModel parent = parameter as CharacterCategoryModel;
-
-            CharacterCustomizeModel pom = new CharacterCustomizeModel(parent, parent.UnityContainer) { Name = "Character Cust NEW", ContentID = "CharacterEntID:##" };
+            RaceModel pom = new RaceModel(parent, parent.UnityContainer) { Name = "Race Obj NEW", ContentID = "RaceID:##" };
 
             pom.Create();
 
@@ -156,7 +123,7 @@ namespace OIDE.Scene
             ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
         }
 
-        public CmdAddCharacterCustomizeObj(IUnityContainer container)
+        public CmdAddRaceObj(IUnityContainer container)
         {
             mContainer = container;
         }

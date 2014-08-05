@@ -1,12 +1,6 @@
 ﻿#region License
 
-// Copyright (c) 2013 Chandramouleswaran Ravichandran
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+// Copyright (c) 2014 Konrad Huber
 
 #endregion
 
@@ -36,113 +30,35 @@ using Module.Properties.Types;
 
 namespace OIDE.Scene.Model
 {
-
-    public class RaceGenderViewModel
-    {
-        private ProtoType.RaceGender mProtoData;
-
-        public RaceGenderViewModel(Int32 idx)
-        {
-            mProtoData = new ProtoType.RaceGender();
-            mProtoData.race = new ProtoType.Race();
-            if (idx == 0)
-                mProtoData.race.name = "Human NEU";
-            else if (idx == 1)
-                mProtoData.race.name = "Human WEU";
-        }
-
-        public String Name { get { return mProtoData.race.name; } set { mProtoData.race.name = value; } }
-        public String Description { get { return mProtoData.race.description; } set { mProtoData.race.description = value; } }
-        public ProtoType.Race Race { get { return mProtoData.race; } }
-        public ProtoType.PhysicsObject BodyPhys { get { return mProtoData.bodyPhys; } }
-        public ProtoType.PhysicsObject FootLPhys { get { return mProtoData.footLPhys; } }
-        public ProtoType.PhysicsObject FootRPhys { get { return mProtoData.footRPhys; } }
-        public ProtoType.PhysicsObject HandLPhys { get { return mProtoData.HandLPhys; } }
-        public ProtoType.PhysicsObject HanfRPhys { get { return mProtoData.HandRPhys; } }
-
-        public float TurnSpeed { get { return mProtoData.turnSpeed; } }
-        public ProtoType.Gender Gender { get { return mProtoData.gender; } }
-        public List<ProtoType.Sound> Sound { get { return mProtoData.sounds; } }
-        public List<ProtoType.Face> Face { get { return mProtoData.faces; } }
-        public List<ProtoType.Skin> Skin { get { return mProtoData.skins; } }
-        public List<ProtoType.HairColor> HairColor { get { return mProtoData.hairColors; } }
-        public List<ProtoType.HairStyle> HairStyle { get { return mProtoData.hairStyles; } }
-        public List<ProtoType.FacialFeature> FacialFeature { get { return mProtoData.facials; } }
-        public List<ProtoType.FacialColor> FacialColor { get { return mProtoData.facialcolors; } }
-        public List<ProtoType.Shoulder> Shoulder { get { return mProtoData.shoulder; } }
-        public List<ProtoType.Boots> Boots { get { return mProtoData.boots; } }
-        public List<ProtoType.SpellEntity> SpellEntity { get { return mProtoData.spells; } }
-    }
-
-    public enum RaceGender 
-    {
-        HumanNEU,
-        HumaWEU
-    }
-
-    //itamsource combobox
-    //http://wpftoolkit.codeplex.com/discussions/351513
-
-    public class RaceGenderItemsSource : IItemsSource
-    {
-        public Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ItemCollection GetValues()
-        {
-            Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ItemCollection raceGenders = new Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ItemCollection();
+    //public class RaceGenderItemsSource : IItemsSource
+    //{
+    //    public Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ItemCollection GetValues()
+    //    {
+    //        Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ItemCollection raceGenders = new Xceed.Wpf.Toolkit.PropertyGrid.Attributes.ItemCollection();
           
-            raceGenders.Add(0, "Human NEU");
-            raceGenders.Add(1, "Human WEU");
-            return raceGenders;
-        }
-    }
+    //        raceGenders.Add(0, "Human NEU");
+    //        raceGenders.Add(1, "Human WEU");
+    //        return raceGenders;
+    //    }
+    //}
 
     public class CharacterObjModel : ISceneItem, ISceneNode
     {
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-
         #region protodata
-
-        private Int32 mRaceGenderVM;
-        private List<RaceGenderViewModel> mRaceGenderVMList;
-
-     //   private RaceGender mSelRGenderVM;
-
-       //    [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor))]
+    
+        //    [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor))]
         //    [NewItemTypes(new Type[] { typeof(RaceGenderViewModel) })]
-
-        [Category("Customization")]
-        [ItemsSource(typeof(RaceGenderItemsSource))]
+      //   [ItemsSource(typeof(RaceGenderItemsSource))]
         [Editor(typeof(ObjectComboBoxEditor), typeof(ObjectComboBoxEditor))]  
-        public Int32 RaceGender { get { return mRaceGenderVM; } set { mRaceGenderVM = value; } }
-
-        [Category("Customization")]
-        public ProtoType.Face Face { get { return mData.face; } }
-        [Category("Customization")]
-        public ProtoType.Skin Skin { get { return mData.skin; } }
-        [Category("Customization")]
-        public ProtoType.HairColor HairColor { get { return mData.hairColor; } }
-        [Category("Customization")]
-        public ProtoType.HairStyle HairStyle { get { return mData.hairStyle; } }
-        [Category("Customization")]
-        public ProtoType.FacialFeature FacialFeature { get { return mData.facialfeature; } }
-        [Category("Customization")]
-        public ProtoType.FacialColor FacialColor { get { return mData.facialcolor; } }
-
-        public ProtoType.Boots Boots { get { return mData.boots; } }
-        public ProtoType.Shoulder Shoulder { get { return mData.shoulderMesh; } }
-
-        public ProtoType.OneHandWeapon OneHandLWeapon { get { return mData.oneHLWeapon; } }
-        public ProtoType.OneHandWeapon OneHandRWeapon { get { return mData.oneHRWeapon; } }
-        public ProtoType.TwoHandWeapon TwoHandWeapon { get { return mData.twoHWeapon; } }
-
+      
         public ProtoType.AI AI { get { return mData.ai; } }
-
-
 
         #endregion
 
-        private ProtoType.CharEntity mData;
+        protected ProtoType.CharEntity mData;
 
         public void Drop(IItem item)
         {
@@ -161,7 +77,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public ObservableCollection<ISceneItem> SceneItems { get; protected set; }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -169,9 +85,9 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public OIDE.DAL.MDB.SceneNodes SceneNode { get; protected set; }
 
-        private GameEntity mDBData;
+        protected GameEntity mDBData;
 
         [XmlIgnore]
         [Browsable(false)]
@@ -194,12 +110,6 @@ namespace OIDE.Scene.Model
 
                     foreach (var item in mData.gameEntity.physics)
                         m_Physics.Add(new PhysicObject() { ProtoData = item });
-
-
-                    mRaceGenderVMList = new List<RaceGenderViewModel>();
-
-                    mRaceGenderVMList.Add(new RaceGenderViewModel(0));
-                    mRaceGenderVMList.Add(new RaceGenderViewModel(1));
                 }
             }
         }
@@ -248,7 +158,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public CollectionOfIItem Items { get; private set; }
+        public CollectionOfIItem Items { get; protected set; }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -276,7 +186,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; protected set; }
 
         public Boolean Closing() { return true; }
 
@@ -353,7 +263,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; protected set; }
 
         public CharacterObjModel()
         {

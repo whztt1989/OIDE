@@ -101,6 +101,24 @@ namespace OIDE.DAL
                 return false;
         }
 
+        public IEnumerable<Race> selectAllRace()
+        {
+            try
+            {
+                var result = mCtx.Race;
+                if (result.Any())
+                    return result;
+                else
+                    return null;
+            }
+             catch(Exception ex)
+            {
+           //     MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+
+            return null;
+        }
+
         public IEnumerable<GameEntity> selectAllGameEntities()
         {
             try
