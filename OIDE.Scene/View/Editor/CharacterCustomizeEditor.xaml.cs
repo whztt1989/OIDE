@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xceed.Wpf.Toolkit.PropertyGrid.Editors;
+using GongSolutions.Wpf.DragDrop;
 
 namespace OIDE.Scene.View.Editor
 {
@@ -28,6 +29,7 @@ namespace OIDE.Scene.View.Editor
             
 
         }
+
 
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(CharacterCustomizeEditor),
                                                                                              new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));

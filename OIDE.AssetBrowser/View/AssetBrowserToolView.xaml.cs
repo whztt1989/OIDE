@@ -153,5 +153,10 @@ namespace OIDE.AssetBrowser
                 }
             }
         }
+
+        private void OnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

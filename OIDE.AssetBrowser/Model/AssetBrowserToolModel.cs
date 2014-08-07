@@ -24,8 +24,6 @@ using Microsoft.Practices.Prism.Commands;
 using System.Collections.Generic;
 using System.IO;
 using System;
-using WpfTreeViewBinding;
-using WpfTreeViewBinding.Model;
 
 namespace OIDE.AssetBrowser
 {
@@ -61,9 +59,9 @@ namespace OIDE.AssetBrowser
 
       //  public CollectionOfIItem Items { get { return mAssetBrowserTreeService.Items; } }
      //   public ObservableCollection<DirectoryInfo> Items { get { return mFolders; } }
-        List<Item> mItems;
+        List<IItem> mItems;
 
-        public List<Item> Items { get { return mItems; } }
+        public List<IItem> Items { get { return mItems; } }
         //public IItem RootItem
         //{
         //    get { return mAssetBrowserTreeService.RootItem; }
@@ -115,10 +113,10 @@ namespace OIDE.AssetBrowser
         public AssetBrowserToolModel(IUnityContainer container)//ICommandManager commandManager, IMenuService menuService)
         {
 
-            var itemProvider = new ItemProvider();
+            //var itemProvider = new ItemProvider();
 
-            if (Directory.Exists(@"D:\Projekte\Src Game\Data\Data_Release\Assets"))
-             mItems = itemProvider.GetItems(@"D:\Projekte\Src Game\Data\Data_Release\Assets");
+            //if (Directory.Exists(@"D:\Projekte\Src Game\Data\Data_Release\Assets"))
+            // mItems = itemProvider.GetItems(@"D:\Projekte\Src Game\Data\Data_Release\Assets");
 
 
            var commandManager = container.Resolve<ICommandManager>();

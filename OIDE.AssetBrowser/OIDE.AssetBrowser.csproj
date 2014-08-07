@@ -45,6 +45,10 @@
       <HintPath>..\..\Wide\Libs\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="MahApps.Metro.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Modules\extlibs\MahApps.Metro.Resources.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\extlibs\Microsoft.Practices.Prism.dll</HintPath>
       <Private>False</Private>
@@ -118,7 +122,6 @@
     <Compile Include="Interface\Services\IAssetBrowserService.cs" />
     <Compile Include="Model\AssetBrowserToolModel.cs" />
     <Compile Include="Service\AssetBrowserManager.cs" />
-    <Compile Include="TreeViewBinding.cs" />
     <Compile Include="Utilities\ObjectSerialize.cs" />
     <Compile Include="ViewModel\AssetBrowserViewModel.cs" />
     <Compile Include="ViewModel\AssetBrowserToolViewModel.cs" />
@@ -130,7 +133,6 @@
       <DependentUpon>AssetBrowserToolView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\CategoyModel.cs" />
-    <Compile Include="SaveAsMenuItemViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

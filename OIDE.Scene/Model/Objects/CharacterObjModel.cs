@@ -62,6 +62,11 @@ namespace OIDE.Scene.Model
 
         public void Drop(IItem item)
         {
+            if (item is CharacterCustomizeModel)
+            {
+
+            }
+
             if (item is FileItem)
             {
                 if (mData.gameEntity == null)
@@ -116,6 +121,11 @@ namespace OIDE.Scene.Model
 
         #region GameEntityData
 
+        private String mSkeleton;
+
+        [Editor(typeof(FilePathEditor), typeof(FilePathEditor))]
+        public String Skeleton { get { return mSkeleton; } set { mSkeleton = value; } }
+      
         //  private List<String> mMeshes;
         private List<Mesh> mMeshes;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
