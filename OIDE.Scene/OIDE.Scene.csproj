@@ -127,15 +127,6 @@
       <HintPath>..\..\Wide\Build\Internal\Wide.Tools.Logger.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
-    <Reference Include="Wpf.DragDrop, Version=0.1.3.11, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\Wpf.DragDrop.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=2.2.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Modules\extlibs\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\DotSceneSerializeCommand.cs" />
@@ -238,6 +229,16 @@
     <None Include="Utils\XML\SampleScene3.xsd">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\ExtendedWPFToolkitSolution\Src\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj">
+      <Project>{72e591d6-8f83-4d8c-8f67-9c325e623234}</Project>
+      <Name>Xceed.Wpf.Toolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Wpf.DragDrop\Wpf.DragDrop %28NET4%29.csproj">
+      <Project>{0c6674cc-6d49-414a-9b41-d4e175028ffb}</Project>
+      <Name>Wpf.DragDrop %28NET4%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

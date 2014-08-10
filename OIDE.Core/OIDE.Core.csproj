@@ -185,7 +185,16 @@
   <ItemGroup>
     <Resource Include="Icons\MDType.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Wpf.DragDrop\Wpf.DragDrop %28NET4%29.csproj">
+      <Project>{0c6674cc-6d49-414a-9b41-d4e175028ffb}</Project>
+      <Name>Wpf.DragDrop %28NET4%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OIDE.AssetBrowser\OIDE.AssetBrowser.csproj">
+      <Project>{cb6b9693-8b57-47b1-8dfc-3c46c6a7f291}</Project>
+      <Name>OIDE.AssetBrowser</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

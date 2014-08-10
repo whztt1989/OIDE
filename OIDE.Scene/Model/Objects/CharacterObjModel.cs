@@ -27,6 +27,7 @@ using OIDE.InteropEditor.DLL;
 using OIDE.DAL;
 using Module.Properties.Helpers;
 using Module.Properties.Types;
+using OIDE.VFS.View;
 
 namespace OIDE.Scene.Model
 {
@@ -42,7 +43,7 @@ namespace OIDE.Scene.Model
     //    }
     //}
 
-    public class CharacterObjModel : ISceneItem, ISceneNode
+    public class CharacterObjModel : ISceneItem, ISceneNode 
     {
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
@@ -73,7 +74,7 @@ namespace OIDE.Scene.Model
                     mData.gameEntity = new ProtoType.GameEntity();
 
                 ProtoType.Mesh mesh = new ProtoType.Mesh();
-                mesh.Name = (item as FileItem).Path;
+                mesh.Name = (item as FileItem).ContentID;
                 mData.gameEntity.meshes.Add(mesh);
             }
         }
@@ -123,7 +124,7 @@ namespace OIDE.Scene.Model
 
         private String mSkeleton;
 
-        [Editor(typeof(FilePathEditor), typeof(FilePathEditor))]
+        [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
         public String Skeleton { get { return mSkeleton; } set { mSkeleton = value; } }
       
         //  private List<String> mMeshes;

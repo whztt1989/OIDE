@@ -59,9 +59,9 @@ namespace OIDE.AssetBrowser
 
       //  public CollectionOfIItem Items { get { return mAssetBrowserTreeService.Items; } }
      //   public ObservableCollection<DirectoryInfo> Items { get { return mFolders; } }
-        List<IItem> mItems;
+        //List<IItem> mItems;
 
-        public List<IItem> Items { get { return mItems; } }
+        public CollectionOfIItem Items { get { return mAssetBrowserTreeService.Items; } }
         //public IItem RootItem
         //{
         //    get { return mAssetBrowserTreeService.RootItem; }

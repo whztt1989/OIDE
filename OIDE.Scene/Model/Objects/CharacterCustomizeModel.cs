@@ -29,6 +29,7 @@ using Module.Properties.Helpers;
 using Module.Properties.Types;
 using OIDE.Scene.ViewModel;
 using OIDE.Scene.View.Editor;
+using GongSolutions.Wpf.DragDrop;
 
 namespace OIDE.Scene.Model
 {
@@ -47,7 +48,7 @@ namespace OIDE.Scene.Model
     //    }
     //}
 
-    public class CharacterCustomizeModel : CharacterObjModel , ISceneItem, ISceneNode
+    public class CharacterCustomizeModel : CharacterObjModel, ISceneItem, ISceneNode, IDropTarget
     {
         #region protodata
 
@@ -58,6 +59,27 @@ namespace OIDE.Scene.Model
 
        //    [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor))]
         //    [NewItemTypes(new Type[] { typeof(RaceGenderViewModel) })]
+
+        void IDropTarget.DragOver(IDropInfo dropInfo)
+        {
+            IItem sourceItem = dropInfo.Data as IItem;
+            IItem targetItem = dropInfo.TargetItem as IItem;
+
+            if (sourceItem != null && targetItem != null)
+            {
+                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+                dropInfo.Effects = System.Windows.DragDropEffects.Copy;
+            }
+        }
+
+        void IDropTarget.Drop(IDropInfo dropInfo)
+        {
+            IItem sourceItem = dropInfo.Data as IItem;
+            IItem targetItem = dropInfo.TargetItem as IItem;
+
+            targetItem.Drop(sourceItem);
+            //targetItem.Children.Add(sourceItem);
+        }
 
         /// <summary>
         /// used in combobox editor as itemsource
@@ -83,12 +105,17 @@ namespace OIDE.Scene.Model
         public ProtoType.FacialFeature FacialFeature { get { return mData.facialfeature; } }
         [Category("Customization")]
         public ProtoType.FacialColor FacialColor { get { return mData.facialcolor; } }
-
+          
+        [Category("Equipment")]
         public ProtoType.Boots Boots { get { return mData.boots; } }
+        [Category("Equipment")]
         public ProtoType.Shoulder Shoulder { get { return mData.shoulderMesh; } }
 
+        [Category("Equipment")]
         public ProtoType.OneHandWeapon OneHandLWeapon { get { return mData.oneHLWeapon; } }
+        [Category("Equipment")]
         public ProtoType.OneHandWeapon OneHandRWeapon { get { return mData.oneHRWeapon; } }
+        [Category("Equipment")]
         public ProtoType.TwoHandWeapon TwoHandWeapon { get { return mData.twoHWeapon; } }
 
         public ProtoType.AI AI { get { return mData.ai; } }

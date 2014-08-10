@@ -91,7 +91,7 @@ namespace OIDE.Scene.Model
                      mData.gameEntity = new ProtoType.GameEntity();
 
                  ProtoType.Mesh mesh = new ProtoType.Mesh();
-                 mesh.Name = (item as FileItem).Path;
+                 mesh.Name = (item as FileItem).ContentID;
                  mData.gameEntity.meshes.Add(mesh);
              }
         }

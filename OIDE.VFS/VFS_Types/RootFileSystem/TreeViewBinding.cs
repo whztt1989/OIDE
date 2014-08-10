@@ -22,7 +22,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
                 var item = new DirectoryItem
                 {
                     Name = directory.Name,
-                    Path = directory.FullName,
+                    ContentID = directory.FullName,
                     Items = GetItems(directory.FullName)
                 };
 
@@ -34,7 +34,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
                 var item = new FileItem
                 {
                     Name = file.Name,
-                    Path = file.FullName
+                    ContentID = file.FullName
                 };
 
                 items.Add(item);
@@ -47,7 +47,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
     public class Item : IItem
     {
         public string Name { get; set; }
-        public string Path { get; set; }
+       // public string Path { get; set; }
 
         public void Drop(IItem item) { }
 

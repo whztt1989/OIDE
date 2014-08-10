@@ -37,6 +37,7 @@ using OIDE.VFS;
 using OIDE.Core.Model;
 using Module.History.Service;
 using OIDE.Service;
+using OIDE.AssetBrowser.Interface.Services;
 
 namespace OIDE.Core
 {
@@ -229,11 +230,14 @@ namespace OIDE.Core
             //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
             //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
 
-
+            var assetBrowser = container.Resolve<IAssetBrowserTreeService>();
             OIDE_RFS fileAssets = new OIDE_RFS(this, container) { Name = "Assets VFS", ContentID = "RootVFSID:##:" };
-            //fileAssets.Open("D:\\Projekte\\coop\\AssetData");
+            fileAssets.Open("D:\\Projekte\\coop\\AssetData");
             m_Items.Add(fileAssets);
-
+            assetBrowser.SetAsRoot(fileAssets);
+            //foreach (var item in fileAssets.Items)
+            //    assetBrowser.AddItem(item);
+         
             //-----------------------------------------
             //Customize Database category structure
             //-----------------------------------------

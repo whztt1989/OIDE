@@ -149,7 +149,7 @@ namespace OIDE.AssetBrowser
                 if (tn != null)
                 {
                     mAssetBrowserTreeService.SelectedItem = tn;
-                    mPropertiesService.CurrentItem =tn;
+                  //  mPropertiesService.CurrentItem =tn;
                 }
             }
         }
