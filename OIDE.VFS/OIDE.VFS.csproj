@@ -78,11 +78,6 @@
       <HintPath>..\..\Build\Module.PFExplorer.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Module.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\Module.Properties.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="OIDE.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\OIDE.DAL.dll</HintPath>
@@ -103,11 +98,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="Wide, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Wide\Build\Internal\Wide.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -187,9 +177,17 @@
       <Project>{72e591d6-8f83-4d8c-8f67-9c325e623234}</Project>
       <Name>Xceed.Wpf.Toolkit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Module.Properties\Module.Properties.csproj">
+      <Project>{600e958f-0dce-4d63-bf11-93292b1d8c18}</Project>
+      <Name>Module.Properties</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Modules\Wpf.DragDrop\Wpf.DragDrop %28NET4%29.csproj">
       <Project>{0c6674cc-6d49-414a-9b41-d4e175028ffb}</Project>
       <Name>Wpf.DragDrop %28NET4%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WPF_IDE\Wide.csproj">
+      <Project>{9f20f5ef-4f7e-4ae2-a462-4cd2256fb3ff}</Project>
+      <Name>Wide</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

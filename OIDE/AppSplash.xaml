@@ -7,8 +7,10 @@
                       xmlns:behaviours="clr-namespace:MahApps.Metro.Behaviours;assembly=MahApps.Metro"
                       xmlns:prism="http://www.codeplex.com/prism"
                       xmlns:inf_int="clr-namespace:Infrastructure.InteractionRequests"
-               xmlns:Behaviours="clr-namespace:Wide.Splash.Behaviours;assembly=Wide" 
-                          Background="White"
+               
+                      xmlns:Behaviours="clr-namespace:Wide.Splash.Behaviours;assembly=Wide" 
+                          
+                      Background="White"
                       BorderBrush="#FF007ACC"
                       BorderThickness="1" ShowCloseButton="False" 
                       TitleForeground="#FF717171" 
