@@ -222,8 +222,7 @@ namespace OIDE.Core
                     //select all Races
                     foreach (var race in result)
                     {
-                        ProtoType.Race newRaceData = new ProtoType.Race();
-                        RaceModel newRace = new RaceModel() { DBData = newRaceData };
+                        RaceModel newRace = new RaceModel() { DBData = race };
 
                         races.Items.Add(newRace);
                     }

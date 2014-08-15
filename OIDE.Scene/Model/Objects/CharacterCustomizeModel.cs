@@ -27,7 +27,6 @@ using OIDE.InteropEditor.DLL;
 using OIDE.DAL;
 using Module.Properties.Helpers;
 using Module.Properties.Types;
-using OIDE.Scene.ViewModel;
 using OIDE.Scene.View.Editor;
 using GongSolutions.Wpf.DragDrop;
 
@@ -52,8 +51,8 @@ namespace OIDE.Scene.Model
     {
         #region protodata
 
-        private RaceGenderViewModel mRaceGenderVM;
-        private List<RaceGenderViewModel> mRaceGenderVMList;
+        //private RaceGenderViewModel mRaceGenderVM;
+        //private List<RaceGenderViewModel> mRaceGenderVMList;
 
      //   private RaceGender mSelRGenderVM;
 
@@ -84,14 +83,14 @@ namespace OIDE.Scene.Model
         /// <summary>
         /// used in combobox editor as itemsource
         /// </summary>
-        [XmlIgnore]
-        [Browsable(false)] 
-        public List<RaceGenderViewModel> RaceGenderList { get { return mRaceGenderVMList; } }
+      //  [XmlIgnore]
+      //  [Browsable(false)] 
+      //  public List<RaceGenderViewModel> RaceGenderList { get { return mRaceGenderVMList; } }
 
-        [Category("Customization")]
-      //  [ItemsSource(typeof(RaceGenderItemsSource))]
-        [Editor(typeof(CharacterCustomizeEditor), typeof(CharacterCustomizeEditor))]
-        public RaceGenderViewModel RaceGender { get { return mRaceGenderVM; } set { mRaceGenderVM = value; } }
+      //  [Category("Customization")]
+      ////  [ItemsSource(typeof(RaceGenderItemsSource))]
+      //  [Editor(typeof(CharacterCustomizeEditor), typeof(CharacterCustomizeEditor))]
+      //  public RaceGenderViewModel RaceGender { get { return mRaceGenderVM; } set { mRaceGenderVM = value; } }
 
         [Category("Customization")]
         public ProtoType.Face Face { get { return mData.face; } }
@@ -162,7 +161,7 @@ namespace OIDE.Scene.Model
         public CharacterCustomizeModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
             : base(parent, unityContainer, dbI , id)
         {
-            mRaceGenderVMList = new List<RaceGenderViewModel>();
+        //    mRaceGenderVMList = new List<RaceGenderViewModel>();
         }
     }
 }

@@ -32,13 +32,46 @@ using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using OIDE.DAL;
 using Module.Properties.Helpers;
-using OIDE.Scene.ViewModel;
 
 namespace OIDE.Scene.Model
 {
+
+    public enum RaceGender
+    {
+        HumanNEU,
+        HumaWEU
+    }
+
     public class RaceModel : IItem
     {
-        private ProtoType.RaceGender mData;
+        private ProtoType.RaceGender m_ProtoData;
+
+        private ProtoType.RaceGender ProtoData
+        {
+            get
+            {
+                if (m_ProtoData == null)
+                {
+                    m_ProtoData = new ProtoType.RaceGender();
+                    m_ProtoData.race = new ProtoType.Race();
+                    //mRaceGenderVM = new RaceGenderViewModel(mData);
+
+                    if (m_ProtoData.bodyPhys == null) m_ProtoData.bodyPhys = new ProtoType.PhysicsObject();
+                    if (m_ProtoData.footLPhys == null) m_ProtoData.footLPhys = new ProtoType.PhysicsObject();
+                    if (m_ProtoData.footRPhys == null) m_ProtoData.footRPhys = new ProtoType.PhysicsObject();
+                    if (m_ProtoData.HandLPhys == null) m_ProtoData.HandLPhys = new ProtoType.PhysicsObject();
+                    if (m_ProtoData.HandRPhys == null) m_ProtoData.HandRPhys = new ProtoType.PhysicsObject();
+
+                }
+
+                return m_ProtoData;
+            }
+
+            set
+            {
+                m_ProtoData = value;
+            }
+        }
 
         public void Drop(IItem item)
         {
@@ -83,12 +116,11 @@ namespace OIDE.Scene.Model
 
                 if (dbData.Data != null)
                 {
-                    mData = ProtoSerialize.Deserialize<ProtoType.RaceGender>(dbData.Data);
+                    ProtoType.RaceGender protoData = ProtoSerialize.Deserialize<ProtoType.RaceGender>(dbData.Data);
 
-                    if (mData == null)
+                    if (protoData != null)
                     {
-                        mData = new ProtoType.RaceGender();
-                        mData.race = new ProtoType.Race();
+                        ProtoData = protoData;
                     }
 
                     //foreach (var item in mData.gameEntity.physics)
@@ -112,23 +144,71 @@ namespace OIDE.Scene.Model
         // [XmlIgnore]
         // public ProtoType.OgreSysType OgreSystemType { get { return mData.gameEntity.ogreSysType; } set { mData.gameEntity.ogreSysType = value; } }
 
-        [XmlIgnore]
+      //  [XmlIgnore]
         //[Category("Conections")]
         //[Description("This property is a complex property and has no default editor.")]
         //  [ExpandableObject]
-        [Browsable(false)]
-        public ProtoType.RaceGender ProtoData { get { return mData; } }
+       // [Browsable(false)]
+        //public ProtoType.RaceGender ProtoData { get { return mData; } }
 
-        private RaceGenderViewModel mRaceGenderVM;
+        // private RaceGenderViewModel mRaceGenderVM;
+        #region RaceGender
 
-        [XmlIgnore]
+        [Category("Base")]
+        public String Name { get { return ProtoData.race.name; } set { ProtoData.race.name = value; } }
+        [Category("Base")]
+        public String Description { get { return ProtoData.race.description; } set { ProtoData.race.description = value; } }
+        // public ProtoType.Race Race { get { return ProtoData.race; } set { ProtoData.race = value; } }
+        [Category("Physic")]
         [ExpandableObject]
-        public RaceGenderViewModel RaceGender { get { return mRaceGenderVM; } }
+        public ProtoType.PhysicsObject BodyPhys { get { return ProtoData.bodyPhys; } set { ProtoData.bodyPhys = value; } }
+        [Category("Physic")]
+        [ExpandableObject]
+        public ProtoType.PhysicsObject FootLPhys { get { return ProtoData.footLPhys; } set { ProtoData.footLPhys = value; } }
+        [Category("Physic")]
+        [ExpandableObject]
+        public ProtoType.PhysicsObject FootRPhys { get { return ProtoData.footRPhys; } set { ProtoData.footRPhys = value; } }
+        [Category("Physic")]
+        [ExpandableObject]
+        public ProtoType.PhysicsObject HandLPhys { get { return ProtoData.HandLPhys; } set { ProtoData.HandLPhys = value; } }
+        [Category("Physic")]
+        [ExpandableObject]
+        public ProtoType.PhysicsObject HanfRPhys { get { return ProtoData.HandRPhys; } set { ProtoData.HandRPhys = value; } }
+
+        public float TurnSpeed { get { return ProtoData.turnSpeed; } set { ProtoData.turnSpeed = value; } }
+
+        [Category("Data")]   
+        public ProtoType.Gender Gender { get { return ProtoData.gender; } set { ProtoData.gender = value; } }
+        [Category("Data")]
+        public List<ProtoType.Sound> Sound { get { return ProtoData.sounds; } set { } }
+        [Category("Data")]
+        public List<ProtoType.Face> Face { get { return ProtoData.faces; } set { } }
+        [Category("Data")]
+        public List<ProtoType.Skin> Skin { get { return ProtoData.skins; } set { } }
+        [Category("Data")]
+        public List<ProtoType.HairColor> HairColor { get { return ProtoData.hairColors; } set { } }
+        [Category("Data")]
+        public List<ProtoType.HairStyle> HairStyle { get { return ProtoData.hairStyles; } set { } }
+        [Category("Data")]
+        public List<ProtoType.FacialFeature> FacialFeature { get { return ProtoData.facials; } set { } }
+        [Category("Data")]
+        public List<ProtoType.FacialColor> FacialColor { get { return ProtoData.facialcolors; } set { } }
+        [Category("Data")]
+        public List<ProtoType.Shoulder> Shoulder { get { return ProtoData.shoulder; } set { ; } }
+        [Category("Data")]
+        public List<ProtoType.Boots> Boots { get { return ProtoData.boots; } set { } }
+        [Category("Data")]
+        public List<ProtoType.SpellEntity> SpellEntity { get { return ProtoData.spells; } set { } }
+
+        #endregion
+        // [XmlIgnore]
+       // [ExpandableObject]
+       // public RaceGenderViewModel RaceGender { get { return mRaceGenderVM; } }
 
         private IDAL m_dbI;
 
-        public Int32 ID { get; set; }
-        public String Name { get; set; }
+        [Category("Identification")]
+        public Int64 ID { get { return (DBData as Race).RaceID; } set { (DBData as Race).RaceID = value; } }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -166,10 +246,10 @@ namespace OIDE.Scene.Model
 
         public Boolean Create()
         {
-            mData = new ProtoType.RaceGender();
+            //mProtoData = new ProtoType.RaceGender();
            // mData.gameEntity = new ProtoType.GameEntity();
 
-            //DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Race };
+            DBData = new Race() {  };
             return true;
         }
 
@@ -178,24 +258,22 @@ namespace OIDE.Scene.Model
             int contentID = Helper.StringToContentIDData(ContentID).IntValue;
             if (contentID > 0)
             {
-                DBData = m_dbI.selectGameEntity(contentID);
+                DBData = m_dbI.selectRace(contentID);
                 // Console.WriteLine(BitConverter.ToString(res));
                 try
                 {
-                    mData = ProtoSerialize.Deserialize<ProtoType.RaceGender>((DBData as OIDE.DAL.MDB.Race).Data);
+                   ProtoType.RaceGender protoData = ProtoSerialize.Deserialize<ProtoType.RaceGender>((DBData as OIDE.DAL.MDB.Race).Data);
+                   if (protoData != null)
+                       ProtoData = protoData;
                 }
                 catch
                 {
-                    mData = new ProtoType.RaceGender();
-                    mData.race = new ProtoType.Race();
                 }
             }
             else
             {
-                mData = new ProtoType.RaceGender();
-                mData.race = new ProtoType.Race();
 
-               // DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Race };
+                DBData = new Race() {  };
             }
             return true;
         }
@@ -216,13 +294,14 @@ namespace OIDE.Scene.Model
                 race.Data = ProtoSerialize.Serialize(ProtoData);
                 //race.Data..Name = this.Name;
 
-              //  if (gameEntity.EntID > 0)
-              //      m_dbI.updateGameEntity(gameEntity);
-              //  else
-              //  {
-              ////      gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Race;
-              //      m_dbI.insertGameEntity(gameEntity);
-            //    }
+                if (race.RaceID > 0)
+                    m_dbI.updateRace(race);
+                else
+                {
+                    //      gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Race;
+                    m_dbI.insertRace(race);
+                    (DBData as OIDE.DAL.MDB.Race).RaceID = race.RaceID;
+                }
 
            //     if (DLL_Singleton.Instance.EditorInitialized)
            //         DLL_Singleton.Instance.consoleCmd("cmd physic " + gameEntity.EntID); //.updateObject(0, (int)ObjType.Physic);
@@ -243,13 +322,17 @@ namespace OIDE.Scene.Model
 
         public RaceModel()
         {
-
+            SceneItems = new ObservableCollection<ISceneItem>();
+            CmdSaveRaceObj = new CmdSaveRaceObject(this);
+            Items = new CollectionOfIItem();
+            m_dbI = new IDAL();
+            SceneNode = new DAL.MDB.SceneNodes();
         }
 
-        public RaceModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
+        public RaceModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int64 id = 0)
         {
             UnityContainer = unityContainer;
-
+            ID = id;
            // mMeshes = new List<Mesh>();
             //mMeshes = new List<string>();
             Parent = parent;
@@ -264,9 +347,8 @@ namespace OIDE.Scene.Model
                 m_dbI = new IDAL();
 
           //  m_Physics = new List<PhysicObject>();
-            mData = new ProtoType.RaceGender();
-            mData.race = new ProtoType.Race();
-            mRaceGenderVM = new RaceGenderViewModel(mData);
+          
+
            // mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
             SceneNode = new DAL.MDB.SceneNodes();

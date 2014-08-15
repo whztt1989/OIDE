@@ -88,6 +88,13 @@ namespace OIDE.DAL
             return true;
         }
 
+        public bool insertRace(Race race)
+        {
+            mCtx.Race.Add(race);
+            mCtx.SaveChanges();
+            return true;
+        }
+
         public bool updateGameEntity(GameEntity po)
         {
             var result = mCtx.GameEntity.Where(x => x.EntID == po.EntID);
@@ -100,7 +107,19 @@ namespace OIDE.DAL
             else
                 return false;
         }
-
+     
+        public bool updateRace(Race race)
+        {
+            var result = mCtx.Race.Where(x => x.RaceID == race.RaceID);
+            if (result.Any())
+            {
+                result.First().Data = race.Data;
+                mCtx.SaveChanges();
+                return true;
+            }
+            else
+                return false;
+        }
         public IEnumerable<Race> selectAllRace()
         {
             try
@@ -153,6 +172,24 @@ namespace OIDE.DAL
             }
 
             return new GameEntity();
+        }
+
+        public Race selectRace(int id)
+        {
+            try
+            {
+                var result = mCtx.Race.Where(x => x.RaceID == id);
+                if (result.Any())
+                    return result.First();
+                else
+                    return new Race();
+            }
+            catch (Exception ex)
+            {
+                //     MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+
+            return new Race();
         }
 
         #endregion

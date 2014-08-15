@@ -51,8 +51,8 @@ namespace OIDE.Scene.View.Editor
 
         public FrameworkElement ResolveEditor(Xceed.Wpf.Toolkit.PropertyGrid.PropertyItem propertyItem)
         {
-            CharacterCustomizeModel ccm = (CharacterCustomizeModel)propertyItem.Instance;
-            cbRaceGender.ItemsSource =  ccm.RaceGenderList;
+            //CharacterCustomizeModel ccm = (CharacterCustomizeModel)propertyItem.Instance;
+            //cbRaceGender.ItemsSource =  ccm.RaceGenderList;
 
             Binding binding = new Binding("Value");
             binding.Source = propertyItem;
