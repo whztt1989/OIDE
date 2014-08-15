@@ -40,14 +40,6 @@
       <HintPath>..\..\Wide\Libs\ICSharpCode.AvalonEdit.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=0.13.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Modules\extlibs\MahApps.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="MahApps.Metro.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Modules\extlibs\MahApps.Metro.Resources.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\extlibs\Microsoft.Practices.Prism.dll</HintPath>
       <Private>False</Private>
@@ -98,6 +90,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Theme, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Theme.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -173,10 +169,6 @@
     <Resource Include="Icons\MDType.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\ExtendedWPFToolkitSolution\Src\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj">
-      <Project>{72e591d6-8f83-4d8c-8f67-9c325e623234}</Project>
-      <Name>Xceed.Wpf.Toolkit</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Modules\Module.Properties\Module.Properties.csproj">
       <Project>{600e958f-0dce-4d63-bf11-93292b1d8c18}</Project>
       <Name>Module.Properties</Name>

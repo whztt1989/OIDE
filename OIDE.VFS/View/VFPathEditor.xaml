@@ -6,14 +6,15 @@
              mc:Ignorable="d" 
                 
              xmlns:local="clr-namespace:OIDE.VFS.View"
-              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-            d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:Controls="http://schemas.nn.com/wpf/xaml/controls"    
+                     
+             d:DesignHeight="300" d:DesignWidth="300"
 
              >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro.Resources;component/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Theme;component/MahApps.Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

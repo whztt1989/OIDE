@@ -220,13 +220,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\ExtendedWPFToolkitSolution\Src\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj">
-      <Project>{72e591d6-8f83-4d8c-8f67-9c325e623234}</Project>
-      <Name>Xceed.Wpf.Toolkit</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Modules\Wpf.DragDrop\Wpf.DragDrop %28NET4%29.csproj">
       <Project>{0c6674cc-6d49-414a-9b41-d4e175028ffb}</Project>
       <Name>Wpf.DragDrop %28NET4%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Themes\Themes.Default\Themes.Default.csproj">
+      <Project>{de89d67d-a35e-4958-95bd-101b93d6ca0b}</Project>
+      <Name>Themes.Default</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WPF_IDE\Wide.csproj">
       <Project>{9f20f5ef-4f7e-4ae2-a462-4cd2256fb3ff}</Project>
