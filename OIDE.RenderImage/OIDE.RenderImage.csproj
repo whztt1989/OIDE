@@ -53,6 +53,10 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="D3DRenderImage\D3DRenderImage.cs" />
+    <Compile Include="D3DRenderImage\RenderTargetD3DImage.xaml.cs">
+      <DependentUpon>RenderTargetD3DImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderImage\RenderImage.xaml.cs">
       <DependentUpon>RenderImage.xaml</DependentUpon>
@@ -66,6 +70,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="D3DRenderImage\RenderTargetD3DImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RenderImage\RenderImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

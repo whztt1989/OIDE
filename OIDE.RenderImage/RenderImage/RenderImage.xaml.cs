@@ -50,7 +50,8 @@ namespace OIDE.RenderImage.RenderImage
             winFormsHost.Child = mWinFormsRenderPanel;
        //     DLL_Singleton.stateInit(mWinFormsRenderPanel.Handle);
 
-            bool test = DLL_Singleton.Instance.stateInit(mWinFormsRenderPanel.Handle, "");
+            //mWinFormsRenderPanel.Handle
+            IntPtr test = DLL_Singleton.Instance.stateInit( "",0,0);
 
          //   _timer = new Timer(Callback, null, TIME_INTERVAL_IN_MILLISECONDS, Timeout.Infinite);
 

@@ -185,7 +185,7 @@ namespace OIDE.Scene.Model
                 }
 
                 if (DLL_Singleton.Instance.EditorInitialized)
-                    DLL_Singleton.Instance.consoleCmd("cmd physic " + gameEntity.EntID); //.updateObject(0, (int)ObjType.Physic);
+                    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
 
             }
             catch (Exception ex)

@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="OIDE.RenderImage.D3DRenderImage.RenderTargetD3DImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:ri="clr-namespace:OIDE.RenderImage.D3DRenderImage"
+             d:DesignHeight="300" d:DesignWidth="300"
+             >
+  
+        <Image Name="RenderImage" MouseDown="RenderImage_MouseDown" 
+               MouseLeave="RenderImage_MouseLeave" MouseUp="RenderImage_MouseUp" 
+               MouseWheel="RenderImage_MouseWheel" MouseMove="RenderImage_MouseMove" 
+               KeyDown="RenderImage_KeyDown" KeyUp="RenderImage_KeyUp" 
+               SizeChanged="RenderImage_SizeChanged">
+        </Image>
+   
+</UserControl>

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CLXEditor.Render;
 using OIDE.InteropEditor.DLL;
+using SFML.Window;
 
 namespace OIDE.Scene.View
 {
@@ -58,13 +59,37 @@ namespace OIDE.Scene.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            renderImage.init();
+        ///    Window test = tw;
+           renderImage.init();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            
-            DLL_Singleton.Instance.consoleCmd("cmd");
+            Event test = new Event();
+            test.Type = EventType.KeyPressed;
+           
+            test.Key.Code = SFML.Window.Keyboard.Key.W;
+            int test2;
+
+//            test2 = DLL_Singleton.pushEvent(test);
+
+            test2 = DLL_Singleton.Instance.PushEvent(test);
+
+
+           
+
+
+            byte[] tmparr = new byte[0];
+
+       //     DLL_Singleton.Instance.command("cmd", tmparr, 0);
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Event testReleased = new Event();
+            testReleased.Type = EventType.KeyReleased;
+            testReleased.Key.Code = SFML.Window.Keyboard.Key.W;
+            DLL_Singleton.Instance.PushEvent(testReleased);
         }
 
 

@@ -122,33 +122,47 @@ namespace OIDE.Scene.Model
 
         #region GameEntityData
 
+        //todo prototype!!!!
         private String mSkeleton;
 
         [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
+        [Category("GameEntity")]
         public String Skeleton { get { return mSkeleton; } set { mSkeleton = value; } }
       
         //  private List<String> mMeshes;
         private List<Mesh> mMeshes;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
         [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
+        [Category("GameEntity")]
         public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
         //public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
         private List<PhysicObject> m_Physics;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        [Category("GameEntity")]
         public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
 
         private List<ProtoType.Sound> mSounds;
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
         [NewItemTypes(new Type[] { typeof(ProtoType.Sound) })]
+        [Category("GameEntity")]
         public List<ProtoType.Sound> Sounds { get { return mSounds; } set { mSounds = value; } }
 
-        public Int32 Mode { get { return mData.gameEntity.mode; } set { mData.gameEntity.mode = value; } }
-        public Boolean CastShadows { get { return mData.gameEntity.castShadows; } set { mData.gameEntity.castShadows = value; } }
-        public ProtoType.Debug Debug { get { return mData.gameEntity.debug; } set { mData.gameEntity.debug = value; } }
-        public string AnimationTree { get { return mData.gameEntity.animationTree; } set { mData.gameEntity.animationTree = value; } }
-        public string AnimationInfo { get { return mData.gameEntity.animationInfo; } set { mData.gameEntity.animationInfo = value; } }
+        [Category("GameEntity")]
+        public Int32 RenderQueue { get { return mData.gameEntity.mode; } set { mData.gameEntity.mode = value; } }
 
+        [Category("GameEntity")]
+        public Int32 Mode { get { return mData.gameEntity.mode; } set { mData.gameEntity.mode = value; } }
+        [Category("GameEntity")]
+        public Boolean CastShadows { get { return mData.gameEntity.castShadows; } set { mData.gameEntity.castShadows = value; } }
+        [Category("GameEntity")]
+        public string AnimationTree { get { return mData.gameEntity.animationTree; } set { mData.gameEntity.animationTree = value; } }
+        [Category("GameEntity")]
+        public string AnimationInfo { get { return mData.gameEntity.animationInfo; } set { mData.gameEntity.animationInfo = value; } }
+      
+        [Category("Debug")]
+        public ProtoType.Debug Debug { get { return mData.gameEntity.debug; } set { mData.gameEntity.debug = value; } }
+   
 
         #endregion
 
@@ -260,7 +274,7 @@ namespace OIDE.Scene.Model
                 }
 
                 if (DLL_Singleton.Instance.EditorInitialized)
-                    DLL_Singleton.Instance.consoleCmd("cmd physic " + gameEntity.EntID); //.updateObject(0, (int)ObjType.Physic);
+                    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
 
             }
             catch (Exception ex)

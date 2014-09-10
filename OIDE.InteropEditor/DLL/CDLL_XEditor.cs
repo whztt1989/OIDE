@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
+using SFML.Window;
 
 namespace OIDE.InteropEditor.DLL
 {
@@ -51,7 +52,7 @@ namespace OIDE.InteropEditor.DLL
     //SFML_EDITOR_API void quit();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate bool stateInitDelegate(IntPtr hwnd, String stateName);
+        public delegate IntPtr stateInitDelegate(String stateName, int width, int height);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate bool stateUpdateDelegate();
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -59,7 +60,11 @@ namespace OIDE.InteropEditor.DLL
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int updateObjectDelegate(uint id, int type);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void consoleCmdDelegate(String command);
+        public delegate void commandDelegate(String command, byte[] data, int len);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate int PushEventDelegate(Event pEvent);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate void RenderTargetSizeDelegate(String rtName, double x, double y);
 
         //http://geekswithblogs.net/VROD/archive/2009/04/07/130805.aspx
         //-----------------------------------------------------------------------
@@ -96,7 +101,7 @@ namespace OIDE.InteropEditor.DLL
 
         //-----------------------------------------------------------------------
 
-        [DllImport(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\EditorI.dll"
+        [DllImport(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\XE_IEditor.dll"
            , CallingConvention = CallingConvention.StdCall)]
         public static extern void an_unmanaged_function(
            string aa,
@@ -183,8 +188,10 @@ namespace OIDE.InteropEditor.DLL
         public stateUpdateDelegate stateUpdate { get; set; }
         public quitDelegate quit { get; set; }
         public updateObjectDelegate updateObject { get; set; }
-        public consoleCmdDelegate consoleCmd { get; set; }
-        //public ChipAuthent1Delegate ChipAuthent1 { get; set; }
+        public commandDelegate command { get; set; }
+        public PushEventDelegate PushEvent { get; set; }
+        public RenderTargetSizeDelegate RenderTargetSize { get; set; }
+       //public ChipAuthent1Delegate ChipAuthent1 { get; set; }
         //public ChipAuthent2Delegate ChipAuthent2 { get; set; }
         //public ChipSetLogDelegate ChipSetLog { get; set; }
         //public ChipSetParaDelegate ChipSetPara { get; set; }
@@ -202,6 +209,9 @@ namespace OIDE.InteropEditor.DLL
         //public static extern bool stateUpdate();
         //[DllImport(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\EditorI.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
         //public static extern bool quit();
+   
+        //[DllImport(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\XE_IEditor.dll", CallingConvention = CallingConvention.Cdecl), SuppressUnmanagedCodeSecurity]
+        //public static extern int pushEvent(Event pushEvent);
 
         public DLL_Singleton(String dllPath)
         {
@@ -220,7 +230,9 @@ namespace OIDE.InteropEditor.DLL
                 stateUpdate = (stateUpdateDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("stateUpdate", DLLPtr), typeof(stateUpdateDelegate));
                 quit = (quitDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("quit", DLLPtr), typeof(quitDelegate));
                 //    updateObject = (updateObjectDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("updateObject", DLLPtr), typeof(updateObjectDelegate));
-                consoleCmd = (consoleCmdDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("consoleCmd", DLLPtr), typeof(consoleCmdDelegate));
+                command = (commandDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("command", DLLPtr), typeof(commandDelegate));
+                PushEvent = (PushEventDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("pushEvent", DLLPtr), typeof(PushEventDelegate));
+                RenderTargetSize = (RenderTargetSizeDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("renderTargetSize", DLLPtr), typeof(RenderTargetSizeDelegate));
 
                 //   ChipAuthent1 = (ChipAuthent1Delegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("ChipAuthent1", DLLPtr), typeof(ChipAuthent1Delegate));
                 //ChipAuthent2 = (ChipAuthent2Delegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("ChipAuthent2", DLLPtr), typeof(ChipAuthent2Delegate));

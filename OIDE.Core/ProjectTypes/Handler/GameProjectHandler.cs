@@ -120,7 +120,7 @@ namespace OIDE.Core.ProjectTypes.Handler
         /// </summary>
         /// <param name="info">The string location of the file</param>
         /// <returns>The <see cref="GameProjectViewModel"/> for the file.</returns>
-        public ContentViewModel OpenContent(object info)
+        public ContentViewModel OpenContent(object info, object param)
         {
             var location = info as string;
             if (location != null)
@@ -166,7 +166,7 @@ namespace OIDE.Core.ProjectTypes.Handler
             return null;
         }
 
-        public ContentViewModel OpenContentFromId(string contentId)
+        public ContentViewModel OpenContentFromId(string contentId, object param)
         {
             string[] split = Regex.Split(contentId, ":##:");
             if (split.Count() == 2)
@@ -175,7 +175,7 @@ namespace OIDE.Core.ProjectTypes.Handler
                 string path = split[1];
                 if (identifier == "FILE" && File.Exists(path))
                 {
-                    return OpenContent(path);
+                    return OpenContent(path, param);
                 }
             }
             return null;

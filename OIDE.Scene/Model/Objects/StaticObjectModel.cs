@@ -78,6 +78,20 @@ namespace OIDE.Scene.Model
         }
     }
 
+    public class Material
+    {
+        public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
+        public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
+
+        [XmlIgnore]
+        [Browsable(false)]
+        public ProtoType.Material ProtoData { get; set; }
+
+        public Material()
+        {
+            ProtoData = new ProtoType.Material();
+        }
+    }
 
     public class StaticObjectModel : ISceneItem, IGameEntity
     {
@@ -137,6 +151,10 @@ namespace OIDE.Scene.Model
                     foreach (var item in mData.gameEntity.physics)
                         m_Physics.Add(new PhysicObject() { ProtoData = item });
 
+                    foreach (var item in mData.gameEntity.materials)
+                        m_Materials.Add(new Material() { ProtoData = item });
+
+
                     foreach (var item in mData.gameEntity.meshes)
                     {
                         if (item.cube != null)
@@ -160,6 +178,13 @@ namespace OIDE.Scene.Model
         public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
 
      //   public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
+
+
+        private List<Material> m_Materials;
+
+        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+     //   [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
+        public List<Material> Materials { get { return m_Materials; } set { m_Materials = value; } }
 
 
 
@@ -265,6 +290,10 @@ namespace OIDE.Scene.Model
                     ProtoData.gameEntity.meshes.Add(item.ProtoData);
 
 
+                ProtoData.gameEntity.materials.Clear();
+                foreach (var item in m_Materials)
+                    ProtoData.gameEntity.materials.Add(item.ProtoData);
+
                 gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
                 gameEntity.Name = this.Name;
 
@@ -277,7 +306,7 @@ namespace OIDE.Scene.Model
                 }
 
                 if (DLL_Singleton.Instance.EditorInitialized)
-                    DLL_Singleton.Instance.consoleCmd("cmd physic " + gameEntity.EntID); //.updateObject(0, (int)ObjType.Physic);
+                    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
 
             }
             catch (Exception ex)
@@ -321,6 +350,7 @@ namespace OIDE.Scene.Model
             else
                 m_dbI = new IDAL();
 
+            m_Materials = new List<Material>();
             mMeshes = new List<Mesh>();
             m_Physics = new List<PhysicObject>();
             mData = new ProtoType.StaticEntity();

@@ -1,4 +1,4 @@
-﻿<UserControl xmlns:RenderImage="clr-namespace:OIDE.RenderImage.RenderImage;assembly=OIDE.RenderImage"  x:Class="OIDE.Scene.View.SceneViewerView"
+﻿<UserControl xmlns:D3DRenderImage="clr-namespace:OIDE.RenderImage.D3DRenderImage;assembly=OIDE.RenderImage"  xmlns:RenderImage="clr-namespace:OIDE.RenderImage.RenderImage;assembly=OIDE.RenderImage"  x:Class="OIDE.Scene.View.SceneViewerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,7 +11,8 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
        xmlns:inf_int="clr-namespace:Infrastructure.InteractionRequests;assembly=Wide"
              
-             
+               xmlns:xctk="http://schemas.nn.com/wpf/xaml/toolkit"
+           
                   dd:DragDrop.IsDropTarget="True"
                     dd:DragDrop.DropHandler="{Binding}" 
                    
@@ -66,21 +67,29 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <RenderImage:RenderImage Name="renderImage"   Grid.Row="1" Grid.ColumnSpan="4" />
+        
+        
+        <D3DRenderImage:RenderTargetD3DImage Background="YellowGreen" Name="renderImage" Grid.Row="1" Grid.ColumnSpan="4"/>
+        
+        
+        <!-- funtzt !!!!!!!
+        <RenderImage:RenderImage Name="renderImage"   Grid.Row="1" Grid.ColumnSpan="4" />-->
 
         <!--<Image x:Name="MogreImage" MouseDown="MogreImage_MouseDown" MouseMove="MogreImage_MouseMove"  
                        ToolTipService.InitialShowDelay="0" ToolTipService.IsEnabled="True"
                    MinHeight="1" MinWidth="1" Grid.Row="1"
                    />-->
 
-        <Canvas x:Name="TestCanvas" ClipToBounds="True" Loaded="TestCanvas_Loaded" Grid.Row="1" Grid.ColumnSpan="4" />
+        <!--<Canvas x:Name="TestCanvas" ClipToBounds="True" Loaded="TestCanvas_Loaded" Grid.Row="1" Grid.ColumnSpan="4" />-->
         <Label Content="{Binding Location}" 
                   dd:DragDrop.IsDropTarget="True"   />
 
         <Button Content="Button" HorizontalAlignment="Left" Width="75" Click="Button_Click" Grid.Column="1" Height="40" VerticalAlignment="Top" Grid.RowSpan="2"/>
         <Button Content="TestPopupMsg" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Column="3"  Command="{Binding RaiseConfirmation}"/>
         <!--<Image HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="44" Source="/OIDE.Scene;component/Icons/SType.png" />-->
-        <Button Grid.ColumnSpan="1" Content="command" Grid.Column="2" Click="Button_Click_1"/>
-
+        <StackPanel Grid.ColumnSpan="1" Grid.Column="2" Orientation="Horizontal">
+        <Button  Content="w" Click="Button_Click_1"/>
+   <Button Content="wStop"  Click="Button_Click_2"/>
+</StackPanel>
     </Grid>
 </UserControl>
