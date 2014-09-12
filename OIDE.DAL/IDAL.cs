@@ -9,7 +9,6 @@ using Module.DB.Interface.Services;
 using Module.DB.Settings;
 using OIDE.DAL.MDB;
 using System.Data;
-using Xceed.Wpf.Toolkit;
 
 
 namespace OIDE.DAL
