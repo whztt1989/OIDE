@@ -32,6 +32,7 @@ using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using OIDE.DAL;
 using Module.Properties.Helpers;
+using OIDE.VFS.View;
 
 namespace OIDE.Scene.Model
 {
@@ -209,6 +210,20 @@ namespace OIDE.Scene.Model
 
         [Category("Identification")]
         public Int64 ID { get { return (DBData as Race).RaceID; } set { (DBData as Race).RaceID = value; } }
+
+        private String mSkeleton;
+
+        [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
+        [Category("GameEntity")]
+        public String Skeleton { get { return mSkeleton; } set { mSkeleton = value; } }
+
+        [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
+        [Category("GameEntity")]
+        public string AnimationTree { get { return ProtoData.animationTree; } set { ProtoData.animationTree = value; } }
+        [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
+        [Category("GameEntity")]
+        public string AnimationInfo { get { return ProtoData.animationInfo; } set { ProtoData.animationInfo = value; } }
+      
 
         [XmlIgnore]
         [Browsable(false)]

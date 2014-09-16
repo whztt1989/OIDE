@@ -143,9 +143,6 @@
     <Compile Include="MDB\MatUsedInScene.cs">
       <DependentUpon>EDM_GameData.tt</DependentUpon>
     </Compile>
-    <Compile Include="MDB\PhysUsedInScene.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
-    </Compile>
     <Compile Include="MDB\Race.cs">
       <DependentUpon>EDM_GameData.tt</DependentUpon>
     </Compile>

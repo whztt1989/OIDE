@@ -18,5 +18,6 @@ namespace OIDE.DAL.MDB
         public Nullable<decimal> EntType { get; set; }
         public string Name { get; set; }
         public byte[] Data { get; set; }
+        public Nullable<long> RaceID { get; set; }
     }
 }

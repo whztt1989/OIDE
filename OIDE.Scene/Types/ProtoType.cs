@@ -598,6 +598,13 @@ namespace ProtoType
       get { return _mesh; }
       set { _mesh = value; }
     }
+    private int _meshTypeIdx;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"meshTypeIdx", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int meshTypeIdx
+    {
+      get { return _meshTypeIdx; }
+      set { _meshTypeIdx = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -614,6 +621,13 @@ namespace ProtoType
     {
       get { return _mesh; }
       set { _mesh = value; }
+    }
+    private int _meshTypeIdx;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"meshTypeIdx", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int meshTypeIdx
+    {
+      get { return _meshTypeIdx; }
+      set { _meshTypeIdx = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
@@ -633,7 +647,7 @@ namespace ProtoType
       set { _name = value; }
     }
     private string _mesh;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"mesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"mesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public string mesh
     {
       get { return _mesh; }
@@ -840,6 +854,22 @@ namespace ProtoType
       get { return _spells; }
     }
   
+    private string _animationTree = "";
+    [global::ProtoBuf.ProtoMember(19, IsRequired = false, Name=@"animationTree", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string animationTree
+    {
+      get { return _animationTree; }
+      set { _animationTree = value; }
+    }
+    private string _animationInfo = "";
+    [global::ProtoBuf.ProtoMember(20, IsRequired = false, Name=@"animationInfo", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::System.ComponentModel.DefaultValue("")]
+    public string animationInfo
+    {
+      get { return _animationInfo; }
+      set { _animationInfo = value; }
+    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
@@ -857,71 +887,64 @@ namespace ProtoType
       get { return _gameEntity; }
       set { _gameEntity = value; }
     }
-    private ProtoType.RaceGender _gender;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"gender", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.RaceGender gender
-    {
-      get { return _gender; }
-      set { _gender = value; }
-    }
-    private ProtoType.Face _face;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"face", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.Face face
+    private int _face;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"face", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int face
     {
       get { return _face; }
       set { _face = value; }
     }
-    private ProtoType.Skin _skin;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"skin", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.Skin skin
+    private int _skin;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"skin", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int skin
     {
       get { return _skin; }
       set { _skin = value; }
     }
-    private ProtoType.HairColor _hairColor;
-    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"hairColor", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.HairColor hairColor
+    private int _hairColor;
+    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"hairColor", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int hairColor
     {
       get { return _hairColor; }
       set { _hairColor = value; }
     }
-    private ProtoType.HairStyle _hairStyle;
-    [global::ProtoBuf.ProtoMember(6, IsRequired = true, Name=@"hairStyle", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.HairStyle hairStyle
+    private int _hairStyle;
+    [global::ProtoBuf.ProtoMember(5, IsRequired = true, Name=@"hairStyle", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int hairStyle
     {
       get { return _hairStyle; }
       set { _hairStyle = value; }
     }
-    private ProtoType.FacialFeature _facialfeature;
-    [global::ProtoBuf.ProtoMember(7, IsRequired = true, Name=@"facialfeature", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.FacialFeature facialfeature
+    private int _facialfeature;
+    [global::ProtoBuf.ProtoMember(6, IsRequired = true, Name=@"facialfeature", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int facialfeature
     {
       get { return _facialfeature; }
       set { _facialfeature = value; }
     }
-    private ProtoType.FacialColor _facialcolor;
-    [global::ProtoBuf.ProtoMember(8, IsRequired = true, Name=@"facialcolor", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.FacialColor facialcolor
+    private int _facialcolor;
+    [global::ProtoBuf.ProtoMember(7, IsRequired = true, Name=@"facialcolor", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int facialcolor
     {
       get { return _facialcolor; }
       set { _facialcolor = value; }
     }
     private ProtoType.Boots _boots;
-    [global::ProtoBuf.ProtoMember(9, IsRequired = true, Name=@"boots", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(8, IsRequired = true, Name=@"boots", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public ProtoType.Boots boots
     {
       get { return _boots; }
       set { _boots = value; }
     }
-    private ProtoType.Shoulder _shoulderMesh;
-    [global::ProtoBuf.ProtoMember(10, IsRequired = true, Name=@"shoulderMesh", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.Shoulder shoulderMesh
+    private ProtoType.Shoulder _shoulder;
+    [global::ProtoBuf.ProtoMember(9, IsRequired = true, Name=@"shoulder", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public ProtoType.Shoulder shoulder
     {
-      get { return _shoulderMesh; }
-      set { _shoulderMesh = value; }
+      get { return _shoulder; }
+      set { _shoulder = value; }
     }
     private ProtoType.OneHandWeapon _oneHLWeapon = null;
-    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"oneHLWeapon", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(10, IsRequired = false, Name=@"oneHLWeapon", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
     public ProtoType.OneHandWeapon oneHLWeapon
     {
@@ -929,7 +952,7 @@ namespace ProtoType
       set { _oneHLWeapon = value; }
     }
     private ProtoType.OneHandWeapon _oneHRWeapon = null;
-    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"oneHRWeapon", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(11, IsRequired = false, Name=@"oneHRWeapon", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
     public ProtoType.OneHandWeapon oneHRWeapon
     {
@@ -937,7 +960,7 @@ namespace ProtoType
       set { _oneHRWeapon = value; }
     }
     private ProtoType.TwoHandWeapon _twoHWeapon = null;
-    [global::ProtoBuf.ProtoMember(13, IsRequired = false, Name=@"twoHWeapon", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(12, IsRequired = false, Name=@"twoHWeapon", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
     public ProtoType.TwoHandWeapon twoHWeapon
     {
@@ -945,7 +968,7 @@ namespace ProtoType
       set { _twoHWeapon = value; }
     }
     private ProtoType.AI _ai = null;
-    [global::ProtoBuf.ProtoMember(14, IsRequired = false, Name=@"ai", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(13, IsRequired = false, Name=@"ai", DataFormat = global::ProtoBuf.DataFormat.Default)]
     [global::System.ComponentModel.DefaultValue(null)]
     public ProtoType.AI ai
     {
@@ -1417,99 +1440,6 @@ namespace ProtoType
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SetWindow")]
-  public partial class SetWindow : global::ProtoBuf.IExtensible
-  {
-    public SetWindow() {}
-    
-    private bool _FullScreen;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"FullScreen", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public bool FullScreen
-    {
-      get { return _FullScreen; }
-      set { _FullScreen = value; }
-    }
-    private ProtoType.VideoMode _VideoMode;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"VideoMode", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public ProtoType.VideoMode VideoMode
-    {
-      get { return _VideoMode; }
-      set { _VideoMode = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"SetGraphic")]
-  public partial class SetGraphic : global::ProtoBuf.IExtensible
-  {
-    public SetGraphic() {}
-    
-    private ProtoType.AA _FSAA;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"FSAA", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public ProtoType.AA FSAA
-    {
-      get { return _FSAA; }
-      set { _FSAA = value; }
-    }
-    private bool _VSync;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"VSync", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public bool VSync
-    {
-      get { return _VSync; }
-      set { _VSync = value; }
-    }
-    private int _ColourDepth;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"ColourDepth", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int ColourDepth
-    {
-      get { return _ColourDepth; }
-      set { _ColourDepth = value; }
-    }
-    private int _DispFreq;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = true, Name=@"DispFreq", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int DispFreq
-    {
-      get { return _DispFreq; }
-      set { _DispFreq = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Settings")]
-  public partial class Settings : global::ProtoBuf.IExtensible
-  {
-    public Settings() {}
-    
-    private bool _ShowFPS;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"ShowFPS", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public bool ShowFPS
-    {
-      get { return _ShowFPS; }
-      set { _ShowFPS = value; }
-    }
-    private ProtoType.SetGraphic _graphic;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"graphic", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.SetGraphic graphic
-    {
-      get { return _graphic; }
-      set { _graphic = value; }
-    }
-    private ProtoType.SetWindow _window;
-    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"window", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public ProtoType.SetWindow window
-    {
-      get { return _window; }
-      set { _window = value; }
-    }
-    private global::ProtoBuf.IExtension extensionObject;
-    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
-      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
-  }
-  
     [global::ProtoBuf.ProtoContract(Name=@"PhysicsType")]
     public enum PhysicsType
     {
@@ -1576,47 +1506,10 @@ namespace ProtoType
       NT_Light = 5,
             
       [global::ProtoBuf.ProtoEnum(Name=@"NT_Camera", Value=6)]
-      NT_Camera = 6
-    }
-  
-    [global::ProtoBuf.ProtoContract(Name=@"AA")]
-    public enum AA
-    {
+      NT_Camera = 6,
             
-      [global::ProtoBuf.ProtoEnum(Name=@"AA_off", Value=1)]
-      AA_off = 1,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"AA_1X", Value=2)]
-      AA_1X = 2,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"AA_2X", Value=3)]
-      AA_2X = 3,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"AA_3X", Value=4)]
-      AA_3X = 4,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"AA_4X", Value=5)]
-      AA_4X = 5,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"AA_6X", Value=6)]
-      AA_6X = 6
-    }
-  
-    [global::ProtoBuf.ProtoContract(Name=@"VideoMode")]
-    public enum VideoMode
-    {
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"VM_640X480", Value=1)]
-      VM_640X480 = 1,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"VM_800X600", Value=2)]
-      VM_800X600 = 2,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"VM_1024X768", Value=3)]
-      VM_1024X768 = 3,
-            
-      [global::ProtoBuf.ProtoEnum(Name=@"VM_1280X1024", Value=4)]
-      VM_1280X1024 = 4
+      [global::ProtoBuf.ProtoEnum(Name=@"NT_SpawnPoint", Value=7)]
+      NT_SpawnPoint = 7
     }
   
 }

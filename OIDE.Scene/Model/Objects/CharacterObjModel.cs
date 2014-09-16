@@ -116,13 +116,15 @@ namespace OIDE.Scene.Model
 
                     foreach (var item in mData.gameEntity.physics)
                         m_Physics.Add(new PhysicObject() { ProtoData = item });
+
+                    m_Race = mDBData.RaceID ?? 0;
                 }
             }
         }
 
         #region GameEntityData
 
-        //todo prototype!!!!
+        //todo prototype!!!! or? skeleton path is located in mesh  file ...
         private String mSkeleton;
 
         [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
@@ -162,7 +164,11 @@ namespace OIDE.Scene.Model
       
         [Category("Debug")]
         public ProtoType.Debug Debug { get { return mData.gameEntity.debug; } set { mData.gameEntity.debug = value; } }
-   
+
+        private long m_Race;
+        [Category("Character")]
+        public long RaceID { get { return m_Race; } set { m_Race = value; } }
+      
 
         #endregion
 
@@ -230,6 +236,7 @@ namespace OIDE.Scene.Model
             if (contentID > 0)
             {
                 DBData = m_dbI.selectGameEntity(contentID);
+
                 // Console.WriteLine(BitConverter.ToString(res));
                 //try
                 //{
@@ -264,6 +271,7 @@ namespace OIDE.Scene.Model
 
                 gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
                 gameEntity.Name = this.Name;
+                gameEntity.RaceID = m_Race;
 
                 if (gameEntity.EntID > 0)
                     m_dbI.updateGameEntity(gameEntity);

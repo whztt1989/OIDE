@@ -31,9 +31,8 @@ namespace OIDE.DAL.MDB
         public DbSet<Sky> Sky { get; set; }
         public DbSet<Terrain> Terrain { get; set; }
         public DbSet<MatUsedInScene> MatUsedInScene { get; set; }
-        public DbSet<PhysUsedInScene> PhysUsedInScene { get; set; }
         public DbSet<Scene> Scene { get; set; }
-        public DbSet<GameEntity> GameEntity { get; set; }
         public DbSet<SceneNodes> SceneNodes { get; set; }
+        public DbSet<GameEntity> GameEntity { get; set; }
     }
 }

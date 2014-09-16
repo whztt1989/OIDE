@@ -93,22 +93,22 @@ namespace OIDE.Scene.Model
       //  public RaceGenderViewModel RaceGender { get { return mRaceGenderVM; } set { mRaceGenderVM = value; } }
 
         [Category("Customization")]
-        public ProtoType.Face Face { get { return mData.face; } }
+        public int Face { get { return mData.face; } set { mData.face = value; } }
         [Category("Customization")]
-        public ProtoType.Skin Skin { get { return mData.skin; } }
+        public int Skin { get { return mData.skin; } set { mData.skin = value; } }
         [Category("Customization")]
-        public ProtoType.HairColor HairColor { get { return mData.hairColor; } }
+        public int HairColor { get { return mData.hairColor; } set { mData.hairColor = value; } }
         [Category("Customization")]
-        public ProtoType.HairStyle HairStyle { get { return mData.hairStyle; } }
+        public int HairStyle { get { return mData.hairStyle; } set { mData.hairStyle = value; } }
         [Category("Customization")]
-        public ProtoType.FacialFeature FacialFeature { get { return mData.facialfeature; } }
+        public int FacialFeature { get { return mData.facialfeature; } set { mData.facialfeature = value; } }
         [Category("Customization")]
-        public ProtoType.FacialColor FacialColor { get { return mData.facialcolor; } }
+        public int FacialColor { get { return mData.facialcolor; } set { mData.facialcolor = value; } }
           
         [Category("Equipment")]
         public ProtoType.Boots Boots { get { return mData.boots; } }
         [Category("Equipment")]
-        public ProtoType.Shoulder Shoulder { get { return mData.shoulderMesh; } }
+        public ProtoType.Shoulder Shoulder { get { return mData.shoulder; } }
 
         [Category("Equipment")]
         public ProtoType.OneHandWeapon OneHandLWeapon { get { return mData.oneHLWeapon; } }

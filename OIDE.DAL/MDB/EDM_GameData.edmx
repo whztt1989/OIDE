@@ -20,6 +20,7 @@
           <Property Name="EntType" Type="decimal" Precision="53" Scale="0" />
           <Property Name="Name" Type="varchar" MaxLength="2147483647" />
           <Property Name="Data" Type="blob" />
+          <Property Name="RaceID" Type="integer" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -36,15 +37,6 @@ Warnung 6002: Für Tabelle/Sicht 'main.MatUsedInScene' ist kein Primärschlüsse
           </Key>
           <Property Name="SceneID" Type="integer" Nullable="false" />
           <Property Name="MatID" Type="integer" />
-        </EntityType>
-        <!--Während der Generierung sind Fehler aufgetreten:
-Warnung 6002: Für Tabelle/Sicht 'main.PhysUsedInScene' ist kein Primärschlüssel definiert. Der Schlüssel wurde abgeleitet, und die Definition wurde als schreibgeschützte Tabelle/Sicht erstellt.-->
-        <EntityType Name="PhysUsedInScene">
-          <Key>
-            <PropertyRef Name="SceneID" />
-          </Key>
-          <Property Name="SceneID" Type="integer" Nullable="false" />
-          <Property Name="POID" Type="integer" />
         </EntityType>
         <EntityType Name="Race">
           <Key>
@@ -102,12 +94,6 @@ Warnung 6002: Für Tabelle/Sicht 'main.PhysUsedInScene' ist kein Primärschlüss
 [MatUsedInScene].[MatID] AS [MatID]
 FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="PhysUsedInScene" EntityType="Self.PhysUsedInScene" store:Type="Tables">
-            <DefiningQuery>SELECT 
-[PhysUsedInScene].[SceneID] AS [SceneID], 
-[PhysUsedInScene].[POID] AS [POID]
-FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -120,10 +106,9 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
           <EntitySet Name="Sky" EntityType="gameDataModel.Sky" />
           <EntitySet Name="Terrain" EntityType="gameDataModel.Terrain" />
           <EntitySet Name="MatUsedInScene" EntityType="gameDataModel.MatUsedInScene" />
-          <EntitySet Name="PhysUsedInScene" EntityType="gameDataModel.PhysUsedInScene" />
           <EntitySet Name="Scene" EntityType="gameDataModel.Scene" />
-          <EntitySet Name="GameEntity" EntityType="gameDataModel.GameEntity" />
           <EntitySet Name="SceneNodes" EntityType="gameDataModel.SceneNodes" />
+          <EntitySet Name="GameEntity" EntityType="gameDataModel.GameEntity" />
         </EntityContainer>
         <EntityType Name="Fog">
           <Key>
@@ -167,13 +152,6 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
           <Property Name="SceneID" Type="Int64" Nullable="false" />
           <Property Name="MatID" Type="Int64" />
         </EntityType>
-        <EntityType Name="PhysUsedInScene">
-          <Key>
-            <PropertyRef Name="SceneID" />
-          </Key>
-          <Property Name="SceneID" Type="Int64" Nullable="false" />
-          <Property Name="POID" Type="Int64" />
-        </EntityType>
         <EntityType Name="Scene">
           <Key>
             <PropertyRef Name="SceneID" />
@@ -182,15 +160,6 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
           <Property Name="FogID" Type="Int64" />
           <Property Name="SkyID" Type="Int64" />
           <Property Name="TerrID" Type="Int64" />
-          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="GameEntity">
-          <Key>
-            <PropertyRef Name="EntID" />
-          </Key>
-          <Property Name="EntID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntType" Type="Decimal" Precision="53" Scale="0" />
-          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
         </EntityType>
         <EntityType Name="SceneNodes">
@@ -202,6 +171,16 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
           <Property Name="EntID" Type="Int64" />
           <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
           <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GameEntity">
+          <Key>
+            <PropertyRef Name="EntID" />
+          </Key>
+          <Property Name="EntID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntType" Type="Decimal" Precision="53" Scale="0" />
+          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
+          <Property Name="RaceID" Type="Int64" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -257,14 +236,6 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PhysUsedInScene">
-            <EntityTypeMapping TypeName="gameDataModel.PhysUsedInScene">
-              <MappingFragment StoreEntitySet="PhysUsedInScene">
-                <ScalarProperty Name="POID" ColumnName="POID" />
-                <ScalarProperty Name="SceneID" ColumnName="SceneID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Scene">
             <EntityTypeMapping TypeName="gameDataModel.Scene">
               <MappingFragment StoreEntitySet="Scene">
@@ -276,16 +247,6 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GameEntity">
-            <EntityTypeMapping TypeName="gameDataModel.GameEntity">
-              <MappingFragment StoreEntitySet="GameEntity">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="EntType" ColumnName="EntType" />
-                <ScalarProperty Name="EntID" ColumnName="EntID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SceneNodes">
             <EntityTypeMapping TypeName="gameDataModel.SceneNodes">
               <MappingFragment StoreEntitySet="SceneNodes">
@@ -294,6 +255,17 @@ FROM [PhysUsedInScene] AS [PhysUsedInScene]</DefiningQuery>
                 <ScalarProperty Name="EntID" ColumnName="EntID" />
                 <ScalarProperty Name="SceneID" ColumnName="SceneID" />
                 <ScalarProperty Name="NodeID" ColumnName="NodeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameEntity">
+            <EntityTypeMapping TypeName="gameDataModel.GameEntity">
+              <MappingFragment StoreEntitySet="GameEntity">
+                <ScalarProperty Name="RaceID" ColumnName="RaceID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EntType" ColumnName="EntType" />
+                <ScalarProperty Name="EntID" ColumnName="EntID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

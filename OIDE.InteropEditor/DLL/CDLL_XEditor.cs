@@ -51,6 +51,15 @@ namespace OIDE.InteropEditor.DLL
     //SFML_EDITOR_API bool stateUpdate();
     //SFML_EDITOR_API void quit();
 
+        // Declares a managed structure for each unmanaged structure.
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        public struct StatesData
+        {
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            public string[] buffer;
+            public int size;
+        }
+
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr stateInitDelegate(String stateName, int width, int height);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -65,6 +74,10 @@ namespace OIDE.InteropEditor.DLL
         public delegate int PushEventDelegate(Event pEvent);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void RenderTargetSizeDelegate(String rtName, double x, double y);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]       
+        public delegate void getStatesDataDelegate(ref String mss);
+
 
         //http://geekswithblogs.net/VROD/archive/2009/04/07/130805.aspx
         //-----------------------------------------------------------------------
@@ -191,7 +204,8 @@ namespace OIDE.InteropEditor.DLL
         public commandDelegate command { get; set; }
         public PushEventDelegate PushEvent { get; set; }
         public RenderTargetSizeDelegate RenderTargetSize { get; set; }
-       //public ChipAuthent1Delegate ChipAuthent1 { get; set; }
+        public getStatesDataDelegate getStatesData { get; set; }
+     //public ChipAuthent1Delegate ChipAuthent1 { get; set; }
         //public ChipAuthent2Delegate ChipAuthent2 { get; set; }
         //public ChipSetLogDelegate ChipSetLog { get; set; }
         //public ChipSetParaDelegate ChipSetPara { get; set; }
@@ -233,6 +247,7 @@ namespace OIDE.InteropEditor.DLL
                 command = (commandDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("command", DLLPtr), typeof(commandDelegate));
                 PushEvent = (PushEventDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("pushEvent", DLLPtr), typeof(PushEventDelegate));
                 RenderTargetSize = (RenderTargetSizeDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("renderTargetSize", DLLPtr), typeof(RenderTargetSizeDelegate));
+                getStatesData = (getStatesDataDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("getStates", DLLPtr), typeof(getStatesDataDelegate));
 
                 //   ChipAuthent1 = (ChipAuthent1Delegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("ChipAuthent1", DLLPtr), typeof(ChipAuthent1Delegate));
                 //ChipAuthent2 = (ChipAuthent2Delegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("ChipAuthent2", DLLPtr), typeof(ChipAuthent2Delegate));

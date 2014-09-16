@@ -23,6 +23,8 @@ using Wide.Interfaces.Services;
 using OIDE.Scene.Interface.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
+using System.Windows.Input;
+using OIDE.Scene.Model;
 
 namespace OIDE.Scene
 {
@@ -44,9 +46,20 @@ namespace OIDE.Scene
         public String ContentID { get; set; }
 
 
+
         [Browsable(false)]
         [XmlIgnore]
-        public List<MenuItem> MenuOptions { get; protected set; }
+        public List<MenuItem> MenuOptions
+        {
+            get
+            {
+                List<MenuItem> menuOptions = new List<MenuItem>();
+                MenuItem miAdd = new MenuItem() { Command = new CmdCreateSpawnPoint(UnityContainer), CommandParameter = this, Header = "Create static object" };
+                menuOptions.Add(miAdd);
+
+                return menuOptions;
+            }
+        }
 
         public Boolean IsExpanded { get; set; }
         public Boolean IsSelected { get; set; }
@@ -82,11 +95,39 @@ namespace OIDE.Scene
             Parent = parent;
             Items = new CollectionOfIItem();
             SceneItems = new ObservableCollection<ISceneItem>();
-            MenuOptions = new List<MenuItem>();
 
-            MenuItem miAdd = new MenuItem() { Header = "Add Static Object" };
-            MenuOptions.Add(miAdd);
 
+        }
+
+    }
+
+
+    public class CmdCreateSpawnPoint : ICommand
+    {
+        private IUnityContainer mContainer;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            StaticObjectCategoyModel parent = parameter as StaticObjectCategoyModel;
+
+            SpawnPointModel pom = new SpawnPointModel(parent, parent.UnityContainer) { Name = "SpawnPoint NEW", ContentID = "StaticEntID:##" };
+
+            pom.Save();
+
+            parent.Items.Add(pom);
+
+            ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+        }
+
+        public CmdCreateSpawnPoint(IUnityContainer container)
+        {
+            mContainer = container;
         }
     }
 }

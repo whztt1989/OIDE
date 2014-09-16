@@ -66,9 +66,9 @@ namespace OIDE.Scene.View
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Event test = new Event();
-            test.Type = EventType.KeyPressed;
+            test.Type = EventType.GainedFocus;
            
-            test.Key.Code = SFML.Window.Keyboard.Key.W;
+          //  test.Key.Code = SFML.Window.Keyboard.Key.W;
             int test2;
 
 //            test2 = DLL_Singleton.pushEvent(test);
@@ -87,9 +87,27 @@ namespace OIDE.Scene.View
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             Event testReleased = new Event();
-            testReleased.Type = EventType.KeyReleased;
-            testReleased.Key.Code = SFML.Window.Keyboard.Key.W;
+            testReleased.Type = EventType.LostFocus;
+            //testReleased.Key.Code = SFML.Window.Keyboard.Key.W;
             DLL_Singleton.Instance.PushEvent(testReleased);
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+         //   OIDE.InteropEditor.DLL.DLL_Singleton.StatesData test = new OIDE.InteropEditor.DLL.DLL_Singleton.StatesData();
+
+            String test = "sdfs";
+      //      test[0] = "y";
+        //    test.buffer[0] = "xx";
+          //  test.buffer = { "one", "two", "three", "four", "five" };
+          //  test.size = 5;
+            try
+            {
+                DLL_Singleton.Instance.getStatesData(ref test);
+            }catch(Exception ex)
+            {
+
+            }
         }
 
 

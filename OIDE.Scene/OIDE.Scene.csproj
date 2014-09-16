@@ -153,6 +153,7 @@
     <Compile Include="Model\Objects\RaceModel.cs" />
     <Compile Include="Model\Objects\CreatureModel.cs" />
     <Compile Include="Model\Objects\PhysicObject.cs" />
+    <Compile Include="Model\Objects\SpawnPointModel.cs" />
     <Compile Include="Service\PredefObjectCategoyModel.cs" />
     <Compile Include="Model\Objects\CameraModel.cs" />
     <Compile Include="Model\Categeories\StaticObjectCategoyModel.cs" />
