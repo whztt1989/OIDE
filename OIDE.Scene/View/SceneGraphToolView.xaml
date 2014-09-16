@@ -253,7 +253,18 @@
         <TreeView.ItemTemplate>
 
             <HierarchicalDataTemplate ItemsSource="{Binding Items}" >
-                <TextBlock Foreground="Red" Text="{Binding Name}" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="100" SharedSizeGroup="SliderColumn"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="5" />
+                        <CheckBox  Grid.Column="0" IsChecked="{Binding Visible}"  Margin="5" />
+                         <!--<Slider    Grid.Column="2" Value="{Binding Value}" Width="100" Margin="10, 0, 0, 0" Maximum="1" />-->
+                    </Grid>
+                
+                    <!--<TextBlock Foreground="Red" Text="{Binding Name}" />-->
 
                 <HierarchicalDataTemplate.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Items}">
@@ -270,7 +281,10 @@
         </TreeView.ItemTemplate>
 
         <TreeView.ItemContainerStyle>
+            
             <Style TargetType="{x:Type TreeViewItem}">
+                
+                
                 <!--<EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>-->
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
                 <!--<Setter Property="commandBehaviors:MouseDoubleClick.Command"  Value="{Binding YourCommand}"/>-->
