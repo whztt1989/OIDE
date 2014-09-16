@@ -240,8 +240,9 @@
         <TreeView ItemsSource="{Binding Items}" 
                    ContextMenuOpening="_treeList_ContextMenuOpening" 
                   SelectedItemChanged="TreeView_SelectedItemChanged"
-                   dd:DragDrop.IsDragSource="True"
+                   dd:DragDrop.IsDragSource="False"
                   dd:DragDrop.IsDropTarget="True"
+                  dd:DragDrop.DropHandler="{Binding}"
                   dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdorner}"
                   >
         <TreeView.Resources>

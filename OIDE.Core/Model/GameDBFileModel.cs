@@ -1,12 +1,26 @@
 ﻿#region License
 
-// Copyright (c) 2013 Chandramouleswaran Ravichandran
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//The MIT License (MIT)
+
+//Copyright (c) 2014 Konrad Huber
+
+//Permission is hereby granted, free of charge, to any person obtaining a copy
+//of this software and associated documentation files (the "Software"), to deal
+//in the Software without restriction, including without limitation the rights
+//to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//copies of the Software, and to permit persons to whom the Software is
+//furnished to do so, subject to the following conditions:
+
+//The above copyright notice and this permission notice shall be included in all
+//copies or substantial portions of the Software.
+
+//THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//SOFTWARE.
 
 #endregion
 
@@ -108,6 +122,8 @@ namespace OIDE.Core
             //allPhysics.Items.Add(po1);
 
             SpawnPointCategoryModel allSpawns = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "SpawnPoints" };
+            
+            
             SpawnPointCategoryModel allTrigger = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Triggers" };
             SpawnPointCategoryModel allLights = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Lights" };
             SpawnPointCategoryModel allSkies = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Skies" };
@@ -137,9 +153,21 @@ namespace OIDE.Core
                         if (gameEntity.EntType == null)
                             continue;
 
-                        switch ((NodeTypes)gameEntity.EntType)
+                        switch ((ProtoType.EntityTypes)gameEntity.EntType)
                         {
-                            case NodeTypes.Static:
+                            case ProtoType.EntityTypes.NT_SpawnPoint:
+
+                                SpawnPointModel tmpSpawnPoint = new SpawnPointModel(allSpawns, UnityContainer, m_DBI)
+                                {
+                                    ContentID = "SpawnPointID:##:" + gameEntity.EntID,
+                                    Name = gameEntity.Name ?? ("Noname SpawnPoint " + (int)gameEntity.EntID),
+                                    DBData = gameEntity
+                                };// Data = gameEntityDataDeserialized });
+
+                                allSpawns.Items.Add(tmpSpawnPoint);
+                                break;
+
+                            case ProtoType.EntityTypes.NT_Static:
 
                                 StaticObjectModel tmp = new StaticObjectModel(staticObjects, UnityContainer, m_DBI)
                                 {
@@ -150,7 +178,7 @@ namespace OIDE.Core
 
                                 staticObjects.Items.Add(tmp);
                                 break;
-                            case NodeTypes.Character:
+                            case ProtoType.EntityTypes.NT_Character:
 
                                 CharacterCustomizeModel tmpChar = new CharacterCustomizeModel(characterObjects, UnityContainer, m_DBI)
                                 {
@@ -170,7 +198,7 @@ namespace OIDE.Core
                             //    allPhysics.Items.Add(new PhysicsObjectModel(allPhysics, UnityContainer, dataPhysObj, m_DBI) { ContentID = "PhysicID:##:" + gameEntity.EntID, Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID) });// Data = gameEntityDataDeserialized });
 
                             //    break;
-                            case NodeTypes.Camera:
+                            case ProtoType.EntityTypes.NT_Camera:
                                 //todo contentid for camera
 
                                 //   SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
@@ -181,7 +209,7 @@ namespace OIDE.Core
                                 //    itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer) { Node = nodeDeserialized });
 
                                 break;
-                            case NodeTypes.Light:
+                            case ProtoType.EntityTypes.NT_Light:
 
                                 //var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
                                 //if (itemLight.Any())

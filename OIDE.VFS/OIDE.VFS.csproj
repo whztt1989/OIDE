@@ -75,10 +75,6 @@
       <HintPath>..\..\Build\OIDE.DAL.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="OIDE.Scene, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\OIDE.Scene.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.IO.Compression" />
