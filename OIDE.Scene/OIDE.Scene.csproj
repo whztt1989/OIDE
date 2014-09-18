@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FlatBuffers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Modules\extlibs\FlatBuffers.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\MahApps.Metro.Resources.dll</HintPath>
@@ -176,6 +180,46 @@
     <Compile Include="Service\PredefObjectModel.cs" />
     <Compile Include="Settings\EditorOptions.cs" />
     <Compile Include="Settings\MDSettingsItem.cs" />
+    <Compile Include="Types\FBType\AI.cs" />
+    <Compile Include="Types\FBType\Boots.cs" />
+    <Compile Include="Types\FBType\Camera.cs" />
+    <Compile Include="Types\FBType\CharEntity.cs" />
+    <Compile Include="Types\FBType\Clipping.cs" />
+    <Compile Include="Types\FBType\Colour.cs" />
+    <Compile Include="Types\FBType\Debug.cs" />
+    <Compile Include="Types\FBType\EntityTypes.cs" />
+    <Compile Include="Types\FBType\Face.cs" />
+    <Compile Include="Types\FBType\FacialColor.cs" />
+    <Compile Include="Types\FBType\FacialFeature.cs" />
+    <Compile Include="Types\FBType\Fog.cs" />
+    <Compile Include="Types\FBType\GameEntity.cs" />
+    <Compile Include="Types\FBType\Gender.cs" />
+    <Compile Include="Types\FBType\HairColor.cs" />
+    <Compile Include="Types\FBType\HairStyle.cs" />
+    <Compile Include="Types\FBType\Light.cs" />
+    <Compile Include="Types\FBType\Material.cs" />
+    <Compile Include="Types\FBType\Mesh.cs" />
+    <Compile Include="Types\FBType\Node.cs" />
+    <Compile Include="Types\FBType\OgreCube.cs" />
+    <Compile Include="Types\FBType\OgrePlane.cs" />
+    <Compile Include="Types\FBType\OneHandWeapon.cs" />
+    <Compile Include="Types\FBType\OSysTypeData.cs" />
+    <Compile Include="Types\FBType\PhysicsObject.cs" />
+    <Compile Include="Types\FBType\PhysicsType.cs" />
+    <Compile Include="Types\FBType\Quat4f.cs" />
+    <Compile Include="Types\FBType\Race.cs" />
+    <Compile Include="Types\FBType\RaceGender.cs" />
+    <Compile Include="Types\FBType\Scene.cs" />
+    <Compile Include="Types\FBType\Shoulder.cs" />
+    <Compile Include="Types\FBType\Skin.cs" />
+    <Compile Include="Types\FBType\Sound.cs" />
+    <Compile Include="Types\FBType\SpawnPoint.cs" />
+    <Compile Include="Types\FBType\SpellEntity.cs" />
+    <Compile Include="Types\FBType\StaticEntity.cs" />
+    <Compile Include="Types\FBType\TransformStateData.cs" />
+    <Compile Include="Types\FBType\Trigger.cs" />
+    <Compile Include="Types\FBType\TwoHandWeapon.cs" />
+    <Compile Include="Types\FBType\Vec3f.cs" />
     <Compile Include="Types\ProtoType.cs" />
     <Compile Include="Utils\XML\SampleScene3.cs">
       <DependentUpon>SampleScene3.xsd</DependentUpon>
