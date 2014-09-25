@@ -223,7 +223,7 @@ namespace OIDE.Scene.Model
         private IDAL m_dbI;
 
         [Category("Identification")]
-        public Int64 ID { get { return (DBData as Race).RaceID; } set { (DBData as Race).RaceID = value; } }
+        public Int64 ID { get { return (DBData as Race).RaceID; } set { if (DBData != null) (DBData as Race).RaceID = value; } }
 
         private String mSkeleton;
 
