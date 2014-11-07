@@ -199,10 +199,12 @@ namespace OIDE.Core
         
             return true; 
         }
-        public Boolean Save() { return true; }
+        public Boolean Save(object param = null) { return true; }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
-
+        public void Refresh() { }
+        public void Finish() { }
+    
         public GameProjectModel()
             : base(null, null)
         {

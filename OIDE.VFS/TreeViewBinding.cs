@@ -73,7 +73,10 @@ namespace WpfTreeViewBinding.Model
 
             return true;
         }
-        public bool Save() { return true; }
+        public bool Save(object param = null) { return true; }
+        public void Refresh() { }
+        public void Finish() { }
+    
         public Boolean Closing() { return true; }
 
 
@@ -111,8 +114,10 @@ namespace WpfTreeViewBinding.Model
 
             return true;
         }
-        public bool Save() { return true; }
-
+        public bool Save(object param = null) { return true; }
+        public void Refresh() { }
+        public void Finish() { }
+    
 
         public DirectoryItem()
         {

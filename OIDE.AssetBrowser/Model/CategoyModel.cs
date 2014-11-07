@@ -51,11 +51,13 @@ namespace OIDE.AssetBrowser
         public String ContentID { get; set; }
 
         public Boolean Create() { return true; }
-        public Boolean Save() { return true; }
+        public Boolean Save(object param) { return true; }
         public Boolean Open(object id) { return true; }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
-
+        public void Refresh() {  }
+        public void Finish() {  }
+      
         public FileCategoryModel() { }
 
         public IUnityContainer UnityContainer { get; private set; }

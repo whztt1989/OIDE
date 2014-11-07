@@ -64,8 +64,10 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         public bool Create() { return true; }
         public bool Delete() { return true; }
         public bool Open(object id) { return true; }
-        public bool Save() { return true; }
-
+        public bool Save(object param = null) { return true; }
+        public void Refresh() { }
+        public void Finish() { }
+    
     }
 
     public class FileItem : Item

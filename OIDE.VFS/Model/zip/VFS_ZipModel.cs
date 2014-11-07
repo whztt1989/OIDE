@@ -256,7 +256,7 @@ namespace OIDE.VFS
 
             return true; }
 
-        public Boolean Save()
+        public Boolean Save(object param = null)
         {
             if (!File.Exists(FilePath))
             {
@@ -272,7 +272,14 @@ namespace OIDE.VFS
 
             return false; 
         
+
+
         }
+
+        public void Refresh() { }
+        public void Finish() { }
+    
+
         public Boolean Delete() { return true; }
 
 
