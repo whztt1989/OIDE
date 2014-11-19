@@ -35,6 +35,10 @@ namespace OIDE
         {
             var shell = b.Container.Resolve<IShell>();
             shell.LoadLayout();
+
+
+         //   var OutputService = b.Container.Resolve<IOutputService>("MOS");
+         //   Console.SetOut(OutputService.TBStreamWriter);
         }
     }
 }
