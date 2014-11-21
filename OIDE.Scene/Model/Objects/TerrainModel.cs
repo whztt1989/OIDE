@@ -48,7 +48,6 @@ namespace OIDE.Scene.Model
 
         public String ContentID { get; set; }
       
-
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
 
@@ -69,7 +68,9 @@ namespace OIDE.Scene.Model
 
         public Boolean Create() { return true; }
         public Boolean Open(object id) { return true; }
-        public Boolean Save() { return true; }
+        public Boolean Save(object param) { return true; }
+        public void Refresh() { }
+        public void Finish() { }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
 

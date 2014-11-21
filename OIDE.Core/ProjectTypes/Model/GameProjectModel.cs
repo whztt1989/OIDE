@@ -28,7 +28,7 @@ using System.Xml.Serialization;
 using Module.PFExplorer.Interface;
 using System.Xml;
 using System.Xml.Schema;
-using OIDE.DAL;
+using DAL;
 using Microsoft.Practices.Unity;
 using OIDE.Scene.Model;
 using OIDE.Scene.Interface.Services;

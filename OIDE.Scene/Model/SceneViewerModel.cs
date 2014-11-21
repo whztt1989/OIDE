@@ -40,7 +40,7 @@ using Microsoft.Practices.Unity;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using Microsoft.Practices.Prism.Commands;
-using OIDE.DAL;
+using DAL;
 using System.IO;
 using System.Text.RegularExpressions;
 using GongSolutions.Wpf.DragDrop;

@@ -84,11 +84,6 @@
       <HintPath>..\..\Build\Module.Protob.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="OIDE.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\OIDE.DAL.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="OIDE.Scene, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\OIDE.Scene.dll</HintPath>
@@ -193,6 +188,10 @@
     <ProjectReference Include="..\OIDE.AssetBrowser\OIDE.AssetBrowser.csproj">
       <Project>{cb6b9693-8b57-47b1-8dfc-3c46c6a7f291}</Project>
       <Name>OIDE.AssetBrowser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OIDE.DAL\OIDE.DAL.csproj">
+      <Project>{ea680164-db40-40a5-ab19-ea36316b19fe}</Project>
+      <Name>OIDE.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

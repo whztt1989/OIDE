@@ -56,7 +56,7 @@ namespace OIDE.Scene.Model
         public ProtoType.Node Node { get; set; }
 
         [XmlIgnore]
-        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public DAL.MDB.SceneNodes SceneNode { get; private set; }
 
         public Int32 ID { get; set; }
         public String Name { get; set; }
@@ -114,7 +114,9 @@ namespace OIDE.Scene.Model
                         
             return true; }
         public Boolean Create() { return true; }
-        public Boolean Save() { return true; }
+        public Boolean Save(object param) { return true; }
+        public void Refresh() { }
+        public void Finish() { }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
 

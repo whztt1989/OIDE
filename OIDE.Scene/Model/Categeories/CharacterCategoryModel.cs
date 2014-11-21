@@ -38,7 +38,7 @@ using OIDE.Scene.Interface.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 using System.Windows.Input;
-using OIDE.DAL;
+using DAL;
 using System.IO;
 using OIDE.Scene.Model;
 
@@ -72,8 +72,8 @@ namespace OIDE.Scene
                 MenuItem miAdd = new MenuItem() { Command = new CmdAddCharacterObj(UnityContainer), CommandParameter = this, Header = "Create character object" };
                 menuOptions.Add(miAdd);
 
-                MenuItem miAdd2 = new MenuItem() { Command = new CmdAddCharacterCustomizeObj(UnityContainer), CommandParameter = this, Header = "Create character cust object" };
-                menuOptions.Add(miAdd2);
+          //      MenuItem miAdd2 = new MenuItem() { Command = new CmdAddCharacterCustomizeObj(UnityContainer), CommandParameter = this, Header = "Create character cust object" };
+          //      menuOptions.Add(miAdd2);
 
                 return menuOptions;
             }
@@ -95,7 +95,9 @@ namespace OIDE.Scene
 
         public Boolean Create() { return true; }
         public Boolean Open(object id) { return true; }
-        public Boolean Save() { return true; }
+        public Boolean Save(object param) { return true; }
+        public void Refresh() { }
+        public void Finish() { }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
 
@@ -141,36 +143,6 @@ namespace OIDE.Scene
         }
 
         public CmdAddCharacterObj(IUnityContainer container)
-        {
-            mContainer = container;
-        }
-    }
-
-
-    public class CmdAddCharacterCustomizeObj : ICommand
-    {
-        private IUnityContainer mContainer;
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            CharacterCategoryModel parent = parameter as CharacterCategoryModel;
-
-            CharacterCustomizeModel pom = new CharacterCustomizeModel(parent, parent.UnityContainer) { Name = "Character Cust NEW", ContentID = "CharacterEntID:##" };
-
-            pom.Create();
-
-            parent.Items.Add(pom);
-
-            ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
-        }
-
-        public CmdAddCharacterCustomizeObj(IUnityContainer container)
         {
             mContainer = container;
         }

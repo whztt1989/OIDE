@@ -7,11 +7,11 @@ using System.Text;
 using Module.DB.Interface;
 using Module.DB.Interface.Services;
 using Module.DB.Settings;
-using OIDE.DAL.MDB;
+using DAL.MDB;
 using System.Data;
 
 
-namespace OIDE.DAL
+namespace DAL
 {
     public class IDAL: IDisposable
     {
@@ -503,7 +503,7 @@ namespace OIDE.DAL
     //            //}
 
     //            //Frame activating
-    //          //  Stream contextStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(String.Format("OIDE.DAL.MDB.CrmDataMapping{0}.lqml", providerPrefix));
+    //          //  Stream contextStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(String.Format("DAL.MDB.CrmDataMapping{0}.lqml", providerPrefix));
     //         //   Devart.Data.Linq.Mapping.MappingSource mappingSource = Devart.Data.Linq.Mapping.XmlMappingSource.FromStream(contextStream);
     //            crmDataContext = new PSXIDEDataContext(connectionString);//, mappingSource);
 

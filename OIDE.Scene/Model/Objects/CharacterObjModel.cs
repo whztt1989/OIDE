@@ -39,12 +39,12 @@ using Microsoft.Practices.Unity;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Xml.Serialization;
 using OIDE.VFS.VFS_Types.RootFileSystem;
-using OIDE.DAL.MDB;
+using DAL.MDB;
 using Module.Protob.Utilities;
 using OIDE.Scene.Model.Objects;
 using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
-using OIDE.DAL;
+using DAL;
 using Module.Properties.Helpers;
 using Module.Properties.Types;
 using OIDE.VFS.View;
@@ -83,10 +83,10 @@ namespace OIDE.Scene.Model
 
         public void Drop(IItem item)
         {
-            if (item is CharacterCustomizeModel)
-            {
+            //if (item is CharacterCustomizeModel)
+            //{
 
-            }
+            //}
 
             if (item is FileItem)
             {
@@ -111,7 +111,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public OIDE.DAL.MDB.SceneNodes SceneNode { get; protected set; }
+        public DAL.MDB.SceneNodes SceneNode { get; protected set; }
 
         protected GameEntity mDBData;
 
@@ -260,7 +260,7 @@ namespace OIDE.Scene.Model
                 // Console.WriteLine(BitConverter.ToString(res));
                 //try
                 //{
-                //    mData = ProtoSerialize.Deserialize<ProtoType.CharEntity>((DBData as OIDE.DAL.MDB.GameEntity).Data);
+                //    mData = ProtoSerialize.Deserialize<ProtoType.CharEntity>((DBData as DAL.MDB.GameEntity).Data);
                 //}
                 //catch
                 //{
@@ -278,11 +278,14 @@ namespace OIDE.Scene.Model
 
         private ICommand CmdSaveCharacterObj;
 
-        public Boolean Save()
+        public void Refresh() { }
+        public void Finish() { }
+
+        public Boolean Save(object param)
         {
             try
             {
-                OIDE.DAL.MDB.GameEntity gameEntity = DBData as OIDE.DAL.MDB.GameEntity;
+                DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
 
                 //Update Phyiscs Data
                 ProtoData.gameEntity.physics.Clear();
@@ -364,7 +367,7 @@ namespace OIDE.Scene.Model
 
         public void Execute(object parameter)
         {
-            m_CharacterObjModel.Save();
+            m_CharacterObjModel.Save(parameter);
         }
 
         public CmdSaveCharacterObject(CharacterObjModel som)

@@ -28,7 +28,6 @@ using System.Xml.Serialization;
 using Module.PFExplorer.Interface;
 using System.Xml;
 using System.Xml.Schema;
-using OIDE.DAL;
 using Microsoft.Practices.Unity;
 using OIDE.VFS.Interface;
 using OIDE.VFS.VFS_Types.zip;

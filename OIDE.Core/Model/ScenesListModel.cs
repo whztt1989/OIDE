@@ -100,7 +100,7 @@ namespace OIDE.Core
             //m_CommandManager = commandManager;
             //m_MenuService = menuService;
             ISceneService sceneService = container.Resolve<ISceneService>();
-            OIDE.DAL.IDAL iDAL = new OIDE.DAL.IDAL();
+            DAL.IDAL iDAL = new DAL.IDAL();
             
             var allScenes =  iDAL.selectAllScenesDataOnly();
 

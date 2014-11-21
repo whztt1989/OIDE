@@ -70,10 +70,9 @@
       <HintPath>..\..\Build\Module.PFExplorer.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="OIDE.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Module.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\OIDE.DAL.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\Build\Module.Properties.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -165,10 +164,6 @@
     <Resource Include="Icons\MDType.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\Module.Properties\Module.Properties.csproj">
-      <Project>{600e958f-0dce-4d63-bf11-93292b1d8c18}</Project>
-      <Name>Module.Properties</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Modules\Wpf.DragDrop\Wpf.DragDrop %28NET4%29.csproj">
       <Project>{0c6674cc-6d49-414a-9b41-d4e175028ffb}</Project>
       <Name>Wpf.DragDrop %28NET4%29</Name>

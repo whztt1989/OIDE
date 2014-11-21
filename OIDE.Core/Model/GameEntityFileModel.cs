@@ -22,7 +22,7 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
-using OIDE.DAL;
+using DAL;
 
 namespace OIDE.Core
 {

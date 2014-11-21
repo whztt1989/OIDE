@@ -12,7 +12,7 @@ using OIDE.Scene.Interface.Services;
 using Module.Properties.Interface;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Xml.Serialization;
-using OIDE.DAL;
+using DAL;
 using Microsoft.Practices.Unity;
 using Module.Protob.Utilities;
 using OIDE.InteropEditor.DLL;
@@ -38,7 +38,7 @@ namespace OIDE.Scene.Model
         public ProtoType.Node Node { get; set; }
 
         [XmlIgnore]
-        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public DAL.MDB.SceneNodes SceneNode { get; private set; }
 
         [XmlIgnore]
         public object DBData { get; private set; }
@@ -111,19 +111,23 @@ namespace OIDE.Scene.Model
             // Console.WriteLine(BitConverter.ToString(res));
             try
             {
-                mData = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>((DBData as OIDE.DAL.MDB.GameEntity).Data);
+                mData = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>((DBData as DAL.MDB.GameEntity).Data);
             }
             catch
             {
                 mData = new ProtoType.PhysicsObject();
             }
             return true; }
-        public Boolean Save()
+
+        public void Refresh() { }
+        public void Finish() { }
+
+        public Boolean Save(object param)
         {
 
             try
             {
-                OIDE.DAL.MDB.GameEntity gameEntity = DBData as OIDE.DAL.MDB.GameEntity;
+                DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
                 gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
                 gameEntity.Name = this.Name;
 
@@ -199,7 +203,7 @@ namespace OIDE.Scene.Model
 
         public void Execute(object parameter)
         {
-            mpm.Save();
+            mpm.Save(parameter);
         }
 
         public CmdSavePhysicObject(PhysicsObjectModel_deprecated pm)

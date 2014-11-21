@@ -55,7 +55,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public DAL.MDB.SceneNodes SceneNode { get; private set; }
             
         public String ContentID { get; set; }
 
@@ -95,7 +95,9 @@ namespace OIDE.Scene.Model
 
         public Boolean Create() { return true; }
         public Boolean Open(object id) { return true; }
-        public Boolean Save() { return true; }
+        public Boolean Save(object param) { return true; }
+        public void Refresh() { }
+        public void Finish() { }
         public Boolean Delete() { return true; }
 
         [XmlIgnore]

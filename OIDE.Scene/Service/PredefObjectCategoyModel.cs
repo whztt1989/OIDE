@@ -63,7 +63,9 @@ namespace OIDE.Service
 
         public Boolean Create() { return true; }
         public Boolean Open(object id) { return true; }
-        public Boolean Save() { return true; }
+        public Boolean Save(object param) { return true; }
+        public void Refresh() { }
+        public void Finish() { }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
 
@@ -112,7 +114,7 @@ namespace OIDE.Service
 
             PredefObjectModel pom = new PredefObjectModel(parent, parent.UnityContainer) { Name = "Static Obj NEW", ContentID = "StaticEntID:##" };
 
-            pom.Save();
+            pom.Save(parameter);
 
             parent.Items.Add(pom);
 

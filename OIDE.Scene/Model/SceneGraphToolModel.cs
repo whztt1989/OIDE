@@ -33,10 +33,10 @@ using Wide.Interfaces.Services;
 using Module.PFExplorer.Interface.Services;
 using Module.Properties.Interface;
 using OIDE.Scene.Model;
-using OIDE.DAL.MDB;
+using DAL.MDB;
 using Module.Properties.Helpers;
 using OIDE.Scene.Service;
-using OIDE.DAL;
+using DAL;
 using System.Windows;
 using System.Windows.Controls;
 using GongSolutions.Wpf.DragDrop;
@@ -170,7 +170,7 @@ namespace OIDE.Scene
                 var sceneItem = sourceItem as ISceneItem;
                 if (sceneItem != null)
                 {
-                    OIDE.DAL.MDB.SceneNodes node = new SceneNodes()
+                    DAL.MDB.SceneNodes node = new SceneNodes()
                     {
                         Name = "NEWNode_" + sceneItem.Name,
                         EntID = Helper.StringToContentIDData(sceneItem.ContentID).IntValue,

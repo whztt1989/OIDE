@@ -23,7 +23,7 @@ using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 
-namespace OIDE.DAL
+namespace DAL
 {
 
     public class DBCategoryModel : ViewModelBase, IItem

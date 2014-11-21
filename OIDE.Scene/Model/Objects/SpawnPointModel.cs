@@ -38,12 +38,12 @@ using Wide.Interfaces.Services;
 using Microsoft.Practices.Unity;
 using Module.Protob.Utilities;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using OIDE.DAL;
+using DAL;
 using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
 using Module.Properties.Helpers;
-using OIDE.DAL.MDB;
+using DAL.MDB;
 using OIDE.VFS.VFS_Types.RootFileSystem;
 using OIDE.Scene.Model.Objects;
 using Module.Properties.Types;
@@ -83,7 +83,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public OIDE.DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public DAL.MDB.SceneNodes SceneNode { get; private set; }
 
         private GameEntity mDBData;
 
@@ -214,7 +214,7 @@ namespace OIDE.Scene.Model
             // Console.WriteLine(BitConverter.ToString(res));
             try
             {
-                mData = ProtoSerialize.Deserialize<ProtoType.SpawnPoint>((DBData as OIDE.DAL.MDB.GameEntity).Data);
+                mData = ProtoSerialize.Deserialize<ProtoType.SpawnPoint>((DBData as DAL.MDB.GameEntity).Data);
             }
             catch
             {
@@ -223,11 +223,14 @@ namespace OIDE.Scene.Model
             return true; 
         }
 
-        public Boolean Save()
+        public void Refresh() { }
+        public void Finish() { }
+
+        public Boolean Save(object param)
         {
             try
             {
-                OIDE.DAL.MDB.GameEntity gameEntity = DBData as OIDE.DAL.MDB.GameEntity;
+                DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
                 if (gameEntity == null)
                     gameEntity = new GameEntity();
                 //Update Phyiscs Data
@@ -323,7 +326,7 @@ namespace OIDE.Scene.Model
 
         public void Execute(object parameter)
         {
-            m_SpawnPointObjectModel.Save();
+            m_SpawnPointObjectModel.Save(parameter);
         }
 
         public CmdSaveSpawnPoint(SpawnPointModel som)

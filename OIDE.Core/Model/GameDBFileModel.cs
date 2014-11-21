@@ -36,11 +36,11 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
-using OIDE.DAL;
 using OIDE.Scene;
 using OIDE.Scene.Model;
-using OIDE.DAL.MDB;
 using Module.Protob.Utilities;
+using DAL;
+using DAL.MDB;
 
 namespace OIDE.Core
 {
@@ -111,7 +111,7 @@ namespace OIDE.Core
 
 
             CharacterCategoryModel characterObjects = new CharacterCategoryModel(objects, UnityContainer) { Name = "Characters" };
-            CreatureCategoryModel creatureObjects = new CreatureCategoryModel(objects, UnityContainer) { Name = "Creatures" };
+          //  CreatureCategoryModel creatureObjects = new CreatureCategoryModel(objects, UnityContainer) { Name = "Creatures" };
             //RaceModel race = new RaceModel(chars, unityContainer) { Name = "Human" };
             //GenderModel male = new GenderModel(race, unityContainer) { Name = "Male" };
             //race.Items.Add(male);
@@ -180,14 +180,14 @@ namespace OIDE.Core
                                 break;
                             case ProtoType.EntityTypes.NT_Character:
 
-                                CharacterCustomizeModel tmpChar = new CharacterCustomizeModel(characterObjects, UnityContainer, m_DBI)
-                                {
-                                    ContentID = "CharacterObjID:##:" + gameEntity.EntID,
-                                    Name = gameEntity.Name ?? ("Noname CharObj " + (int)gameEntity.EntID),
-                                    DBData = gameEntity
-                                };// Data = gameEntityDataDeserialized });
+                                //CharacterObjectModel tmpChar = new CharacterCustomizeModel(characterObjects, UnityContainer, m_DBI)
+                                //{
+                                //    ContentID = "CharacterObjID:##:" + gameEntity.EntID,
+                                //    Name = gameEntity.Name ?? ("Noname CharObj " + (int)gameEntity.EntID),
+                                //    DBData = gameEntity
+                                //};// Data = gameEntityDataDeserialized });
 
-                                characterObjects.Items.Add(tmpChar);
+                           //     characterObjects.Items.Add(tmpChar);
                                 break;
                             //case NodeTypes.Physic:
 
@@ -222,7 +222,7 @@ namespace OIDE.Core
 
                 objects.Items.Add(staticObjects);
                 objects.Items.Add(characterObjects);
-                objects.Items.Add(creatureObjects);
+              //  objects.Items.Add(creatureObjects);
                // objects.Items.Add(allPhysics);
 
                 objects.Items.Add(allTrigger);
@@ -240,26 +240,26 @@ namespace OIDE.Core
             //    scenes.Items.Add(scene);
             this.Items.Add(objects);
 
-            RaceCategoryModel races = new RaceCategoryModel(this, UnityContainer) { Name = "Races" };
+            //RaceCategoryModel races = new RaceCategoryModel(this, UnityContainer) { Name = "Races" };
 
-            try
-            {
-                IEnumerable<Race> result = m_DBI.selectAllRace();
-                if (result != null)
-                {
-                    //select all Races
-                    foreach (var race in result)
-                    {
-                        RaceModel newRace = new RaceModel() { DBData = race };
+            //try
+            //{
+            //    IEnumerable<Race> result = m_DBI.selectAllRace();
+            //    if (result != null)
+            //    {
+            //        //select all Races
+            //        foreach (var race in result)
+            //        {
+            //            RaceModel newRace = new RaceModel() { DBData = race };
 
-                        races.Items.Add(newRace);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-            this.Items.Add(races);
+            //            races.Items.Add(newRace);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //}
+            //this.Items.Add(races);
            
             return mOpened = true;
 

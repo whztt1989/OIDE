@@ -22,7 +22,7 @@ namespace OIDE.Scene.Service
     /// <summary>
     /// The main project tree manager
     /// </summary>
-    internal sealed class SceneManager : ISceneService
+    public class SceneManager : ISceneService
     {
         public System.Windows.Controls.ContextMenu ContextMenu { get; private set; }
 

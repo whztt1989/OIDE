@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Module.History.Service;
-using OIDE.DAL;
+using DAL;
 using OIDE.Scene.Model;
 
 namespace OIDE.Scene.Commands
@@ -107,7 +107,7 @@ namespace OIDE.Scene.Commands
 
         public void Execute(object parameter)
         {
-            mpm.Save();
+            mpm.Save(parameter);
 
         }
 

@@ -30,7 +30,7 @@ namespace OIDE.Scene
 {
     // [FileContent("EC Leser", "*.md", 1)]
     [NewContent("Scene", 1, "Scene")]
-    internal class SceneViewerHandler : IContentHandler
+    public class SceneViewerHandler : IContentHandler
     {
         /// <summary>
         /// The injected container

@@ -84,10 +84,9 @@
       <HintPath>..\..\Build\Module.Protob.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="OIDE.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Module.Tools.Logger, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\OIDE.DAL.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\Build\Module.Tools.Logger.dll</HintPath>
     </Reference>
     <Reference Include="OIDE.InteropEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -117,10 +116,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Wide.Tools.Logger, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wide\Build\Internal\Wide.Tools.Logger.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -150,13 +145,8 @@
     <Compile Include="Interface\Services\ISceneItem.cs" />
     <Compile Include="Interface\Services\ISceneService.cs" />
     <Content Include="Model\Objects\AICharacterModel.cs" />
-    <Compile Include="Model\Categeories\RaceCategoryModel.cs" />
-    <Compile Include="Model\Categeories\CreatureCategoryModel.cs" />
     <Compile Include="Model\Categeories\CharacterCategoryModel.cs" />
     <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
-    <Compile Include="Model\Objects\CharacterCustomizeModel.cs" />
-    <Compile Include="Model\Objects\RaceModel.cs" />
-    <Compile Include="Model\Objects\CreatureModel.cs" />
     <Compile Include="Model\Objects\PhysicObject.cs" />
     <Compile Include="Model\Objects\SpawnPointModel.cs" />
     <Compile Include="Service\PredefObjectCategoyModel.cs" />
@@ -164,7 +154,6 @@
     <Compile Include="Model\Categeories\StaticObjectCategoyModel.cs" />
     <Compile Include="Model\Objects\CharacterObjModel.cs" />
     <Compile Include="Model\Objects\EnvironmentModel.cs" />
-    <Compile Include="Model\Objects\GenderModel.cs" />
     <Compile Include="Model\Objects\LightModel.cs" />
     <Compile Include="Model\Objects\PhysicsObjectModel_deprecated.cs" />
     <Compile Include="Model\Categeories\SceneCategoyModel.cs" />
@@ -277,6 +266,10 @@
     <ProjectReference Include="..\..\WPF_IDE\Wide.csproj">
       <Project>{9f20f5ef-4f7e-4ae2-a462-4cd2256fb3ff}</Project>
       <Name>Wide</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XIDE\XIDE.DAL\XIDE.DAL.csproj">
+      <Project>{ea680164-db40-40a5-ab19-ea36316b19fe}</Project>
+      <Name>XIDE.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\OIDE.VFS\OIDE.VFS.csproj">
       <Project>{fc13db45-de9c-4b52-a013-41ec516f42e5}</Project>

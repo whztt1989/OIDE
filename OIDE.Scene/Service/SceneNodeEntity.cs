@@ -12,7 +12,7 @@ using Microsoft.Practices.Unity;
 using Module.Properties.Helpers;
 using Module.Properties.Interface;
 using Module.Protob.Utilities;
-using OIDE.DAL;
+using DAL;
 using OIDE.Scene.Interface.Services;
 using ProtoType;
 using Wide.Interfaces;
@@ -36,7 +36,7 @@ namespace OIDE.Scene.Service
         [Browsable(false)]
         public ProtoType.Node Node { get; set; }
 
-        private OIDE.DAL.MDB.SceneNodes mSceneNode;
+        private DAL.MDB.SceneNodes mSceneNode;
 
         [XmlIgnore]
         public long EntityID { get { return (long)mSceneNode.EntID; } set { mSceneNode.EntID = value;  RaisePropertyChanged("EntityID"); } }
@@ -52,7 +52,7 @@ namespace OIDE.Scene.Service
         public Vec3f Scale { get { return Node.transform.scl; } set { Node.transform.scl = value; RaisePropertyChanged("Scale"); } }
 
         [XmlIgnore]
-        public OIDE.DAL.MDB.SceneNodes SceneNode { get { return mSceneNode; }
+        public DAL.MDB.SceneNodes SceneNode { get { return mSceneNode; }
             set 
             { 
                 mSceneNode = value;
@@ -121,10 +121,9 @@ namespace OIDE.Scene.Service
            
             return true;
         }
-        public Boolean Save()
-        {
-            return true;
-        }
+        public Boolean Save(object param) { return true; }
+        public void Refresh() { }
+        public void Finish() { }
 
         public Boolean Delete()
         {

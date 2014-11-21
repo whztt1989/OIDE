@@ -25,12 +25,12 @@ using Wide.Interfaces.Services;
 using Wide.Interfaces.Settings;
 using Wide.Interfaces.Themes;
 using System.Windows;
-using OIDE.DAL.MDB;
+using DAL.MDB;
 using System.IO;
 
-namespace OIDE.DAL
+namespace DAL
 {
-    [Module(ModuleName = "OIDE.DAL")]
+    [Module(ModuleName = "DAL")]
     [ModuleDependency("OIDE.Scene")]
     [ModuleDependency("Module.Tools.Logger")]
     public class CoreModule : IModule
@@ -181,7 +181,7 @@ namespace OIDE.DAL
             //toolbarService.Add(new ToolbarViewModel("EC", 1) { Band = 1, BandIndex = 3 });
 
             //MenuItemViewModel test = new MenuItemViewModel("OpenCOM", 0,
-            //                           new BitmapImage(new Uri(@"pack://application:,,,/OIDE.DAL;component/Icons/NewRequest_8796.png")),
+            //                           new BitmapImage(new Uri(@"pack://application:,,,/DAL;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("OPENCOM"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N"));
           
@@ -189,27 +189,27 @@ namespace OIDE.DAL
             //toolbarService.Get("EC").Add(test);
 
             //toolbarService.Get("EC").Add(new MenuItemViewModel("Status", 1,
-            //                           new BitmapImage(new Uri(@"pack://application:,,,/OIDE.DAL;component/Icons/NewRequest_8796.png")),
+            //                           new BitmapImage(new Uri(@"pack://application:,,,/DAL;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ECSTATUS"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
             //toolbarService.Get("EC").Add(new MenuItemViewModel("Auswurf", 2,
             //                           new BitmapImage(
-            //                               new Uri(@"pack://application:,,,/OIDE.DAL;component/Icons/NewRequest_8796.png")),
+            //                               new Uri(@"pack://application:,,,/DAL;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ECEJECT"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
             //toolbarService.Get("EC").Add(new MenuItemViewModel("Close", 3,
             //                           new BitmapImage(
-            //                               new Uri(@"pack://application:,,,/OIDE.DAL;component/Icons/NewRequest_8796.png")),
+            //                               new Uri(@"pack://application:,,,/DAL;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ECCLOSE"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
             //toolbarService.Get("EC").Add(new MenuItemViewModel("ICDirectControl", 4,
             //                           new BitmapImage(
-            //                               new Uri(@"pack://application:,,,/OIDE.DAL;component/Icons/NewRequest_8796.png")),
+            //                               new Uri(@"pack://application:,,,/DAL;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ECECDIRECTCTRL"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
             //toolbarService.Get("EC").Add(new MenuItemViewModel("ICCSel", 5,
             //                           new BitmapImage(
-            //                               new Uri(@"pack://application:,,,/OIDE.DAL;component/Icons/NewRequest_8796.png")),
+            //                               new Uri(@"pack://application:,,,/DAL;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("ICCSel"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N")));
 
@@ -243,7 +243,7 @@ namespace OIDE.DAL
 
            // //_container.RegisterType<ECHandler>();
            // //_container.RegisterType<ECViewModel>();
-           // //_container.RegisterType<OIDE.DAL.View.EC.ECView>();
+           // //_container.RegisterType<DAL.View.EC.ECView>();
 
            // //IContentHandler handler2 = _container.Resolve<ECHandler>();
            // //_container.Resolve<IContentHandlerRegistry>().Register(handler2);
@@ -280,28 +280,28 @@ namespace OIDE.DAL
             //var themeCommand = new DelegateCommand<string>(ThemeChangeCommand);
             //var loggerCommand = new DelegateCommand(ToggleLogger);
 
-            //OIDE.DAL.Commands.OpenCOMCommand mOpenComCommand = new Commands.OpenCOMCommand(_container);
-            //var openCOMCommand = new DelegateCommand<OIDE.DAL.Commands.OpenCOMCommand>(mOpenComCommand.OnSubmit, mOpenComCommand.CanSubmit);
+            //DAL.Commands.OpenCOMCommand mOpenComCommand = new Commands.OpenCOMCommand(_container);
+            //var openCOMCommand = new DelegateCommand<DAL.Commands.OpenCOMCommand>(mOpenComCommand.OnSubmit, mOpenComCommand.CanSubmit);
             //manager.RegisterCommand("OPENCOM", openCOMCommand);
 
-            //OIDE.DAL.Commands.ECStatusCommand mECStatusCommand = new Commands.ECStatusCommand(_container);
-            //var ECStatusCommand = new DelegateCommand<OIDE.DAL.Commands.ECStatusCommand>(mECStatusCommand.OnSubmit, mECStatusCommand.CanSubmit);
+            //DAL.Commands.ECStatusCommand mECStatusCommand = new Commands.ECStatusCommand(_container);
+            //var ECStatusCommand = new DelegateCommand<DAL.Commands.ECStatusCommand>(mECStatusCommand.OnSubmit, mECStatusCommand.CanSubmit);
             //manager.RegisterCommand("ECSTATUS", ECStatusCommand);
 
-            //OIDE.DAL.Commands.ECEjectCommand mECEjectCommand = new Commands.ECEjectCommand(_container);
-            //var ecEjectCommand = new DelegateCommand<OIDE.DAL.Commands.ECEjectCommand>(mECEjectCommand.OnSubmit, mECEjectCommand.CanSubmit);
+            //DAL.Commands.ECEjectCommand mECEjectCommand = new Commands.ECEjectCommand(_container);
+            //var ecEjectCommand = new DelegateCommand<DAL.Commands.ECEjectCommand>(mECEjectCommand.OnSubmit, mECEjectCommand.CanSubmit);
             //manager.RegisterCommand("ECEJECT", ecEjectCommand);
 
-            //OIDE.DAL.Commands.CloseCommand mECCloseCommand = new Commands.CloseCommand(_container);
-            //var ecCloseCommand = new DelegateCommand<OIDE.DAL.Commands.CloseCommand>(mECCloseCommand.OnSubmit, mECCloseCommand.CanSubmit);
+            //DAL.Commands.CloseCommand mECCloseCommand = new Commands.CloseCommand(_container);
+            //var ecCloseCommand = new DelegateCommand<DAL.Commands.CloseCommand>(mECCloseCommand.OnSubmit, mECCloseCommand.CanSubmit);
             //manager.RegisterCommand("ECCLOSE", ecCloseCommand);
 
-            //OIDE.DAL.Commands.ICCSelectCommand mECICSelCommand = new Commands.ICCSelectCommand(_container);
-            //var ecICCSelCommand = new DelegateCommand<OIDE.DAL.Commands.ICCSelectCommand>(mECICSelCommand.OnSubmit, mECICSelCommand.CanSubmit);
+            //DAL.Commands.ICCSelectCommand mECICSelCommand = new Commands.ICCSelectCommand(_container);
+            //var ecICCSelCommand = new DelegateCommand<DAL.Commands.ICCSelectCommand>(mECICSelCommand.OnSubmit, mECICSelCommand.CanSubmit);
             //manager.RegisterCommand("ICCSel", ecICCSelCommand);
 
-            //OIDE.DAL.Commands.ICCDirectControlCommand mECICDirectControlCommand = new Commands.ICCDirectControlCommand(_container);
-            //var ecICDirectControlCommand = new DelegateCommand<OIDE.DAL.Commands.ICCDirectControlCommand>(mECICDirectControlCommand.OnSubmit, mECICDirectControlCommand.CanSubmit);
+            //DAL.Commands.ICCDirectControlCommand mECICDirectControlCommand = new Commands.ICCDirectControlCommand(_container);
+            //var ecICDirectControlCommand = new DelegateCommand<DAL.Commands.ICCDirectControlCommand>(mECICDirectControlCommand.OnSubmit, mECICDirectControlCommand.CanSubmit);
             //manager.RegisterCommand("ECECDIRECTCTRL", ecICDirectControlCommand);
            
 
@@ -337,7 +337,7 @@ namespace OIDE.DAL
             //    (new MenuItemViewModel("_New", 3,
             //                           new BitmapImage(
             //                               new Uri(
-            //                                   @"pack://application:,,,/OIDE.DAL;component/Icons/NewRequest_8796.png")),
+            //                                   @"pack://application:,,,/DAL;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("NEW"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N"))));
 
@@ -345,19 +345,19 @@ namespace OIDE.DAL
             //    (new MenuItemViewModel("_Open", 4,
             //                           new BitmapImage(
             //                               new Uri(
-            //                                   @"pack://application:,,,/OIDE.DAL;component/Icons/OpenFileDialog_692.png")),
+            //                                   @"pack://application:,,,/DAL;component/Icons/OpenFileDialog_692.png")),
             //                           manager.GetCommand("OPEN"),
             //                           new KeyGesture(Key.O, ModifierKeys.Control, "Ctrl + O"))));
             //menuService.Get("_File").Add(new MenuItemViewModel("_Save", 5,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/OIDE.DAL;component/Icons/Save_6530.png")),
+            //                                                           @"pack://application:,,,/DAL;component/Icons/Save_6530.png")),
             //                                                   manager.GetCommand("SAVE"),
             //                                                   new KeyGesture(Key.S, ModifierKeys.Control, "Ctrl + S")));
             //menuService.Get("_File").Add(new SaveAsMenuItemViewModel("Save As..", 6,
             //                                       new BitmapImage(
             //                                           new Uri(
-            //                                               @"pack://application:,,,/OIDE.DAL;component/Icons/Save_6530.png")),
+            //                                               @"pack://application:,,,/DAL;component/Icons/Save_6530.png")),
             //                                       manager.GetCommand("SAVEAS"),null,false,false,_container));
 
             //menuService.Get("_File").Add(new MenuItemViewModel("Close", 8, null, manager.GetCommand("CLOSE"),
@@ -373,28 +373,28 @@ namespace OIDE.DAL
             //menuService.Get("_Edit").Add(new MenuItemViewModel("_Undo", 1,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/OIDE.DAL;component/Icons/Undo_16x.png")),
+            //                                                           @"pack://application:,,,/DAL;component/Icons/Undo_16x.png")),
             //                                                   ApplicationCommands.Undo));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("_Redo", 2,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/OIDE.DAL;component/Icons/Redo_16x.png")),
+            //                                                           @"pack://application:,,,/DAL;component/Icons/Redo_16x.png")),
             //                                                   ApplicationCommands.Redo));
             //menuService.Get("_Edit").Add(MenuItemViewModel.Separator(15));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("Cut", 20,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/OIDE.DAL;component/Icons/Cut_6523.png")),
+            //                                                           @"pack://application:,,,/DAL;component/Icons/Cut_6523.png")),
             //                                                   ApplicationCommands.Cut));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("Copy", 21,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/OIDE.DAL;component/Icons/Copy_6524.png")),
+            //                                                           @"pack://application:,,,/DAL;component/Icons/Copy_6524.png")),
             //                                                   ApplicationCommands.Copy));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("_Paste", 22,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/OIDE.DAL;component/Icons/Paste_6520.png")),
+            //                                                           @"pack://application:,,,/DAL;component/Icons/Paste_6520.png")),
             //                                                   ApplicationCommands.Paste));
 
             //menuService.Add(new MenuItemViewModel("_View", 3));
@@ -403,7 +403,7 @@ namespace OIDE.DAL
             //    menuService.Get("_View").Add(new MenuItemViewModel("_Logger", 1,
             //                                                       new BitmapImage(
             //                                                           new Uri(
-            //                                                               @"pack://application:,,,/OIDE.DAL;component/Icons/Undo_16x.png")),
+            //                                                               @"pack://application:,,,/DAL;component/Icons/Undo_16x.png")),
             //                                                       manager.GetCommand("LOGSHOW"))
             //                                     {IsCheckable = true, IsChecked = logger.IsVisible});
 

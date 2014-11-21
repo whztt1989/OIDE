@@ -38,14 +38,14 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
-using OIDE.DAL;
+using DAL;
 using OIDE.Scene.Commands;
 using OIDE.Scene.Interface.Services;
 using Wide.Interfaces.Services;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using ProtoBuf;
 using Module.Protob.Utilities;
-using OIDE.DAL.MDB;
+using DAL.MDB;
 using Module.History.Service;
 using Module.Properties.Helpers;
 using OIDE.Scene.Service;
@@ -78,7 +78,7 @@ namespace OIDE.Scene.Model
             {
                 var sceneItem  = item as ISceneItem;
 
-                OIDE.DAL.MDB.SceneNodes node = new SceneNodes() 
+                DAL.MDB.SceneNodes node = new SceneNodes() 
                 {
                     Name = "NEWNode_" + sceneItem.Name,
                     EntID = Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
@@ -221,7 +221,7 @@ namespace OIDE.Scene.Model
 
             sceneID = Helper.StringToContentIDData(m_SceneService.SelectedScene.ContentID).IntValue;
           
-            IEnumerable<OIDE.DAL.MDB.SceneNodes> result = m_DBI.selectSceneNodes(sceneID);
+            IEnumerable<DAL.MDB.SceneNodes> result = m_DBI.selectSceneNodes(sceneID);
 
            try
             {
@@ -307,7 +307,10 @@ namespace OIDE.Scene.Model
         public long? SkyID { get; set; }
         public long? TerrID { get; set; }
 
-        public Boolean Save()
+        public void Refresh() { }
+        public void Finish() { }
+
+        public Boolean Save(object param)
         {
             mDBData.Data = ProtoSerialize.Serialize(mProtoData);
 
@@ -333,7 +336,7 @@ namespace OIDE.Scene.Model
             //------------------------------
             try
             {
-                OIDE.DAL.MDB.SceneNodes nodes = new DAL.MDB.SceneNodes();
+                DAL.MDB.SceneNodes nodes = new DAL.MDB.SceneNodes();
 
                 //select all Nodes
                 foreach (var sceneItem in m_SceneService.SelectedScene.SceneItems)
@@ -398,7 +401,7 @@ namespace OIDE.Scene.Model
                     //  }
                 }
 
-                //                IEnumerable<OIDE.DAL.IDAL.SceneNodeContainer> result = dbI.SaveSceneNodes(sceneID);
+                //                IEnumerable<DAL.IDAL.SceneNodeContainer> result = dbI.SaveSceneNodes(sceneID);
 
             }
             catch
