@@ -223,7 +223,7 @@ namespace OIDE.Scene.Model
           
             IEnumerable<DAL.MDB.SceneNodes> result = m_DBI.selectSceneNodes(sceneID);
 
-           try
+            try
             {
                 //select all Nodes
                 foreach (var node in result)
