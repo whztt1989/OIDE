@@ -59,11 +59,15 @@ namespace OIDE.Scene.ViewModel.Objects
             //int coloffset = FBType.Colour.EndColour(fbb);
 
             int s_offset = fbb.CreateString("bockmist");
+            int s_offset2 = fbb.CreateString("bockmist2");
+            int s_offset3 = fbb.CreateString("bockmist3");
             FBType.Sound.StartSound(fbb);
-            FBType.Sound.AddFileName(fbb, s_offset);
+            FBType.Sound.AddName(fbb, s_offset);
+            FBType.Sound.AddFileName(fbb, s_offset2);
+            FBType.Sound.AddRessGrp(fbb, s_offset3);
             int sound_offset = FBType.Sound.EndSound(fbb);
 
-            FBType.Sound test = FBType.Sound.GetRootAsSound(fbb.DataBuffer(), sound_offset);
+            FBType.Sound test = FBType.Sound.GetRootAsSound(fbb.DataBuffer(), 0);
             string gg = test.FileName();
          //   FBType.Colour test = FBType.Colour.GetRootAsColour(fbb.DataBuffer(), 0);
          //   float mist =  test.A();
