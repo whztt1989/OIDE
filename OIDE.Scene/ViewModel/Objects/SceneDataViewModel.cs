@@ -2,6 +2,7 @@
 using FlatBuffers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,8 +68,18 @@ namespace OIDE.Scene.ViewModel.Objects
             FBType.Sound.AddRessGrp(fbb, s_offset3);
             int sound_offset = FBType.Sound.EndSound(fbb);
 
-            FBType.Sound test = FBType.Sound.GetRootAsSound(fbb.DataBuffer(), 0);
-            string gg = test.FileName();
+            fbb.Finish(sound_offset); //!!!!! important ..
+            // Dump to output directory so we can inspect later, if needed
+            //using (var ms = new MemoryStream(fbb.DataBuffer().Data))//, fbb.DataBuffer().position(), fbb.Offset()))
+            //{
+            //    var data = ms.ToArray();
+
+
+            FBType.Sound test = FBType.Sound.GetRootAsSound(fbb.DataBuffer(), fbb.DataBuffer().position());
+                string gg = test.FileName();
+              //  File.WriteAllBytes(@"Resources/monsterdata_cstest.mon", data);
+         //   }
+
          //   FBType.Colour test = FBType.Colour.GetRootAsColour(fbb.DataBuffer(), 0);
          //   float mist =  test.A();
          //   m_ColourAmbient = System.Windows.Media.Color.FromScRgb(test.A(), test.R(), test.G(), test.B());
