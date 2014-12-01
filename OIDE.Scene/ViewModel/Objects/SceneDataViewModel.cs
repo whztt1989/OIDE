@@ -17,13 +17,6 @@ namespace OIDE.Scene.ViewModel.Objects
 //  public static void StartScene(FlatBufferBuilder builder) { builder.StartObject(1); }
 //  public static void AddColourAmbient(FlatBufferBuilder builder, int colourAmbientOffset) { builder.AddOffset(0, colourAmbientOffset, 0); }
 //  public static int EndScene(FlatBufferBuilder builder) { return builder.EndObject(); }
-    public struct Colour
-    {
-        public float R { get; set; }
-        public float G { get; set; }
-        public float B { get; set; }
-        public float A { get; set; }
-    }
 
     public class SceneDataViewModel 
     {
@@ -65,11 +58,13 @@ namespace OIDE.Scene.ViewModel.Objects
             //FBType.Colour.AddG(fbb, m_ColourAmbient.G);
             //int coloffset = FBType.Colour.EndColour(fbb);
 
+            int s_offset = fbb.CreateString("bockmist");
             FBType.Sound.StartSound(fbb);
-        //    FBType.Sound.AddFileName(fbb,);
+            FBType.Sound.AddFileName(fbb, s_offset);
             int sound_offset = FBType.Sound.EndSound(fbb);
 
-
+            FBType.Sound test = FBType.Sound.GetRootAsSound(fbb.DataBuffer(), sound_offset);
+            string gg = test.FileName();
          //   FBType.Colour test = FBType.Colour.GetRootAsColour(fbb.DataBuffer(), 0);
          //   float mist =  test.A();
          //   m_ColourAmbient = System.Windows.Media.Color.FromScRgb(test.A(), test.R(), test.G(), test.B());
