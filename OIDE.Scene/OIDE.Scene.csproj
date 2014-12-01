@@ -214,6 +214,7 @@
     <Compile Include="Utils\XML\SampleScene3.cs">
       <DependentUpon>SampleScene3.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\Objects\SceneDataViewModel.cs" />
     <Compile Include="ViewModel\SceneGraphToolViewModel.cs" />
     <Compile Include="ViewModel\SceneViewerViewModel.cs" />
     <Compile Include="View\Editor\CharacterCustomizeEditor.xaml.cs">
