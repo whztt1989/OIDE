@@ -147,6 +147,8 @@
     <Content Include="Model\Objects\AICharacterModel.cs" />
     <Compile Include="Model\Categeories\CharacterCategoryModel.cs" />
     <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
+    <Compile Include="Model\Objects\FB_GameEntityModel.cs" />
+    <Compile Include="Model\Objects\FB_StaticObjectModel.cs" />
     <Compile Include="Model\Objects\PhysicObject.cs" />
     <Compile Include="Model\Objects\SpawnPointModel.cs" />
     <Compile Include="Service\PredefObjectCategoyModel.cs" />
@@ -214,7 +216,7 @@
     <Compile Include="Utils\XML\SampleScene3.cs">
       <DependentUpon>SampleScene3.xsd</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\Objects\SceneDataViewModel.cs" />
+    <Compile Include="Model\Objects\FB_SceneModel.cs" />
     <Compile Include="ViewModel\SceneGraphToolViewModel.cs" />
     <Compile Include="ViewModel\SceneViewerViewModel.cs" />
     <Compile Include="View\Editor\CharacterCustomizeEditor.xaml.cs">
@@ -276,6 +278,9 @@
       <Project>{fc13db45-de9c-4b52-a013-41ec516f42e5}</Project>
       <Name>OIDE.VFS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\Objects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

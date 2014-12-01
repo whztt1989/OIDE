@@ -1,13 +1,15 @@
 ﻿using FBType;
 using FlatBuffers;
+using Module.Protob.Interface;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wide.Interfaces;
 
-namespace OIDE.Scene.ViewModel.Objects
+namespace OIDE.Scene.Model.Objects
 {
 //      public static Scene GetRootAsScene(ByteBuffer _bb, int offset) { return (new Scene()).__init(_bb.GetInt(offset) + offset, _bb); }
 //  public Scene __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
@@ -19,30 +21,36 @@ namespace OIDE.Scene.ViewModel.Objects
 //  public static void AddColourAmbient(FlatBufferBuilder builder, int colourAmbientOffset) { builder.AddOffset(0, colourAmbientOffset, 0); }
 //  public static int EndScene(FlatBufferBuilder builder) { return builder.EndObject(); }
 
-    public class SceneDataViewModel 
+    public class FB_SceneModel : ViewModelBase, IFBObject
     {
+        private FBType.Scene m_FBData = new FBType.Scene();
         private ByteBuffer m_ByteBuffer = null;
-        private FBType.Scene m_FBData;
+
+        #region sceneData
 
         private System.Windows.Media.Color m_ColourAmbient;
 
-        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = value; } }
+        #endregion
 
-        public SceneDataViewModel()
-        {
-            m_FBData = new FBType.Scene();   
-        }
+        #region Properties
+
+        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = value; RaisePropertyChanged("ColourAmbient"); } }
+        public ByteBuffer ByteBuffer { get { return m_ByteBuffer; } set { m_ByteBuffer = value; } }
+
+        #endregion
 
         public void Read()
         {
             if (m_ByteBuffer != null)
+            {
                 m_FBData = FBType.Scene.GetRootAsScene(m_ByteBuffer, m_ByteBuffer.position()); // read 
-            FBType.Colour colour = m_FBData.ColourAmbient();
-            
-            m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colour.A(), colour.R(), colour.G(), colour.B());
+                FBType.Colour colour = m_FBData.ColourAmbient();
+
+                m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colour.A(), colour.R(), colour.G(), colour.B());
+            }
         }
 
-        public void Create()
+        public ByteBuffer Create()
         {
             m_ColourAmbient.A = 255;
             m_ColourAmbient.R = 90;
@@ -81,8 +89,9 @@ namespace OIDE.Scene.ViewModel.Objects
             //    var data = ms.ToArray();
 
 
-            FBType.Sound test = FBType.Sound.GetRootAsSound(fbb.DataBuffer(), fbb.DataBuffer().position());
-                string gg = test.FileName();
+            //FBType.Sound test = FBType.Sound.GetRootAsSound(fbb.DataBuffer(), fbb.DataBuffer().position());
+            //    string gg = test.FileName(); // funtzt 
+
               //  File.WriteAllBytes(@"Resources/monsterdata_cstest.mon", data);
          //   }
 
@@ -96,7 +105,7 @@ namespace OIDE.Scene.ViewModel.Objects
             //fbb.Finish(mon);
 
 
-           m_ByteBuffer = fbb.DataBuffer(); //bytebuffer
+          return  m_ByteBuffer = fbb.DataBuffer(); //bytebuffer
             //--------------------------------------
         }
     }

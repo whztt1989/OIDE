@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using CLXEditor.Render;
 using OIDE.InteropEditor.DLL;
 using SFML.Window;
-using OIDE.Scene.ViewModel.Objects;
+using OIDE.Scene.Model.Objects;
 
 namespace OIDE.Scene.View
 {
@@ -113,7 +113,7 @@ namespace OIDE.Scene.View
 
         private void btnTextFB_Click(object sender, RoutedEventArgs e)
         {
-            SceneDataViewModel tmp = new SceneDataViewModel();
+            FB_SceneModel tmp = new FB_SceneModel();
             tmp.Create();
             tmp.Read();
         }
