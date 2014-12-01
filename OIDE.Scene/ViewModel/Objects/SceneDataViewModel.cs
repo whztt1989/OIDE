@@ -36,7 +36,7 @@ namespace OIDE.Scene.ViewModel.Objects
         public void Read()
         {
             if (m_ByteBuffer != null)
-             m_FBData = FBType.Scene.GetRootAsScene(m_ByteBuffer, 0); // read 
+                m_FBData = FBType.Scene.GetRootAsScene(m_ByteBuffer, m_ByteBuffer.position()); // read 
             FBType.Colour colour = m_FBData.ColourAmbient();
             
             m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colour.A(), colour.R(), colour.G(), colour.B());
@@ -53,22 +53,28 @@ namespace OIDE.Scene.ViewModel.Objects
             FlatBufferBuilder fbb = new FlatBufferBuilder(1);
             // fbb.CreateString();
 
-            //FBType.Colour.StartColour(fbb);
-            //FBType.Colour.AddA(fbb, m_ColourAmbient.A);
-            //FBType.Colour.AddB(fbb, m_ColourAmbient.B);
-            //FBType.Colour.AddG(fbb, m_ColourAmbient.G);
-            //int coloffset = FBType.Colour.EndColour(fbb);
+       
+            FBType.Colour.StartColour(fbb);
+            FBType.Colour.AddA(fbb, m_ColourAmbient.A);
+            FBType.Colour.AddR(fbb, m_ColourAmbient.R);
+            FBType.Colour.AddB(fbb, m_ColourAmbient.B);
+            FBType.Colour.AddG(fbb, m_ColourAmbient.G);
+            int coloffset = FBType.Colour.EndColour(fbb);
 
-            int s_offset = fbb.CreateString("bockmist");
-            int s_offset2 = fbb.CreateString("bockmist2");
-            int s_offset3 = fbb.CreateString("bockmist3");
-            FBType.Sound.StartSound(fbb);
-            FBType.Sound.AddName(fbb, s_offset);
-            FBType.Sound.AddFileName(fbb, s_offset2);
-            FBType.Sound.AddRessGrp(fbb, s_offset3);
-            int sound_offset = FBType.Sound.EndSound(fbb);
+            FBType.Scene.StartScene(fbb);
+            FBType.Scene.AddColourAmbient(fbb, coloffset);
+            int sceneoffset = FBType.Scene.EndScene(fbb);
+           
+            //int s_offset = fbb.CreateString("bockmist");
+            //int s_offset2 = fbb.CreateString("bockmist2");
+            //int s_offset3 = fbb.CreateString("bockmist3");
+            //FBType.Sound.StartSound(fbb);
+            //FBType.Sound.AddName(fbb, s_offset);
+            //FBType.Sound.AddFileName(fbb, s_offset2);
+            //FBType.Sound.AddRessGrp(fbb, s_offset3);
+            //int sound_offset = FBType.Sound.EndSound(fbb);
 
-            fbb.Finish(sound_offset); //!!!!! important ..
+            fbb.Finish(sceneoffset); //!!!!! important ..
             // Dump to output directory so we can inspect later, if needed
             //using (var ms = new MemoryStream(fbb.DataBuffer().Data))//, fbb.DataBuffer().position(), fbb.Offset()))
             //{
