@@ -13,7 +13,7 @@ namespace OIDE.Scene.Interface.Services
     {
         ObservableCollection<ISceneItem> SceneItems { get; set; }
 
-        DAL.MDB.Scene SceneData { get; }
+        DAL.MDB.Scene DB_SceneData { get; }
 
         bool AddItem(ISceneItem item);
 

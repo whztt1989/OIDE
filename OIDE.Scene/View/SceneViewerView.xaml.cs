@@ -114,8 +114,8 @@ namespace OIDE.Scene.View
         private void btnTextFB_Click(object sender, RoutedEventArgs e)
         {
             FB_SceneModel tmp = new FB_SceneModel();
-            tmp.Create();
-            tmp.Read();
+            //tmp.Create();
+            //tmp.Read();
         }
 
 

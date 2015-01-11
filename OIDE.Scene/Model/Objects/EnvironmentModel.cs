@@ -55,7 +55,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [ExpandableObject]
-        public ProtoType.Node Node { get; set; }
+        public ISceneNode Node { get; set; }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -68,21 +68,21 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public CollectionOfIItem Items { get; set; }
 
-        [XmlIgnore]
-        private ProtoType.Camera mData;
+        //[XmlIgnore]
+        //private ProtoType.Camera mData;
 
-        [XmlIgnore]
-        [Category("Conections")]
-        [Description("This property is a complex property and has no default editor.")]
-        [ExpandableObject]
-        public ProtoType.Camera Data
-        {
-            get
-            {
-                return mData;
-            }
-            set { mData = value; }
-        }
+        //[XmlIgnore]
+        //[Category("Conections")]
+        //[Description("This property is a complex property and has no default editor.")]
+        //[ExpandableObject]
+        //public ProtoType.Camera Data
+        //{
+        //    get
+        //    {
+        //        return mData;
+        //    }
+        //    set { mData = value; }
+        //}
 
         [XmlIgnore]
         [Browsable(false)]

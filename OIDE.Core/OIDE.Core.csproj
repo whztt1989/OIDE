@@ -35,6 +35,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\DAL.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\..\Wide\Libs\ICSharpCode.AvalonEdit.dll</HintPath>
       <Private>False</Private>
@@ -120,13 +124,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreModule.cs" />
-    <Compile Include="Model\GameEntityFileModel.cs" />
-    <Compile Include="Model\GameDBFileModel.cs" />
     <Compile Include="Model\OIDE_RFS.cs" />
     <Compile Include="Model\OIDEZipArchive.cs" />
     <Compile Include="Model\ScenesListModel.cs" />
-    <Compile Include="Model\FilterModel.cs" />
     <Compile Include="ProjectTypes\Handler\GameProjectHandler.cs" />
+    <Compile Include="ProjectTypes\Model\GameDBFileModel.cs" />
     <Compile Include="ProjectTypes\Model\GameProjectModel.cs" />
     <Compile Include="ProjectTypes\ViewModel\GameProjectViewModel.cs" />
     <Compile Include="ProjectTypes\View\GameProjectView.xaml.cs">
@@ -148,7 +150,6 @@
     </Compile>
     <Compile Include="Settings\EditorOptions.cs" />
     <Compile Include="Settings\MDSettingsItem.cs" />
-    <Compile Include="Utils\Singleton.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -188,10 +189,6 @@
     <ProjectReference Include="..\OIDE.AssetBrowser\OIDE.AssetBrowser.csproj">
       <Project>{cb6b9693-8b57-47b1-8dfc-3c46c6a7f291}</Project>
       <Name>OIDE.AssetBrowser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OIDE.DAL\OIDE.DAL.csproj">
-      <Project>{ea680164-db40-40a5-ab19-ea36316b19fe}</Project>
-      <Name>OIDE.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Wide.Interfaces;
 using OIDE.InteropEditor.DLL;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.Xml.Serialization;
+using OIDE.Scene.Service;
+using OIDE.Scene.Interface.Services;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -21,31 +25,70 @@ namespace OIDE.Scene.Model.Objects
 //  public static void AddColourAmbient(FlatBufferBuilder builder, int colourAmbientOffset) { builder.AddOffset(0, colourAmbientOffset, 0); }
 //  public static int EndScene(FlatBufferBuilder builder) { return builder.EndObject(); }
 
-    public class FB_SceneModel : ViewModelBase, IFBObject
+    public class FB_SceneNode : ViewModelBase, IFBObject
     {
-        private XFBType.Scene m_FBData = new XFBType.Scene();
+        private XFBType.Node m_FBData = new XFBType.Node();
         #region sceneData
 
-        private int m_coloroffset = 0; 
-        private System.Windows.Media.Color m_ColourAmbient;
+        private int m_coloroffset = 0;
+        private Quaternion m_Rotation;
+        private Vector3 m_Location;
+        private Vector3 m_Scale;
 
         #endregion
 
         #region Properties
 
-        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } }
-        public int SetColourAmbient(System.Windows.Media.Color color)
+        [XmlIgnore]
+        [ExpandableObject]
+        public Quaternion Rotation { get { return m_Rotation; } }
+        [XmlIgnore]
+        [ExpandableObject]
+        public Vector3 Location { get { return m_Location; } }
+        [XmlIgnore]
+        [ExpandableObject]
+        public Vector3 Scale { get { return m_Scale; } }
+
+
+        public int SetRotation(Quaternion rotation)
         {
-            int res = 0;
-            m_ColourAmbient = color;
+            var m_oldRotation = rotation;
+            m_Rotation = rotation;
 
             //send to c++ DLL
             Byte[] tmp = CreateByteBuffer();
+            int res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
+            if (res != 0) //fehler beim senden
+                m_Rotation = m_oldRotation;
 
-            //if (DLL_Singleton.Instance != null)
-            //{
-            //  todo  res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
-            //}
+            return res;
+        }
+
+        public int SetLocation(Vector3 location)
+        {
+            var m_oldLocation = location;
+            m_Location = location;
+
+            //send to c++ DLL
+            Byte[] tmp = CreateByteBuffer();
+            int res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
+            if (res != 0) //fehler beim senden
+                m_Location = m_oldLocation;
+
+            return res;
+        }
+
+        public int SetScale(Vector3 scale)
+        {
+            var m_oldScale = scale;
+            m_Scale = scale;
+
+            //send to c++ DLL
+            Byte[] tmp = CreateByteBuffer();
+            int res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
+            if (res != 0) //fehler beim senden
+                m_Scale = m_oldScale;
+
             return res;
         }
 
@@ -59,15 +102,11 @@ namespace OIDE.Scene.Model.Objects
         {
             ByteBuffer byteBuffer = new ByteBuffer(fbData);
 
-            m_FBData = XFBType.Scene.GetRootAsScene(byteBuffer); // read 
-            XFBType.Colour colour = m_FBData.ColourAmbient();
+            m_FBData = XFBType.Node.GetRootAsNode(byteBuffer); // read 
 
-            m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colour.A(), colour.R(), colour.G(), colour.B());
-
-            ByteBuffer byteBuffer2 = new ByteBuffer(fbData);
-            var m_FBDataNOT = XFBType.Scene.GetRootAsScene(byteBuffer2); // read      
-            XFBType.Colour colourNOT = m_FBDataNOT.ColourAmbient();
-            m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colourNOT.A(), colourNOT.R(), colourNOT.G(), colourNOT.B());
+            m_Rotation = new Quaternion() { W = m_FBData.Transform().Rot().W() ,  X = m_FBData.Transform().Rot().X() ,  Y = m_FBData.Transform().Rot().Y(), Z = m_FBData.Transform().Rot().Z()};
+            m_Location = new Vector3() { X = m_FBData.Transform().Loc().X() ,  Y = m_FBData.Transform().Loc().Y(), Z = m_FBData.Transform().Loc().Z()};
+            m_Scale = new Vector3() { X = m_FBData.Transform().Scl().X(), Y = m_FBData.Transform().Scl().Y(), Z = m_FBData.Transform().Scl().Z() };
         }
         
         /// <summary>
@@ -86,20 +125,23 @@ namespace OIDE.Scene.Model.Objects
             // fbb.CreateString();
             FlatBufferBuilder fbb = new FlatBufferBuilder(1);
 
-            int coloroffset = XFBType.Colour.CreateColour(fbb, m_ColourAmbient.R, m_ColourAmbient.G, m_ColourAmbient.B, m_ColourAmbient.A);
-            //XFBType.Colour.StartColour(fbb);
-            //XFBType.Colour.AddA(fbb, m_ColourAmbient.A);
-            //XFBType.Colour.AddR(fbb, m_ColourAmbient.R);
-            //XFBType.Colour.AddB(fbb, m_ColourAmbient.B);
-            //XFBType.Colour.AddG(fbb, m_ColourAmbient.G);
-            //int coloroffset = XFBType.Colour.EndColour(fbb);
+            int rotOffset = XFBType.Quat4f.CreateQuat4f(fbb,m_Rotation.W, m_Rotation.X, m_Rotation.Y, m_Rotation.Z);
+            int locOffset = XFBType.Vec3f.CreateVec3f(fbb, m_Location.X, m_Location.Y, m_Location.Z);
+            int sclOffset = XFBType.Vec3f.CreateVec3f(fbb, m_Scale.X, m_Scale.Y, m_Scale.Z);
 
-            int sceneoffset = XFBType.Scene.CreateScene(fbb, coloroffset);
-            //XFBType.Scene.StartScene(fbb);
+            XFBType.TransformStateData.StartTransformStateData(fbb);
+            XFBType.TransformStateData.AddRot(fbb, rotOffset);
+            XFBType.TransformStateData.AddLoc(fbb, locOffset);
+            XFBType.TransformStateData.AddScl(fbb, sclOffset);
+            int transformoffset = XFBType.TransformStateData.EndTransformStateData(fbb);
 
-            //XFBType.Scene.AddColourAmbient(fbb, coloroffset);
+            XFBType.Node.StartNode(fbb);
 
-            //int sceneoffset = XFBType.Scene.EndScene(fbb);
+            XFBType.Node.AddTransform(fbb, transformoffset);
+            XFBType.Node.AddGroup(fbb, 0);
+            XFBType.Node.AddVisible(fbb, 0x01);
+
+            int sceneoffset = XFBType.Node.EndNode(fbb);
            
             //int s_offset = fbb.CreateString("bockmist");
             //int s_offset2 = fbb.CreateString("bockmist2");
@@ -131,16 +173,8 @@ namespace OIDE.Scene.Model.Objects
             //FBType.Scene.AddColourAmbient(fbb, coloffset);
             //int mon = FBType.Scene.EndScene(fbb);
             //fbb.Finish(mon);
-            Byte[] test2 = fbb.SizedByteArray();//.DataBuffer().Data;
-            Byte[] test = fbb.DataBuffer().Data;//.DataBuffer().Data;
-            ByteBuffer byteBuffer = new ByteBuffer(test);
-            var m_FBDataNOT = XFBType.Scene.GetRootAsScene(byteBuffer); // read      
-            XFBType.Colour colourNOT = m_FBDataNOT.ColourAmbient();
-            m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colourNOT.A(), colourNOT.R(), colourNOT.G(), colourNOT.B());
 
-            var m_FBData = XFBType.Scene.GetRootAsScene(fbb.DataBuffer()); // read      
-            XFBType.Colour colour = m_FBData.ColourAmbient();
-            m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colour.A(), colour.R(), colour.G(), colour.B());
+
             return fbb.DataBuffer().Data; //bytebuffer
             //--------------------------------------
         }

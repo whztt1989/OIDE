@@ -39,101 +39,101 @@ using Wide.Interfaces.Services;
 using Microsoft.Practices.Unity;
 using Module.Protob.Utilities;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using DAL;
 using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
 using Module.Properties.Helpers;
-using DAL.MDB;
 using OIDE.VFS.VFS_Types.RootFileSystem;
 using OIDE.Scene.Model.Objects;
 using Module.Properties.Types;
+using DAL;
+using DAL.MDB;
 
 namespace OIDE.Scene.Model
 {
     public class Plane : Mesh
     {
-        [Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
-        public ProtoType.Vec3f normal { get { return ProtoData.plane.normal; } set { ProtoData.plane.normal = value; } }
+        //[Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
+        //public ProtoType.Vec3f normal { get { return ProtoData.plane.normal; } set { ProtoData.plane.normal = value; } }
        
-        public float constant { get { return ProtoData.plane.constant; } set { ProtoData.plane.constant = value; } }
-        public float width { get { return ProtoData.plane.width; } set { ProtoData.plane.width = value; } }
-        public float height { get { return ProtoData.plane.height; } set { ProtoData.plane.height = value; } }
-        public Int32 xsegments { get { return ProtoData.plane.xsegments; } set { ProtoData.plane.xsegments = value; } }
-        public Int32 ysegments { get { return ProtoData.plane.ysegments; } set { ProtoData.plane.ysegments = value; } }
-        public bool normals { get { return ProtoData.plane.normals; } set { ProtoData.plane.normals = value; } }
-        public Int32 numTexCoordSets { get { return ProtoData.plane.numTexCoordSets; } set { ProtoData.plane.numTexCoordSets = value; } }
-        public float xTile { get { return ProtoData.plane.xTile; } set { ProtoData.plane.xTile = value; } }
-        public float yTile { get { return ProtoData.plane.yTile; } set { ProtoData.plane.yTile = value; } }
+        //public float constant { get { return ProtoData.plane.constant; } set { ProtoData.plane.constant = value; } }
+        //public float width { get { return ProtoData.plane.width; } set { ProtoData.plane.width = value; } }
+        //public float height { get { return ProtoData.plane.height; } set { ProtoData.plane.height = value; } }
+        //public Int32 xsegments { get { return ProtoData.plane.xsegments; } set { ProtoData.plane.xsegments = value; } }
+        //public Int32 ysegments { get { return ProtoData.plane.ysegments; } set { ProtoData.plane.ysegments = value; } }
+        //public bool normals { get { return ProtoData.plane.normals; } set { ProtoData.plane.normals = value; } }
+        //public Int32 numTexCoordSets { get { return ProtoData.plane.numTexCoordSets; } set { ProtoData.plane.numTexCoordSets = value; } }
+        //public float xTile { get { return ProtoData.plane.xTile; } set { ProtoData.plane.xTile = value; } }
+        //public float yTile { get { return ProtoData.plane.yTile; } set { ProtoData.plane.yTile = value; } }
 
-        [Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
-        public ProtoType.Vec3f upVector { get { return ProtoData.plane.upVector; } set { ProtoData.plane.upVector = value; } }
+        //[Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
+        //public ProtoType.Vec3f upVector { get { return ProtoData.plane.upVector; } set { ProtoData.plane.upVector = value; } }
 
 
 
 //new Vector3(ProtoData.plane.normal.x, ProtoData.plane.normal.y, ProtoData.plane.normal.z)
         public Plane()
         {
-            ProtoData.plane = new ProtoType.OgrePlane();
-            ProtoData.plane.upVector = new ProtoType.Vec3f();
-            ProtoData.plane.normal = new ProtoType.Vec3f();
+            //ProtoData.plane = new ProtoType.OgrePlane();
+            //ProtoData.plane.upVector = new ProtoType.Vec3f();
+            //ProtoData.plane.normal = new ProtoType.Vec3f();
         }
     }
 
     public class Cube : Mesh
     {
-        public float width { get { return ProtoData.cube.width; } set { ProtoData.cube.width = value; } }
+        //public float width { get { return ProtoData.cube.width; } set { ProtoData.cube.width = value; } }
 
         public Cube()
         {
-            ProtoData.cube = new ProtoType.OgreCube();
+            //ProtoData.cube = new ProtoType.OgreCube();
         }
     }
 
     public class Mesh
     {
-        public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
-        public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
+        //public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
+        //public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
         
-        [XmlIgnore]
-        [Browsable(false)]
-        public ProtoType.Mesh ProtoData { get; set; }
+        //[XmlIgnore]
+        //[Browsable(false)]
+        //public ProtoType.Mesh ProtoData { get; set; }
 
         public Mesh()
         {
-            ProtoData = new ProtoType.Mesh();
+            //ProtoData = new ProtoType.Mesh();
         }
     }
 
     public class Material
     {
-        public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
-        public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
+        //public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
+        //public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public ProtoType.Material ProtoData { get; set; }
+        //[XmlIgnore]
+        //[Browsable(false)]
+        //public ProtoType.Material ProtoData { get; set; }
 
         public Material()
         {
-            ProtoData = new ProtoType.Material();
+            //ProtoData = new ProtoType.Material();
         }
     }
 
     public class StaticObjectModel : ISceneItem, IGameEntity
     {
-        private ProtoType.StaticEntity mData;
+        //private ProtoType.StaticEntity mData;
 
         public void Drop(IItem item) 
         { 
              if(item is FileItem)
              {
-                 if (mData.gameEntity == null)
-                     mData.gameEntity = new ProtoType.GameEntity();
+                 //if (mData.gameEntity == null)
+                 //    mData.gameEntity = new ProtoType.GameEntity();
 
-                 ProtoType.Mesh mesh = new ProtoType.Mesh();
-                 mesh.Name = (item as FileItem).ContentID;
-                 mData.gameEntity.meshes.Add(mesh);
+                 //ProtoType.Mesh mesh = new ProtoType.Mesh();
+                 //mesh.Name = (item as FileItem).ContentID;
+                 //mData.gameEntity.meshes.Add(mesh);
              }
         }
 
@@ -147,7 +147,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public ProtoType.Node Node { get; set; }
+        public ISceneNode Node { get; set; }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -165,33 +165,33 @@ namespace OIDE.Scene.Model
                 mDBData = value as GameEntity;
              
                
-                GameEntity dbData = value as GameEntity;
-                ProtoType.StaticEntity dataStaticObj = new ProtoType.StaticEntity();
+                //GameEntity dbData = value as GameEntity;
+                //ProtoType.StaticEntity dataStaticObj = new ProtoType.StaticEntity();
 
-                if (dbData.Data != null)
-                {
-                    mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>(dbData.Data);
+                //if (dbData.Data != null)
+                //{
+                //    mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>(dbData.Data);
  
-                    if (mData.gameEntity == null)
-                       mData.gameEntity = new ProtoType.GameEntity();
+                //    if (mData.gameEntity == null)
+                //       mData.gameEntity = new ProtoType.GameEntity();
 
-                    foreach (var item in mData.gameEntity.physics)
-                        m_Physics.Add(new PhysicObject() { ProtoData = item });
+                //    foreach (var item in mData.gameEntity.physics)
+                //        m_Physics.Add(new PhysicObject() { ProtoData = item });
 
-                    foreach (var item in mData.gameEntity.materials)
-                        m_Materials.Add(new Material() { ProtoData = item });
+                //    foreach (var item in mData.gameEntity.materials)
+                //        m_Materials.Add(new Material() { ProtoData = item });
 
 
-                    foreach (var item in mData.gameEntity.meshes)
-                    {
-                        if (item.cube != null)
-                            mMeshes.Add(new Cube() { ProtoData = item });
-                        else if (item.plane != null)
-                            mMeshes.Add(new Plane() { ProtoData = item });
-                        else
-                            mMeshes.Add(new Mesh() { ProtoData = item });
-                    }
-                }
+                //    foreach (var item in mData.gameEntity.meshes)
+                //    {
+                //        if (item.cube != null)
+                //            mMeshes.Add(new Cube() { ProtoData = item });
+                //        else if (item.plane != null)
+                //            mMeshes.Add(new Plane() { ProtoData = item });
+                //        else
+                //            mMeshes.Add(new Mesh() { ProtoData = item });
+                //    }
+                //}
 
             }
         }
@@ -223,16 +223,16 @@ namespace OIDE.Scene.Model
     //    [XmlIgnore]
    //     public ProtoType.OgreSysType OgreSystemType { get { return mData.gameEntity.ogreSysType; } set { mData.gameEntity.ogreSysType = value; } }
 
-        [XmlIgnore]
+        //[XmlIgnore]
         //[Category("Conections")]
         //[Description("This property is a complex property and has no default editor.")]
       //  [ExpandableObject]
-        [Browsable(false)]
-        public ProtoType.StaticEntity ProtoData { get { return mData; } }
+        //[Browsable(false)]
+        //public ProtoType.StaticEntity ProtoData { get { return mData; } }
 
 
-        [XmlIgnore]
-        public Int32 StaticGroup { get { return mData.group; } set { mData.group = value; } }
+        //[XmlIgnore]
+        //public Int32 StaticGroup { get { return mData.group; } set { mData.group = value; } }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -289,14 +289,14 @@ namespace OIDE.Scene.Model
 
             DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));
-            try
-            {
-                mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>((DBData as DAL.MDB.GameEntity).Data);
-            }
-            catch
-            {
-                mData = new ProtoType.StaticEntity();
-            }
+            //try
+            //{
+            //    mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>((DBData as DAL.MDB.GameEntity).Data);
+            //}
+            //catch
+            //{
+            //    mData = new ProtoType.StaticEntity();
+            //}
             return true; 
         }
 
@@ -310,33 +310,33 @@ namespace OIDE.Scene.Model
                 DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
 
                 //Update Phyiscs Data
-                ProtoData.gameEntity.physics.Clear();
-                foreach(var item in m_Physics)
-                    ProtoData.gameEntity.physics.Add(item.ProtoData);
+                //ProtoData.gameEntity.physics.Clear();
+                //foreach(var item in m_Physics)
+                //    ProtoData.gameEntity.physics.Add(item.ProtoData);
 
-                //Update mesh Data
-                ProtoData.gameEntity.meshes.Clear();
-                foreach (var item in mMeshes)
-                    ProtoData.gameEntity.meshes.Add(item.ProtoData);
+                ////Update mesh Data
+                //ProtoData.gameEntity.meshes.Clear();
+                //foreach (var item in mMeshes)
+                //    ProtoData.gameEntity.meshes.Add(item.ProtoData);
 
 
-                ProtoData.gameEntity.materials.Clear();
-                foreach (var item in m_Materials)
-                    ProtoData.gameEntity.materials.Add(item.ProtoData);
+                //ProtoData.gameEntity.materials.Clear();
+                //foreach (var item in m_Materials)
+                //    ProtoData.gameEntity.materials.Add(item.ProtoData);
 
-                gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
-                gameEntity.Name = this.Name;
+                //gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
+                //gameEntity.Name = this.Name;
 
-                if (gameEntity.EntID > 0)
-                    m_dbI.updateGameEntity(gameEntity);
-                else
-                {
-                    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Static;
-                    m_dbI.insertGameEntity(gameEntity);
-                }
+                //if (gameEntity.EntID > 0)
+                //    m_dbI.updateGameEntity(gameEntity);
+                //else
+                //{
+                //    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Static;
+                //    m_dbI.insertGameEntity(gameEntity);
+                //}
 
-                if (DLL_Singleton.Instance.EditorInitialized)
-                    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
+                //if (DLL_Singleton.Instance.EditorInitialized)
+                //    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
 
             }
             catch (Exception ex)
@@ -383,8 +383,8 @@ namespace OIDE.Scene.Model
             m_Materials = new List<Material>();
             mMeshes = new List<Mesh>();
             m_Physics = new List<PhysicObject>();
-            mData = new ProtoType.StaticEntity();
-            mData.gameEntity = new ProtoType.GameEntity();
+            //mData = new ProtoType.StaticEntity();
+            //mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
             SceneNode = new DAL.MDB.SceneNodes();
 

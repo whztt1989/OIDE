@@ -128,15 +128,16 @@ namespace OIDE.Scene.Model
                     {
                         ISceneNode tmpSceneNode = sourceItem as ISceneNode;
 
-                        if (tmpSceneNode.Node == null)
-                        {
-                            tmpSceneNode.Node = new ProtoType.Node();
-                            Point dropPos = dropInfo.DropPosition;
-                            tmpSceneNode.Node.transform = new ProtoType.TransformStateData();
-                            tmpSceneNode.Node.transform.loc = new ProtoType.Vec3f();
-                            tmpSceneNode.Node.transform.loc.x = (float)dropPos.X;
-                            tmpSceneNode.Node.transform.loc.y = (float)dropPos.Y;
-                        }
+                        //todo
+                        //if (tmpSceneNode.Node == null)
+                        //{
+                        //    tmpSceneNode.Node = new ProtoType.Node();
+                        //    Point dropPos = dropInfo.DropPosition;
+                        //    tmpSceneNode.Node.transform = new ProtoType.TransformStateData();
+                        //    tmpSceneNode.Node.transform.loc = new ProtoType.Vec3f();
+                        //    tmpSceneNode.Node.transform.loc.x = (float)dropPos.X;
+                        //    tmpSceneNode.Node.transform.loc.y = (float)dropPos.Y;
+                        //}
                     }
 
                     tmp.SceneService.SelectedScene.Drop(sourceItem);

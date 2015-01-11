@@ -51,13 +51,19 @@ namespace OIDE.Scene.Model
         public void Drop(IItem item) { }
 
         [XmlIgnore]
-        public ProtoType.Node Node { get; set; }
-
-        [XmlIgnore]
         [Browsable(false)]
         public DAL.MDB.SceneNodes SceneNode { get; private set; }
             
         public String ContentID { get; set; }
+
+        public Byte[] ByteBuffer
+        {
+            get
+            {
+                //todo return m_FB_SceneNode.CreateByteBuffer();
+                return new Byte[0];
+            }
+        }
 
         [XmlIgnore]
         [Browsable(false)]

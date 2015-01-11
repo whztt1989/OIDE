@@ -95,7 +95,7 @@ namespace OIDE.InteropEditor.DLL
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int updateObjectDelegate(uint id, int type);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate void commandDelegate(String command, byte[] data, int len);
+        public delegate int commandDelegate(String command, byte[] data, int len);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate int PushEventDelegate(Event pEvent);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

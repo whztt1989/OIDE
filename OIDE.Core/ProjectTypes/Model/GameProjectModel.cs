@@ -28,7 +28,6 @@ using System.Xml.Serialization;
 using Module.PFExplorer.Interface;
 using System.Xml;
 using System.Xml.Schema;
-using DAL;
 using Microsoft.Practices.Unity;
 using OIDE.Scene.Model;
 using OIDE.Scene.Interface.Services;
@@ -228,7 +227,7 @@ namespace OIDE.Core
 
             CanAddThisItems.Add(typeof(OIDE_RFS));
             CanAddThisItems.Add(typeof(OIDEZipArchive));
-            CanAddThisItems.Add(typeof(GameDBFileModel));
+         //   CanAddThisItems.Add(typeof(GameDBFileModel));
             //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
             //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
 
@@ -244,7 +243,7 @@ namespace OIDE.Core
             //Customize Database category structure
             //-----------------------------------------
             GameDBFileModel dbData = new GameDBFileModel(this, container);
-            dbData.IsExpanded = true;
+           dbData.IsExpanded = true;
 
             //            PredefObjectCategoyModel predefCategory = new PredefObjectCategoyModel(this, container) { Name = "Ogre System Objects" };
 

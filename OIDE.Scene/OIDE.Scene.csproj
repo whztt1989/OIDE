@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A589197E-E002-4DBA-B27F-DD16B9A81BFA}</ProjectGuid>
+    <ProjectGuid>{BD07264C-756A-43B3-9E34-C6354F3DBE3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OIDE.Scene</RootNamespace>
@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\DAL.dll</HintPath>
+    </Reference>
     <Reference Include="FlatBuffers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\FlatBuffers.dll</HintPath>
@@ -46,23 +50,23 @@
     </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wide\Build\External\Microsoft.Practices.Prism.dll</HintPath>
+      <HintPath>..\..\Modules\extlibs\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wide\Build\External\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+      <HintPath>..\..\Modules\extlibs\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wide\Build\External\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\..\Modules\extlibs\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Wide\Build\External\Microsoft.Practices.Unity.dll</HintPath>
+      <HintPath>..\..\Modules\extlibs\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Module.History, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -148,6 +152,7 @@
     <Compile Include="Model\Categeories\CharacterCategoryModel.cs" />
     <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
     <Compile Include="Model\Objects\FB_GameEntityModel.cs" />
+    <Compile Include="Model\Objects\FB_SceneNode.cs" />
     <Compile Include="Model\Objects\FB_StaticObjectModel.cs" />
     <Compile Include="Model\Objects\PhysicObject.cs" />
     <Compile Include="Model\Objects\SpawnPointModel.cs" />
@@ -173,46 +178,35 @@
     <Compile Include="Settings\EditorOptions.cs" />
     <Compile Include="Settings\MDSettingsItem.cs" />
     <Compile Include="Types\FBType\AI.cs" />
-    <Compile Include="Types\FBType\Boots.cs" />
     <Compile Include="Types\FBType\Camera.cs" />
     <Compile Include="Types\FBType\CharEntity.cs" />
     <Compile Include="Types\FBType\Clipping.cs" />
     <Compile Include="Types\FBType\Colour.cs" />
     <Compile Include="Types\FBType\Debug.cs" />
+    <Compile Include="Types\FBType\EntityBase.cs" />
     <Compile Include="Types\FBType\EntityTypes.cs" />
-    <Compile Include="Types\FBType\Face.cs" />
-    <Compile Include="Types\FBType\FacialColor.cs" />
-    <Compile Include="Types\FBType\FacialFeature.cs" />
     <Compile Include="Types\FBType\Fog.cs" />
-    <Compile Include="Types\FBType\GameEntity.cs" />
-    <Compile Include="Types\FBType\Gender.cs" />
-    <Compile Include="Types\FBType\HairColor.cs" />
-    <Compile Include="Types\FBType\HairStyle.cs" />
     <Compile Include="Types\FBType\Light.cs" />
     <Compile Include="Types\FBType\Material.cs" />
     <Compile Include="Types\FBType\Mesh.cs" />
     <Compile Include="Types\FBType\Node.cs" />
     <Compile Include="Types\FBType\OgreCube.cs" />
     <Compile Include="Types\FBType\OgrePlane.cs" />
-    <Compile Include="Types\FBType\OneHandWeapon.cs" />
     <Compile Include="Types\FBType\OSysTypeData.cs" />
+    <Compile Include="Types\FBType\PCType.cs" />
+    <Compile Include="Types\FBType\PhysicsConstraint.cs" />
     <Compile Include="Types\FBType\PhysicsObject.cs" />
+    <Compile Include="Types\FBType\PhysicsShape.cs" />
     <Compile Include="Types\FBType\PhysicsType.cs" />
     <Compile Include="Types\FBType\Quat4f.cs" />
-    <Compile Include="Types\FBType\Race.cs" />
-    <Compile Include="Types\FBType\RaceGender.cs" />
     <Compile Include="Types\FBType\Scene.cs" />
-    <Compile Include="Types\FBType\Shoulder.cs" />
-    <Compile Include="Types\FBType\Skin.cs" />
     <Compile Include="Types\FBType\Sound.cs" />
     <Compile Include="Types\FBType\SpawnPoint.cs" />
     <Compile Include="Types\FBType\SpellEntity.cs" />
     <Compile Include="Types\FBType\StaticEntity.cs" />
     <Compile Include="Types\FBType\TransformStateData.cs" />
     <Compile Include="Types\FBType\Trigger.cs" />
-    <Compile Include="Types\FBType\TwoHandWeapon.cs" />
     <Compile Include="Types\FBType\Vec3f.cs" />
-    <Compile Include="Types\ProtoType.cs" />
     <Compile Include="Utils\XML\SampleScene3.cs">
       <DependentUpon>SampleScene3.xsd</DependentUpon>
     </Compile>
@@ -269,10 +263,6 @@
     <ProjectReference Include="..\..\WPF_IDE\Wide.csproj">
       <Project>{9f20f5ef-4f7e-4ae2-a462-4cd2256fb3ff}</Project>
       <Name>Wide</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\XIDE\XIDE.DAL\XIDE.DAL.csproj">
-      <Project>{ea680164-db40-40a5-ab19-ea36316b19fe}</Project>
-      <Name>XIDE.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\OIDE.VFS\OIDE.VFS.csproj">
       <Project>{fc13db45-de9c-4b52-a013-41ec516f42e5}</Project>

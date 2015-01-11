@@ -52,8 +52,15 @@ namespace OIDE.Scene.Model
 
         public void Drop(IItem item) { }
 
-        [XmlIgnore]
-        public ProtoType.Node Node { get; set; }
+
+        public Byte[] ByteBuffer
+        {
+            get
+            {
+                //todo return m_FB_SceneNode.CreateByteBuffer();
+                return new Byte[0];
+            }
+        }
 
         [XmlIgnore]
         public DAL.MDB.SceneNodes SceneNode { get; private set; }
@@ -64,20 +71,20 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
 
-        [XmlIgnore]
-        private ProtoType.Camera mData;
+        //[XmlIgnore]
+        //private ProtoType.Camera mData;
 
-        [Category("Conections")]
-        [Description("This property is a complex property and has no default editor.")]
-        [ExpandableObject]
-        public ProtoType.Camera Data
-        {
-            get
-            {
-                return mData;
-            }
-            set { mData = value; }
-        }
+        //[Category("Conections")]
+        //[Description("This property is a complex property and has no default editor.")]
+        //[ExpandableObject]
+        //public ProtoType.Camera Data
+        //{
+        //    get
+        //    {
+        //        return mData;
+        //    }
+        //    set { mData = value; }
+        //}
 
         [XmlIgnore]
         [Browsable(false)]

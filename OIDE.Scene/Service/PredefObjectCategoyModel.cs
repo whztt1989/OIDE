@@ -112,11 +112,11 @@ namespace OIDE.Service
         {
             PredefObjectCategoyModel parent = parameter as PredefObjectCategoyModel;
 
-            PredefObjectModel pom = new PredefObjectModel(parent, parent.UnityContainer) { Name = "Static Obj NEW", ContentID = "StaticEntID:##" };
+            //PredefObjectModel pom = new PredefObjectModel(parent, parent.UnityContainer) { Name = "Static Obj NEW", ContentID = "StaticEntID:##" };
 
-            pom.Save(parameter);
+            //pom.Save(parameter);
 
-            parent.Items.Add(pom);
+            //parent.Items.Add(pom);
 
             ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
         }

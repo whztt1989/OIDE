@@ -43,10 +43,10 @@ using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
 using Module.Properties.Helpers;
-using DAL.MDB;
 using OIDE.VFS.VFS_Types.RootFileSystem;
 using OIDE.Scene.Model.Objects;
 using Module.Properties.Types;
+using DAL.MDB;
 
 namespace OIDE.Scene.Model
 {
@@ -54,7 +54,7 @@ namespace OIDE.Scene.Model
   
     public class SpawnPointModel : ISceneItem, IGameEntity
     {
-        private ProtoType.SpawnPoint mData;
+        //private ProtoType.SpawnPoint mData;
 
         public void Drop(IItem item) 
         { 
@@ -79,7 +79,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public ProtoType.Node Node { get; set; }
+        public ISceneNode Node { get; set; }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -97,33 +97,33 @@ namespace OIDE.Scene.Model
                 mDBData = value as GameEntity;
              
                
-                GameEntity dbData = value as GameEntity;
-                ProtoType.SpawnPoint dataSpawnPoint = new ProtoType.SpawnPoint();
+                //GameEntity dbData = value as GameEntity;
+                //ProtoType.SpawnPoint dataSpawnPoint = new ProtoType.SpawnPoint();
 
-                if (dbData.Data != null)
-                {
-                    mData = ProtoSerialize.Deserialize<ProtoType.SpawnPoint>(dbData.Data);
+                //if (dbData.Data != null)
+                //{
+                //    mData = ProtoSerialize.Deserialize<ProtoType.SpawnPoint>(dbData.Data);
  
-                 //   if (mData.gameEntity == null)
-                 //      mData.gameEntity = new ProtoType.GameEntity();
+                // //   if (mData.gameEntity == null)
+                // //      mData.gameEntity = new ProtoType.GameEntity();
 
-                    //foreach (var item in mData.gameEntity.physics)
-                    //    m_Physics.Add(new PhysicObject() { ProtoData = item });
+                //    //foreach (var item in mData.gameEntity.physics)
+                //    //    m_Physics.Add(new PhysicObject() { ProtoData = item });
 
-                    //foreach (var item in mData.gameEntity.materials)
-                    //    m_Materials.Add(new Material() { ProtoData = item });
+                //    //foreach (var item in mData.gameEntity.materials)
+                //    //    m_Materials.Add(new Material() { ProtoData = item });
 
 
-                    //foreach (var item in mData.gameEntity.meshes)
-                    //{
-                    //    if (item.cube != null)
-                    //        mMeshes.Add(new Cube() { ProtoData = item });
-                    //    else if (item.plane != null)
-                    //        mMeshes.Add(new Plane() { ProtoData = item });
-                    //    else
-                    //        mMeshes.Add(new Mesh() { ProtoData = item });
-                    //}
-                }
+                //    //foreach (var item in mData.gameEntity.meshes)
+                //    //{
+                //    //    if (item.cube != null)
+                //    //        mMeshes.Add(new Cube() { ProtoData = item });
+                //    //    else if (item.plane != null)
+                //    //        mMeshes.Add(new Plane() { ProtoData = item });
+                //    //    else
+                //    //        mMeshes.Add(new Mesh() { ProtoData = item });
+                //    //}
+                //}
 
             }
         }
@@ -155,16 +155,16 @@ namespace OIDE.Scene.Model
     //    [XmlIgnore]
    //     public ProtoType.OgreSysType OgreSystemType { get { return mData.gameEntity.ogreSysType; } set { mData.gameEntity.ogreSysType = value; } }
 
-        [XmlIgnore]
+        //[XmlIgnore]
         //[Category("Conections")]
         //[Description("This property is a complex property and has no default editor.")]
       //  [ExpandableObject]
-        [Browsable(false)]
-        public ProtoType.SpawnPoint ProtoData { get { return mData; } }
+        //[Browsable(false)]
+        //public ProtoType.SpawnPoint ProtoData { get { return mData; } }
 
 
-        [XmlIgnore]
-        public Int32 SpawnPointGroup { get { return mData.SPGroup; } set { mData.SPGroup = value; } }
+        //[XmlIgnore]
+        //public Int32 SpawnPointGroup { get { return mData.SPGroup; } set { mData.SPGroup = value; } }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -212,14 +212,14 @@ namespace OIDE.Scene.Model
 
             DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));
-            try
-            {
-                mData = ProtoSerialize.Deserialize<ProtoType.SpawnPoint>((DBData as DAL.MDB.GameEntity).Data);
-            }
-            catch
-            {
-                mData = new ProtoType.SpawnPoint();
-            }
+            //try
+            //{
+            //    mData = ProtoSerialize.Deserialize<ProtoType.SpawnPoint>((DBData as DAL.MDB.GameEntity).Data);
+            //}
+            //catch
+            //{
+            //    mData = new ProtoType.SpawnPoint();
+            //}
             return true; 
         }
 
@@ -248,19 +248,19 @@ namespace OIDE.Scene.Model
                 //foreach (var item in m_Materials)
                 //    ProtoData.gameEntity.materials.Add(item.ProtoData);
 
-                gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
-                gameEntity.Name = this.Name;
+                //gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
+                //gameEntity.Name = this.Name;
 
-                if (gameEntity.EntID > 0)
-                    m_dbI.updateGameEntity(gameEntity);
-                else
-                {
-                    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_SpawnPoint;
-                    m_dbI.insertGameEntity(gameEntity);
-                }
+                //if (gameEntity.EntID > 0)
+                //    m_dbI.updateGameEntity(gameEntity);
+                //else
+                //{
+                //    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_SpawnPoint;
+                //    m_dbI.insertGameEntity(gameEntity);
+                //}
 
-                if (DLL_Singleton.Instance.EditorInitialized)
-                    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
+                //if (DLL_Singleton.Instance.EditorInitialized)
+                //    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
 
             }
             catch (Exception ex)
@@ -305,7 +305,7 @@ namespace OIDE.Scene.Model
                 m_dbI = new IDAL();
 
           
-            mData = new ProtoType.SpawnPoint();
+            //mData = new ProtoType.SpawnPoint();
           //  mData.gameEntity = new ProtoType.GameEntity();
 
         }

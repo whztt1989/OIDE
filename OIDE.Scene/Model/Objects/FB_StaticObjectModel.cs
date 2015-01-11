@@ -1,5 +1,4 @@
-﻿using FBType;
-using FlatBuffers;
+﻿using FlatBuffers;
 using Module.Protob.Interface;
 using System;
 using System.Collections.Generic;
@@ -23,8 +22,8 @@ namespace OIDE.Scene.Model.Objects
 
     public class FB_StaticObjectModel : ViewModelBase, IFBObject
     {
-        private FBType.StaticEntity m_FBData = new FBType.StaticEntity();
-        private ByteBuffer m_ByteBuffer = null;
+        private XFBType.StaticEntity m_FBData = new XFBType.StaticEntity();
+        //private ByteBuffer m_ByteBuffer = null;
 
         #region StaticObject Data
 
@@ -36,23 +35,22 @@ namespace OIDE.Scene.Model.Objects
         #region Properties
 
         public int Group { get { return m_Group; } set { m_Group = value; RaisePropertyChanged("Group"); } }
-        public ByteBuffer ByteBuffer { get { return m_ByteBuffer; } set { m_ByteBuffer = value; } }
+        //public ByteBuffer ByteBuffer { get { return m_ByteBuffer; } set { m_ByteBuffer = value; } }
         public FB_GameEntityModel GameEntityModel { get { return m_GameEntityModel; } set { m_GameEntityModel = value; RaisePropertyChanged("GameEntityModel"); } }
 
 
         #endregion
 
-        public void Read()
+        public void Read(Byte[] fbData)
         {
-            if (m_ByteBuffer != null)
-            {
-                m_FBData = FBType.StaticEntity.GetRootAsStaticEntity(m_ByteBuffer, m_ByteBuffer.position()); // read 
-                m_Group = m_FBData.Group();
-                m_GameEntityModel = new FB_GameEntityModel() { FB_Data = m_FBData.GameEntity() } ;
-            }
+            ByteBuffer byteBuffer = new ByteBuffer(fbData);
+            m_FBData = XFBType.StaticEntity.GetRootAsStaticEntity(byteBuffer); // read 
+           //     m_Group = XFBType.Group(); //per node!
+                m_GameEntityModel = new FB_GameEntityModel() { FB_Data = m_FBData.Entitybase() } ;
+            
         }
 
-        public ByteBuffer Create()
+        public Byte[] CreateByteBuffer()
         {
             //m_ColourAmbient.A = 255;
             //m_ColourAmbient.R = 90;
@@ -63,17 +61,18 @@ namespace OIDE.Scene.Model.Objects
             FlatBufferBuilder fbb = new FlatBufferBuilder(1);
             // fbb.CreateString();
 
-       
-            FBType.Colour.StartColour(fbb);
+            XFBType.Colour.StartColour(fbb);
             //FBType.Colour.AddA(fbb, m_ColourAmbient.A);
             //FBType.Colour.AddR(fbb, m_ColourAmbient.R);
             //FBType.Colour.AddB(fbb, m_ColourAmbient.B);
             //FBType.Colour.AddG(fbb, m_ColourAmbient.G);
-            int coloffset = FBType.Colour.EndColour(fbb);
+            int coloffset = XFBType.Colour.EndColour(fbb);
 
-            FBType.Scene.StartScene(fbb);
-            FBType.Scene.AddColourAmbient(fbb, coloffset);
-            int sceneoffset = FBType.Scene.EndScene(fbb);
+            int sceneoffset = XFBType.Scene.CreateScene(fbb, coloffset);
+          
+            //XFBType.Scene.StartScene(fbb);
+            //XFBType.Scene.AddColourAmbient(fbb, coloffset);
+            //int sceneoffset = XFBType.Scene.EndScene(fbb);
            
             //int s_offset = fbb.CreateString("bockmist");
             //int s_offset2 = fbb.CreateString("bockmist2");
@@ -107,7 +106,7 @@ namespace OIDE.Scene.Model.Objects
             //fbb.Finish(mon);
 
 
-          return  m_ByteBuffer = fbb.DataBuffer(); //bytebuffer
+          return  fbb.DataBuffer().Data; //bytebuffer
             //--------------------------------------
         }
     }

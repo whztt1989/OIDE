@@ -1,5 +1,4 @@
-﻿using FBType;
-using FlatBuffers;
+﻿using FlatBuffers;
 using Module.Protob.Interface;
 using System;
 using System.Collections.Generic;
@@ -25,7 +24,7 @@ namespace OIDE.Scene.Model.Objects
 
     public class FB_GameEntityModel : ViewModelBase, IFBObject
     {
-        private FBType.GameEntity m_FBData = new FBType.GameEntity();
+        private XFBType.EntityBase m_FBData = new XFBType.EntityBase();
         private ByteBuffer m_ByteBuffer = null;
 
         #region sceneData
@@ -51,7 +50,8 @@ namespace OIDE.Scene.Model.Objects
 
         [Browsable(false)]
         [XmlIgnore]
-        public FBType.GameEntity FB_Data { 
+        public XFBType.EntityBase FB_Data
+        { 
             set {
                 AnimationInfo = value.AnimationInfo();
                 AnimationTree = value.AnimationTree();
@@ -70,17 +70,17 @@ namespace OIDE.Scene.Model.Objects
 
         #endregion
 
-        public void Read()
+        public void Read(Byte[] fbData)
         {
             if (m_ByteBuffer != null)
             {
-                m_FBData = FBType.GameEntity.GetRootAsGameEntity(m_ByteBuffer, m_ByteBuffer.position()); // read 
+              //  m_FBData = XFBType.EntityBase.GetRootAsGameEntity(m_ByteBuffer, m_ByteBuffer.position()); // read 
                // FBType.Colour colour = m_FBData.ColourAmbient();
 
             }
         }
 
-        public ByteBuffer Create()
+        public Byte[] CreateByteBuffer()
         {
             //m_ColourAmbient.A = 255;
             //m_ColourAmbient.R = 90;
@@ -88,20 +88,20 @@ namespace OIDE.Scene.Model.Objects
             //--------------------------------------
             //create flatbuffer data
             //--------------------------------------
-            FlatBufferBuilder fbb = new FlatBufferBuilder(1);
-            // fbb.CreateString();
+            //FlatBufferBuilder fbb = new FlatBufferBuilder(1);
+            //// fbb.CreateString();
 
        
-            FBType.Colour.StartColour(fbb);
-            //FBType.Colour.AddA(fbb, m_ColourAmbient.A);
-            //FBType.Colour.AddR(fbb, m_ColourAmbient.R);
-            //FBType.Colour.AddB(fbb, m_ColourAmbient.B);
-            //FBType.Colour.AddG(fbb, m_ColourAmbient.G);
-            int coloffset = FBType.Colour.EndColour(fbb);
+            //FBType.Colour.StartColour(fbb);
+            ////FBType.Colour.AddA(fbb, m_ColourAmbient.A);
+            ////FBType.Colour.AddR(fbb, m_ColourAmbient.R);
+            ////FBType.Colour.AddB(fbb, m_ColourAmbient.B);
+            ////FBType.Colour.AddG(fbb, m_ColourAmbient.G);
+            //int coloffset = FBType.Colour.EndColour(fbb);
 
-            FBType.Scene.StartScene(fbb);
-            FBType.Scene.AddColourAmbient(fbb, coloffset);
-            int sceneoffset = FBType.Scene.EndScene(fbb);
+            //FBType.Scene.StartScene(fbb);
+            //FBType.Scene.AddColourAmbient(fbb, coloffset);
+            //int sceneoffset = FBType.Scene.EndScene(fbb);
            
             //int s_offset = fbb.CreateString("bockmist");
             //int s_offset2 = fbb.CreateString("bockmist2");
@@ -111,8 +111,8 @@ namespace OIDE.Scene.Model.Objects
             //FBType.Sound.AddFileName(fbb, s_offset2);
             //FBType.Sound.AddRessGrp(fbb, s_offset3);
             //int sound_offset = FBType.Sound.EndSound(fbb);
-
-            fbb.Finish(sceneoffset); //!!!!! important ..
+//
+        //    fbb.Finish(sceneoffset); //!!!!! important ..
             // Dump to output directory so we can inspect later, if needed
             //using (var ms = new MemoryStream(fbb.DataBuffer().Data))//, fbb.DataBuffer().position(), fbb.Offset()))
             //{
@@ -135,7 +135,7 @@ namespace OIDE.Scene.Model.Objects
             //fbb.Finish(mon);
 
 
-          return  m_ByteBuffer = fbb.DataBuffer(); //bytebuffer
+            return null;//m_ByteBuffer = fbb.DataBuffer(); //bytebuffer
             //--------------------------------------
         }
     }

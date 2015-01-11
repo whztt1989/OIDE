@@ -39,7 +39,6 @@ using Microsoft.Practices.Unity;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Xml.Serialization;
 using OIDE.VFS.VFS_Types.RootFileSystem;
-using DAL.MDB;
 using Module.Protob.Utilities;
 using OIDE.Scene.Model.Objects;
 using System.Windows.Input;
@@ -48,6 +47,7 @@ using DAL;
 using Module.Properties.Helpers;
 using Module.Properties.Types;
 using OIDE.VFS.View;
+using DAL.MDB;
 
 namespace OIDE.Scene.Model
 {
@@ -75,11 +75,11 @@ namespace OIDE.Scene.Model
       //   [ItemsSource(typeof(RaceGenderItemsSource))]
         [Editor(typeof(ObjectComboBoxEditor), typeof(ObjectComboBoxEditor))]  
       
-        public ProtoType.AI AI { get { return mData.ai; } }
+      //  public ProtoType.AI AI { get { return mData.ai; } }
 
         #endregion
 
-        protected ProtoType.CharEntity mData;
+      //  protected ProtoType.CharEntity mData;
 
         public void Drop(IItem item)
         {
@@ -90,12 +90,12 @@ namespace OIDE.Scene.Model
 
             if (item is FileItem)
             {
-                if (mData.gameEntity == null)
-                    mData.gameEntity = new ProtoType.GameEntity();
+             //   if (mData.gameEntity == null)
+             //       mData.gameEntity = new ProtoType.GameEntity();
 
-                ProtoType.Mesh mesh = new ProtoType.Mesh();
-                mesh.Name = (item as FileItem).ContentID;
-                mData.gameEntity.meshes.Add(mesh);
+          //      ProtoType.Mesh mesh = new ProtoType.Mesh();
+             //   mesh.Name = (item as FileItem).ContentID;
+              //  mData.gameEntity.meshes.Add(mesh);
             }
         }
 
@@ -105,9 +105,14 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public ObservableCollection<ISceneItem> SceneItems { get; protected set; }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public ProtoType.Node Node { get; set; }
+        public Byte[] ByteBuffer
+        {
+            get
+            {
+                //todo return m_FB_SceneNode.CreateByteBuffer();
+                return new Byte[0];
+            }
+        }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -125,20 +130,20 @@ namespace OIDE.Scene.Model
                 mDBData = value as GameEntity;
 
                 GameEntity dbData = value as GameEntity;
-                ProtoType.CharEntity dataStaticObj = new ProtoType.CharEntity();
+                //ProtoType.CharEntity dataStaticObj = new ProtoType.CharEntity();
 
-                if (dbData.Data != null)
-                {
-                    mData = ProtoSerialize.Deserialize<ProtoType.CharEntity>(dbData.Data);
+                //if (dbData.Data != null)
+                //{
+                //    mData = ProtoSerialize.Deserialize<ProtoType.CharEntity>(dbData.Data);
 
-                    if (mData.gameEntity == null)
-                        mData.gameEntity = new ProtoType.GameEntity();
+                //    if (mData.gameEntity == null)
+                //        mData.gameEntity = new ProtoType.GameEntity();
 
-                    foreach (var item in mData.gameEntity.physics)
-                        m_Physics.Add(new PhysicObject() { ProtoData = item });
+                //    foreach (var item in mData.gameEntity.physics)
+                //        m_Physics.Add(new PhysicObject() { ProtoData = item });
 
-                    m_Race = mDBData.RaceID ?? 0;
-                }
+                //    m_Race = mDBData.RaceID ?? 0;
+                //}
             }
         }
 
@@ -164,26 +169,26 @@ namespace OIDE.Scene.Model
         [Category("GameEntity")]
         public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
 
-        private List<ProtoType.Sound> mSounds;
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        [NewItemTypes(new Type[] { typeof(ProtoType.Sound) })]
-        [Category("GameEntity")]
-        public List<ProtoType.Sound> Sounds { get { return mSounds; } set { mSounds = value; } }
+        //private List<ProtoType.Sound> mSounds;
+        //[Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        //[NewItemTypes(new Type[] { typeof(ProtoType.Sound) })]
+        //[Category("GameEntity")]
+        //public List<ProtoType.Sound> Sounds { get { return mSounds; } set { mSounds = value; } }
 
-        [Category("GameEntity")]
-        public Int32 RenderQueue { get { return mData.gameEntity.mode; } set { mData.gameEntity.mode = value; } }
+        //[Category("GameEntity")]
+        //public Int32 RenderQueue { get { return mData.gameEntity.mode; } set { mData.gameEntity.mode = value; } }
 
-        [Category("GameEntity")]
-        public Int32 Mode { get { return mData.gameEntity.mode; } set { mData.gameEntity.mode = value; } }
-        [Category("GameEntity")]
-        public Boolean CastShadows { get { return mData.gameEntity.castShadows; } set { mData.gameEntity.castShadows = value; } }
-        [Category("GameEntity")]
-        public string AnimationTree { get { return mData.gameEntity.animationTree; } set { mData.gameEntity.animationTree = value; } }
-        [Category("GameEntity")]
-        public string AnimationInfo { get { return mData.gameEntity.animationInfo; } set { mData.gameEntity.animationInfo = value; } }
+        //[Category("GameEntity")]
+        //public Int32 Mode { get { return mData.gameEntity.mode; } set { mData.gameEntity.mode = value; } }
+        //[Category("GameEntity")]
+        //public Boolean CastShadows { get { return mData.gameEntity.castShadows; } set { mData.gameEntity.castShadows = value; } }
+        //[Category("GameEntity")]
+        //public string AnimationTree { get { return mData.gameEntity.animationTree; } set { mData.gameEntity.animationTree = value; } }
+        //[Category("GameEntity")]
+        //public string AnimationInfo { get { return mData.gameEntity.animationInfo; } set { mData.gameEntity.animationInfo = value; } }
       
-        [Category("Debug")]
-        public ProtoType.Debug Debug { get { return mData.gameEntity.debug; } set { mData.gameEntity.debug = value; } }
+        //[Category("Debug")]
+        //public ProtoType.Debug Debug { get { return mData.gameEntity.debug; } set { mData.gameEntity.debug = value; } }
 
         private long m_Race;
         [Category("Character")]
@@ -200,7 +205,7 @@ namespace OIDE.Scene.Model
         //[Description("This property is a complex property and has no default editor.")]
         //  [ExpandableObject]
         [Browsable(false)]
-        public ProtoType.CharEntity ProtoData { get { return mData; } }
+        //public ProtoType.CharEntity ProtoData { get { return mData; } }
 
         private IDAL m_dbI;
 
@@ -243,10 +248,10 @@ namespace OIDE.Scene.Model
 
         public Boolean Create()
         {
-            mData = new ProtoType.CharEntity();
-            mData.gameEntity = new ProtoType.GameEntity();
+            //mData = new ProtoType.CharEntity();
+            //mData.gameEntity = new ProtoType.GameEntity();
 
-            DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Character };
+            //DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Character };
             return true;
         }
 
@@ -269,9 +274,9 @@ namespace OIDE.Scene.Model
             }
             else
             {
-                mData = new ProtoType.CharEntity();
+                //mData = new ProtoType.CharEntity();
 
-                DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Character };
+                //DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Character };
             }
             return true;
         }
@@ -288,24 +293,24 @@ namespace OIDE.Scene.Model
                 DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
 
                 //Update Phyiscs Data
-                ProtoData.gameEntity.physics.Clear();
-                foreach (var item in m_Physics)
-                    ProtoData.gameEntity.physics.Add(item.ProtoData);
+                //ProtoData.gameEntity.physics.Clear();
+                //foreach (var item in m_Physics)
+                //    ProtoData.gameEntity.physics.Add(item.ProtoData);
 
-                gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
-                gameEntity.Name = this.Name;
-                gameEntity.RaceID = m_Race;
+                //gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
+                //gameEntity.Name = this.Name;
+                //gameEntity.RaceID = m_Race;
 
-                if (gameEntity.EntID > 0)
-                    m_dbI.updateGameEntity(gameEntity);
-                else
-                {
-                    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Character;
-                    m_dbI.insertGameEntity(gameEntity);
-                }
+                //if (gameEntity.EntID > 0)
+                //    m_dbI.updateGameEntity(gameEntity);
+                //else
+                //{
+                //    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Character;
+                //    m_dbI.insertGameEntity(gameEntity);
+                //}
 
-                if (DLL_Singleton.Instance.EditorInitialized)
-                    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
+                //if (DLL_Singleton.Instance.EditorInitialized)
+                //    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
 
             }
             catch (Exception ex)
@@ -331,7 +336,7 @@ namespace OIDE.Scene.Model
             UnityContainer = unityContainer;
 
             mMeshes = new List<Mesh>();
-            mSounds = new List<ProtoType.Sound>();
+        //    mSounds = new List<ProtoType.Sound>();
          //   mRaceGenderVM = new RaceGenderViewModel();
 
             //mMeshes = new List<string>();
@@ -347,8 +352,8 @@ namespace OIDE.Scene.Model
                 m_dbI = new IDAL();
 
             m_Physics = new List<PhysicObject>();
-            mData = new ProtoType.CharEntity();
-            mData.gameEntity = new ProtoType.GameEntity();
+        //    mData = new ProtoType.CharEntity();
+         //   mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
             SceneNode = new DAL.MDB.SceneNodes();
         }

@@ -8,6 +8,22 @@ using Module.Properties.Interface;
 
 namespace OIDE.Scene.Interface.Services
 {
+    public struct Vector3
+    {
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+    }
+
+    public struct Quaternion
+    {
+        public float W { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+    }
+
+
     public interface ISceneNode
     {
         /// <summary>
@@ -18,6 +34,7 @@ namespace OIDE.Scene.Interface.Services
         /// <summary>
         /// deserialized node data
         /// </summary>
-        ProtoType.Node Node { get; set; }
+        Byte[] ByteBuffer { get; }
+       // ProtoType.Node Node { get; set; }
     }
 }

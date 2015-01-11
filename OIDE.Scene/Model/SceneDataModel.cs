@@ -45,11 +45,14 @@ using Wide.Interfaces.Services;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using ProtoBuf;
 using Module.Protob.Utilities;
-using DAL.MDB;
 using Module.History.Service;
 using Module.Properties.Helpers;
 using OIDE.Scene.Service;
 using Wide.Interfaces;
+using System.Windows.Media;
+using FlatBuffers;
+using OIDE.Scene.Model.Objects;
+using DAL.MDB;
 
 namespace OIDE.Scene.Model
 {
@@ -61,7 +64,10 @@ namespace OIDE.Scene.Model
 
         private ICommand CmdDeleteScene;
         private ICommand CmdSaveScene;
-        private ProtoType.Scene mProtoData;
+        
+        //private FlatBuffers.ByteBuffer m_FBByteBuffer;       
+        //private XFBType.Scene m_FBData;
+
         private CollectionOfIItem m_Items;
         private ObservableCollection<ISceneItem> m_SceneItems;
         private ISceneItem mSelectedItem;
@@ -96,50 +102,34 @@ namespace OIDE.Scene.Model
             }
         }
 
-        private DAL.MDB.Scene mDBData;
+
         [Browsable(false)]
         [XmlIgnore]
-        public DAL.MDB.Scene SceneData 
+        public DAL.MDB.Scene DB_SceneData  { get;  set; }
+
+        private FB_SceneModel m_FB_SceneData = new FB_SceneModel();
+        
+      
+        [XmlIgnore]
+        [Category("Scene Data")]
+        [Description("scene ambient color")]
+        public System.Windows.Media.Color ColourAmbient 
         {
-            get   {  return mDBData; }
-            set
-            {
-                mDBData = value;
+            get { return m_FB_SceneData.ColourAmbient; }
+            set {
+                var m_oldColourAmbient = value;
+          
+                int res = m_FB_SceneData.SetColourAmbient(value);
+                if (res != 0) //fehler beim senden
+                {
+                    var logger = UnityContainer.Resolve<ILoggerService>();
+                    logger.Log("Flatbuffer SceneDataModel.ColourAmbient.SetColourAmbient ungültig (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
+                    ColourAmbient = m_oldColourAmbient;
+                }
 
-                try
-                {
-                    mProtoData = ProtoSerialize.Deserialize<ProtoType.Scene>(mDBData.Data);
-                    if (ProtoData.colourAmbient == null)
-                        ProtoData.colourAmbient = new ProtoType.Colour();
-                }
-                catch
-                {
-                    mProtoData = new ProtoType.Scene();
-                }
-            }
+                RaisePropertyChanged("ColourAmbient"); 
+            } 
         }
-
-        //public struct Ambient
-        //{
-        //    public float r { get; set; }
-        //    public float g { get; set; }
-        //    public float b { get; set; }
-        //    public float a { get; set; }
-        //}
-
-        //private Ambient m_Ambient;
-        [XmlIgnore]
-        [Category("Conections")]
-        [Description("This property is a complex property and has no default editor.")]
-        [ExpandableObject]
-        public ProtoType.Colour ColourAmbient { get { return ProtoData.colourAmbient; } set { ProtoData.colourAmbient = value; RaisePropertyChanged("ColourAmbient"); } }
-
-        [XmlIgnore]
-        //[Category("Conections")]
-        //[Description("This property is a complex property and has no default editor.")]
-        //[ExpandableObject]
-        [Browsable(false)]
-        public ProtoType.Scene ProtoData { get { return mProtoData; } set { mProtoData = value; } }
 
         public bool AddItem(ISceneItem item)
         {
@@ -225,6 +215,10 @@ namespace OIDE.Scene.Model
 
             try
             {
+                //read sceneData from DAL
+                DAL.MDB.Scene scene = m_DBI.selectSceneDataOnly(sceneID);
+                m_FB_SceneData.Read(scene.Data);
+
                 //select all Nodes
                 foreach (var node in result)
                 {
@@ -312,22 +306,20 @@ namespace OIDE.Scene.Model
 
         public Boolean Save(object param)
         {
-            mDBData.Data = ProtoSerialize.Serialize(mProtoData);
+          //  mDBData.Data = m_FBByteBuffer.Data; //ProtoSerialize.Serialize(mProtoData);
 
 
             //  mData = ProtoSerialize.Deserialize<ProtoType.Scene>(result);
 
-      
+            DB_SceneData.Data = m_FB_SceneData.CreateByteBuffer(); 
             // ProtoType.Scene protoData = new ProtoType.Scene();
             // protoData.colourAmbient = new ProtoType.Colour() { r = 5 , b =  6 , g = 7 };
-    
+       
             //save scene to db
-            if (SceneData.SceneID > 0)
-                m_DBI.updateScene(SceneData);
+            if (DB_SceneData.SceneID > 0)
+                m_DBI.updateScene(DB_SceneData);
             else
-                m_DBI.insertScene(SceneData);
-
-           
+                m_DBI.insertScene(DB_SceneData);
 
             //##   DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
 
@@ -368,7 +360,7 @@ namespace OIDE.Scene.Model
                     
                     sNode.SceneNode.SceneID = Helper.StringToContentIDData(ContentID).IntValue;
                     sNode.SceneNode.Name = sItem.Name;
-                    sNode.SceneNode.Data = ProtoSerialize.Serialize(sNode.Node);//Node data
+                    sNode.SceneNode.Data = ProtoSerialize.Serialize(sNode.ByteBuffer);//Node data
 
 
                     //save sceneNode to db
@@ -422,7 +414,8 @@ namespace OIDE.Scene.Model
         {
             m_DBI = new IDAL();
             m_SceneItems = new ObservableCollection<ISceneItem>();
-            mProtoData = new ProtoType.Scene();
+          //  mProtoData = new ProtoType.Scene();
+
         }
 
         public IUnityContainer UnityContainer { get { return m_Container; } }
@@ -436,7 +429,7 @@ namespace OIDE.Scene.Model
             m_Container = container;
             m_SceneService = container.Resolve<ISceneService>();
             m_DBI = new IDAL();
-            mProtoData = new ProtoType.Scene();
+       //     mProtoData = new ProtoType.Scene();
 
             ////if (dbData == null)
             ////    SceneData = m_DBI.selectSceneDataOnly(id);

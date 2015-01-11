@@ -14,12 +14,13 @@ using Module.Properties.Interface;
 using Module.Protob.Utilities;
 using DAL;
 using OIDE.Scene.Interface.Services;
-using ProtoType;
 using Wide.Interfaces;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using OIDE.Scene.Model.Objects;
 
 namespace OIDE.Scene.Service
 {
+
     public class SceneNodeEntity : ViewModelBase, ISceneNode , ISceneItem
     {
         public String ContentID { get; set; }
@@ -32,42 +33,47 @@ namespace OIDE.Scene.Service
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public ProtoType.Node Node { get; set; }
 
         private DAL.MDB.SceneNodes mSceneNode;
+
+        [XmlIgnore]
+        [Browsable(false)]
+        private FB_SceneNode m_FB_SceneNode = new FB_SceneNode();
+
+        public Byte[] ByteBuffer { get { return m_FB_SceneNode.CreateByteBuffer(); } }
 
         [XmlIgnore]
         public long EntityID { get { return (long)mSceneNode.EntID; } set { mSceneNode.EntID = value;  RaisePropertyChanged("EntityID"); } }
 
         [XmlIgnore]
         [ExpandableObject]
-        public Quat4f Rotation { get { return Node.transform.rot; } set { Node.transform.rot = value; RaisePropertyChanged("Rotation"); } }
+        public Quaternion Rotation { get { return m_FB_SceneNode.Rotation; } set { m_FB_SceneNode.SetRotation(value); RaisePropertyChanged("Rotation"); } }
         [XmlIgnore]
         [ExpandableObject]
-        public Vec3f Location { get { return Node.transform.loc; } set { Node.transform.loc = value; RaisePropertyChanged("Location"); } }
+        public Vector3 Location { get { return m_FB_SceneNode.Location; } set { m_FB_SceneNode.SetLocation(value); RaisePropertyChanged("Location"); } }
         [XmlIgnore]
         [ExpandableObject]
-        public Vec3f Scale { get { return Node.transform.scl; } set { Node.transform.scl = value; RaisePropertyChanged("Scale"); } }
+        public Vector3 Scale { get { return m_FB_SceneNode.Scale; } set { m_FB_SceneNode.SetScale(value); RaisePropertyChanged("Scale"); } }
 
         [XmlIgnore]
-        public DAL.MDB.SceneNodes SceneNode { get { return mSceneNode; }
+        public DAL.MDB.SceneNodes SceneNode
+        { get { return mSceneNode; }
             set 
             { 
                 mSceneNode = value;
                 ContentID = "NodeID:##:" + value.NodeID;
 
-                if (value.Data == null)
-                {
-                    Node = new ProtoType.Node();
-                    Node.transform = new TransformStateData();
-                    Node.transform.scl = new Vec3f();
-                    Node.transform.loc = new Vec3f();
-                    Node.transform.rot = new Quat4f();
-                }
-                else
-                    Node = ProtoSerialize.Deserialize<ProtoType.Node>(value.Data);
+                m_FB_SceneNode.Read(value.Data);
+                //if (value.Data == null)
+                //{
+                //    Node = new ProtoType.Node();
+                //    Node.transform = new TransformStateData();
+                //    Node.transform.scl = new Vec3f();
+                //    Node.transform.loc = new Vec3f();
+                //    Node.transform.rot = new Quat4f();
+                //}
+                //else
+                //    Node = ProtoSerialize.Deserialize<ProtoType.Node>(value.Data);
             }
         }
 

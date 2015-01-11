@@ -33,7 +33,6 @@ using Wide.Interfaces.Services;
 using Module.PFExplorer.Interface.Services;
 using Module.Properties.Interface;
 using OIDE.Scene.Model;
-using DAL.MDB;
 using Module.Properties.Helpers;
 using OIDE.Scene.Service;
 using DAL;
@@ -42,6 +41,7 @@ using System.Windows.Controls;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
+using DAL.MDB;
 
 namespace OIDE.Scene
 {

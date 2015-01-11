@@ -22,7 +22,7 @@ namespace OIDE.Scene.Model
 {
     public class PhysicsObjectModel_deprecated : ISceneItem, IGameEntity
     {
-        private ProtoType.PhysicsObject mData;
+     //   private ProtoType.PhysicsObject mData;
         private ICommand CmdSave;
 
         public String ContentID { get; set; }
@@ -34,8 +34,8 @@ namespace OIDE.Scene.Model
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
-        [XmlIgnore]
-        public ProtoType.Node Node { get; set; }
+        //[XmlIgnore]
+    //    public ProtoType.Node Node { get; set; }
 
         [XmlIgnore]
         public DAL.MDB.SceneNodes SceneNode { get; private set; }
@@ -47,7 +47,7 @@ namespace OIDE.Scene.Model
         [Category("Conections")]
         [Description("This property is a complex property and has no default editor.")]
         [ExpandableObject]
-        public object ProtoData { get { return mData; } }
+     //   public object ProtoData { get { return mData; } }
 
         [XmlAttribute]
         public String Name { get; set; }
@@ -109,14 +109,14 @@ namespace OIDE.Scene.Model
 
             DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));
-            try
-            {
-                mData = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>((DBData as DAL.MDB.GameEntity).Data);
-            }
-            catch
-            {
-                mData = new ProtoType.PhysicsObject();
-            }
+            //try
+            //{
+            //    mData = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>((DBData as DAL.MDB.GameEntity).Data);
+            //}
+            //catch
+            //{
+            //    mData = new ProtoType.PhysicsObject();
+            //}
             return true; }
 
         public void Refresh() { }
@@ -128,14 +128,14 @@ namespace OIDE.Scene.Model
             try
             {
                 DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
-                gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
+              //  gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
                 gameEntity.Name = this.Name;
 
                 if (gameEntity.EntID > 0)
                     m_dbI.updateGameEntity(gameEntity);
                 else
                 {
-                    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Physic;
+                //    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Physic;
                     m_dbI.insertGameEntity(gameEntity);
                 }
 
@@ -161,13 +161,13 @@ namespace OIDE.Scene.Model
 
         private IDAL m_dbI;
 
-        public PhysicsObjectModel_deprecated(IItem parent, IUnityContainer container, ProtoType.PhysicsObject data, IDAL dbI = null, Int32 id = 0)
-        //     : base(commandManager, menuService)
+        public PhysicsObjectModel_deprecated(IItem parent, IUnityContainer container, IDAL dbI = null, Int32 id = 0)
+        //     : base(commandManager, menuService), ProtoType.PhysicsObject data
         {
-            mData = data;
+          //  mData = data;
             UnityContainer = container;
             Parent = parent;
-            Node = new ProtoType.Node();
+          //  Node = new ProtoType.Node();
 
             //treeview!!!
             //https://97382ac7-a-62cb3a1a-s-sites.googlegroups.com/site/mynetsamples/Home/HeterogeneousHierarchicalGrid_dotnetlearning.zip?attachauth=ANoY7cpVpx5NrxBapNDAY1J9TVZWnC3BbjAV_9eW3oEODR3KipOEtme6DajN31YDXndxPDnBb0IthlB2b3v72ODqSuwSkGoncu4flFwGAN7W1-sFmoOazjUzNwNyEiIiLtaW-iq05MJ8UCZicgNm4AEGonLl-JzzQkkuqP6dugIIxUioXowS9buLI8FDuTvj167BxnXqs6a7tbROPI9d5v_7_Y2soGpuAlP9P64EiaXqdDPD3pZbBEHQkTeOovCu2naswMlbMxCVMpYxXOr1irMwZWHWJcCf1A%3D%3D&attredirects=0
