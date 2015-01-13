@@ -131,12 +131,22 @@ namespace OIDE.Scene.Model.Objects
             //FBType.Scene.AddColourAmbient(fbb, coloffset);
             //int mon = FBType.Scene.EndScene(fbb);
             //fbb.Finish(mon);
-            Byte[] test2 = fbb.SizedByteArray();//.DataBuffer().Data;
-            Byte[] test = fbb.DataBuffer().Data;//.DataBuffer().Data;
-            ByteBuffer byteBuffer = new ByteBuffer(test);
-            var m_FBDataNOT = XFBType.Scene.GetRootAsScene(byteBuffer); // read      
+
+            //Byte[] test2 = fbb.SizedByteArray();//.DataBuffer().Data;
+            
+            ByteBuffer bb = fbb.DataBuffer();
+            byte[] foo = new byte[bb.Length - bb.position()];
+
+            System.Buffer.BlockCopy (bb.Data, bb.position(), foo, 0, bb.Length - bb.position ());
+            var m_FBDataNOT = XFBType.Scene.GetRootAsScene(bb); // read      
             XFBType.Colour colourNOT = m_FBDataNOT.ColourAmbient();
-            m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colourNOT.A(), colourNOT.R(), colourNOT.G(), colourNOT.B());
+
+
+            //Byte[] test = fbb.DataBuffer().Data;//.DataBuffer().Data;
+            //ByteBuffer byteBuffer = new ByteBuffer(test);
+            //var m_FBDataNOT = XFBType.Scene.GetRootAsScene(byteBuffer); // read      
+            //XFBType.Colour colourNOT = m_FBDataNOT.ColourAmbient();
+            //m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colourNOT.A(), colourNOT.R(), colourNOT.G(), colourNOT.B());
 
             var m_FBData = XFBType.Scene.GetRootAsScene(fbb.DataBuffer()); // read      
             XFBType.Colour colour = m_FBData.ColourAmbient();
