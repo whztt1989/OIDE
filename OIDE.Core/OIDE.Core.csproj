@@ -127,6 +127,7 @@
     <Compile Include="Model\OIDE_RFS.cs" />
     <Compile Include="Model\OIDEZipArchive.cs" />
     <Compile Include="Model\ScenesListModel.cs" />
+    <Compile Include="ProjectTypes\Data\GameProjectData.cs" />
     <Compile Include="ProjectTypes\Handler\GameProjectHandler.cs" />
     <Compile Include="ProjectTypes\Model\GameDBFileModel.cs" />
     <Compile Include="ProjectTypes\Model\GameProjectModel.cs" />

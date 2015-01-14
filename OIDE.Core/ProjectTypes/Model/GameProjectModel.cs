@@ -48,7 +48,7 @@ namespace OIDE.Core
     [XmlInclude(typeof(SceneDataModel))]
   //  [XmlInclude(typeof(PhysicsObjectModel))]
     [Serializable]
-    public class GameProjectModel : TextModel, IItem, ISerializableObj, ICategoryItem
+    public class GameProjectModel : ContentModel, IItem, ISerializableObj, ICategoryItem
     {
         private string result;
 
@@ -205,11 +205,16 @@ namespace OIDE.Core
         public void Finish() { }
     
         public GameProjectModel()
-            : base(null, null)
+           // : base(null, null)
         {
 
         }
 
+        #region Settings
+
+        public String AssetFolder { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
@@ -217,8 +222,10 @@ namespace OIDE.Core
         /// <param name="commandManager">The injected command manager.</param>
         /// <param name="menuService">The menu service.</param>
         public GameProjectModel(IUnityContainer container, ISceneService sceneService, ICommandManager commandManager, IMenuService menuService)
-            : base(commandManager, menuService)
+         //   : base(commandManager, menuService)
         {
+            AssetFolder = "D:\\Projekte\\coop\\AssetData"; //todo set per propertygrid
+
             UnityContainer = container;
             m_Items = new CollectionOfIItem();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
@@ -233,7 +240,7 @@ namespace OIDE.Core
 
             var assetBrowser = container.Resolve<IAssetBrowserTreeService>();
             OIDE_RFS fileAssets = new OIDE_RFS(this, container) { Name = "Assets VFS", ContentID = "RootVFSID:##:" };
-            fileAssets.Open("D:\\Projekte\\coop\\AssetData");
+            fileAssets.Open(AssetFolder);
             m_Items.Add(fileAssets);
             assetBrowser.SetAsRoot(fileAssets);
             //foreach (var item in fileAssets.Items)

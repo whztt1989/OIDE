@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wide.Interfaces;
 using OIDE.InteropEditor.DLL;
+using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -21,6 +22,7 @@ namespace OIDE.Scene.Model.Objects
 //  public static void AddColourAmbient(FlatBufferBuilder builder, int colourAmbientOffset) { builder.AddOffset(0, colourAmbientOffset, 0); }
 //  public static int EndScene(FlatBufferBuilder builder) { return builder.EndObject(); }
 
+    [Serializable]
     public class FB_SceneModel : ViewModelBase, IFBObject
     {
         private XFBType.Scene m_FBData = new XFBType.Scene();
@@ -33,7 +35,8 @@ namespace OIDE.Scene.Model.Objects
 
         #region Properties
 
-        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } }
+        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = value; } }
+
         public int SetColourAmbient(System.Windows.Media.Color color)
         {
             int res = 0;
@@ -50,6 +53,39 @@ namespace OIDE.Scene.Model.Objects
         }
 
         #endregion
+
+        public static FB_SceneModel XMLDeSerialize(String filename)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(FB_SceneModel));
+            // A FileStream is needed to read the XML document.
+            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            {
+                return (FB_SceneModel)serializer.Deserialize(fs);
+            }
+        }
+
+        public void XMLSerialize(String filename)
+        {
+            XmlSerializer serializer = new XmlSerializer(this.GetType());
+
+            // Determine whether the directory exists.
+            if (!Directory.Exists(Path.GetDirectoryName(filename)))
+                Directory.CreateDirectory(Path.GetDirectoryName(filename));
+
+            if (!File.Exists(filename))
+            {
+                var fileStream = File.Open(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                fileStream.Close();
+            }
+
+            using (StreamWriter sw = new StreamWriter(filename))
+            {
+                // Serialize the purchase order, and close the TextWriter.
+                serializer.Serialize(sw, this);
+                sw.Close();
+            }
+
+        }
 
         /// <summary>
         /// reads flatbuffers byte data into object
@@ -138,7 +174,10 @@ namespace OIDE.Scene.Model.Objects
             byte[] foo = new byte[bb.Length - bb.position()];
 
             System.Buffer.BlockCopy (bb.Data, bb.position(), foo, 0, bb.Length - bb.position ());
-            var m_FBDataNOT = XFBType.Scene.GetRootAsScene(bb); // read      
+
+
+            ByteBuffer bbReadoutTest = new ByteBuffer(foo);
+            var m_FBDataNOT = XFBType.Scene.GetRootAsScene(bbReadoutTest); // read      
             XFBType.Colour colourNOT = m_FBDataNOT.ColourAmbient();
 
 
@@ -151,7 +190,7 @@ namespace OIDE.Scene.Model.Objects
             var m_FBData = XFBType.Scene.GetRootAsScene(fbb.DataBuffer()); // read      
             XFBType.Colour colour = m_FBData.ColourAmbient();
             m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colour.A(), colour.R(), colour.G(), colour.B());
-            return fbb.DataBuffer().Data; //bytebuffer
+            return foo; //bytebuffer
             //--------------------------------------
         }
     }
