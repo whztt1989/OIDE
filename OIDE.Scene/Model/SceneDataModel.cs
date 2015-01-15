@@ -210,17 +210,17 @@ namespace OIDE.Scene.Model
             int sceneID = 0;
 
             sceneID = Helper.StringToContentIDData(m_SceneService.SelectedScene.ContentID).IntValue;
-          
+
             IEnumerable<DAL.MDB.SceneNodes> result = m_DBI.selectSceneNodes(sceneID);
 
             try
             {
-                m_FB_SceneData = FB_SceneModel.XMLDeSerialize("Scene/" + DB_SceneData.SceneID); // XML Serialize
+                m_FB_SceneData = FB_SceneModel.XMLDeSerialize("Scene/" + sceneID + ".xml"); // XML Serialize
 
                 //read sceneData from DAL -- Read data from XML not from database -> database data not human readable
                 //just for testing if data correctly saved!
-              //  DAL.MDB.Scene scene = m_DBI.selectSceneDataOnly(sceneID);
-              //  m_FB_SceneData.Read(scene.Data);
+                        DAL.MDB.Scene scene = m_DBI.selectSceneDataOnly(sceneID);
+               m_FB_SceneData.Read(scene.Data);
 
                 //select all Nodes
                 foreach (var node in result)
@@ -295,7 +295,7 @@ namespace OIDE.Scene.Model
             {
                 //   m_SceneService.SelectedScene.SceneItems.Clear();
             }
-
+            RaisePropertyChanged(null);
             return true;
         }
 
@@ -315,7 +315,7 @@ namespace OIDE.Scene.Model
             //  mData = ProtoSerialize.Deserialize<ProtoType.Scene>(result);
 
             DB_SceneData.Data = m_FB_SceneData.CreateByteBuffer();
-
+            DB_SceneData.SceneID = SceneID;
      
             // ProtoType.Scene protoData = new ProtoType.Scene();
             // protoData.colourAmbient = new ProtoType.Colour() { r = 5 , b =  6 , g = 7 };
@@ -327,6 +327,10 @@ namespace OIDE.Scene.Model
                 m_DBI.insertScene(DB_SceneData);
 
             m_FB_SceneData.XMLSerialize("Scene/" + 1 + ".xml");//DB_SceneData.SceneID); // XML Serialize
+
+            ByteBuffer bbReadoutTest = new ByteBuffer(DB_SceneData.Data);
+            var m_FBDataNOT = XFBType.Scene.GetRootAsScene(bbReadoutTest); // read      
+            XFBType.Colour colourNOT = m_FBDataNOT.ColourAmbient();
 
             //##   DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
 
@@ -420,6 +424,7 @@ namespace OIDE.Scene.Model
         public SceneDataModel()
         {
             m_DBI = new IDAL();
+            DB_SceneData = new DAL.MDB.Scene();
             m_SceneItems = new ObservableCollection<ISceneItem>();
           //  mProtoData = new ProtoType.Scene();
 
@@ -436,7 +441,8 @@ namespace OIDE.Scene.Model
             m_Container = container;
             m_SceneService = container.Resolve<ISceneService>();
             m_DBI = new IDAL();
-       //     mProtoData = new ProtoType.Scene();
+            DB_SceneData = new DAL.MDB.Scene();
+            //     mProtoData = new ProtoType.Scene();
 
             ////if (dbData == null)
             ////    SceneData = m_DBI.selectSceneDataOnly(id);

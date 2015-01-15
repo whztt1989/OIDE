@@ -187,9 +187,9 @@ namespace OIDE.Scene.Model.Objects
             //XFBType.Colour colourNOT = m_FBDataNOT.ColourAmbient();
             //m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colourNOT.A(), colourNOT.R(), colourNOT.G(), colourNOT.B());
 
-            var m_FBData = XFBType.Scene.GetRootAsScene(fbb.DataBuffer()); // read      
-            XFBType.Colour colour = m_FBData.ColourAmbient();
-            m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colour.A(), colour.R(), colour.G(), colour.B());
+            //var m_FBData = XFBType.Scene.GetRootAsScene(fbb.DataBuffer()); // read      
+            //XFBType.Colour colour = m_FBData.ColourAmbient();
+            //m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colour.A(), colour.R(), colour.G(), colour.B());
             return foo; //bytebuffer
             //--------------------------------------
         }
