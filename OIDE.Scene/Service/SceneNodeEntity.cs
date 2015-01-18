@@ -17,6 +17,7 @@ using OIDE.Scene.Interface.Services;
 using Wide.Interfaces;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using OIDE.Scene.Model.Objects;
+using WIDE_Helpers;
 
 namespace OIDE.Scene.Service
 {
@@ -34,7 +35,7 @@ namespace OIDE.Scene.Service
         public Boolean Enabled { get; set; }
 
 
-        private DAL.MDB.SceneNodes mSceneNode;
+        private DAL.MDB.SceneNode mSceneNode;
 
         [XmlIgnore]
         [Browsable(false)]
@@ -56,7 +57,7 @@ namespace OIDE.Scene.Service
         public Vector3 Scale { get { return m_FB_SceneNode.Scale; } set { m_FB_SceneNode.SetScale(value); RaisePropertyChanged("Scale"); } }
 
         [XmlIgnore]
-        public DAL.MDB.SceneNodes SceneNode
+        public DAL.MDB.SceneNode SceneNode
         { get { return mSceneNode; }
             set 
             { 
@@ -77,10 +78,10 @@ namespace OIDE.Scene.Service
             }
         }
 
-
-
-        [XmlAttribute]
         public String Name { get; set; }
+        
+        public Int32 NodeID { get; set; }
+
 
         [XmlIgnore]
         [Browsable(false)]
@@ -136,7 +137,7 @@ namespace OIDE.Scene.Service
           //  m_model.Items.Clear();
             (Parent as IScene).SceneItems.Remove(this);
 
-            m_DBI.DeleteSceneNode(Helper.StringToContentIDData(ContentID).IntValue);
+            m_DBI.DeleteSceneNode(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
 
             return true; 
         }

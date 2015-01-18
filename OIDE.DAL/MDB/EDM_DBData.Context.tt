@@ -2,7 +2,7 @@
 <#@ include file="EF.Utility.CS.ttinclude"#><#@
  output extension=".cs"#><#
 
-const string inputFile = @"EDM_GameData.edmx";
+const string inputFile = @"EDM_DBData.edmx";
 var textTransform = DynamicTextTransformation.Create(this);
 var code = new CodeGenerationTools(this);
 var ef = new MetadataTools(this);

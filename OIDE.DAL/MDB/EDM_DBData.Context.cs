@@ -13,10 +13,10 @@ namespace DAL.MDB
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class gameDataEntities : DbContext
+    public partial class dbDataEntities : DbContext
     {
-        public gameDataEntities()
-            : base("name=gameDataEntities")
+        public dbDataEntities()
+            : base("name=dbDataEntities")
         {
         }
     
@@ -25,14 +25,14 @@ namespace DAL.MDB
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Entity> Entity { get; set; }
+        public DbSet<EntityData> EntityData { get; set; }
         public DbSet<Fog> Fog { get; set; }
         public DbSet<Material> Material { get; set; }
-        public DbSet<Race> Race { get; set; }
+        public DbSet<SceneNode> SceneNode { get; set; }
         public DbSet<Sky> Sky { get; set; }
         public DbSet<Terrain> Terrain { get; set; }
         public DbSet<MatUsedInScene> MatUsedInScene { get; set; }
         public DbSet<Scene> Scene { get; set; }
-        public DbSet<SceneNodes> SceneNodes { get; set; }
-        public DbSet<GameEntity> GameEntity { get; set; }
     }
 }

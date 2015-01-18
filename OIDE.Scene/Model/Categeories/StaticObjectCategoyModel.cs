@@ -46,7 +46,8 @@ namespace OIDE.Scene
     public class StaticObjectCategoyModel : ViewModelBase, ISceneItem
     {
         public String Name { get; set; }
-
+        public Int32 NodeID { get; set; }
+      
         [Browsable(false)]
         public CollectionOfIItem Items { get;  set; }
 

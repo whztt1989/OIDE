@@ -46,12 +46,10 @@ using Module.Properties.Helpers;
 using OIDE.VFS.VFS_Types.RootFileSystem;
 using OIDE.Scene.Model.Objects;
 using Module.Properties.Types;
-using DAL.MDB;
+using WIDE_Helpers;
 
 namespace OIDE.Scene.Model
 {
-  
-  
     public class SpawnPointModel : ISceneItem, IGameEntity
     {
         //private ProtoType.SpawnPoint mData;
@@ -77,15 +75,16 @@ namespace OIDE.Scene.Model
         public Boolean Enabled { get; set; }
         public String ContentID { get; set; }
 
+        public Int32 NodeID { get; set; }
         [XmlIgnore]
         [Browsable(false)]
         public ISceneNode Node { get; set; }
 
         [XmlIgnore]
         [Browsable(false)]
-        public DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public DAL.MDB.SceneNode SceneNode { get; private set; }
 
-        private GameEntity mDBData;
+        private FB_SpawnPointModel mDBData;
 
         [XmlIgnore]
         [Browsable(false)]
@@ -94,7 +93,7 @@ namespace OIDE.Scene.Model
             get   {  return mDBData;  }
             set
             {
-                mDBData = value as GameEntity;
+                mDBData = value as FB_SpawnPointModel;
              
                
                 //GameEntity dbData = value as GameEntity;
@@ -210,7 +209,7 @@ namespace OIDE.Scene.Model
         public Boolean Open(object id)
         {
 
-            DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
+            DBData = m_dbI.selectEntity(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));
             //try
             //{
@@ -230,9 +229,11 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
-                if (gameEntity == null)
-                    gameEntity = new GameEntity();
+                DAL.MDB.Entity gameEntity = DBData as DAL.MDB.Entity;
+                //todo   if (gameEntity == null)
+                //todo    gameEntity = new FB_SpawnPointModel();
+         
+                
                 //Update Phyiscs Data
                 //ProtoData.gameEntity.physics.Clear();
                 //foreach(var item in m_Physics)

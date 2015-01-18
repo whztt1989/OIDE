@@ -15,16 +15,6 @@ using OIDE.Scene.Interface.Services;
 
 namespace OIDE.Scene.Model.Objects
 {
-//      public static Scene GetRootAsScene(ByteBuffer _bb, int offset) { return (new Scene()).__init(_bb.GetInt(offset) + offset, _bb); }
-//  public Scene __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
-
-//  public Colour ColourAmbient() { return ColourAmbient(new Colour()); }
-//  public Colour ColourAmbient(Colour obj) { int o = __offset(4); return o != 0 ? obj.__init(__indirect(o + bb_pos), bb) : null; }
-
-//  public static void StartScene(FlatBufferBuilder builder) { builder.StartObject(1); }
-//  public static void AddColourAmbient(FlatBufferBuilder builder, int colourAmbientOffset) { builder.AddOffset(0, colourAmbientOffset, 0); }
-//  public static int EndScene(FlatBufferBuilder builder) { return builder.EndObject(); }
-
     public class FB_SceneNode : ViewModelBase, IFBObject
     {
         private XFBType.Node m_FBData = new XFBType.Node();
@@ -115,14 +105,9 @@ namespace OIDE.Scene.Model.Objects
         /// <returns>byte data</returns>
         public Byte[] CreateByteBuffer()
         {
-            //m_ColourAmbient.A = 255;
-            //m_ColourAmbient.R = 90;
-            //m_ColourAmbient.B = 50;
             //--------------------------------------
             //create flatbuffer data
             //--------------------------------------
-          
-            // fbb.CreateString();
             FlatBufferBuilder fbb = new FlatBufferBuilder(1);
 
             int rotOffset = XFBType.Quat4f.CreateQuat4f(fbb,m_Rotation.W, m_Rotation.X, m_Rotation.Y, m_Rotation.Z);
@@ -142,40 +127,10 @@ namespace OIDE.Scene.Model.Objects
             XFBType.Node.AddVisible(fbb, 0x01);
 
             int sceneoffset = XFBType.Node.EndNode(fbb);
-           
-            //int s_offset = fbb.CreateString("bockmist");
-            //int s_offset2 = fbb.CreateString("bockmist2");
-            //int s_offset3 = fbb.CreateString("bockmist3");
-            //FBType.Sound.StartSound(fbb);
-            //FBType.Sound.AddName(fbb, s_offset);
-            //FBType.Sound.AddFileName(fbb, s_offset2);
-            //FBType.Sound.AddRessGrp(fbb, s_offset3);
-            //int sound_offset = FBType.Sound.EndSound(fbb);
 
             fbb.Finish(sceneoffset); //!!!!! important ..
-            // Dump to output directory so we can inspect later, if needed
-            //using (var ms = new MemoryStream(fbb.DataBuffer().Data))//, fbb.DataBuffer().position(), fbb.Offset()))
-            //{
-            //    var data = ms.ToArray();
 
-
-            //FBType.Sound test = FBType.Sound.GetRootAsSound(fbb.DataBuffer(), fbb.DataBuffer().position());
-            //    string gg = test.FileName(); // funtzt 
-
-              //  File.WriteAllBytes(@"Resources/monsterdata_cstest.mon", data);
-         //   }
-
-         //   FBType.Colour test = FBType.Colour.GetRootAsColour(fbb.DataBuffer(), 0);
-         //   float mist =  test.A();
-         //   m_ColourAmbient = System.Windows.Media.Color.FromScRgb(test.A(), test.R(), test.G(), test.B());
-         
-            //FBType.Scene.StartScene(fbb);
-            //FBType.Scene.AddColourAmbient(fbb, coloffset);
-            //int mon = FBType.Scene.EndScene(fbb);
-            //fbb.Finish(mon);
-
-
-            return fbb.DataBuffer().Data; //bytebuffer
+            return fbb.SizedByteArray(); //bytebuffer
             //--------------------------------------
         }
     }

@@ -48,6 +48,7 @@ using OIDE.Scene.Model.Objects;
 using Module.Properties.Types;
 using DAL;
 using DAL.MDB;
+using WIDE_Helpers;
 
 namespace OIDE.Scene.Model
 {
@@ -122,21 +123,24 @@ namespace OIDE.Scene.Model
 
     public class StaticObjectModel : ISceneItem, IGameEntity
     {
-        //private ProtoType.StaticEntity mData;
+        private FB_StaticObjectModel m_FBData;
 
         public void Drop(IItem item) 
         { 
              if(item is FileItem)
              {
-                 //if (mData.gameEntity == null)
-                 //    mData.gameEntity = new ProtoType.GameEntity();
+                 if (m_FBData == null || m_FBData.EntityBaseModel == null)
+                     this.Open(this.ContentID);
 
+                 //todo
                  //ProtoType.Mesh mesh = new ProtoType.Mesh();
                  //mesh.Name = (item as FileItem).ContentID;
                  //mData.gameEntity.meshes.Add(mesh);
              }
         }
 
+        public Int32 NodeID { get; set; }
+        
         [XmlIgnore]
         [Browsable(false)]
         public IItem Parent { get; private set; }
@@ -151,50 +155,53 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public DAL.MDB.SceneNodes SceneNode { get; private set; }
-
-        private GameEntity mDBData;
+        public DAL.MDB.SceneNode SceneNode { get; private set; }
 
         [XmlIgnore]
         [Browsable(false)]
-        public object DBData
-        {
-            get   {  return mDBData;  }
-            set
-            {
-                mDBData = value as GameEntity;
-             
-               
-                //GameEntity dbData = value as GameEntity;
-                //ProtoType.StaticEntity dataStaticObj = new ProtoType.StaticEntity();
+        public DAL.IDAL.EntityContainer DB_Entity { get; private set; }
 
-                //if (dbData.Data != null)
-                //{
-                //    mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>(dbData.Data);
+     //   private Entity mDBData;
+
+        //[XmlIgnore]
+        //[Browsable(false)]
+        //public object DB_S_ObjectData
+        //{
+        //    get   {  return mDBData;  }
+        //    set
+        //    {
+        //        mDBData = value as Entity;
+
+        //        //GameEntity dbData = value as GameEntity;
+        //        //ProtoType.StaticEntity dataStaticObj = new ProtoType.StaticEntity();
+
+        //        //if (dbData.Data != null)
+        //        //{
+        //        //    mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>(dbData.Data);
  
-                //    if (mData.gameEntity == null)
-                //       mData.gameEntity = new ProtoType.GameEntity();
+        //        //    if (mData.gameEntity == null)
+        //        //       mData.gameEntity = new ProtoType.GameEntity();
 
-                //    foreach (var item in mData.gameEntity.physics)
-                //        m_Physics.Add(new PhysicObject() { ProtoData = item });
+        //        //    foreach (var item in mData.gameEntity.physics)
+        //        //        m_Physics.Add(new PhysicObject() { ProtoData = item });
 
-                //    foreach (var item in mData.gameEntity.materials)
-                //        m_Materials.Add(new Material() { ProtoData = item });
+        //        //    foreach (var item in mData.gameEntity.materials)
+        //        //        m_Materials.Add(new Material() { ProtoData = item });
 
 
-                //    foreach (var item in mData.gameEntity.meshes)
-                //    {
-                //        if (item.cube != null)
-                //            mMeshes.Add(new Cube() { ProtoData = item });
-                //        else if (item.plane != null)
-                //            mMeshes.Add(new Plane() { ProtoData = item });
-                //        else
-                //            mMeshes.Add(new Mesh() { ProtoData = item });
-                //    }
-                //}
+        //        //    foreach (var item in mData.gameEntity.meshes)
+        //        //    {
+        //        //        if (item.cube != null)
+        //        //            mMeshes.Add(new Cube() { ProtoData = item });
+        //        //        else if (item.plane != null)
+        //        //            mMeshes.Add(new Plane() { ProtoData = item });
+        //        //        else
+        //        //            mMeshes.Add(new Mesh() { ProtoData = item });
+        //        //    }
+        //        //}
 
-            }
-        }
+        //    }
+        //}
 
       //  private List<String> mMeshes;
 
@@ -277,8 +284,20 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
 
+        private Boolean m_opened;
+
+        private Boolean m_IsSelected;
         [Browsable(false)]
-        public Boolean IsSelected { get; set; }
+        public Boolean IsSelected
+        {
+            get { return m_IsSelected; }
+            set
+            {
+                m_IsSelected = value;
+                    
+                Open(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
+            }
+        }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -286,17 +305,22 @@ namespace OIDE.Scene.Model
 
         public Boolean Open(object id)
         {
+            if (m_opened)
+                return true;
 
-            DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
-            // Console.WriteLine(BitConverter.ToString(res));
-            //try
-            //{
-            //    mData = ProtoSerialize.Deserialize<ProtoType.StaticEntity>((DBData as DAL.MDB.GameEntity).Data);
-            //}
-            //catch
-            //{
-            //    mData = new ProtoType.StaticEntity();
-            //}
+         //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
+
+            //read data from lokal xml file
+            try
+            { 
+                m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+            }
+            catch (Exception ex)
+            {
+                Create();
+                //     MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+            m_opened = true;
             return true; 
         }
 
@@ -307,8 +331,8 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
-
+              //  DAL.MDB.Entity gameEntity = DB_S_ObjectData as DAL.MDB.Entity;
+                
                 //Update Phyiscs Data
                 //ProtoData.gameEntity.physics.Clear();
                 //foreach(var item in m_Physics)
@@ -324,19 +348,23 @@ namespace OIDE.Scene.Model
                 //foreach (var item in m_Materials)
                 //    ProtoData.gameEntity.materials.Add(item.ProtoData);
 
-                //gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
-                //gameEntity.Name = this.Name;
 
-                //if (gameEntity.EntID > 0)
-                //    m_dbI.updateGameEntity(gameEntity);
-                //else
-                //{
-                //    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Static;
-                //    m_dbI.insertGameEntity(gameEntity);
-                //}
+                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer();
+                DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
+
+
+                if (DB_Entity.Entity.EntID > 0)
+                    m_dbI.updateEntity(DB_Entity.Entity);
+                else
+                {
+                    DB_Entity.Entity.EntType = (decimal)EntityTypes.NT_Static;
+                    m_dbI.insertEntity(DB_Entity.Entity);
+                }
 
                 //if (DLL_Singleton.Instance.EditorInitialized)
                 //    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
+
+                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
             catch (Exception ex)
@@ -348,7 +376,12 @@ namespace OIDE.Scene.Model
 
         private ICommand CmdSaveStaticObj;
 
-        public Boolean Create() { return true; }
+        public Boolean Create()
+        {
+            m_FBData = new FB_StaticObjectModel();
+            
+            return true; 
+        }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
 
@@ -383,14 +416,15 @@ namespace OIDE.Scene.Model
             m_Materials = new List<Material>();
             mMeshes = new List<Mesh>();
             m_Physics = new List<PhysicObject>();
+            m_FBData = new FB_StaticObjectModel();
+            DB_Entity = new DAL.IDAL.EntityContainer();
+            DB_Entity.Entity = new Entity();
             //mData = new ProtoType.StaticEntity();
             //mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
-            SceneNode = new DAL.MDB.SceneNodes();
+            SceneNode = new DAL.MDB.SceneNode();
 
         }
-
-
     }
 
 

@@ -46,7 +46,6 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using ProtoBuf;
 using Module.Protob.Utilities;
 using Module.History.Service;
-using Module.Properties.Helpers;
 using OIDE.Scene.Service;
 using Wide.Interfaces;
 using System.Windows.Media;
@@ -56,6 +55,18 @@ using DAL.MDB;
 
 namespace OIDE.Scene.Model
 {
+    enum EntityTypes : ushort
+    {
+        NT_Unkown,
+        NT_Physic,
+        NT_Character,
+        NT_Static,
+        NT_Terrain,
+        NT_Light,
+        NT_Camera,
+        NT_SpawnPoint,
+    }
+
     /// <summary>
     /// Complete Scene description
     /// </summary>
@@ -65,9 +76,6 @@ namespace OIDE.Scene.Model
         private ICommand CmdDeleteScene;
         private ICommand CmdSaveScene;
         
-        //private FlatBuffers.ByteBuffer m_FBByteBuffer;       
-        //private XFBType.Scene m_FBData;
-
         private CollectionOfIItem m_Items;
         private ObservableCollection<ISceneItem> m_SceneItems;
         private ISceneItem mSelectedItem;
@@ -84,21 +92,13 @@ namespace OIDE.Scene.Model
             {
                 var sceneItem  = item as ISceneItem;
 
-                DAL.MDB.SceneNodes node = new SceneNodes() 
+                DAL.MDB.SceneNode node = new SceneNode() 
                 {
                     Name = "NEWNode_" + sceneItem.Name,
-                    EntID = Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
+                    EntID = Module.Properties.Helpers.Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
                      
                 };
-                m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer, m_DBI)
-                { SceneNode = node, Name = node.Name ?? "NodeNoname" });
-                
-                //ISceneNode tmp = item as ISceneNode;
-            
-                //if (tmp.Node == null)
-                //    tmp.Node = new ProtoType.Node();
-
-                //m_SceneItems.Add(tmp as ISceneItem);
+                m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer, m_DBI)  { SceneNode = node, Name = node.Name ?? "NodeNoname" });
             }
         }
 
@@ -195,6 +195,10 @@ namespace OIDE.Scene.Model
 
         #region Scene Data
 
+        public long? FogID { get; set; }
+        public long SceneID { get; set; }
+        public long? SkyID { get; set; }
+        public long? TerrID { get; set; }
 
         #endregion
 
@@ -209,31 +213,34 @@ namespace OIDE.Scene.Model
             m_SceneService.SelectedScene = this;
             int sceneID = 0;
 
-            sceneID = Helper.StringToContentIDData(m_SceneService.SelectedScene.ContentID).IntValue;
+            sceneID =  Module.Properties.Helpers.Helper.StringToContentIDData(m_SceneService.SelectedScene.ContentID).IntValue;
+            
+            DB_SceneData = m_DBI.selectSceneDataOnly(sceneID); // database data
 
-            IEnumerable<DAL.MDB.SceneNodes> result = m_DBI.selectSceneNodes(sceneID);
+            IEnumerable<DAL.IDAL.SceneNodeContainer> result = m_DBI.selectSceneNodes(sceneID); //scenenodes from database
 
             try
             {
-                m_FB_SceneData = FB_SceneModel.XMLDeSerialize("Scene/" + sceneID + ".xml"); // XML Serialize
-
                 //read sceneData from DAL -- Read data from XML not from database -> database data not human readable
-                //just for testing if data correctly saved!
-                        DAL.MDB.Scene scene = m_DBI.selectSceneDataOnly(sceneID);
-               m_FB_SceneData.Read(scene.Data);
+                m_FB_SceneData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneModel>("Scene/" + sceneID + ".xml"); // XML Serialize
+              // m_FB_SceneData.Read(scene.Data); //just for testing if data correctly saved!
 
                 //select all Nodes
-                foreach (var node in result)
+                foreach (var nodeContainer in result)
                 {
-                    //ProtoType.Node nodeDeserialized;
-                    //if (node.Data == null)
-                    //    nodeDeserialized = new ProtoType.Node();
-                    //else
-                    //    nodeDeserialized = ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+                    if(!m_SceneItems.Where(x => x.NodeID == nodeContainer.Node.NodeID).Any()) // add node to scene if not exists
+                    {
+                        FB_SceneNode nodeDeserialized;
+                        if (nodeContainer.Node.Data == null)
+                            nodeDeserialized = new FB_SceneNode();
+                        else
+                            nodeDeserialized =  Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneNode>("Scene/Nodes/" + nodeContainer.Node.NodeID + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
 
-                    m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer,m_DBI) { SceneNode = node, Name = node.Name ?? "NodeNoname" });
-                    //switch ((NodeTypes)node.GameEntity.EntType)
-                    //{
+                        m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer,m_DBI) { SceneNode = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" });
+                    }
+
+                    switch ((EntityTypes)nodeContainer.Entity.EntType)
+                    {
                     //    case NodeTypes.Static:
 
                     //        m_SceneItems.Add(new StaticObjectModel(this, UnityContainer, m_DBI)
@@ -287,7 +294,7 @@ namespace OIDE.Scene.Model
                     //        if (itemLight.Any())
                     //            itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer) { Node = nodeDeserialized });
                     //        break;
-                    //}
+                       }
 
                 }
             }
@@ -299,10 +306,6 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public long? FogID { get; set; }
-        public long SceneID { get; set; }
-        public long? SkyID { get; set; }
-        public long? TerrID { get; set; }
 
         public void Refresh() { }
         public void Finish() { }
@@ -326,11 +329,7 @@ namespace OIDE.Scene.Model
             else
                 m_DBI.insertScene(DB_SceneData);
 
-            m_FB_SceneData.XMLSerialize("Scene/" + 1 + ".xml");//DB_SceneData.SceneID); // XML Serialize
-
-            ByteBuffer bbReadoutTest = new ByteBuffer(DB_SceneData.Data);
-            var m_FBDataNOT = XFBType.Scene.GetRootAsScene(bbReadoutTest); // read      
-            XFBType.Colour colourNOT = m_FBDataNOT.ColourAmbient();
+            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_SceneModel>(m_FB_SceneData, "Scene/" + 1 + ".xml"); // XML Serialize
 
             //##   DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
 
@@ -339,7 +338,7 @@ namespace OIDE.Scene.Model
             //------------------------------
             try
             {
-                DAL.MDB.SceneNodes nodes = new DAL.MDB.SceneNodes();
+                DAL.MDB.SceneNode nodes = new DAL.MDB.SceneNode();
 
                 //select all Nodes
                 foreach (var sceneItem in m_SceneService.SelectedScene.SceneItems)
@@ -368,8 +367,8 @@ namespace OIDE.Scene.Model
 
                     //Create scenenode for database
                     sNode.SceneNode.EntID = sNode.SceneNode.EntID;
-                    
-                    sNode.SceneNode.SceneID = Helper.StringToContentIDData(ContentID).IntValue;
+
+                    sNode.SceneNode.SceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
                     sNode.SceneNode.Name = sItem.Name;
                     sNode.SceneNode.Data = ProtoSerialize.Serialize(sNode.ByteBuffer);//Node data
 
@@ -416,7 +415,7 @@ namespace OIDE.Scene.Model
 
         public Boolean Delete()
         {
-            m_DBI.DeleteScene(Helper.StringToContentIDData(ContentID).IntValue);
+            m_DBI.DeleteScene(Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue);
 
             return true;
         }

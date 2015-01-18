@@ -29,7 +29,7 @@ namespace OIDE.Scene.Interface.Services
         /// <summary>
         /// scenenode from database
         /// </summary>
-        DAL.MDB.SceneNodes SceneNode { get; }
+        DAL.MDB.SceneNode SceneNode { get; }
                     
         /// <summary>
         /// deserialized node data

@@ -45,7 +45,8 @@ namespace OIDE.Scene
     public class SceneCategoryModel : ViewModelBase, ISceneItem
     {
         public String Name { get; set; }
-
+        public Int32 NodeID { get; set; }
+      
         [Browsable(false)]
         [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }

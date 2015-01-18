@@ -17,6 +17,7 @@ using Microsoft.Practices.Unity;
 using Module.Protob.Utilities;
 using OIDE.InteropEditor.DLL;
 using Module.Properties.Helpers;
+using WIDE_Helpers;
 
 namespace OIDE.Scene.Model
 {
@@ -28,7 +29,8 @@ namespace OIDE.Scene.Model
         public String ContentID { get; set; }
 
         public void Drop(IItem item) { }
-
+        public Int32 NodeID { get; set; }
+      
         [XmlIgnore]
         public IItem Parent { get; private set; }
         public Boolean Visible { get; set; }
@@ -38,7 +40,7 @@ namespace OIDE.Scene.Model
     //    public ProtoType.Node Node { get; set; }
 
         [XmlIgnore]
-        public DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public DAL.MDB.SceneNode SceneNode { get; private set; }
 
         [XmlIgnore]
         public object DBData { get; private set; }
@@ -107,7 +109,7 @@ namespace OIDE.Scene.Model
         public Boolean Open(object id)
         {
 
-            DBData = m_dbI.selectGameEntity(Helper.StringToContentIDData(ContentID).IntValue);
+            DBData = m_dbI.selectEntity(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));
             //try
             //{
@@ -127,16 +129,16 @@ namespace OIDE.Scene.Model
 
             try
             {
-                DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
+                DAL.MDB.Entity gameEntity = DBData as DAL.MDB.Entity;
               //  gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
                 gameEntity.Name = this.Name;
 
                 if (gameEntity.EntID > 0)
-                    m_dbI.updateGameEntity(gameEntity);
+                    m_dbI.updateEntity(gameEntity);
                 else
                 {
                 //    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Physic;
-                    m_dbI.insertGameEntity(gameEntity);
+                    m_dbI.insertEntity(gameEntity);
                 }
 
                 if (DLL_Singleton.Instance.EditorInitialized)
@@ -180,7 +182,7 @@ namespace OIDE.Scene.Model
           
 
             /// ???????????????????????????
-            SceneNode = new DAL.MDB.SceneNodes();
+            SceneNode = new DAL.MDB.SceneNode();
 
 
             CmdSave = new CmdSavePhysicObject(this);

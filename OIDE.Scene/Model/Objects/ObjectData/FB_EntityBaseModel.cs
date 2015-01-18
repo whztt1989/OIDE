@@ -2,10 +2,12 @@
 using Module.Protob.Interface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Wide.Interfaces;
 
 namespace OIDE.Scene.Model.Objects
@@ -20,34 +22,62 @@ namespace OIDE.Scene.Model.Objects
 //  public static void AddColourAmbient(FlatBufferBuilder builder, int colourAmbientOffset) { builder.AddOffset(0, colourAmbientOffset, 0); }
 //  public static int EndScene(FlatBufferBuilder builder) { return builder.EndObject(); }
 
-    public class FB_StaticObjectModel : ViewModelBase, IFBObject
+    public class FB_EntityBaseModel : ViewModelBase, IFBObject
     {
-        private XFBType.StaticEntity m_FBData = new XFBType.StaticEntity();
-        //private ByteBuffer m_ByteBuffer = null;
+        private XFBType.EntityBase m_FBData = new XFBType.EntityBase();
+        private ByteBuffer m_ByteBuffer = null;
 
-        #region StaticObject Data
+        #region sceneData
 
-        private int m_Group;
-        private FB_GameEntityModel m_GameEntityModel;
+        private String m_AnimationInfo;
+        private String m_AnimationTree;
+        private String m_Boneparent;
+        private Boolean m_CastShadows;
 
         #endregion
 
         #region Properties
 
-        public int Group { get { return m_Group; } set { m_Group = value; RaisePropertyChanged("Group"); } }
-        //public ByteBuffer ByteBuffer { get { return m_ByteBuffer; } set { m_ByteBuffer = value; } }
-        public FB_GameEntityModel GameEntityModel { get { return m_GameEntityModel; } set { m_GameEntityModel = value; RaisePropertyChanged("GameEntityModel"); } }
+        public String AnimationInfo { get { return m_AnimationInfo; } set { m_AnimationInfo = value; RaisePropertyChanged("AnimationInfo"); } }
+        public String AnimationTree { get { return m_AnimationTree; } set { m_AnimationTree = value; RaisePropertyChanged("AnimationTree"); } }
+        public String Boneparent { get { return m_Boneparent; } set { m_Boneparent = value; RaisePropertyChanged("Boneparent"); } }
+        public Boolean CastShadows { get { return m_CastShadows; } set { m_CastShadows = value; RaisePropertyChanged("CastShadows"); } }
 
+
+        [Browsable(false)]
+        [XmlIgnore]
+        public ByteBuffer ByteBuffer { get { return m_ByteBuffer; } set { m_ByteBuffer = value; } }
+
+        [Browsable(false)]
+        [XmlIgnore]
+        public XFBType.EntityBase FB_Data
+        { 
+            set {
+                AnimationInfo = value.AnimationInfo();
+                AnimationTree = value.AnimationTree();
+                Boneparent = value.Boneparent();
+                CastShadows = Boolean.Parse(value.CastShadows().ToString());
+                //AnimationInfo = value.Debug();
+                //AnimationInfo = value.Materials();
+                //AnimationInfo = value.MaterialsLength();
+                //AnimationInfo = value.Meshes();
+                //AnimationInfo = value.MeshesLength();
+                //AnimationInfo = value.Mode();
+                //AnimationInfo = value.Physics();
+           //todo
+            } 
+        }
 
         #endregion
 
         public void Read(Byte[] fbData)
         {
-            ByteBuffer byteBuffer = new ByteBuffer(fbData);
-            m_FBData = XFBType.StaticEntity.GetRootAsStaticEntity(byteBuffer); // read 
-           //     m_Group = XFBType.Group(); //per node!
-                m_GameEntityModel = new FB_GameEntityModel() { FB_Data = m_FBData.Entitybase() } ;
-            
+            if (m_ByteBuffer != null)
+            {
+              //  m_FBData = XFBType.EntityBase.GetRootAsGameEntity(m_ByteBuffer, m_ByteBuffer.position()); // read 
+               // FBType.Colour colour = m_FBData.ColourAmbient();
+
+            }
         }
 
         public Byte[] CreateByteBuffer()
@@ -58,21 +88,20 @@ namespace OIDE.Scene.Model.Objects
             //--------------------------------------
             //create flatbuffer data
             //--------------------------------------
-            FlatBufferBuilder fbb = new FlatBufferBuilder(1);
-            // fbb.CreateString();
+            //FlatBufferBuilder fbb = new FlatBufferBuilder(1);
+            //// fbb.CreateString();
 
-            XFBType.Colour.StartColour(fbb);
-            //FBType.Colour.AddA(fbb, m_ColourAmbient.A);
-            //FBType.Colour.AddR(fbb, m_ColourAmbient.R);
-            //FBType.Colour.AddB(fbb, m_ColourAmbient.B);
-            //FBType.Colour.AddG(fbb, m_ColourAmbient.G);
-            int coloffset = XFBType.Colour.EndColour(fbb);
+       
+            //FBType.Colour.StartColour(fbb);
+            ////FBType.Colour.AddA(fbb, m_ColourAmbient.A);
+            ////FBType.Colour.AddR(fbb, m_ColourAmbient.R);
+            ////FBType.Colour.AddB(fbb, m_ColourAmbient.B);
+            ////FBType.Colour.AddG(fbb, m_ColourAmbient.G);
+            //int coloffset = FBType.Colour.EndColour(fbb);
 
-            int sceneoffset = XFBType.Scene.CreateScene(fbb, coloffset);
-          
-            //XFBType.Scene.StartScene(fbb);
-            //XFBType.Scene.AddColourAmbient(fbb, coloffset);
-            //int sceneoffset = XFBType.Scene.EndScene(fbb);
+            //FBType.Scene.StartScene(fbb);
+            //FBType.Scene.AddColourAmbient(fbb, coloffset);
+            //int sceneoffset = FBType.Scene.EndScene(fbb);
            
             //int s_offset = fbb.CreateString("bockmist");
             //int s_offset2 = fbb.CreateString("bockmist2");
@@ -82,8 +111,8 @@ namespace OIDE.Scene.Model.Objects
             //FBType.Sound.AddFileName(fbb, s_offset2);
             //FBType.Sound.AddRessGrp(fbb, s_offset3);
             //int sound_offset = FBType.Sound.EndSound(fbb);
-
-            fbb.Finish(sceneoffset); //!!!!! important ..
+//
+        //    fbb.Finish(sceneoffset); //!!!!! important ..
             // Dump to output directory so we can inspect later, if needed
             //using (var ms = new MemoryStream(fbb.DataBuffer().Data))//, fbb.DataBuffer().position(), fbb.Offset()))
             //{
@@ -106,7 +135,7 @@ namespace OIDE.Scene.Model.Objects
             //fbb.Finish(mon);
 
 
-          return  fbb.DataBuffer().Data; //bytebuffer
+            return null;//m_ByteBuffer = fbb.DataBuffer(); //bytebuffer
             //--------------------------------------
         }
     }

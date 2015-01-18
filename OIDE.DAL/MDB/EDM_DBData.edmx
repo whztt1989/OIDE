@@ -4,23 +4,30 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="gameDataModel.Store" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Fog">
-          <Key>
-            <PropertyRef Name="FogID" />
-          </Key>
-          <Property Name="FogID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Data" Type="blob" />
-        </EntityType>
-        <EntityType Name="GameEntity">
+    <Schema Namespace="dbDataModel.Store" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Entity">
           <Key>
             <PropertyRef Name="EntID" />
           </Key>
           <Property Name="EntID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EntType" Type="decimal" Precision="53" Scale="0" />
           <Property Name="Name" Type="varchar" MaxLength="2147483647" />
+          <Property Name="EntDID" Type="integer" />
           <Property Name="Data" Type="blob" />
-          <Property Name="RaceID" Type="integer" />
+        </EntityType>
+        <EntityType Name="EntityData">
+          <Key>
+            <PropertyRef Name="EntDID" />
+          </Key>
+          <Property Name="EntDID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Data" Type="blob" />
+        </EntityType>
+        <EntityType Name="Fog">
+          <Key>
+            <PropertyRef Name="FogID" />
+          </Key>
+          <Property Name="FogID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Data" Type="blob" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -38,13 +45,6 @@ Warnung 6002: Für Tabelle/Sicht 'main.MatUsedInScene' ist kein Primärschlüsse
           <Property Name="SceneID" Type="integer" Nullable="false" />
           <Property Name="MatID" Type="integer" />
         </EntityType>
-        <EntityType Name="Race">
-          <Key>
-            <PropertyRef Name="RaceID" />
-          </Key>
-          <Property Name="RaceID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Data" Type="blob" />
-        </EntityType>
         <EntityType Name="Scene">
           <Key>
             <PropertyRef Name="SceneID" />
@@ -55,13 +55,14 @@ Warnung 6002: Für Tabelle/Sicht 'main.MatUsedInScene' ist kein Primärschlüsse
           <Property Name="TerrID" Type="integer" />
           <Property Name="Data" Type="blob" />
         </EntityType>
-        <EntityType Name="SceneNodes">
+        <EntityType Name="SceneNode">
           <Key>
             <PropertyRef Name="NodeID" />
+            <PropertyRef Name="EntID" />
           </Key>
-          <Property Name="NodeID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NodeID" Type="integer" Nullable="false" />
+          <Property Name="EntID" Type="integer" Nullable="false" />
           <Property Name="SceneID" Type="integer" />
-          <Property Name="EntID" Type="integer" />
           <Property Name="Data" Type="blob" />
           <Property Name="Name" Type="varchar" MaxLength="2147483647" />
         </EntityType>
@@ -79,13 +80,13 @@ Warnung 6002: Für Tabelle/Sicht 'main.MatUsedInScene' ist kein Primärschlüsse
           <Property Name="TerrID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Data" Type="blob" />
         </EntityType>
-        <EntityContainer Name="gameDataModelStoreContainer">
+        <EntityContainer Name="dbDataModelStoreContainer">
+          <EntitySet Name="Entity" EntityType="Self.Entity" store:Type="Tables" />
+          <EntitySet Name="EntityData" EntityType="Self.EntityData" store:Type="Tables" />
           <EntitySet Name="Fog" EntityType="Self.Fog" store:Type="Tables" />
-          <EntitySet Name="GameEntity" EntityType="Self.GameEntity" store:Type="Tables" />
           <EntitySet Name="Material" EntityType="Self.Material" store:Type="Tables" />
-          <EntitySet Name="Race" EntityType="Self.Race" store:Type="Tables" />
           <EntitySet Name="Scene" EntityType="Self.Scene" store:Type="Tables" />
-          <EntitySet Name="SceneNodes" EntityType="Self.SceneNodes" store:Type="Tables" />
+          <EntitySet Name="SceneNode" EntityType="Self.SceneNode" store:Type="Tables" />
           <EntitySet Name="Sky" EntityType="Self.Sky" store:Type="Tables" />
           <EntitySet Name="Terrain" EntityType="Self.Terrain" store:Type="Tables" />
           <EntitySet Name="MatUsedInScene" EntityType="Self.MatUsedInScene" store:Type="Tables">
@@ -98,18 +99,24 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="gameDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="gameDataEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Fog" EntityType="gameDataModel.Fog" />
-          <EntitySet Name="Material" EntityType="gameDataModel.Material" />
-          <EntitySet Name="Race" EntityType="gameDataModel.Race" />
-          <EntitySet Name="Sky" EntityType="gameDataModel.Sky" />
-          <EntitySet Name="Terrain" EntityType="gameDataModel.Terrain" />
-          <EntitySet Name="MatUsedInScene" EntityType="gameDataModel.MatUsedInScene" />
-          <EntitySet Name="Scene" EntityType="gameDataModel.Scene" />
-          <EntitySet Name="SceneNodes" EntityType="gameDataModel.SceneNodes" />
-          <EntitySet Name="GameEntity" EntityType="gameDataModel.GameEntity" />
-        </EntityContainer>
+      <Schema Namespace="dbDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Entity">
+          <Key>
+            <PropertyRef Name="EntID" />
+          </Key>
+          <Property Name="EntID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntType" Type="Decimal" Precision="53" Scale="0" />
+          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="EntDID" Type="Int64" />
+          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="EntityData">
+          <Key>
+            <PropertyRef Name="EntDID" />
+          </Key>
+          <Property Name="EntDID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
+        </EntityType>
         <EntityType Name="Fog">
           <Key>
             <PropertyRef Name="FogID" />
@@ -124,12 +131,16 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           <Property Name="MatID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Data" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Race">
+        <EntityType Name="SceneNode">
           <Key>
-            <PropertyRef Name="RaceID" />
+            <PropertyRef Name="NodeID" />
+            <PropertyRef Name="EntID" />
           </Key>
-          <Property Name="RaceID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NodeID" Type="Int64" Nullable="false" />
+          <Property Name="EntID" Type="Int64" Nullable="false" />
+          <Property Name="SceneID" Type="Int64" />
           <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Sky">
           <Key>
@@ -152,6 +163,17 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           <Property Name="SceneID" Type="Int64" Nullable="false" />
           <Property Name="MatID" Type="Int64" />
         </EntityType>
+        <EntityContainer Name="dbDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Entity" EntityType="Self.Entity" />
+          <EntitySet Name="EntityData" EntityType="Self.EntityData" />
+          <EntitySet Name="Fog" EntityType="Self.Fog" />
+          <EntitySet Name="Material" EntityType="Self.Material" />
+          <EntitySet Name="SceneNode" EntityType="Self.SceneNode" />
+          <EntitySet Name="Sky" EntityType="Self.Sky" />
+          <EntitySet Name="Terrain" EntityType="Self.Terrain" />
+          <EntitySet Name="MatUsedInScene" EntityType="Self.MatUsedInScene" />
+          <EntitySet Name="Scene" EntityType="dbDataModel.Scene" />
+        </EntityContainer>
         <EntityType Name="Scene">
           <Key>
             <PropertyRef Name="SceneID" />
@@ -162,110 +184,90 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           <Property Name="TerrID" Type="Int64" />
           <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
         </EntityType>
-        <EntityType Name="SceneNodes">
-          <Key>
-            <PropertyRef Name="NodeID" />
-          </Key>
-          <Property Name="NodeID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SceneID" Type="Int64" />
-          <Property Name="EntID" Type="Int64" />
-          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
-          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="GameEntity">
-          <Key>
-            <PropertyRef Name="EntID" />
-          </Key>
-          <Property Name="EntID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EntType" Type="Decimal" Precision="53" Scale="0" />
-          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
-          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
-          <Property Name="RaceID" Type="Int64" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="gameDataModelStoreContainer" CdmEntityContainer="gameDataEntities">
-          <EntitySetMapping Name="Fog">
-            <EntityTypeMapping TypeName="gameDataModel.Fog">
-              <MappingFragment StoreEntitySet="Fog">
+        <EntityContainerMapping StorageEntityContainer="dbDataModelStoreContainer" CdmEntityContainer="dbDataEntities">
+          <EntitySetMapping Name="Entity">
+            <EntityTypeMapping TypeName="dbDataModel.Entity">
+              <MappingFragment StoreEntitySet="Entity">
+                <ScalarProperty Name="EntID" ColumnName="EntID" />
+                <ScalarProperty Name="EntType" ColumnName="EntType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EntDID" ColumnName="EntDID" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntityData">
+            <EntityTypeMapping TypeName="dbDataModel.EntityData">
+              <MappingFragment StoreEntitySet="EntityData">
+                <ScalarProperty Name="EntDID" ColumnName="EntDID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fog">
+            <EntityTypeMapping TypeName="dbDataModel.Fog">
+              <MappingFragment StoreEntitySet="Fog">
                 <ScalarProperty Name="FogID" ColumnName="FogID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Material">
-            <EntityTypeMapping TypeName="gameDataModel.Material">
+            <EntityTypeMapping TypeName="dbDataModel.Material">
               <MappingFragment StoreEntitySet="Material">
-                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="MatID" ColumnName="MatID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Race">
-            <EntityTypeMapping TypeName="gameDataModel.Race">
-              <MappingFragment StoreEntitySet="Race">
+          <EntitySetMapping Name="SceneNode">
+            <EntityTypeMapping TypeName="dbDataModel.SceneNode">
+              <MappingFragment StoreEntitySet="SceneNode">
+                <ScalarProperty Name="NodeID" ColumnName="NodeID" />
+                <ScalarProperty Name="EntID" ColumnName="EntID" />
+                <ScalarProperty Name="SceneID" ColumnName="SceneID" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="RaceID" ColumnName="RaceID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sky">
-            <EntityTypeMapping TypeName="gameDataModel.Sky">
+            <EntityTypeMapping TypeName="dbDataModel.Sky">
               <MappingFragment StoreEntitySet="Sky">
-                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="SkyID" ColumnName="SkyID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Terrain">
-            <EntityTypeMapping TypeName="gameDataModel.Terrain">
+            <EntityTypeMapping TypeName="dbDataModel.Terrain">
               <MappingFragment StoreEntitySet="Terrain">
-                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="TerrID" ColumnName="TerrID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MatUsedInScene">
-            <EntityTypeMapping TypeName="gameDataModel.MatUsedInScene">
+            <EntityTypeMapping TypeName="dbDataModel.MatUsedInScene">
               <MappingFragment StoreEntitySet="MatUsedInScene">
-                <ScalarProperty Name="MatID" ColumnName="MatID" />
                 <ScalarProperty Name="SceneID" ColumnName="SceneID" />
+                <ScalarProperty Name="MatID" ColumnName="MatID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Scene">
-            <EntityTypeMapping TypeName="gameDataModel.Scene">
+            <EntityTypeMapping TypeName="dbDataModel.Scene">
               <MappingFragment StoreEntitySet="Scene">
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="TerrID" ColumnName="TerrID" />
                 <ScalarProperty Name="SkyID" ColumnName="SkyID" />
                 <ScalarProperty Name="FogID" ColumnName="FogID" />
                 <ScalarProperty Name="SceneID" ColumnName="SceneID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SceneNodes">
-            <EntityTypeMapping TypeName="gameDataModel.SceneNodes">
-              <MappingFragment StoreEntitySet="SceneNodes">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="EntID" ColumnName="EntID" />
-                <ScalarProperty Name="SceneID" ColumnName="SceneID" />
-                <ScalarProperty Name="NodeID" ColumnName="NodeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GameEntity">
-            <EntityTypeMapping TypeName="gameDataModel.GameEntity">
-              <MappingFragment StoreEntitySet="GameEntity">
-                <ScalarProperty Name="RaceID" ColumnName="RaceID" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="EntType" ColumnName="EntType" />
-                <ScalarProperty Name="EntID" ColumnName="EntID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

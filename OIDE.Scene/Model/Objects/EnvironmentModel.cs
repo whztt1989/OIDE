@@ -46,7 +46,8 @@ namespace OIDE.Scene.Model
         public Boolean Enabled { get; set; }
 
         public String ContentID { get; set; }
-
+        public Int32 NodeID { get; set; }
+      
         public void Drop(IItem item) { }
 
         [XmlIgnore]
@@ -59,7 +60,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public DAL.MDB.SceneNode SceneNode { get; private set; }
 
 
         public String Name { get; set; }

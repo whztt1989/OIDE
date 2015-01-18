@@ -45,7 +45,8 @@ namespace OIDE.Scene.Model
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
         public String ContentID { get; set; }
-
+        public Int32 NodeID { get; set; }
+      
         [Browsable(false)]
         [XmlIgnore]
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
@@ -63,7 +64,7 @@ namespace OIDE.Scene.Model
         }
 
         [XmlIgnore]
-        public DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public DAL.MDB.SceneNode SceneNode { get; private set; }
 
         public Int32 ID { get; set; }
         public String Name { get; set; }

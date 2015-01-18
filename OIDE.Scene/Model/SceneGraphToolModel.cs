@@ -42,6 +42,7 @@ using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
 using DAL.MDB;
+using WIDE_Helpers;
 
 namespace OIDE.Scene
 {
@@ -170,10 +171,10 @@ namespace OIDE.Scene
                 var sceneItem = sourceItem as ISceneItem;
                 if (sceneItem != null)
                 {
-                    DAL.MDB.SceneNodes node = new SceneNodes()
+                    DAL.MDB.SceneNode node = new SceneNode()
                     {
                         Name = "NEWNode_" + sceneItem.Name,
-                        EntID = Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
+                        EntID = WIDE_Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
 
                     };
 

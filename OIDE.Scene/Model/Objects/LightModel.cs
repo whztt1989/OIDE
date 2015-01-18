@@ -47,12 +47,13 @@ namespace OIDE.Scene.Model
 
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
-
+        public Int32 NodeID { get; set; }
+      
         public void Drop(IItem item) { }
 
         [XmlIgnore]
         [Browsable(false)]
-        public DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public DAL.MDB.SceneNode SceneNode { get; private set; }
             
         public String ContentID { get; set; }
 

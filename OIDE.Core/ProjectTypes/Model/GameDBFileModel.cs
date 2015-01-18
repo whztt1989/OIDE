@@ -141,7 +141,7 @@ namespace OIDE.Core
             {
 
 
-                IEnumerable<GameEntity> result = m_DBI.selectAllGameEntities();
+                IEnumerable<DAL.IDAL.EntityContainer> result = m_DBI.selectAllEntities();
 
                 if (result != null)
                 {
@@ -150,7 +150,7 @@ namespace OIDE.Core
                     {
                         // ProtoType.Node nodeDeserialized = ProtoSerialize.Deserialize<ProtoType.Node>(node.Node.Data);
 
-                        if (gameEntity.EntType == null)
+                        if (gameEntity.Entity.EntType == null)
                             continue;
 
                         //switch ((XFBType.EntityTypes)gameEntity.EntType))

@@ -75,11 +75,11 @@ namespace DAL
 
       //      try
       //      {
-      //          gameDataEntities mCtx = new gameDataEntities();
-      //      //    mCtx.Database.Connection.ConnectionString = @"metadata=res://*/MDB.EDM_GameData.csdl|res://*/MDB.EDM_GameData.ssdl|res://*/MDB.EDM_GameData.msl;provider=System.Data.SQLite;provider connection string='data source='" +  + "''";
+      //          dbDataEntities mCtx = new dbDataEntities();
+      //      //    mCtx.Database.Connection.ConnectionString = @"metadata=res://*/MDB.EDM_DBData.csdl|res://*/MDB.EDM_DBData.ssdl|res://*/MDB.EDM_DBData.msl;provider=System.Data.SQLite;provider connection string='data source='" +  + "''";
       ////          string sqlLiteConnectionString = string.Format(
       ////"data source='{0}';",
-      ////Path.Combine("D:\\Projekte\\Src Game\\Data\\Data_Release\\", "gameData.s3db"));
+      ////Path.Combine("D:\\Projekte\\Src Game\\Data\\Data_Release\\", "dbData.s3db"));
 
       ////          var entityConnectionString = new EntityConnectionStringBuilder
       ////          {

@@ -41,12 +41,12 @@ namespace DAL
 {
     public class IDAL: IDisposable
     {
-        gameDataEntities mCtx;
+        dbDataEntities mCtx;
 
         public IDAL()
         {
-            mCtx = new gameDataEntities();
-            mCtx.Database.Connection.StateChange += new StateChangeEventHandler(StateChange);
+            mCtx = new dbDataEntities();
+        //    mCtx.Database.Connection.StateChange += new StateChangeEventHandler(StateChange);
         }
 
         public void Dispose()
@@ -106,23 +106,23 @@ namespace DAL
 
         #region Physics
 
-        public bool insertGameEntity(GameEntity po)
+        public bool insertEntity(Entity po)
         {
-            mCtx.GameEntity.Add(po);
+            mCtx.Entity.Add(po);
             mCtx.SaveChanges();
             return true;
         }
 
-        public bool insertRace(Race race)
+        public bool insertEntityData(EntityData entityData)
         {
-            mCtx.Race.Add(race);
+            mCtx.EntityData.Add(entityData);
             mCtx.SaveChanges();
             return true;
         }
 
-        public bool updateGameEntity(GameEntity po)
+        public bool updateEntity(Entity po)
         {
-            var result = mCtx.GameEntity.Where(x => x.EntID == po.EntID);
+            var result = mCtx.Entity.Where(x => x.EntID == po.EntID);
             if (result.Any())
             {
                 result.First().Data = po.Data;
@@ -132,24 +132,24 @@ namespace DAL
             else
                 return false;
         }
-     
-        public bool updateRace(Race race)
+
+        public bool updateEntityData(EntityData entityData)
         {
-            var result = mCtx.Race.Where(x => x.RaceID == race.RaceID);
+            var result = mCtx.EntityData.Where(x => x.EntDID == entityData.EntDID);
             if (result.Any())
             {
-                result.First().Data = race.Data;
+                result.First().Data = entityData.Data;
                 mCtx.SaveChanges();
                 return true;
             }
             else
                 return false;
         }
-        public IEnumerable<Race> selectAllRace()
+        public IEnumerable<EntityData> selectAllEntityData()
         {
             try
             {
-                var result = mCtx.Race;
+                var result = mCtx.EntityData;
                 if (result.Any())
                     return result;
                 else
@@ -163,11 +163,28 @@ namespace DAL
             return null;
         }
 
-        public IEnumerable<GameEntity> selectAllGameEntities()
+        public class EntityContainer
+        {
+            public EntityData EntityData { get; set; }
+            public Entity Entity { get; set; }
+        }
+
+        public IEnumerable<EntityContainer> selectAllEntities()
         {
             try
             {
-                var result = mCtx.GameEntity;
+
+                var result = from n in mCtx.Entity
+
+                             join oj in mCtx.EntityData on n.EntDID equals oj.EntDID into gjo
+                             from Ent in gjo.DefaultIfEmpty()
+
+                             //where n.SceneID == sceneID
+                             //select
+
+                          //   where n.SceneID == sceneID
+                             select new EntityContainer { Entity = n, EntityData = Ent };
+
                 if (result.Any())
                     return result;
                 else
@@ -181,40 +198,40 @@ namespace DAL
             return null;
         }
 
-        public GameEntity selectGameEntity(int id)
+        public Entity selectEntity(int id)
         {
             try
             {
-                var result = mCtx.GameEntity.Where(x => x.EntID == id);
+                var result = mCtx.Entity.Where(x => x.EntID == id);
                 if (result.Any())
                     return result.First();
                 else
-                    return new GameEntity();
+                    return new Entity();
             }
              catch(Exception ex)
             {
            //     MessageBox.Show("dreck_" + id + "_!!!!");
             }
 
-            return new GameEntity();
+            return new Entity();
         }
 
-        public Race selectRace(int id)
+        public EntityData selectEntityData(int id)
         {
             try
             {
-                var result = mCtx.Race.Where(x => x.RaceID == id);
+                var result = mCtx.EntityData.Where(x => x.EntDID == id);
                 if (result.Any())
                     return result.First();
                 else
-                    return new Race();
+                    return new EntityData();
             }
             catch (Exception ex)
             {
                 //     MessageBox.Show("dreck_" + id + "_!!!!");
             }
 
-            return new Race();
+            return new EntityData();
         }
 
         #endregion
@@ -258,33 +275,33 @@ namespace DAL
         }
 
 
-        public class SceneContainer
-        {
-            public Scene Scene { get; set; }
-            public SceneNodes Nodes { get; set; }
-            public GameEntity GameEntity { get; set; }
-        }
+        //public class SceneContainer
+        //{
+        //    public Scene Scene { get; set; }
+        //    public SceneNode Nodes { get; set; }
+        //    public Entity Entity { get; set; }
+        //}
 
         public class SceneNodeContainer
         {
-            public SceneNodes Node { get; set; }
-            public GameEntity GameEntity { get; set; }
+            public SceneNode Node { get; set; }
+            public Entity Entity { get; set; }
         }
 
-        public IEnumerable<SceneNodes> selectSceneNodes(int sceneID)
+        public IEnumerable<SceneNodeContainer> selectSceneNodes(int sceneID)
         {
             try
             {
-                var result = from n in mCtx.SceneNodes
+                var result = from n in mCtx.SceneNode
 
-                             //join oj in mCtx.GameEntity on n.EntID equals oj.EntID into gjo
-                             //from gameEnt in gjo.DefaultIfEmpty()
+                             join oj in mCtx.Entity on n.EntID equals oj.EntID into gjo
+                             from Ent in gjo.DefaultIfEmpty()
 
                              //where n.SceneID == sceneID
-                             //select new SceneNodeContainer { Node = n, GameEntity = gameEnt };
+                             //select
 
                              where n.SceneID == sceneID
-                             select n;
+                             select new SceneNodeContainer { Node = n, Entity = Ent };
 
                 //  var result = mCtx.Scene.Where(x => x.SceneID == id);
                 if (result.Any())
@@ -301,9 +318,9 @@ namespace DAL
         }
 
 
-        public bool insertSceneNode(SceneNodes sceneNode)
+        public bool insertSceneNode(SceneNode sceneNode)
         {
-            mCtx.SceneNodes.Add(sceneNode);
+            mCtx.SceneNode.Add(sceneNode);
             mCtx.SaveChanges();
             return true;
         }
@@ -311,21 +328,22 @@ namespace DAL
         public bool DeleteSceneNode(Int32 id)
         {
             // Scene tmp = new Scene() { Data = data };
-            mCtx.SceneNodes.Remove(mCtx.SceneNodes.Where(x => x.NodeID == id).First());
+            mCtx.SceneNode.Remove(mCtx.SceneNode.Where(x => x.NodeID == id).First());
             mCtx.SaveChanges();
             // id = (int)tmp.SceneID;
             return true;
         }
 
-        public bool updateSceneNode(SceneNodes sceneNode)
+        public bool updateSceneNode(SceneNode sceneNode)
         {
-            var result = mCtx.SceneNodes.Where(x => x.NodeID == sceneNode.NodeID);
+            var result = mCtx.SceneNode.Where(x => x.NodeID == sceneNode.NodeID);
             if (result.Any())
             {
                 var scenNode = result.First();
                 scenNode.Data = sceneNode.Data;
                 scenNode.SceneID = sceneNode.SceneID;
                 scenNode.EntID = sceneNode.EntID;
+                scenNode.Name = sceneNode.Name;
                 mCtx.SaveChanges();
                 return true;
             }
@@ -342,11 +360,11 @@ namespace DAL
         //                     join nj in mCtx.SceneNodes on n.SceneID equals nj.SceneID into gj
         //                     from node in gj.DefaultIfEmpty()
 
-        //                     join oj in mCtx.GameEntity on node.EntID equals oj.EntID into gjo
-        //                     from gameEnt in gjo.DefaultIfEmpty()
+        //                     join oj in mCtx.Entity on node.EntID equals oj.EntID into gjo
+        //                     from Ent in gjo.DefaultIfEmpty()
 
         //                     where n.SceneID == id
-        //                     select new SceneContainer { Scene = n, Nodes = node, GameEntity = gameEnt };
+        //                     select new SceneContainer { Scene = n, Nodes = node, Entity = Ent };
 
         //        //  var result = mCtx.Scene.Where(x => x.SceneID == id);
         //        if (result.Any())

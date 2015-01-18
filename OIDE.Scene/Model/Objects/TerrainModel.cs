@@ -50,7 +50,8 @@ namespace OIDE.Scene.Model
       
         public Int32 ID { get; protected set; }
         public String Name { get; set; }
-
+        public Int32 NodeID { get; set; }
+      
         public ObservableCollection<ISceneItem> SceneItems { get; private set; }
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }

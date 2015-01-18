@@ -106,78 +106,79 @@
     <Compile Include="CoreModule.cs" />
     <Compile Include="DBFileModel.cs" />
     <Compile Include="IDAL.cs" />
-    <Compile Include="MDB\EDM_GameData.Context.cs">
+    <Compile Include="MDB\EDM_DBData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EDM_GameData.Context.tt</DependentUpon>
+      <DependentUpon>EDM_DBData.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="MDB\EDM_GameData.cs">
+    <Compile Include="MDB\EDM_DBData.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
-    <Compile Include="MDB\EDM_GameData.Designer.cs">
+    <Compile Include="MDB\EDM_DBData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EDM_GameData.edmx</DependentUpon>
+      <DependentUpon>EDM_DBData.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\Entity.cs">
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MDB\EntityData.cs">
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
     <Compile Include="MDB\Fog.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MDB\GameEntity.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
     <Compile Include="MDB\Material.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
     <Compile Include="MDB\MatUsedInScene.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MDB\Race.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
     <Compile Include="MDB\Scene.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
-    <Compile Include="MDB\SceneNodes.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
+    <Compile Include="MDB\SceneNode.cs">
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
     <Compile Include="MDB\Sky.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
     <Compile Include="MDB\Terrain.cs">
-      <DependentUpon>EDM_GameData.tt</DependentUpon>
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DBCategoyModel.cs" />
+    <Content Include="MDB\EDM_DBData.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EDM_DBData.edmx</DependentUpon>
+      <LastGenOutput>EDM_DBData.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="MDB\EDM_DBData.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EDM_DBData.edmx</DependentUpon>
+      <LastGenOutput>EDM_DBData.cs</LastGenOutput>
+    </Content>
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="MDB\EDM_GameData.edmx">
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="MDB\EDM_DBData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EDM_GameData.Designer.cs</LastGenOutput>
+      <LastGenOutput>EDM_DBData.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="MDB\EDM_GameData.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EDM_GameData.edmx</DependentUpon>
-      <LastGenOutput>EDM_GameData.Context.cs</LastGenOutput>
-    </None>
-    <None Include="MDB\EDM_GameData.edmx.diagram">
-      <DependentUpon>EDM_GameData.edmx</DependentUpon>
-    </None>
-    <None Include="MDB\EDM_GameData.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EDM_GameData.edmx</DependentUpon>
-      <LastGenOutput>EDM_GameData.cs</LastGenOutput>
+    <None Include="MDB\EDM_DBData.edmx.diagram">
+      <DependentUpon>EDM_DBData.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

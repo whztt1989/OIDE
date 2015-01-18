@@ -48,6 +48,7 @@ using Module.Properties.Helpers;
 using Module.Properties.Types;
 using OIDE.VFS.View;
 using DAL.MDB;
+using WIDE_Helpers;
 
 namespace OIDE.Scene.Model
 {
@@ -67,7 +68,8 @@ namespace OIDE.Scene.Model
     {
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
-
+        public Int32 NodeID { get; set; }
+      
         #region protodata
     
         //    [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor))]
@@ -116,9 +118,9 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public DAL.MDB.SceneNodes SceneNode { get; protected set; }
+        public DAL.MDB.SceneNode SceneNode { get; protected set; }
 
-        protected GameEntity mDBData;
+        protected Entity mDBData;
 
         [XmlIgnore]
         [Browsable(false)]
@@ -127,9 +129,9 @@ namespace OIDE.Scene.Model
             get { return mDBData; }
             set
             {
-                mDBData = value as GameEntity;
+                mDBData = value as Entity;
 
-                GameEntity dbData = value as GameEntity;
+                Entity dbData = value as Entity;
                 //ProtoType.CharEntity dataStaticObj = new ProtoType.CharEntity();
 
                 //if (dbData.Data != null)
@@ -257,10 +259,10 @@ namespace OIDE.Scene.Model
 
         public Boolean Open(object id)
         {
-            int contentID = Helper.StringToContentIDData(ContentID).IntValue;
+            int contentID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
             if (contentID > 0)
             {
-                DBData = m_dbI.selectGameEntity(contentID);
+                DBData = m_dbI.selectEntity(contentID);
 
                 // Console.WriteLine(BitConverter.ToString(res));
                 //try
@@ -290,7 +292,7 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                DAL.MDB.GameEntity gameEntity = DBData as DAL.MDB.GameEntity;
+                DAL.MDB.Entity gameEntity = DBData as DAL.MDB.Entity;
 
                 //Update Phyiscs Data
                 //ProtoData.gameEntity.physics.Clear();
@@ -355,7 +357,7 @@ namespace OIDE.Scene.Model
         //    mData = new ProtoType.CharEntity();
          //   mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
-            SceneNode = new DAL.MDB.SceneNodes();
+            SceneNode = new DAL.MDB.SceneNode();
         }
     }
 

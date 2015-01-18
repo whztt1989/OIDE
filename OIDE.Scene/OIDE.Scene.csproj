@@ -40,6 +40,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\FlatBuffers.dll</HintPath>
     </Reference>
+    <Reference Include="Helper.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Helper.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro.Resources, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\MahApps.Metro.Resources.dll</HintPath>
@@ -151,10 +155,13 @@
     <Content Include="Model\Objects\AICharacterModel.cs" />
     <Compile Include="Model\Categeories\CharacterCategoryModel.cs" />
     <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
-    <Compile Include="Model\Objects\FB_GameEntityModel.cs" />
-    <Compile Include="Model\Objects\FB_SceneNode.cs" />
-    <Compile Include="Model\Objects\FB_StaticObjectModel.cs" />
-    <Compile Include="Model\Objects\PhysicObject.cs" />
+    <Compile Include="Model\Objects\ObjectData\EntityBaseModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_EntityBaseModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_PhysicsModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_SpawnPointModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_SceneNode.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_StaticObjectModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\PhysicObject___.cs" />
     <Compile Include="Model\Objects\SpawnPointModel.cs" />
     <Compile Include="Service\PredefObjectCategoyModel.cs" />
     <Compile Include="Model\Objects\CameraModel.cs" />
@@ -210,7 +217,7 @@
     <Compile Include="Utils\XML\SampleScene3.cs">
       <DependentUpon>SampleScene3.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Model\Objects\FB_SceneModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_SceneModel.cs" />
     <Compile Include="ViewModel\SceneGraphToolViewModel.cs" />
     <Compile Include="ViewModel\SceneViewerViewModel.cs" />
     <Compile Include="View\Editor\CharacterCustomizeEditor.xaml.cs">

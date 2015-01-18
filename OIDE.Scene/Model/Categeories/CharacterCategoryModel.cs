@@ -50,7 +50,8 @@ namespace OIDE.Scene
         private Boolean m_IsExpanded;
 
         public String Name { get; set; }
-
+        public Int32 NodeID { get; set; }
+      
         public void Drop(IItem item) { }
 
         [Browsable(false)]

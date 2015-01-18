@@ -42,6 +42,7 @@ namespace OIDE.Service
 
         public void Drop(IItem item) { }
 
+         public Int32 NodeID { get; set; }
         public String ContentID { get; set; }
 
         [Browsable(false)]
