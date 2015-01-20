@@ -9,23 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Wide.Interfaces;
+using XFBType;
 
 namespace OIDE.Scene.Model.Objects
 {
-//      public static Scene GetRootAsScene(ByteBuffer _bb, int offset) { return (new Scene()).__init(_bb.GetInt(offset) + offset, _bb); }
-//  public Scene __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
-
-//  public Colour ColourAmbient() { return ColourAmbient(new Colour()); }
-//  public Colour ColourAmbient(Colour obj) { int o = __offset(4); return o != 0 ? obj.__init(__indirect(o + bb_pos), bb) : null; }
-
-//  public static void StartScene(FlatBufferBuilder builder) { builder.StartObject(1); }
-//  public static void AddColourAmbient(FlatBufferBuilder builder, int colourAmbientOffset) { builder.AddOffset(0, colourAmbientOffset, 0); }
-//  public static int EndScene(FlatBufferBuilder builder) { return builder.EndObject(); }
-
-    public class FB_EntityBaseModel : ViewModelBase, IFBObject
+    public abstract class FB_EntityBaseModel
     {
-        private XFBType.EntityBase m_FBData = new XFBType.EntityBase();
-        private ByteBuffer m_ByteBuffer = null;
+        private XFBType.EntityBase m_FBData;
 
         #region sceneData
 
@@ -38,49 +28,37 @@ namespace OIDE.Scene.Model.Objects
 
         #region Properties
 
-        public String AnimationInfo { get { return m_AnimationInfo; } set { m_AnimationInfo = value; RaisePropertyChanged("AnimationInfo"); } }
-        public String AnimationTree { get { return m_AnimationTree; } set { m_AnimationTree = value; RaisePropertyChanged("AnimationTree"); } }
-        public String Boneparent { get { return m_Boneparent; } set { m_Boneparent = value; RaisePropertyChanged("Boneparent"); } }
-        public Boolean CastShadows { get { return m_CastShadows; } set { m_CastShadows = value; RaisePropertyChanged("CastShadows"); } }
+        public String AnimationInfo { get { return m_AnimationInfo; } }
+        public String AnimationTree { get { return m_AnimationTree; }  }
+        public String Boneparent { get { return m_Boneparent; } }
+        public Boolean CastShadows { get { return m_CastShadows; } }
 
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public ByteBuffer ByteBuffer { get { return m_ByteBuffer; } set { m_ByteBuffer = value; } }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public XFBType.EntityBase FB_Data
-        { 
-            set {
-                AnimationInfo = value.AnimationInfo();
-                AnimationTree = value.AnimationTree();
-                Boneparent = value.Boneparent();
-                CastShadows = Boolean.Parse(value.CastShadows().ToString());
-                //AnimationInfo = value.Debug();
-                //AnimationInfo = value.Materials();
-                //AnimationInfo = value.MaterialsLength();
-                //AnimationInfo = value.Meshes();
-                //AnimationInfo = value.MeshesLength();
-                //AnimationInfo = value.Mode();
-                //AnimationInfo = value.Physics();
-           //todo
-            } 
+        public int SetAnimationInfo(String animationInfo) { m_AnimationInfo = animationInfo;
+        return 0;
         }
+        public int SetAnimationTree(String animationTree) { m_AnimationTree = animationTree; return 0; }
+        public int SetBoneparent(String boneParent) { m_Boneparent = boneParent; return 0; }
+        public int SetCastShadows(Boolean castShadows) { m_CastShadows = castShadows; return 0; }
 
         #endregion
 
-        public void Read(Byte[] fbData)
+        public void Read(EntityBase data)
         {
-            if (m_ByteBuffer != null)
-            {
-              //  m_FBData = XFBType.EntityBase.GetRootAsGameEntity(m_ByteBuffer, m_ByteBuffer.position()); // read 
-               // FBType.Colour colour = m_FBData.ColourAmbient();
+            m_FBData = data;
 
-            }
+            m_AnimationInfo = m_FBData.AnimationInfo();
+            m_AnimationTree = m_FBData.AnimationTree();
+            m_Boneparent = m_FBData.Boneparent();
+            Boolean.TryParse(m_FBData.CastShadows().ToString(), out m_CastShadows);
         }
 
-        public Byte[] CreateByteBuffer()
+        public int Create(FlatBufferBuilder fbb)
+        {
+            return XFBType.EntityBase.CreateEntityBase(fbb,0,0,0,0,0,0,0,0,0,0,0);
+        }
+
+        public EntityBase CreateDataForByteBuffer()
         {
             //m_ColourAmbient.A = 255;
             //m_ColourAmbient.R = 90;

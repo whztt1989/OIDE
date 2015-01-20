@@ -25,7 +25,7 @@ namespace OIDE.Scene.Model.Objects
 
         #region Properties
 
-        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = value; } }
+        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } }
 
         public int SetColourAmbient(System.Windows.Media.Color color)
         {

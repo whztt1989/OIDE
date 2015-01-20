@@ -49,62 +49,65 @@ using Module.Properties.Types;
 using DAL;
 using DAL.MDB;
 using WIDE_Helpers;
+using OIDE.Scene.Model.Objects.ObjectData;
 
 namespace OIDE.Scene.Model
 {
-    public class Plane : Mesh
-    {
-        //[Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
-        //public ProtoType.Vec3f normal { get { return ProtoData.plane.normal; } set { ProtoData.plane.normal = value; } }
+//    public class Plane : Mesh
+//    {
+//        //[Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
+//        //public ProtoType.Vec3f normal { get { return ProtoData.plane.normal; } set { ProtoData.plane.normal = value; } }
        
-        //public float constant { get { return ProtoData.plane.constant; } set { ProtoData.plane.constant = value; } }
-        //public float width { get { return ProtoData.plane.width; } set { ProtoData.plane.width = value; } }
-        //public float height { get { return ProtoData.plane.height; } set { ProtoData.plane.height = value; } }
-        //public Int32 xsegments { get { return ProtoData.plane.xsegments; } set { ProtoData.plane.xsegments = value; } }
-        //public Int32 ysegments { get { return ProtoData.plane.ysegments; } set { ProtoData.plane.ysegments = value; } }
-        //public bool normals { get { return ProtoData.plane.normals; } set { ProtoData.plane.normals = value; } }
-        //public Int32 numTexCoordSets { get { return ProtoData.plane.numTexCoordSets; } set { ProtoData.plane.numTexCoordSets = value; } }
-        //public float xTile { get { return ProtoData.plane.xTile; } set { ProtoData.plane.xTile = value; } }
-        //public float yTile { get { return ProtoData.plane.yTile; } set { ProtoData.plane.yTile = value; } }
+//        //public float constant { get { return ProtoData.plane.constant; } set { ProtoData.plane.constant = value; } }
+//        //public float width { get { return ProtoData.plane.width; } set { ProtoData.plane.width = value; } }
+//        //public float height { get { return ProtoData.plane.height; } set { ProtoData.plane.height = value; } }
+//        //public Int32 xsegments { get { return ProtoData.plane.xsegments; } set { ProtoData.plane.xsegments = value; } }
+//        //public Int32 ysegments { get { return ProtoData.plane.ysegments; } set { ProtoData.plane.ysegments = value; } }
+//        //public bool normals { get { return ProtoData.plane.normals; } set { ProtoData.plane.normals = value; } }
+//        //public Int32 numTexCoordSets { get { return ProtoData.plane.numTexCoordSets; } set { ProtoData.plane.numTexCoordSets = value; } }
+//        //public float xTile { get { return ProtoData.plane.xTile; } set { ProtoData.plane.xTile = value; } }
+//        //public float yTile { get { return ProtoData.plane.yTile; } set { ProtoData.plane.yTile = value; } }
 
-        //[Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
-        //public ProtoType.Vec3f upVector { get { return ProtoData.plane.upVector; } set { ProtoData.plane.upVector = value; } }
+//        //[Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
+//        //public ProtoType.Vec3f upVector { get { return ProtoData.plane.upVector; } set { ProtoData.plane.upVector = value; } }
 
 
 
-//new Vector3(ProtoData.plane.normal.x, ProtoData.plane.normal.y, ProtoData.plane.normal.z)
-        public Plane()
-        {
-            //ProtoData.plane = new ProtoType.OgrePlane();
-            //ProtoData.plane.upVector = new ProtoType.Vec3f();
-            //ProtoData.plane.normal = new ProtoType.Vec3f();
-        }
-    }
+////new Vector3(ProtoData.plane.normal.x, ProtoData.plane.normal.y, ProtoData.plane.normal.z)
+//        public Plane()
+//        {
+//            //ProtoData.plane = new ProtoType.OgrePlane();
+//            //ProtoData.plane.upVector = new ProtoType.Vec3f();
+//            //ProtoData.plane.normal = new ProtoType.Vec3f();
+//        }
+//    }
 
-    public class Cube : Mesh
-    {
-        //public float width { get { return ProtoData.cube.width; } set { ProtoData.cube.width = value; } }
+    //public class Cube : Mesh
+    //{
+    //    //public float width { get { return ProtoData.cube.width; } set { ProtoData.cube.width = value; } }
 
-        public Cube()
-        {
-            //ProtoData.cube = new ProtoType.OgreCube();
-        }
-    }
+    //    public Cube()
+    //    {
+    //        //ProtoData.cube = new ProtoType.OgreCube();
+    //    }
+    //}
 
-    public class Mesh
-    {
-        //public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
-        //public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
+    //public class Mesh
+    //{
+    //    private XFBType.Mesh m_FBData;
+
+    //    //public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
+    //    //public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
         
-        //[XmlIgnore]
-        //[Browsable(false)]
-        //public ProtoType.Mesh ProtoData { get; set; }
+    //    //[XmlIgnore]
+    //    //[Browsable(false)]
+    //    //public ProtoType.Mesh ProtoData { get; set; }
 
-        public Mesh()
-        {
-            //ProtoData = new ProtoType.Mesh();
-        }
-    }
+    //    public Mesh()
+    //    {
+    //        //ProtoData = new ProtoType.Mesh();
+    //    }
+    //}
 
     public class Material
     {
@@ -121,7 +124,7 @@ namespace OIDE.Scene.Model
         }
     }
 
-    public class StaticObjectModel : ISceneItem, IGameEntity
+    public class StaticObjectModel : EntityBaseModel, ISceneItem, IGameEntity
     {
         private FB_StaticObjectModel m_FBData;
 
@@ -205,11 +208,11 @@ namespace OIDE.Scene.Model
 
       //  private List<String> mMeshes;
 
-        private List<Mesh> mMeshes;
+        //private List<Mesh> mMeshes;
      
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
-        public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
+        //[Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        //[NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
+        //public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
 
      //   public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
@@ -393,11 +396,13 @@ namespace OIDE.Scene.Model
         /// Default contructor for serialization
         /// </summary>
         public StaticObjectModel()
+            : base(null)
         {
 
         }
 
         public StaticObjectModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
+            : base(unityContainer)
         {     
             UnityContainer = unityContainer;
 
@@ -414,9 +419,12 @@ namespace OIDE.Scene.Model
                 m_dbI = new IDAL();
 
             m_Materials = new List<Material>();
-            mMeshes = new List<Mesh>();
+           // mMeshes = new List<Mesh>();
             m_Physics = new List<PhysicObject>();
+            
             m_FBData = new FB_StaticObjectModel();
+            base.m_BaseObj_FBData = m_FBData;
+
             DB_Entity = new DAL.IDAL.EntityContainer();
             DB_Entity.Entity = new Entity();
             //mData = new ProtoType.StaticEntity();

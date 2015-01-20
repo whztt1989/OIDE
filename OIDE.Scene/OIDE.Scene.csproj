@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A589197E-E002-4DBA-B27F-DD16B9A81BFA}</ProjectGuid>
+    <ProjectGuid>{BD07264C-756A-43B3-9E34-C6354F3DBE3F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OIDE.Scene</RootNamespace>
@@ -155,9 +155,12 @@
     <Content Include="Model\Objects\AICharacterModel.cs" />
     <Compile Include="Model\Categeories\CharacterCategoryModel.cs" />
     <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
+    <Compile Include="Model\Objects\MeshModel.cs" />
     <Compile Include="Model\Objects\ObjectData\EntityBaseModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_EntityBaseModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_PhysicsModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_MeshModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_SoundModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_SpawnPointModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_SceneNode.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_StaticObjectModel.cs" />

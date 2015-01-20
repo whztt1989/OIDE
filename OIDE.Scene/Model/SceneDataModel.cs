@@ -55,7 +55,7 @@ using DAL.MDB;
 
 namespace OIDE.Scene.Model
 {
-    enum EntityTypes : ushort
+    public enum EntityTypes : ushort
     {
         NT_Unkown,
         NT_Physic,
@@ -117,14 +117,14 @@ namespace OIDE.Scene.Model
         {
             get { return m_FB_SceneData.ColourAmbient; }
             set {
-                var m_oldColourAmbient = value;
+                //var m_oldColourAmbient = value;
           
                 int res = m_FB_SceneData.SetColourAmbient(value);
                 if (res != 0) //fehler beim senden
                 {
                     var logger = UnityContainer.Resolve<ILoggerService>();
                     logger.Log("Flatbuffer SceneDataModel.ColourAmbient.SetColourAmbient ungültig (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
-                    ColourAmbient = m_oldColourAmbient;
+                 //   ColourAmbient = m_oldColourAmbient;
                 }
 
                 RaisePropertyChanged("ColourAmbient"); 

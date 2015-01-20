@@ -159,11 +159,11 @@ namespace OIDE.Scene.Model
         public String Skeleton { get { return mSkeleton; } set { mSkeleton = value; } }
       
         //  private List<String> mMeshes;
-        private List<Mesh> mMeshes;
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
-        [Category("GameEntity")]
-        public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
+        //private List<Mesh> mMeshes;
+        //[Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        //[NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
+        //[Category("GameEntity")]
+        //public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
         //public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
         private List<PhysicObject> m_Physics;
@@ -337,7 +337,7 @@ namespace OIDE.Scene.Model
         {
             UnityContainer = unityContainer;
 
-            mMeshes = new List<Mesh>();
+           // mMeshes = new List<Mesh>();
         //    mSounds = new List<ProtoType.Sound>();
          //   mRaceGenderVM = new RaceGenderViewModel();
 
