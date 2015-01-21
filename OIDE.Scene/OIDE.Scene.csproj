@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BD07264C-756A-43B3-9E34-C6354F3DBE3F}</ProjectGuid>
+    <ProjectGuid>{A589197E-E002-4DBA-B27F-DD16B9A81BFA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OIDE.Scene</RootNamespace>

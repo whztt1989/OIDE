@@ -158,11 +158,11 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public DAL.MDB.SceneNode SceneNode { get; private set; }
+        public DAL.MDB.SceneNode SceneNode { get; set; }
 
         [XmlIgnore]
         [Browsable(false)]
-        public DAL.IDAL.EntityContainer DB_Entity { get; private set; }
+        public DAL.IDAL.EntityContainer DB_Entity { get; set; }
 
      //   private Entity mDBData;
 

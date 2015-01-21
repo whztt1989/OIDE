@@ -153,69 +153,69 @@ namespace OIDE.Core
                         if (gameEntity.Entity.EntType == null)
                             continue;
 
-                        //switch ((XFBType.EntityTypes)gameEntity.EntType))
-                        //{
-                        //    case XFBType.EntityTypes.NT_SpawnPoint:
+                        switch ((EntityTypes)gameEntity.Entity.EntType)
+                        {
+                            case EntityTypes.NT_SpawnPoint:
 
-                        //        SpawnPointModel tmpSpawnPoint = new SpawnPointModel(allSpawns, UnityContainer, m_DBI)
-                        //        {
-                        //            ContentID = "SpawnPointID:##:" + gameEntity.EntID,
-                        //            Name = gameEntity.Name ?? ("Noname SpawnPoint " + (int)gameEntity.EntID),
-                        //            DBData = gameEntity
-                        //        };// Data = gameEntityDataDeserialized });
+                                SpawnPointModel tmpSpawnPoint = new SpawnPointModel(allSpawns, UnityContainer, m_DBI)
+                                {
+                                    ContentID = "SpawnPointID:##:" + gameEntity.Entity.EntID,
+                                    Name = gameEntity.Entity.Name ?? ("Noname SpawnPoint " + (int)gameEntity.Entity.EntID),
+                                    DBData = gameEntity
+                                };// Data = gameEntityDataDeserialized });
 
-                        //        allSpawns.Items.Add(tmpSpawnPoint);
-                        //        break;
+                                allSpawns.Items.Add(tmpSpawnPoint);
+                                break;
 
-                        //    case XFBType.EntityTypes.NT_Static:
+                            case EntityTypes.NT_Static:
 
-                        //        StaticObjectModel tmp = new StaticObjectModel(staticObjects, UnityContainer, m_DBI)
-                        //        {
-                        //            ContentID = "StaticID:##:" + gameEntity.EntID,
-                        //            Name = gameEntity.Name ?? ("Noname Static " + (int)gameEntity.EntID),
-                        //            DBData = gameEntity
-                        //        };// Data = gameEntityDataDeserialized });
+                                StaticObjectModel tmp = new StaticObjectModel(staticObjects, UnityContainer, m_DBI)
+                                {
+                                    ContentID = "StaticID:##:" + gameEntity.Entity.EntID,
+                                    Name = gameEntity.Entity.Name ?? ("Noname Static " + (int)gameEntity.Entity.EntID),
+                                    DB_Entity = gameEntity
+                                };// Data = gameEntityDataDeserialized });
 
-                        //        staticObjects.Items.Add(tmp);
-                        //        break;
-                        //    case XFBType.EntityTypes.NT_Character:
+                                staticObjects.Items.Add(tmp);
+                                break;
+                            case EntityTypes.NT_Character:
 
-                        //        CharacterCustomizeModel tmpChar = new CharacterCustomizeModel(characterObjects, UnityContainer, m_DBI)
-                        //        {
-                        //            ContentID = "CharacterObjID:##:" + gameEntity.EntID,
-                        //            Name = gameEntity.Name ?? ("Noname CharObj " + (int)gameEntity.EntID),
-                        //            DBData = gameEntity
-                        //        };// Data = gameEntityDataDeserialized });
+                                CharacterObjModel tmpChar = new CharacterObjModel(characterObjects, UnityContainer, m_DBI)
+                                {
+                                    ContentID = "CharacterObjID:##:" + gameEntity.Entity.EntID,
+                                    Name = gameEntity.Entity.Name ?? ("Noname CharObj " + (int)gameEntity.Entity.EntID),
+                                    DBData = gameEntity
+                                };// Data = gameEntityDataDeserialized });
 
-                        //        characterObjects.Items.Add(tmpChar);
-                        //        break;
-                        //    //case NodeTypes.Physic:
+                                characterObjects.Items.Add(tmpChar);
+                                break;
+                            //case NodeTypes.Physic:
 
-                        //    //    ProtoType.PhysicsObject dataPhysObj = new ProtoType.PhysicsObject();
-                        //    //    if (gameEntity.Data != null)
-                        //    //        dataPhysObj = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>(gameEntity.Data);
+                            //    ProtoType.PhysicsObject dataPhysObj = new ProtoType.PhysicsObject();
+                            //    if (gameEntity.Data != null)
+                            //        dataPhysObj = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>(gameEntity.Data);
 
-                        //    //    allPhysics.Items.Add(new PhysicsObjectModel(allPhysics, UnityContainer, dataPhysObj, m_DBI) { ContentID = "PhysicID:##:" + gameEntity.EntID, Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID) });// Data = gameEntityDataDeserialized });
+                            //    allPhysics.Items.Add(new PhysicsObjectModel(allPhysics, UnityContainer, dataPhysObj, m_DBI) { ContentID = "PhysicID:##:" + gameEntity.EntID, Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID) });// Data = gameEntityDataDeserialized });
 
-                        //    //    break;
-                        //    case XFBType.EntityTypes.NT_Camera:
-                        //        //todo contentid for camera
+                            //    break;
+                            case EntityTypes.NT_Camera:
+                                //todo contentid for camera
 
-                        //        //   SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
+                                //   SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
 
 
-                        //        //var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
-                        //        //if (itemCam.Any())
-                        //        //    itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer) { Node = nodeDeserialized });
+                                //var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
+                                //if (itemCam.Any())
+                                //    itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer) { Node = nodeDeserialized });
 
-                        //        break;
-                        //    case XFBType.EntityTypes.NT_Light:
+                                break;
+                            case EntityTypes.NT_Light:
 
-                        //        //var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
-                        //        //if (itemLight.Any())
-                        //        //    itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer) { Node = nodeDeserialized });
-                        //        break;
-                        //}
+                                //var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+                                //if (itemLight.Any())
+                                //    itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer) { Node = nodeDeserialized });
+                                break;
+                        }
 
                     }
                 }
