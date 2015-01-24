@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="dbDataModel.Store" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="dbDataModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="ISO8601" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Entity">
           <Key>
             <PropertyRef Name="EntID" />
@@ -96,7 +96,8 @@ Warnung 6002: Für Tabelle/Sicht 'main.MatUsedInScene' ist kein Primärschlüsse
 FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -130,6 +131,16 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           </Key>
           <Property Name="MatID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Data" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Scene">
+          <Key>
+            <PropertyRef Name="SceneID" />
+          </Key>
+          <Property Name="SceneID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FogID" Type="Int64" />
+          <Property Name="SkyID" Type="Int64" />
+          <Property Name="TerrID" Type="Int64" />
+          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
         </EntityType>
         <EntityType Name="SceneNode">
           <Key>
@@ -168,22 +179,12 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           <EntitySet Name="EntityData" EntityType="Self.EntityData" />
           <EntitySet Name="Fog" EntityType="Self.Fog" />
           <EntitySet Name="Material" EntityType="Self.Material" />
+          <EntitySet Name="Scene" EntityType="Self.Scene" />
           <EntitySet Name="SceneNode" EntityType="Self.SceneNode" />
           <EntitySet Name="Sky" EntityType="Self.Sky" />
           <EntitySet Name="Terrain" EntityType="Self.Terrain" />
           <EntitySet Name="MatUsedInScene" EntityType="Self.MatUsedInScene" />
-          <EntitySet Name="Scene" EntityType="dbDataModel.Scene" />
         </EntityContainer>
-        <EntityType Name="Scene">
-          <Key>
-            <PropertyRef Name="SceneID" />
-          </Key>
-          <Property Name="SceneID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FogID" Type="Int64" />
-          <Property Name="SkyID" Type="Int64" />
-          <Property Name="TerrID" Type="Int64" />
-          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -225,6 +226,17 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Scene">
+            <EntityTypeMapping TypeName="dbDataModel.Scene">
+              <MappingFragment StoreEntitySet="Scene">
+                <ScalarProperty Name="SceneID" ColumnName="SceneID" />
+                <ScalarProperty Name="FogID" ColumnName="FogID" />
+                <ScalarProperty Name="SkyID" ColumnName="SkyID" />
+                <ScalarProperty Name="TerrID" ColumnName="TerrID" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SceneNode">
             <EntityTypeMapping TypeName="dbDataModel.SceneNode">
               <MappingFragment StoreEntitySet="SceneNode">
@@ -260,17 +272,6 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Scene">
-            <EntityTypeMapping TypeName="dbDataModel.Scene">
-              <MappingFragment StoreEntitySet="Scene">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="TerrID" ColumnName="TerrID" />
-                <ScalarProperty Name="SkyID" ColumnName="SkyID" />
-                <ScalarProperty Name="FogID" ColumnName="FogID" />
-                <ScalarProperty Name="SceneID" ColumnName="SceneID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -287,7 +288,7 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
       </DesignerInfoPropertySet>
     </Options>

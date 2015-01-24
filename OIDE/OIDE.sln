@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.Gorilla", "..\OIDE.Gor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.Scene", "..\OIDE.Scene\OIDE.Scene.csproj", "{A589197E-E002-4DBA-B27F-DD16B9A81BFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.DAL", "..\OIDE.DAL\OIDE.DAL.csproj", "{EA680164-DB40-40A5-AB19-EA36316B19FE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Core", "..\..\Modules\Module.Core\Module.Core.csproj", "{5F4A71C7-8FDA-464F-A200-9F77D862AEF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.DB", "..\..\Modules\Module.DB\Module.DB.csproj", "{979E1B6A-60D2-4DBE-A9FB-B66B54E962AB}"
@@ -53,6 +51,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLL.AutoUI", "..\..\Modules
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLL.NodeEditor", "..\..\Modules\DLL.NodeEditor\DLL.NodeEditor.csproj", "{8FA439F4-488B-4EEC-BE2F-ECCB602DFB56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Tools.Output", "..\..\Modules\Module.Tools.Output\Module.Tools.Output.csproj", "{A9B18AF1-3417-413C-9883-4F8AB74F7ACB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.DAL", "..\OIDE.DAL\OIDE.DAL.csproj", "{4E3441FD-DE10-4751-8CF0-D2DF0C590602}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,10 +77,6 @@ Global
 		{A589197E-E002-4DBA-B27F-DD16B9A81BFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A589197E-E002-4DBA-B27F-DD16B9A81BFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A589197E-E002-4DBA-B27F-DD16B9A81BFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA680164-DB40-40A5-AB19-EA36316B19FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5F4A71C7-8FDA-464F-A200-9F77D862AEF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5F4A71C7-8FDA-464F-A200-9F77D862AEF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F4A71C7-8FDA-464F-A200-9F77D862AEF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -159,6 +157,14 @@ Global
 		{8FA439F4-488B-4EEC-BE2F-ECCB602DFB56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FA439F4-488B-4EEC-BE2F-ECCB602DFB56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FA439F4-488B-4EEC-BE2F-ECCB602DFB56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9B18AF1-3417-413C-9883-4F8AB74F7ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9B18AF1-3417-413C-9883-4F8AB74F7ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9B18AF1-3417-413C-9883-4F8AB74F7ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9B18AF1-3417-413C-9883-4F8AB74F7ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E3441FD-DE10-4751-8CF0-D2DF0C590602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E3441FD-DE10-4751-8CF0-D2DF0C590602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E3441FD-DE10-4751-8CF0-D2DF0C590602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E3441FD-DE10-4751-8CF0-D2DF0C590602}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
