@@ -102,9 +102,14 @@ namespace OIDE.Scene.Model.Objects
         /// <returns>byte data</returns>
         public Byte[] CreateByteBuffer()
         {
+            //m_ColourAmbient.A = 255;
+            //m_ColourAmbient.R = 90;
+            //m_ColourAmbient.B = 50;
             //--------------------------------------
             //create flatbuffer data
             //--------------------------------------
+          
+            // fbb.CreateString();
             FlatBufferBuilder fbb = new FlatBufferBuilder(1);
 
             int coloroffset = XFBType.Colour.CreateColour(fbb, m_ColourAmbient.R, m_ColourAmbient.G, m_ColourAmbient.B, m_ColourAmbient.A);
