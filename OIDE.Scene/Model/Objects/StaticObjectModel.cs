@@ -53,77 +53,6 @@ using OIDE.Scene.Model.Objects.ObjectData;
 
 namespace OIDE.Scene.Model
 {
-//    public class Plane : Mesh
-//    {
-//        //[Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
-//        //public ProtoType.Vec3f normal { get { return ProtoData.plane.normal; } set { ProtoData.plane.normal = value; } }
-       
-//        //public float constant { get { return ProtoData.plane.constant; } set { ProtoData.plane.constant = value; } }
-//        //public float width { get { return ProtoData.plane.width; } set { ProtoData.plane.width = value; } }
-//        //public float height { get { return ProtoData.plane.height; } set { ProtoData.plane.height = value; } }
-//        //public Int32 xsegments { get { return ProtoData.plane.xsegments; } set { ProtoData.plane.xsegments = value; } }
-//        //public Int32 ysegments { get { return ProtoData.plane.ysegments; } set { ProtoData.plane.ysegments = value; } }
-//        //public bool normals { get { return ProtoData.plane.normals; } set { ProtoData.plane.normals = value; } }
-//        //public Int32 numTexCoordSets { get { return ProtoData.plane.numTexCoordSets; } set { ProtoData.plane.numTexCoordSets = value; } }
-//        //public float xTile { get { return ProtoData.plane.xTile; } set { ProtoData.plane.xTile = value; } }
-//        //public float yTile { get { return ProtoData.plane.yTile; } set { ProtoData.plane.yTile = value; } }
-
-//        //[Editor(typeof(Vector3Editor), typeof(Vector3Editor))]
-//        //public ProtoType.Vec3f upVector { get { return ProtoData.plane.upVector; } set { ProtoData.plane.upVector = value; } }
-
-
-
-////new Vector3(ProtoData.plane.normal.x, ProtoData.plane.normal.y, ProtoData.plane.normal.z)
-//        public Plane()
-//        {
-//            //ProtoData.plane = new ProtoType.OgrePlane();
-//            //ProtoData.plane.upVector = new ProtoType.Vec3f();
-//            //ProtoData.plane.normal = new ProtoType.Vec3f();
-//        }
-//    }
-
-    //public class Cube : Mesh
-    //{
-    //    //public float width { get { return ProtoData.cube.width; } set { ProtoData.cube.width = value; } }
-
-    //    public Cube()
-    //    {
-    //        //ProtoData.cube = new ProtoType.OgreCube();
-    //    }
-    //}
-
-    //public class Mesh
-    //{
-    //    private XFBType.Mesh m_FBData;
-
-    //    //public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
-    //    //public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
-        
-    //    //[XmlIgnore]
-    //    //[Browsable(false)]
-    //    //public ProtoType.Mesh ProtoData { get; set; }
-
-    //    public Mesh()
-    //    {
-    //        //ProtoData = new ProtoType.Mesh();
-    //    }
-    //}
-
-    public class Material
-    {
-        //public String RessGrp { get { return ProtoData.RessGrp; } set { ProtoData.RessGrp = value; } }
-        //public String Name { get { return ProtoData.Name; } set { ProtoData.Name = value; } }
-
-        //[XmlIgnore]
-        //[Browsable(false)]
-        //public ProtoType.Material ProtoData { get; set; }
-
-        public Material()
-        {
-            //ProtoData = new ProtoType.Material();
-        }
-    }
-
     public class StaticObjectModel : EntityBaseModel, ISceneItem, IGameEntity
     {
         private FB_StaticObjectModel m_FBData;
@@ -217,17 +146,10 @@ namespace OIDE.Scene.Model
      //   public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
 
-        private List<Material> m_Materials;
-
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-     //   [NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
-        public List<Material> Materials { get { return m_Materials; } set { m_Materials = value; } }
 
 
 
-        private List<PhysicObject> m_Physics;
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
+
 
 
     //    [XmlIgnore]
@@ -311,20 +233,14 @@ namespace OIDE.Scene.Model
             if (m_opened)
                 return true;
 
-         //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
+            //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
-            //read data from lokal xml file
-            try
-            { 
-                m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
-            }
-            catch (Exception ex)
-            {
+            //read data from lokal json file
+            m_FBData = DAL.Utility.JSONSerializer.Deserialize<FB_StaticObjectModel>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".json"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+            if (m_FBData == null)
                 Create();
-                //     MessageBox.Show("dreck_" + id + "_!!!!");
-            }
-            m_opened = true;
-            return true; 
+
+            return m_opened = true;
         }
 
         public void Refresh() { }
@@ -367,7 +283,7 @@ namespace OIDE.Scene.Model
                 //if (DLL_Singleton.Instance.EditorInitialized)
                 //    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
 
-                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
+                DAL.Utility.JSONSerializer.Serialize<FB_StaticObjectModel>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".json");  // XML Serialize
 
             }
             catch (Exception ex)
@@ -418,9 +334,7 @@ namespace OIDE.Scene.Model
             else
                 m_dbI = new IDAL();
 
-            m_Materials = new List<Material>();
-           // mMeshes = new List<Mesh>();
-            m_Physics = new List<PhysicObject>();
+
             
             m_FBData = new FB_StaticObjectModel();
             base.m_BaseObj_FBData = m_FBData;

@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using Wide.Interfaces;
 using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace OIDE.Scene.Model.Objects
 {
-    [Serializable]
+    [DataContract]
     public class FB_SceneModel : IFBObject
     {
         private XFBType.Scene m_FBData = new XFBType.Scene();
@@ -25,8 +26,14 @@ namespace OIDE.Scene.Model.Objects
 
         #region Properties
 
-        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } }
+        [DataMember]
+        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = value; } } //public setter needed for serialization
 
+        public String AbsPathToXML { get; set; }
+
+        [DataMember]
+        public String RelPathToXML { get; set; }
+   
         public int SetColourAmbient(System.Windows.Media.Color color)
         {
             int res = 0;

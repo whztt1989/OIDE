@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wide.Interfaces;
+using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model.Objects
 {
     public class FB_StaticObjectModel : FB_EntityBaseModel, IFBObject
     {
+        #region private members
+       
         private XFBType.StaticEntity m_FBData = new XFBType.StaticEntity();
-
-        #region StaticObject Data
-
         private int m_Group;
         private FB_EntityBaseModel m_EntityBaseModel;
 
@@ -23,13 +23,20 @@ namespace OIDE.Scene.Model.Objects
         
         #region Properties
 
+       [XmlIgnore]
+       public String AbsPathToXML { get; set; }
+
+       public String RelPathToXML { get; set; }
+
        public int Group { get { return m_Group; } set { m_Group = value; } }
        public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
 
 
         #endregion
 
-        public void Read(Byte[] fbData)
+       #region methods
+
+       public void Read(Byte[] fbData)
         {
             ByteBuffer byteBuffer = new ByteBuffer(fbData);
             m_FBData = XFBType.StaticEntity.GetRootAsStaticEntity(byteBuffer); // read 
@@ -52,5 +59,7 @@ namespace OIDE.Scene.Model.Objects
             return fbb.SizedByteArray();  //bytebuffer
             //--------------------------------------
         }
+
+       #endregion
     }
 }

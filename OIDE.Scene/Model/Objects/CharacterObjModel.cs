@@ -49,6 +49,7 @@ using Module.Properties.Types;
 using OIDE.VFS.View;
 using DAL.MDB;
 using WIDE_Helpers;
+using OIDE.Scene.Model.Objects.ObjectData;
 
 namespace OIDE.Scene.Model
 {
@@ -64,7 +65,7 @@ namespace OIDE.Scene.Model
     //    }
     //}
 
-    public class CharacterObjModel : ISceneItem, ISceneNode 
+    public class CharacterObjModel : EntityBaseModel, ISceneItem, ISceneNode, IGameEntity
     {
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
@@ -329,11 +330,13 @@ namespace OIDE.Scene.Model
         public IUnityContainer UnityContainer { get; protected set; }
 
         public CharacterObjModel()
+            : base(null)
         {
 
         }
 
         public CharacterObjModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
+            : base(unityContainer)
         {
             UnityContainer = unityContainer;
 

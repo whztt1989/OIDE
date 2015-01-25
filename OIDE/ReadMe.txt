@@ -1,6 +1,7 @@
 ﻿
 
 Important to get the SQLLite provider found!
+//FIX http://stackoverflow.com/questions/21757843/system-data-sqlite-1-0-91-0-and-ef6-0-2
 in main exe, App.config
 
 

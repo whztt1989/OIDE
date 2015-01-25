@@ -22,38 +22,33 @@ namespace OIDE.Scene.Model.Objects.ObjectData
 
         protected FB_EntityBaseModel m_BaseObj_FBData;
 
-        #region EntityBaseData
-
-        
-
-        //meshes:[Mesh];
-        //sounds:[Sound];
-        //materials:[Material];
-        //physics:[PhysicsObject];
-        //type:EntityTypes;
-        //boneparent:string;
-        //mode:uint;
-        //castShadows:bool;
-        //debug:Debug;	
-        //uint:renderqueue;
-        //group:uint; // e.g. static grouping
-
-        #endregion
 
         #region Properties
 
         [Browsable(false)]
         private IUnityContainer UnityContainer { get; set; }
 
-        private List<MeshModel> mMeshes;
-
+       
+        [Category("Entity basic")]
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
         [NewItemTypes(new Type[] { typeof(MeshModel), typeof(PlaneModel), typeof(CubeModel) })]
-        public List<MeshModel> Meshes { get { return mMeshes; } set { mMeshes = value; } }
+        public List<MeshModel> Meshes { get { return m_BaseObj_FBData.Meshes; } set { m_BaseObj_FBData.Meshes = value; } }
+
+        [Category("Entity basic")]
+        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        public List<MaterialObject> Materials { get { return m_BaseObj_FBData.Materials; } set { m_BaseObj_FBData.Materials = value; } }
+
+        [Category("Entity basic")]
+        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        public List<PhysicObject> Physics { get { return m_BaseObj_FBData.Physics; } set { m_BaseObj_FBData.Physics = value; } }
+
+        [Category("Entity basic")]
+        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        public List<SoundObject> Sounds { get { return m_BaseObj_FBData.Sounds; } set { m_BaseObj_FBData.Sounds = value; } }
 
 
-        [Category("Scene Data")]
-        [Description("scene ambient color")]
+        [Category("Entity basic")]
+        [Description("animationinfo - triggers")]
         public String AnimationInfo
         {
             get { return m_BaseObj_FBData.AnimationInfo; }
@@ -71,6 +66,7 @@ namespace OIDE.Scene.Model.Objects.ObjectData
         }
 
 
+        [Category("Entity basic")]
         public String AnimationTree
         {
             get { return m_BaseObj_FBData.AnimationTree; }
@@ -86,6 +82,8 @@ namespace OIDE.Scene.Model.Objects.ObjectData
                 RaisePropertyChanged("AnimationTree");
             }
         }
+
+        [Category("Entity basic")]
         public String Boneparent
         {
             get { return m_BaseObj_FBData.Boneparent; }
@@ -101,6 +99,8 @@ namespace OIDE.Scene.Model.Objects.ObjectData
                 RaisePropertyChanged("Boneparent");
             }
         }
+
+        [Category("Entity basic")]
         public Boolean CastShadows
         {
             get { return m_BaseObj_FBData.CastShadows; }
@@ -116,8 +116,95 @@ namespace OIDE.Scene.Model.Objects.ObjectData
                 RaisePropertyChanged("CastShadows");
             }
         }
-    
-        #endregion
 
+        [Category("Entity basic")]
+        public EntityTypes EntType
+        {
+            get { return m_BaseObj_FBData.EntType; }
+            set
+            {
+                int res = m_BaseObj_FBData.SetEntType(value);
+                if (res != 0) //fehler beim senden
+                {
+                    var logger = UnityContainer.Resolve<ILoggerService>();
+                    logger.Log("Flatbuffer EntityBaseModel.EntType.SetEntType invalid (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
+                }
+
+                RaisePropertyChanged("EntType");
+            }
+        }
+
+        [Category("Entity basic")]
+        public uint Mode
+        {
+            get { return m_BaseObj_FBData.Mode; }
+            set
+            {
+                int res = m_BaseObj_FBData.SetMode(value);
+                if (res != 0) //fehler beim senden
+                {
+                    var logger = UnityContainer.Resolve<ILoggerService>();
+                    logger.Log("Flatbuffer EntityBaseModel.Mode.SetMode invalid (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
+                }
+
+                RaisePropertyChanged("Mode");
+            }
+        }
+
+
+        [Category("Entity basic")]
+        public Boolean Debug
+        {
+            get { return m_BaseObj_FBData.Debug; }
+            set
+            {
+                int res = m_BaseObj_FBData.SetDebug(value);
+                if (res != 0) //fehler beim senden
+                {
+                    var logger = UnityContainer.Resolve<ILoggerService>();
+                    logger.Log("Flatbuffer EntityBaseModel.Debug.SetDebug invalid (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
+                }
+
+                RaisePropertyChanged("Debug");
+            }
+        }
+
+
+        [Category("Entity basic")]
+        public uint Renderqueue
+        {
+            get { return m_BaseObj_FBData.Renderqueue; }
+            set
+            {
+                int res = m_BaseObj_FBData.SetRenderqueue(value);
+                if (res != 0) //fehler beim senden
+                {
+                    var logger = UnityContainer.Resolve<ILoggerService>();
+                    logger.Log("Flatbuffer EntityBaseModel.Renderqueue.SetRenderqueue invalid (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
+                }
+
+                RaisePropertyChanged("Renderqueue");
+            }
+        }
+
+
+        [Category("Entity basic")]
+        public uint Group
+        {
+            get { return m_BaseObj_FBData.Group; }
+            set
+            {
+                int res = m_BaseObj_FBData.SetGroup(value);
+                if (res != 0) //fehler beim senden
+                {
+                    var logger = UnityContainer.Resolve<ILoggerService>();
+                    logger.Log("Flatbuffer EntityBaseModel.Group.SetGroup invalid (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
+                }
+
+                RaisePropertyChanged("Group");
+            }
+        }
+
+        #endregion
     }
 }

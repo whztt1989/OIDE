@@ -113,6 +113,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Wide\Libs\System.Windows.Interactivity.dll</HintPath>
@@ -155,16 +156,20 @@
     <Content Include="Model\Objects\AICharacterModel.cs" />
     <Compile Include="Model\Categeories\CharacterCategoryModel.cs" />
     <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
-    <Compile Include="Model\Objects\MeshModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_MaterialModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\MaterialObject.cs" />
+    <Compile Include="Model\Objects\ObjectData\MeshModel.cs" />
     <Compile Include="Model\Objects\ObjectData\EntityBaseModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_EntityBaseModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_PhysicsModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_MeshModel.cs" />
+    <Compile Include="Model\Objects\ObjectData\FB_PlaneModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_SoundModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_SpawnPointModel.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_SceneNode.cs" />
     <Compile Include="Model\Objects\ObjectData\FB_StaticObjectModel.cs" />
-    <Compile Include="Model\Objects\ObjectData\PhysicObject___.cs" />
+    <Compile Include="Model\Objects\ObjectData\PhysicObject.cs" />
+    <Compile Include="Model\Objects\ObjectData\SoundObject.cs" />
     <Compile Include="Model\Objects\SpawnPointModel.cs" />
     <Compile Include="Service\PredefObjectCategoyModel.cs" />
     <Compile Include="Model\Objects\CameraModel.cs" />

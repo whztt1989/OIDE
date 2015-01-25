@@ -96,12 +96,10 @@ namespace OIDE.Scene.Model
                 {
                     Name = "NEWNode_" + sceneItem.Name,
                     EntID = Module.Properties.Helpers.Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
-                     
                 };
                 m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer, m_DBI)  { SceneNode = node, Name = node.Name ?? "NodeNoname" });
             }
         }
-
 
         [Browsable(false)]
         [XmlIgnore]
@@ -109,7 +107,6 @@ namespace OIDE.Scene.Model
 
         private FB_SceneModel m_FB_SceneData = new FB_SceneModel();
         
-      
         [XmlIgnore]
         [Category("Scene Data")]
         [Description("scene ambient color")]
@@ -183,9 +180,17 @@ namespace OIDE.Scene.Model
         [XmlAttribute]
         public Boolean IsExpanded { get; set; }
 
+        private Boolean m_IsSelected;
         [Browsable(false)]
         [XmlAttribute]
-        public Boolean IsSelected { get; set; }
+        public Boolean IsSelected {
+            get { return m_IsSelected; } 
+            set
+            {
+                m_IsSelected = value;
+                if (value) Open(null);
+            }
+        }
 
         [XmlIgnore]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
@@ -205,26 +210,46 @@ namespace OIDE.Scene.Model
 
         private IDAL m_DBI;
 
+
+        #region public command methods
+
         public Boolean Create() { return true; }
 
-        public Boolean Closing() { return true; }
+        public Boolean Closing() {
+            m_Opened = false;
+            return true; }
+
+        private Boolean m_Opened;
+
         public Boolean Open(object id)
         {
-            m_SceneService.SelectedScene = this;
-            int sceneID = 0;
+            if (m_Opened)
+                return false;
+            else
+                m_Opened = true;
 
-            sceneID =  Module.Properties.Helpers.Helper.StringToContentIDData(m_SceneService.SelectedScene.ContentID).IntValue;
-            
+            m_SceneService.SelectedScene = this;
+
+
+            int sceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
+          
+            String path = AppDomain.CurrentDomain.BaseDirectory + "Scene\\" + sceneID + ".json";
+            //read sceneData from DAL -- Read data from XML not from database -> database data not human readable
+            m_FB_SceneData = DAL.Utility.JSONSerializer.Deserialize<FB_SceneModel>(path); // XML Serialize
+            if (m_FB_SceneData == null)
+                m_FB_SceneData = new FB_SceneModel();
+            // m_FB_SceneData.Read(scene.Data); //just for testing if data correctly saved!
+
+            m_FB_SceneData.RelPathToXML = "Scene\\" + sceneID + ".json";
+            m_FB_SceneData.AbsPathToXML = path;
+
+
             DB_SceneData = m_DBI.selectSceneDataOnly(sceneID); // database data
 
             IEnumerable<DAL.IDAL.SceneNodeContainer> result = m_DBI.selectSceneNodes(sceneID); //scenenodes from database
 
             try
             {
-                //read sceneData from DAL -- Read data from XML not from database -> database data not human readable
-                m_FB_SceneData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneModel>("Scene/" + sceneID + ".xml"); // XML Serialize
-              // m_FB_SceneData.Read(scene.Data); //just for testing if data correctly saved!
-
                 //select all Nodes
                 foreach (var nodeContainer in result)
                 {
@@ -234,7 +259,7 @@ namespace OIDE.Scene.Model
                         if (nodeContainer.Node.Data == null)
                             nodeDeserialized = new FB_SceneNode();
                         else
-                            nodeDeserialized =  Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneNode>("Scene/Nodes/" + nodeContainer.Node.NodeID + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+                            nodeDeserialized = DAL.Utility.JSONSerializer.Deserialize<FB_SceneNode>("Scene/Nodes/" + nodeContainer.Node.NodeID + ".json"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
 
                         m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer,m_DBI) { SceneNode = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" });
                     }
@@ -329,7 +354,7 @@ namespace OIDE.Scene.Model
             else
                 m_DBI.insertScene(DB_SceneData);
 
-            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_SceneModel>(m_FB_SceneData, "Scene/" + 1 + ".xml"); // XML Serialize
+            DAL.Utility.JSONSerializer.Serialize<FB_SceneModel>(m_FB_SceneData, m_FB_SceneData.AbsPathToXML); // XML Serialize
 
             //##   DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
 
@@ -419,6 +444,8 @@ namespace OIDE.Scene.Model
 
             return true;
         }
+        
+        #endregion
 
         public SceneDataModel()
         {

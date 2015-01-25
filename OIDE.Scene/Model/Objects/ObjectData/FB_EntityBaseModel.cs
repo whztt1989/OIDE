@@ -10,38 +10,74 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Wide.Interfaces;
 using XFBType;
+using OIDE.Scene.Model.Objects.ObjectData;
 
 namespace OIDE.Scene.Model.Objects
 {
     public abstract class FB_EntityBaseModel
     {
+        #region private members
+    
         private XFBType.EntityBase m_FBData;
-
-        #region sceneData
 
         private String m_AnimationInfo;
         private String m_AnimationTree;
         private String m_Boneparent;
         private Boolean m_CastShadows;
+        private uint m_Renderqueue;
+        private EntityTypes m_EntType;
+        private uint m_Mode;
+        private Boolean m_Debug;
+        private uint m_Group;
 
         #endregion
 
         #region Properties
 
+        [XmlIgnore]
+        public String AbsPathToXML { get; set; }
+
+        public String RelPathToXML { get; set; }
         public String AnimationInfo { get { return m_AnimationInfo; } }
         public String AnimationTree { get { return m_AnimationTree; }  }
         public String Boneparent { get { return m_Boneparent; } }
         public Boolean CastShadows { get { return m_CastShadows; } }
+        public uint Renderqueue { get { return m_Renderqueue; } }
+        public EntityTypes EntType { get { return m_EntType; } }
+        public uint Mode { get { return m_Mode; } }
+        public Boolean Debug { get { return m_Debug; } }
+        public uint Group { get { return m_Group; } }
 
 
-        public int SetAnimationInfo(String animationInfo) { m_AnimationInfo = animationInfo;
-        return 0;
-        }
+        //todo
+        public int SetAnimationInfo(String animationInfo) { m_AnimationInfo = animationInfo; return 0;   }
         public int SetAnimationTree(String animationTree) { m_AnimationTree = animationTree; return 0; }
         public int SetBoneparent(String boneParent) { m_Boneparent = boneParent; return 0; }
         public int SetCastShadows(Boolean castShadows) { m_CastShadows = castShadows; return 0; }
+        public int SetRenderqueue(uint renderqueue) { m_Renderqueue = renderqueue; return 0; }
+        public int SetEntType(EntityTypes entType) { m_EntType = entType; return 0; }
+        public int SetMode(uint mode) { m_Mode = mode; return 0; }
+        public int SetDebug(Boolean debug) { m_Debug = debug; return 0; }
+        public int SetGroup(uint group) { m_Group = group; return 0; }
+    
+
+
+        private List<MeshModel> mMeshes = new List<MeshModel>();
+        public List<MeshModel> Meshes { get { return mMeshes; } set { mMeshes = value; } }
+
+        private List<MaterialObject> m_Materials = new List<MaterialObject>();
+        public List<MaterialObject> Materials { get { return m_Materials; } set { m_Materials = value; } }
+
+        private List<PhysicObject> m_Physics = new List<PhysicObject>();
+        public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
+
+        private List<SoundObject> m_Sounds = new List<SoundObject>();
+        public List<SoundObject> Sounds { get { return m_Sounds; } set { m_Sounds = value; } }
+
 
         #endregion
+
+        #region methods
 
         public void Read(EntityBase data)
         {
@@ -116,5 +152,7 @@ namespace OIDE.Scene.Model.Objects
             return null;//m_ByteBuffer = fbb.DataBuffer(); //bytebuffer
             //--------------------------------------
         }
+
+        #endregion
     }
 }

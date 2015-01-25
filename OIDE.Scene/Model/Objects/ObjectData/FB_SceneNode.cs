@@ -29,6 +29,9 @@ namespace OIDE.Scene.Model.Objects
 
         #region Properties
 
+        public String AbsPathToXML { get; set; }
+        public String RelPathToXML { get; set; }
+
         [XmlIgnore]
         [ExpandableObject]
         public Quaternion Rotation { get { return m_Rotation; } }

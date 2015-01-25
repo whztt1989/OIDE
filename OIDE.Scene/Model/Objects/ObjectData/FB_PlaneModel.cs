@@ -1,22 +1,31 @@
-﻿using FlatBuffers;
-using Module.Protob.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Wide.Interfaces;
-using OIDE.InteropEditor.DLL;
-using System.Xml.Serialization;
+using FlatBuffers;
+using Module.Protob.Interface;
 
-namespace OIDE.Scene.Model.Objects
+namespace OIDE.Scene.Model.Objects.ObjectData
 {
     [Serializable]
-    public class FB_SoundModel : IFBObject
+    public class FB_PlaneModel : IFBObject
     {
+       
+    //   XFBType::Vec3f normal { get;set;}
+    //constant:float;
+    //width:float;
+    //height:float;
+    //xsegments:uint;
+    //ysegments:uint;
+    //normals:bool;
+    //numTexCoordSets:uint;
+    //xTile:float;
+    //yTile:float;
+    //upVector:Vec3f;
+
         private XFBType.Sound m_FBData = new XFBType.Sound();
-      
+
         #region sceneData
 
         private String m_Name;
@@ -76,7 +85,7 @@ namespace OIDE.Scene.Model.Objects
         }
 
         #endregion
-        
+
         /// <summary>
         /// reads flatbuffers byte data into object
         /// </summary>
@@ -84,13 +93,13 @@ namespace OIDE.Scene.Model.Objects
         public void Read(Byte[] fbData)
         {
             ByteBuffer byteBuffer = new ByteBuffer(fbData);
-
-            m_FBData = XFBType.Sound.GetRootAsSound(byteBuffer); // read 
+            // XFBType.Mesh.
+            //  m_FBData = XFBType.Mesh.GetRootAsMesh(byteBuffer); // read 
             m_Name = m_FBData.Name();
             m_FileName = m_FBData.FileName();
             m_RessGrp = m_FBData.RessGrp();
         }
-        
+
         /// <summary>
         /// resets the flatbufferbuilder
         /// </summary>

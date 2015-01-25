@@ -32,6 +32,8 @@ namespace OIDE.Scene.Model.Objects
 
         #region Properties
 
+        public String AbsPathToXML { get; set; }
+        public String RelPathToXML { get; set; }
         public String Name { get { return m_Name; } }
         public String FileName { get { return m_FileName; } }
         public String RessGrp { get { return m_RessGrp; } }
