@@ -60,7 +60,7 @@ namespace OIDE.InteropEditor.DLL
             {
                 if (instance == null)
                 {
-                    instance = new DLL_Singleton(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\XE_IEditor.dll");
+                    instance = new DLL_Singleton(@"D:\Projekte\coop\XEngine_build\bin\Debug\XEEditor.dll");
                 }
                 return instance;
             }
@@ -140,7 +140,7 @@ namespace OIDE.InteropEditor.DLL
 
         //-----------------------------------------------------------------------
 
-        [DllImport(@"D:\Projekte\Src Game\_Engine\XEngine\build\VS2010\XEngine\XEALL\Debug\XE_IEditor.dll"
+        [DllImport(@"D:\Projekte\coop\XEngine_build\bin\Debug\XEEditor.dll"
            , CallingConvention = CallingConvention.StdCall)]
         public static extern void an_unmanaged_function(
            string aa,

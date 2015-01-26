@@ -242,6 +242,9 @@ namespace OIDE.Gorilla
         /// <returns>True, if valid from content ID - false, otherwise</returns>
         public bool ValidateContentFromId(string contentId)
         {
+            if (contentId == null)
+                return false;
+
             string[] split = Regex.Split(contentId, ":##:");
             if (split.Count() == 2)
             {

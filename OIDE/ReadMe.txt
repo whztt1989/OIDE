@@ -1,4 +1,6 @@
-﻿
+﻿//http://bytes.com/topic/c-sharp/answers/725503-c-64-bit-dll
+important for x64 c++ editor dll -> set exe to x64 and dll's to anyCPU
+
 
 Important to get the SQLLite provider found!
 //FIX http://stackoverflow.com/questions/21757843/system-data-sqlite-1-0-91-0-and-ef6-0-2
