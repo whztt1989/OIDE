@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Wide.Interfaces;
 namespace ADock.ViewModel.ProjVM
 {
 
 
-    public class CVMFontSettings : FileViewModel
+    public class CVMFontSettings : ViewModelBase
     {
         private String mAlphabetFile;
         private SquareSize mSquareTextureSize;
@@ -19,9 +20,9 @@ namespace ADock.ViewModel.ProjVM
         }
        
         public ObservableCollection<ViewModelBase> Items { get { return mFonts; } }
-        public String AlphabetFile { get { return mAlphabetFile; } set { mAlphabetFile = value; OnPropertyChanged("AlphabetFile"); } }
-        public SquareSize SquareTextureSize { get { return mSquareTextureSize; } set { mSquareTextureSize = value; OnPropertyChanged("SquareTextureSize"); } }
-        public String GeneratedFontImage { get { return mGeneratedFontImage; } set { mGeneratedFontImage = value; OnPropertyChanged("GeneratedFontImage"); } }
+        public String AlphabetFile { get { return mAlphabetFile; } set { mAlphabetFile = value; RaisePropertyChanged("AlphabetFile"); } }
+        public SquareSize SquareTextureSize { get { return mSquareTextureSize; } set { mSquareTextureSize = value; RaisePropertyChanged("SquareTextureSize"); } }
+        public String GeneratedFontImage { get { return mGeneratedFontImage; } set { mGeneratedFontImage = value; RaisePropertyChanged("GeneratedFontImage"); } }
   
     }
 

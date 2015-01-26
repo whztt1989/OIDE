@@ -10,36 +10,44 @@
 
 #endregion
 
-using System.Windows;
-using System.Windows.Controls;
+using Wide.Core.TextDocument;
+using Wide.Interfaces.Services;
 
-namespace XIDE.Gorilla
+namespace OIDE.Gorilla
 {
-    public class BrowserBehavior
+    /// <summary>
+    /// Class TextModel which contains the text of the document
+    /// </summary>
+    public class GorillaModel : TextModel
     {
-        public static readonly DependencyProperty HtmlProperty = DependencyProperty.RegisterAttached(
-            "Html",
-            typeof (string),
-            typeof (BrowserBehavior),
-            new FrameworkPropertyMetadata(OnHtmlChanged));
-
-        [AttachedPropertyBrowsableForType(typeof (WebBrowser))]
-        public static string GetHtml(WebBrowser d)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MDModel" /> class.
+        /// </summary>
+        /// <param name="commandManager">The injected command manager.</param>
+        /// <param name="menuService">The menu service.</param>
+        public GorillaModel(ICommandManager commandManager, IMenuService menuService)
+            : base(commandManager, menuService)
         {
-            return (string) d.GetValue(HtmlProperty);
+
         }
 
-        public static void SetHtml(WebBrowser d, string value)
+        internal void SetLocation(object location)
         {
-            d.SetValue(HtmlProperty, value);
+            this.Location = location;
+            RaisePropertyChanged("Location");
         }
 
-        private static void OnHtmlChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        internal void SetDirty(bool value)
         {
-            WebBrowser webBrowser = dependencyObject as WebBrowser;
-            string value = e.NewValue as string;
-            if (webBrowser != null && string.IsNullOrEmpty(value) == false)
-                webBrowser.NavigateToString(value);
+            this.IsDirty = value;
+        }
+
+        public string HTMLResult { get; set; }
+
+        public void SetHtml(string transform)
+        {
+            this.HTMLResult = transform;
+            RaisePropertyChanged("HTMLResult");
         }
     }
 }

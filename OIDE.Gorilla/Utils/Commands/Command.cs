@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace XIDE.Gorilla
+namespace OIDE.Gorilla
 {
 	/// <summary>
 	/// An interface to provide the Command pattern implementation. Command objects can be used

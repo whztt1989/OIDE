@@ -7,14 +7,14 @@ using System.Windows.Shapes;
 using CLGorilla.ViewModel;
 using System.Windows.Media;
 
-namespace CLGorilla.Documents.Gorilla
+namespace OIDE.Gorilla
 {
     /// <summary>
     /// Interaktionslogik für UCT_Gorilla.xaml
     /// </summary>
-    public partial class UCT_Gorilla : UserControl
+    public partial class GorillaView : UserControl
     {
-        public UCT_Gorilla()
+        public GorillaView()
         {
             InitializeComponent();
         }

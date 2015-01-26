@@ -12,7 +12,7 @@
 
 using Wide.Interfaces.Settings;
 
-namespace XIDE.Gorilla.Settings
+namespace OIDE.Gorilla.Settings
 {
     public class MDSettingsItem : AbstractSettingsItem
     {

@@ -8,9 +8,9 @@ namespace ADock.View.ViewTemplates
     /// <summary>
     /// Interaktionslogik für UCT_FontSetting.xaml
     /// </summary>
-    public partial class UCT_FontSetting : UserControl
+    public partial class FontSettingView : UserControl
     {
-        public UCT_FontSetting()
+        public FontSettingView()
         {
             InitializeComponent();
         }
@@ -20,6 +20,7 @@ namespace ADock.View.ViewTemplates
             try
             {
                 System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo();
+                psi.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
 
                  String basePath = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()));
           

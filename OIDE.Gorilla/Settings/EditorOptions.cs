@@ -15,7 +15,7 @@ using System.Configuration;
 using System.Windows.Media;
 using Wide.Interfaces.Settings;
 
-namespace XIDE.Gorilla.Settings
+namespace OIDE.Gorilla.Settings
 {
     internal class EditorOptions : AbstractSettings
     {

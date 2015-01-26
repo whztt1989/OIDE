@@ -23,13 +23,13 @@ using Wide.Interfaces.Controls;
 using Wide.Interfaces.Events;
 using Wide.Interfaces.Services;
 using Wide.Interfaces.Settings;
-using XIDE.Gorilla.Settings;
+using OIDE.Gorilla.Settings;
 using System.Windows;
 //using ComID.DBI;
 
-namespace XIDE.Gorilla
+namespace OIDE.Gorilla
 {
-    [Module(ModuleName = "XIDE.Gorilla")]
+    [Module(ModuleName = "OIDE.Gorilla")]
     [ModuleDependency("Module.Tools.Logger")]
     public class CoreModule : IModule
     {
@@ -72,7 +72,7 @@ namespace XIDE.Gorilla
         //    var logger = _container.Resolve<ILoggerService>();
 
         //    //Search database 
-        //    var db = managerDB.DBs.Where(x => x.DBOptions.IDName == "XIDE SQLITE");
+        //    var db = managerDB.DBs.Where(x => x.DBOptions.IDName == "OIDE SQLITE");
 
         //    if (db.Any())
         //    {
@@ -81,7 +81,7 @@ namespace XIDE.Gorilla
         //    }
         //    else
         //    {
-        //        logger.Log("database options 'XIDE SQLITE' not found", LogCategory.Exception, LogPriority.High);
+        //        logger.Log("database options 'OIDE SQLITE' not found", LogCategory.Exception, LogPriority.High);
         //    }
         //}
 
@@ -119,12 +119,12 @@ namespace XIDE.Gorilla
 
         private void RegisterParts()
         {
-            //_container.RegisterType<MDHandler>();
-            //_container.RegisterType<MDViewModel>();
-            //_container.RegisterType<MDView>();
+            _container.RegisterType<GorillaHandler>();
+            _container.RegisterType<GorillaViewModel>();
+            _container.RegisterType<GorillaView>();
 
-            //IContentHandler handler = _container.Resolve<MDHandler>();
-            //_container.Resolve<IContentHandlerRegistry>().Register(handler);
+            IContentHandler handler = _container.Resolve<GorillaHandler>();
+            _container.Resolve<IContentHandlerRegistry>().Register(handler);
         }
 
         private void LoadTheme()
@@ -185,7 +185,7 @@ namespace XIDE.Gorilla
             //    (new MenuItemViewModel("_New", 3,
             //                           new BitmapImage(
             //                               new Uri(
-            //                                   @"pack://application:,,,/XIDE.Gorilla;component/Icons/NewRequest_8796.png")),
+            //                                   @"pack://application:,,,/OIDE.Gorilla;component/Icons/NewRequest_8796.png")),
             //                           manager.GetCommand("NEW"),
             //                           new KeyGesture(Key.N, ModifierKeys.Control, "Ctrl + N"))));
 
@@ -193,19 +193,19 @@ namespace XIDE.Gorilla
             //    (new MenuItemViewModel("_Open", 4,
             //                           new BitmapImage(
             //                               new Uri(
-            //                                   @"pack://application:,,,/XIDE.Gorilla;component/Icons/OpenFileDialog_692.png")),
+            //                                   @"pack://application:,,,/OIDE.Gorilla;component/Icons/OpenFileDialog_692.png")),
             //                           manager.GetCommand("OPEN"),
             //                           new KeyGesture(Key.O, ModifierKeys.Control, "Ctrl + O"))));
             //menuService.Get("_File").Add(new MenuItemViewModel("_Save", 5,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Gorilla;component/Icons/Save_6530.png")),
+            //                                                           @"pack://application:,,,/OIDE.Gorilla;component/Icons/Save_6530.png")),
             //                                                   manager.GetCommand("SAVE"),
             //                                                   new KeyGesture(Key.S, ModifierKeys.Control, "Ctrl + S")));
             //menuService.Get("_File").Add(new SaveAsMenuItemViewModel("Save As..", 6,
             //                                       new BitmapImage(
             //                                           new Uri(
-            //                                               @"pack://application:,,,/XIDE.Gorilla;component/Icons/Save_6530.png")),
+            //                                               @"pack://application:,,,/OIDE.Gorilla;component/Icons/Save_6530.png")),
             //                                       manager.GetCommand("SAVEAS"),null,false,false,_container));
 
             //menuService.Get("_File").Add(new MenuItemViewModel("Close", 8, null, manager.GetCommand("CLOSE"),
@@ -221,28 +221,28 @@ namespace XIDE.Gorilla
             //menuService.Get("_Edit").Add(new MenuItemViewModel("_Undo", 1,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Gorilla;component/Icons/Undo_16x.png")),
+            //                                                           @"pack://application:,,,/OIDE.Gorilla;component/Icons/Undo_16x.png")),
             //                                                   ApplicationCommands.Undo));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("_Redo", 2,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Gorilla;component/Icons/Redo_16x.png")),
+            //                                                           @"pack://application:,,,/OIDE.Gorilla;component/Icons/Redo_16x.png")),
             //                                                   ApplicationCommands.Redo));
             //menuService.Get("_Edit").Add(MenuItemViewModel.Separator(15));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("Cut", 20,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Gorilla;component/Icons/Cut_6523.png")),
+            //                                                           @"pack://application:,,,/OIDE.Gorilla;component/Icons/Cut_6523.png")),
             //                                                   ApplicationCommands.Cut));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("Copy", 21,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Gorilla;component/Icons/Copy_6524.png")),
+            //                                                           @"pack://application:,,,/OIDE.Gorilla;component/Icons/Copy_6524.png")),
             //                                                   ApplicationCommands.Copy));
             //menuService.Get("_Edit").Add(new MenuItemViewModel("_Paste", 22,
             //                                                   new BitmapImage(
             //                                                       new Uri(
-            //                                                           @"pack://application:,,,/XIDE.Gorilla;component/Icons/Paste_6520.png")),
+            //                                                           @"pack://application:,,,/OIDE.Gorilla;component/Icons/Paste_6520.png")),
             //                                                   ApplicationCommands.Paste));
 
             //menuService.Add(new MenuItemViewModel("_View", 3));
@@ -251,7 +251,7 @@ namespace XIDE.Gorilla
             //    menuService.Get("_View").Add(new MenuItemViewModel("_Logger", 1,
             //                                                       new BitmapImage(
             //                                                           new Uri(
-            //                                                               @"pack://application:,,,/XIDE.Gorilla;component/Icons/Undo_16x.png")),
+            //                                                               @"pack://application:,,,/OIDE.Gorilla;component/Icons/Undo_16x.png")),
             //                                                       manager.GetCommand("LOGSHOW"))
             //                                     {IsCheckable = true, IsChecked = logger.IsVisible});
 

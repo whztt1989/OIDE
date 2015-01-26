@@ -11,8 +11,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using CLGorilla.ViewModel;
 using System.Collections.ObjectModel;
+using Wide.Interfaces;
 
-namespace CLGorilla.Documents.Atlas
+namespace OIDE.Gorilla.Atlas
 {
     class COAtlas
     {

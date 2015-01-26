@@ -1,6 +1,8 @@
 ﻿
 using System;
-using Interface;
+using System.Windows.Media.Media3D;
+using Wide.Interfaces;
+
 namespace ADock.ViewModel.ProjVM
 {
     public class CVMFont : ViewModelBase
@@ -13,12 +15,12 @@ namespace ADock.ViewModel.ProjVM
         private String mFontFile;
 
 
-        public UInt16 OutlineWidth { get { return  mOutlineWidth;} set { mOutlineWidth = value; OnPropertyChanged("OutlineWidth");}}
-        public UInt16 IntensityModifier { get { return mIntensityModifier; } set { mIntensityModifier = value; OnPropertyChanged("IntensityModifier"); } }
-        public Point3D GlyphColor { get { return mGlyphColor; } set { mGlyphColor = value; OnPropertyChanged("GlyphColor"); } }
-        public Point3D OutlineColor { get { return mOutlineColor; } set { mOutlineColor = value; OnPropertyChanged("OutlineColor"); } }
-        public UInt16 FontSize { get { return mFontSize; } set { mFontSize = value; OnPropertyChanged("FontSize"); } }
-        public String FontFile { get { return mFontFile; } set { mFontFile = value; OnPropertyChanged("FontFile"); } }
+        public UInt16 OutlineWidth { get { return mOutlineWidth; } set { mOutlineWidth = value; RaisePropertyChanged("OutlineWidth"); } }
+        public UInt16 IntensityModifier { get { return mIntensityModifier; } set { mIntensityModifier = value; RaisePropertyChanged("IntensityModifier"); } }
+        public Point3D GlyphColor { get { return mGlyphColor; } set { mGlyphColor = value; RaisePropertyChanged("GlyphColor"); } }
+        public Point3D OutlineColor { get { return mOutlineColor; } set { mOutlineColor = value; RaisePropertyChanged("OutlineColor"); } }
+        public UInt16 FontSize { get { return mFontSize; } set { mFontSize = value; RaisePropertyChanged("FontSize"); } }
+        public String FontFile { get { return mFontFile; } set { mFontFile = value; RaisePropertyChanged("FontFile"); } }
 
         public CVMFont()
         {

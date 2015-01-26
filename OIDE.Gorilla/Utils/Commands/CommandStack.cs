@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace XIDE.Gorilla
+namespace OIDE.Gorilla
 {
 	/// <summary>
 	/// A stack that can be used to support undo/redo functionality. Commmands will be added to the undo

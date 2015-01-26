@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -59,8 +60,13 @@
       <HintPath>..\..\extlibs\Microsoft.Practices.Unity.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Module.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.Properties.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -80,14 +86,23 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserBehavior.cs" />
+    <Compile Include="Atlas\CMaxBinRecPack.cs" />
+    <Compile Include="Atlas\COAtlas.cs" />
     <Compile Include="CoreModule.cs" />
-    <Compile Include="MDHandler.cs" />
-    <Compile Include="MDModel.cs" />
-    <Compile Include="MDView.xaml.cs">
-      <DependentUpon>MDView.xaml</DependentUpon>
+    <Compile Include="Handler\GorillaHandler.cs" />
+    <Compile Include="View\FontView.xaml.cs">
+      <DependentUpon>FontView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MDViewModel.cs" />
+    <Compile Include="View\FontSettingView.xaml.cs">
+      <DependentUpon>FontSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gorilla\CanvasAssistant.cs" />
+    <Compile Include="Gorilla\COGorilla.cs" />
+    <Compile Include="View\GorillaView.xaml.cs">
+      <DependentUpon>GorillaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\GorillaModel.cs" />
+    <Compile Include="ViewModel\GorillaViewModel.cs" />
     <Compile Include="SaveAsMenuItemViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -107,6 +122,14 @@
     <Compile Include="Utils\Commands\Command.cs" />
     <Compile Include="Utils\Commands\CommandStack.cs" />
     <Compile Include="Utils\Singleton.cs" />
+    <Compile Include="ViewModel\CVMElement.cs" />
+    <Compile Include="ViewModel\CVMFont.cs" />
+    <Compile Include="ViewModel\CVMFontSettings.cs" />
+    <Compile Include="ViewModel\CVMGorilla.cs" />
+    <Compile Include="ViewModel\CVMSprite.cs" />
+    <Compile Include="ViewModel\CVMSpriteAnimation.cs" />
+    <Compile Include="ViewModel\CVMUITemplate.cs" />
+    <Compile Include="ViewModel\CVMUITemplates.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -118,9 +141,17 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MDView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="View\FontView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FontSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GorillaView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -136,8 +167,9 @@
     <Resource Include="Icons\NewRequest_8796.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\MDType.png" />
+    <Resource Include="Icons\GorillaType.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

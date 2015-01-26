@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace XIDE.Gorilla
+namespace OIDE.Gorilla
 {
 	/// <summary>
 	/// A generic Singleton which can be inherited from to allow only a single instance of a class

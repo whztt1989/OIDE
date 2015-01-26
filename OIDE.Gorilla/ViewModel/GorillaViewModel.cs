@@ -10,43 +10,34 @@
 
 #endregion
 
+using System.Windows.Controls;
 using Wide.Core.TextDocument;
+using Wide.Interfaces;
 using Wide.Interfaces.Services;
 
-namespace XIDE.Gorilla
+namespace OIDE.Gorilla
 {
-    /// <summary>
-    /// Class TextModel which contains the text of the document
-    /// </summary>
-    public class MDModel : TextModel
+    internal class GorillaViewModel : TextViewModel
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MDModel" /> class.
-        /// </summary>
-        /// <param name="commandManager">The injected command manager.</param>
-        /// <param name="menuService">The menu service.</param>
-        public MDModel(ICommandManager commandManager, IMenuService menuService) : base(commandManager, menuService)
+        public GorillaViewModel(AbstractWorkspace workspace, ICommandManager commandManager, ILoggerService logger,
+                           IMenuService menuService)
+            : base(workspace, commandManager, logger, menuService)
         {
-
         }
 
-        internal void SetLocation(object location)
+        internal void SetModel(ContentModel model)
         {
-            this.Location = location;
-            RaisePropertyChanged("Location");
+            base.Model = model;
         }
 
-        internal void SetDirty(bool value)
+        internal void SetView(UserControl view)
         {
-            this.IsDirty = value;
+            base.View = view;
         }
 
-        public string HTMLResult { get; set; }
-
-        public void SetHtml(string transform)
+        internal void SetHandler(IContentHandler handler)
         {
-            this.HTMLResult = transform;
-            RaisePropertyChanged("HTMLResult");
+            base.Handler = handler;
         }
     }
 }

@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CLGorilla.Documents.Atlas
+namespace CLGorilla.Documents.Font
 {
     /// <summary>
-    /// Interaktionslogik für UCT_Atlas.xaml
+    /// Interaktionslogik für UCT_Font.xaml
     /// </summary>
-    public partial class UCT_Atlas : UserControl
+    public partial class FontView : UserControl
     {
-        public UCT_Atlas()
+        public FontView()
         {
             InitializeComponent();
         }

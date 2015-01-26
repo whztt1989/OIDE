@@ -20,11 +20,11 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using Microsoft.Win32;
 
-namespace XIDE.Gorilla
+namespace OIDE.Gorilla
 {
-    [FileContent("Markdown files", "*.md", 1)]
-    [NewContent("Markdown files", 1, "Creates a new Markdown file", "pack://application:,,,/XIDE.Gorilla;component/Icons/MDType.png")]
-    internal class MDHandler : IContentHandler
+    [FileContent("Gorilla files", "*.md", 1)]
+    [NewContent("Gorilla files", 1, "Creates a new Gorilla file", "pack://application:,,,/OIDE.Gorilla;component/Icons/GorillaType.png")]
+    internal class GorillaHandler : IContentHandler
     {
         /// <summary>
         /// The injected container
@@ -42,11 +42,11 @@ namespace XIDE.Gorilla
         private SaveFileDialog _dialog;
 
         /// <summary>
-        /// Constructor of MDHandler - all parameters are injected
+        /// Constructor of GorillaHandler - all parameters are injected
         /// </summary>
         /// <param name="container">The injected container of the application</param>
         /// <param name="loggerService">The injected logger service of the application</param>
-        public MDHandler(IUnityContainer container, ILoggerService loggerService)
+        public GorillaHandler(IUnityContainer container, ILoggerService loggerService)
         {
             _container = container;
             _loggerService = loggerService;
@@ -57,12 +57,12 @@ namespace XIDE.Gorilla
 
         public ContentViewModel NewContent(object parameter)
         {
-            var vm = _container.Resolve<MDViewModel>();
-            var model = _container.Resolve<MDModel>();
-            var view = _container.Resolve<MDView>();
+            var vm = _container.Resolve<GorillaViewModel>();
+            var model = _container.Resolve<GorillaModel>();
+            var view = _container.Resolve<GorillaView>();
 
             //Model details
-            _loggerService.Log("Creating a new simple file using MDHandler", LogCategory.Info, LogPriority.Low);
+            _loggerService.Log("Creating a new simple file using GorillaHandler", LogCategory.Info, LogPriority.Low);
 
             //Clear the undo stack
             model.Document.UndoStack.ClearAll();
@@ -70,7 +70,7 @@ namespace XIDE.Gorilla
             //Set the model and view
             vm.SetModel(model);
             vm.SetView(view);
-            vm.Title = "untitled-MD";
+            vm.Title = "untitled-Gorilla";
             vm.View.DataContext = model;
             vm.SetHandler(this);
             model.SetDirty(true);
@@ -98,18 +98,18 @@ namespace XIDE.Gorilla
         }
 
         /// <summary>
-        /// Opens a file and returns the corresponding MDViewModel
+        /// Opens a file and returns the corresponding GorillaViewModel
         /// </summary>
         /// <param name="info">The string location of the file</param>
-        /// <returns>The <see cref="MDViewModel"/> for the file.</returns>
+        /// <returns>The <see cref="GorillaViewModel"/> for the file.</returns>
         public ContentViewModel OpenContent(object info, object param)
         {
             var location = info as string;
             if (location != null)
             {
-                MDViewModel vm = _container.Resolve<MDViewModel>();
-                var model = _container.Resolve<MDModel>();
-                var view = _container.Resolve<MDView>();
+                GorillaViewModel vm = _container.Resolve<GorillaViewModel>();
+                var model = _container.Resolve<GorillaModel>();
+                var view = _container.Resolve<GorillaView>();
 
                 //Model details
                 model.SetLocation(info);
@@ -162,22 +162,22 @@ namespace XIDE.Gorilla
         /// <returns>true, if successful - false, otherwise</returns>
         public virtual bool SaveContent(ContentViewModel contentViewModel, bool saveAs = false)
         {
-            var mdViewModel = contentViewModel as MDViewModel;
+            var mdViewModel = contentViewModel as GorillaViewModel;
 
             if (mdViewModel == null)
             {
-                _loggerService.Log("ContentViewModel needs to be a MDViewModel to save details", LogCategory.Exception,
+                _loggerService.Log("ContentViewModel needs to be a GorillaViewModel to save details", LogCategory.Exception,
                                    LogPriority.High);
-                throw new ArgumentException("ContentViewModel needs to be a MDViewModel to save details");
+                throw new ArgumentException("ContentViewModel needs to be a GorillaViewModel to save details");
             }
 
-            var mdModel = mdViewModel.Model as MDModel;
+            var mdModel = mdViewModel.Model as GorillaModel;
 
             if (mdModel == null)
             {
-                _loggerService.Log("MDViewModel does not have a MDModel which should have the text",
+                _loggerService.Log("GorillaViewModel does not have a GorillaModel which should have the text",
                                    LogCategory.Exception, LogPriority.High);
-                throw new ArgumentException("MDViewModel does not have a MDModel which should have the text");
+                throw new ArgumentException("GorillaViewModel does not have a GorillaModel which should have the text");
             }
 
             var location = mdModel.Location as string;
@@ -194,8 +194,8 @@ namespace XIDE.Gorilla
                     _dialog.InitialDirectory = Path.GetDirectoryName(location);
 
                 _dialog.CheckPathExists = true;
-                _dialog.DefaultExt = "md";
-                _dialog.Filter = "Markdown files (*.md)|*.md";
+                _dialog.DefaultExt = "gorilla";
+                _dialog.Filter = "Gorilla files (*.gorilla)|*.gorilla";
                 
                 if (_dialog.ShowDialog() == true)
                 {

@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using Wide.Interfaces;
 
 namespace ADock.ViewModel.ProjVM
 {
-    public class CVMGorilla : FileViewModel
+    public class CVMGorilla : ViewModelBase
     {
         private String mFilePath;
         private ObservableCollection<System.Windows.UIElement> mRectangles;
         ObservableCollection<ViewModelBase> mImages;
 
        
-        public String FilePath { get { return mFilePath; } set { mFilePath = value; OnPropertyChanged("FilePath"); } }
+        public String FilePath { get { return mFilePath; } set { mFilePath = value; RaisePropertyChanged("FilePath"); } }
         public ObservableCollection<ViewModelBase> Items { get { return mImages; } }    
         public ObservableCollection<System.Windows.UIElement> Rectangles { get { return mRectangles; } }  
 
@@ -26,7 +27,7 @@ namespace ADock.ViewModel.ProjVM
 
         public void Gen()
         {
-            CLGorilla.Documents.Atlas.COAtlas.GenAtlas(mRectangles, mImages);
+            OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, mImages);
 
         }
     }

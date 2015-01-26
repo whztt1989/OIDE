@@ -12,9 +12,9 @@ namespace CLGorilla.ViewModel
         private String mPath;
         private Rectangle mRectangle;
 
-        public String Name { get { return mName; } set { mName = value; OnPropertyChanged("Name"); } }
-        public String Path { get { return mPath; } set { mPath = value; OnPropertyChanged("Path"); } }
-        public Rectangle Rectangle { get { return mRectangle; } set { mRectangle = value; OnPropertyChanged("Rectangle"); } }
+        public String Name { get { return mName; } set { mName = value; RaisePropertyChanged("Name"); } }
+        public String Path { get { return mPath; } set { mPath = value; RaisePropertyChanged("Path"); } }
+        public Rectangle Rectangle { get { return mRectangle; } set { mRectangle = value; RaisePropertyChanged("Rectangle"); } }
 
     }
 }

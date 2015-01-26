@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System;
 
-namespace CLGorilla.Documents.Atlas
+namespace OIDE.Gorilla.Atlas
 {
 
     public class MaxRectsBinPack
