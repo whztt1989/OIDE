@@ -146,6 +146,9 @@
     <Compile Include="MDB\Terrain.cs">
       <DependentUpon>EDM_DBData.tt</DependentUpon>
     </Compile>
+    <Compile Include="MDB\UI.cs">
+      <DependentUpon>EDM_DBData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\JSONSerializer.cs" />
   </ItemGroup>

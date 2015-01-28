@@ -34,5 +34,6 @@ namespace DAL.MDB
         public virtual DbSet<Sky> Sky { get; set; }
         public virtual DbSet<Terrain> Terrain { get; set; }
         public virtual DbSet<MatUsedInScene> MatUsedInScene { get; set; }
+        public virtual DbSet<UI> UI { get; set; }
     }
 }
