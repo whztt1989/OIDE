@@ -89,12 +89,12 @@
     <Compile Include="Atlas\CMaxBinRecPack.cs" />
     <Compile Include="Atlas\COAtlas.cs" />
     <Compile Include="CoreModule.cs" />
+    <Compile Include="Handler\FontHandler.cs" />
     <Compile Include="Handler\GorillaHandler.cs" />
+    <Compile Include="Model\FontModel.cs" />
+    <Compile Include="ViewModel\FontViewModel.cs" />
     <Compile Include="View\FontView.xaml.cs">
       <DependentUpon>FontView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\FontSettingView.xaml.cs">
-      <DependentUpon>FontSettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gorilla\CanvasAssistant.cs" />
     <Compile Include="Gorilla\COGorilla.cs" />
@@ -123,13 +123,8 @@
     <Compile Include="Utils\Commands\CommandStack.cs" />
     <Compile Include="Utils\Singleton.cs" />
     <Compile Include="ViewModel\CVMElement.cs" />
-    <Compile Include="ViewModel\CVMFont.cs" />
-    <Compile Include="ViewModel\CVMFontSettings.cs" />
-    <Compile Include="ViewModel\CVMGorilla.cs" />
     <Compile Include="ViewModel\CVMSprite.cs" />
     <Compile Include="ViewModel\CVMSpriteAnimation.cs" />
-    <Compile Include="ViewModel\CVMUITemplate.cs" />
-    <Compile Include="ViewModel\CVMUITemplates.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -142,10 +137,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="View\FontView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\FontSettingView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -169,7 +160,9 @@
   <ItemGroup>
     <Resource Include="Icons\GorillaType.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\FontType.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

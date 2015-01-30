@@ -8,17 +8,33 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="127*" />
-            <ColumnDefinition Width="173*" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label Content="Gorilla" Name="label1" Grid.ColumnSpan="2" />
-        <Button Content="gengorillafile" Grid.Row="1" Click="Button_Click" />
 
+        <StackPanel Grid.ColumnSpan="2">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="folder to raw images"/>
+                <TextBox Text="{Binding ImageFolder}"/>
+            </StackPanel>
+            <!--<StackPanel Orientation="Horizontal">
+                <Label Content="folder to raw images"/>
+                <TextBox Text="{Binding ImageFolder}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="folder to raw images"/>
+                <TextBox Text="{Binding ImageFolder}"/>
+            </StackPanel>-->
+            <StackPanel Orientation="Horizontal">
+                <Button Content="generate Atlas"  Click="btnGenAtlas_Click" />
+                <Button Content="gengorillafile"  Click="Button_Click" />
+            </StackPanel>
+        </StackPanel>
+       
         <TabControl Grid.Row="2" Name="tabControl1" Grid.ColumnSpan="2">
             <TabItem Header="Texture" Name="tabItem1">
                 <Grid>
@@ -50,6 +66,5 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Content="GEnAtlas" Grid.Column="1" Grid.Row="1" Name="btnGenAtlas" Click="btnGenAtlas_Click" Height="22" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

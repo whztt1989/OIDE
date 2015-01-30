@@ -1,18 +1,32 @@
-﻿<UserControl x:Class="CLGorilla.Documents.Font.FontView"
+﻿<UserControl x:Class="OIDE.Gorilla.FontView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
+                xmlns:System="clr-namespace:System;assembly=mscorlib"
+     xmlns:my="clr-namespace:OIDE.Gorilla"
+          
              d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="my:SquareSize"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="343*"/>
+            <ColumnDefinition Width="257*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="238*" />
         </Grid.RowDefinitions>
-        <Label Content="Font" Name="label1" Foreground="Red" />
-
-        <GroupBox Grid.Row="3" Grid.Column="1" Grid.RowSpan="2" Header="Font edit">
+    
+        <GroupBox Grid.Row="1" Header="Font edit" >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="72*" />
@@ -38,6 +52,34 @@
                 <TextBox Grid.Column="1" Text="18" Grid.Row="4" />
                 <TextBlock TextWrapping="Wrap" Grid.Row="5" Text="Specify input font file" />
                 <TextBox Grid.Column="1" Text="Segoe_UI.ttf" Grid.Row="5" />
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox Grid.Column="1">
+            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="95" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="149*" />
+                    <ColumnDefinition Width="391*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap">specify an alphabet file. alphabet needs to be ASCII code ascending order.</TextBlock>
+                <TextBox Grid.Column="1" Name="tbFontFile" Text="{Binding AlphabetFile, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock TextWrapping="Wrap" Grid.Row="1">Specify the output square texture size</TextBlock>
+                <!--<ComboBox Grid.Column="1" Grid.Row="1"  ItemsSource="{Binding Source={x:Type my:SquareSize}}"  SelectedValue="{Binding SquareTextureSize}"> </ComboBox>-->
+
+                <ComboBox Grid.Column="1" Grid.Row="1"  ItemsSource="{Binding Source={StaticResource dataFromEnum}}" SelectedItem="{Binding Path=SquareTextureSize}" />
+
+                <Button Grid.Row="6" Content="GenFont" Name="btnGenFont"  Grid.ColumnSpan="2" Click="btnGenFont_Click" />
+                <TextBox Text="{Binding GeneratedFontImage}" Grid.Column="1" Grid.Row="3"/>
+                <Label Content="FontFile:" Grid.Row="3"  />
             </Grid>
         </GroupBox>
     </Grid>

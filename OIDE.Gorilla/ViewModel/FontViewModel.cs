@@ -24,15 +24,34 @@
 
 #endregion
 
-using Wide.Interfaces.Settings;
+using System.Windows.Controls;
+using Wide.Core.TextDocument;
+using Wide.Interfaces;
+using Wide.Interfaces.Services;
 
-namespace OIDE.Gorilla.Settings
+namespace OIDE.Gorilla
 {
-    public class MDSettingsItem : AbstractSettingsItem
+    internal class FontViewModel : TextViewModel
     {
-        public MDSettingsItem(string title, int priority, AbstractSettings settings) : base(title, settings)
+        public FontViewModel(AbstractWorkspace workspace, ICommandManager commandManager, ILoggerService logger,
+                           IMenuService menuService)
+            : base(workspace, commandManager, logger, menuService)
         {
-            this.Priority = priority;
+        }
+
+        internal void SetModel(ContentModel model)
+        {
+            base.Model = model;
+        }
+
+        internal void SetView(UserControl view)
+        {
+            base.View = view;
+        }
+
+        internal void SetHandler(IContentHandler handler)
+        {
+            base.Handler = handler;
         }
     }
 }

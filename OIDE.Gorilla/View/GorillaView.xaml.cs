@@ -46,8 +46,8 @@ namespace OIDE.Gorilla
             mNewDropElement = new CVMElement();
             mNewDropElement.Name = "NewDroppedEle";
 
-            ((ADock.ViewModel.ProjVM.CVMGorilla)this.DataContext).Rectangles.Add(rect);
-            ((ADock.ViewModel.ProjVM.CVMGorilla)this.DataContext).Items.Add(mNewDropElement);
+            ((GorillaModel)this.DataContext).Rectangles.Add(rect);
+            ((GorillaModel)this.DataContext).Items.Add(mNewDropElement);
         }
 
 
@@ -84,7 +84,7 @@ namespace OIDE.Gorilla
         }
         private void btnGenAtlas_Click(object sender, RoutedEventArgs e)
         {
-            ((ADock.ViewModel.ProjVM.CVMGorilla)this.DataContext).Gen();
+            ((GorillaModel)this.DataContext).Gen();
 
             Console.WriteLine("Atlas generated");
         }

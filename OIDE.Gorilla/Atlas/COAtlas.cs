@@ -17,11 +17,11 @@ namespace OIDE.Gorilla.Atlas
 {
     class COAtlas
     {
-        public static void GenAtlas(ObservableCollection<System.Windows.UIElement> list, ObservableCollection<ViewModelBase> oc)
+        public static void GenAtlas(ObservableCollection<System.Windows.UIElement> list, ObservableCollection<ViewModelBase> oc, String pathToImageFolder, String searchFilext)
         {
             MaxRectsBinPack test = new MaxRectsBinPack(512, 1024, false);
 
-            foreach (String imageFile in Directory.GetFiles(@"D:\Projekte\Src Game\Tools\imageTools\images", "*.png"))
+            foreach (String imageFile in Directory.GetFiles(pathToImageFolder, searchFilext))
             {
                 System.Drawing.Image image = System.Drawing.Image.FromFile(imageFile);
                 Rect newPos = test.Insert(image.Width, image.Height, MaxRectsBinPack.FreeRectChoiceHeuristic.RectBestLongSideFit);
