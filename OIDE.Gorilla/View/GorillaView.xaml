@@ -4,8 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+              xmlns:System="clr-namespace:System;assembly=mscorlib"
+            xmlns:my="clr-namespace:OIDE.Gorilla"
              xmlns:local="clr-namespace:CLGorilla.Documents.Gorilla"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="500" >
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="my:SquareSize"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -18,33 +30,18 @@
 
         <StackPanel Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal">
-                <Label Content="folder to raw images"/>
-                <TextBox Text="{Binding ImageFolder}"/>
-            </StackPanel>
-            <!--<StackPanel Orientation="Horizontal">
-                <Label Content="folder to raw images"/>
-                <TextBox Text="{Binding ImageFolder}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="folder to raw images"/>
-                <TextBox Text="{Binding ImageFolder}"/>
-            </StackPanel>-->
-            <StackPanel Orientation="Horizontal">
                 <Button Content="generate Atlas"  Click="btnGenAtlas_Click" />
                 <Button Content="gengorillafile"  Click="Button_Click" />
             </StackPanel>
         </StackPanel>
-       
+
         <TabControl Grid.Row="2" Name="tabControl1" Grid.ColumnSpan="2">
             <TabItem Header="Texture" Name="tabItem1">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="382*" />
-                    </Grid.RowDefinitions>
-                    <ScrollViewer Name="scrollViewer2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+
+                    <ScrollViewer Name="scrollViewer2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <Canvas x:Name="canvas"
-                                Width="512" Height="1024"
+                                Width="1024" Height="1024"
                                 local:CanvasAssistant.BoundChildren="{Binding Rectangles}"
                                 MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove"
                                 MouseUp="Canvas_MouseUp" Background="#FFC1B9B9"
@@ -52,17 +49,97 @@
                             <Image Name="_image" />
                         </Canvas>
                     </ScrollViewer>
-                    <StackPanel Name="stackPanel2" Orientation="Horizontal">
-                        <Button Content="ZoomIn" Height="23" Name="button5" Width="75" />
-                        <Button Content="ZoomOut" Height="23" Name="button6" Width="75" />
-                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Code" Name="tabItem2">
                 <Grid>
-                    <ScrollViewer Name="scrollViewer1" HorizontalScrollBarVisibility="Auto">
-                        <TextBlock Name="tbCode" Text="TextBlock" TextWrapping="Wrap" />
-                    </ScrollViewer>
+                    <!--<ScrollViewer Name="scrollViewer1" HorizontalScrollBarVisibility="Auto">-->
+                    <avalonedit:TextEditor Grid.Column="0" Name="textEditor" Document="{Binding Document}" TextChanged="textEditor_TextChanged"
+                                               ShowLineNumbers="True" WordWrap="True"
+                                               />
+                    <!--Background="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=BackgroundColor}" 
+                               Foreground="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=ForegroundColor}"
+                               ShowLineNumbers="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=ShowLineNumbers}"
+                               WordWrap="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=WordWrap}"
+                               FontFamily="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=FontFamily}"
+                               FontSize="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=FontSize}"
+                                               />-->
+
+                    <!--<TextBlock Name="tbCode" Text="{Binding GorillaCode}" TextWrapping="Wrap" />-->
+                    <!--</ScrollViewer>-->
+                </Grid>
+            </TabItem>
+            <TabItem Header="Font" Name="tabItem3">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="50*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Grid.ColumnSpan="2" Content="GenFont"  Click="btnGenFont_Click" />
+                    <GroupBox Grid.Row="1" Header="Font edit"  >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*" />
+                                <ColumnDefinition Width="50*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock TextWrapping="Wrap" Grid.Row="0" Text="Outline width. Leave to 0 for no outline" />
+                            <TextBox Grid.Column="1" Text="1" Grid.Row="0" />
+                            <TextBlock TextWrapping="Wrap" Grid.Row="1" Text="Intensity modifier" />
+                            <TextBox Grid.Column="1" Text="1" Grid.Row="1" />
+                            <TextBlock TextWrapping="Wrap" Grid.Row="2" Text="Main glyph color (ex: 0 1 0)" />
+                            <TextBox Grid.Column="1" Text="0 1 0" Grid.Row="2" />
+                            <TextBlock TextWrapping="Wrap" Grid.Row="3" Text="Outline color (ex: 0 1 1)" />
+                            <TextBox Grid.Column="1" Text="0 1 1" Grid.Row="3" />
+                            <TextBlock TextWrapping="Wrap" Grid.Row="4" Text="Font point size" />
+                            <TextBox Grid.Column="1" Text="18" Grid.Row="4" />
+                            <TextBlock TextWrapping="Wrap" Grid.Row="5" Text="Specify input font file (optional)" />
+                            <TextBox Grid.Column="1" Text="{Binding ImageFolder}" Grid.Row="5" />
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Column="1" Grid.Row="1">
+                        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <!--<RowDefinition Height="Auto" />-->
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="149*" />
+                                <ColumnDefinition Width="391*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap">specify an alphabet file. alphabet needs to be ASCII code ascending order.</TextBlock>
+                            <TextBox Grid.Column="1" Name="tbFontFile" Text="{Binding AlphabetFile, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock TextWrapping="Wrap" Grid.Row="1">Specify the output square texture size</TextBlock>
+                            <!--<ComboBox Grid.Column="1" Grid.Row="1"  ItemsSource="{Binding Source={x:Type my:SquareSize}}"  SelectedValue="{Binding SquareTextureSize}"> </ComboBox>-->
+
+                            <ComboBox Grid.Column="1" Grid.Row="1"  ItemsSource="{Binding Source={StaticResource dataFromEnum}}" SelectedItem="{Binding Path=SquareTextureSize}" />
+
+                            <!--<Button Grid.Row="6" Content="GenFont" Name="btnGenFont"  Grid.ColumnSpan="2" Click="btnGenFont_Click" />-->
+                            <TextBox Text="{Binding FontImagePath}" Grid.Column="1" Grid.Row="3"/>
+                            <Label Content="FontFile:" Grid.Row="3"  />
+                        </Grid>
+                    </GroupBox>
+                    
+                   <Image Grid.Row="2" Grid.ColumnSpan="2" Stretch="None"  Source="{Binding FontImagePath}"  />
+                 
                 </Grid>
             </TabItem>
         </TabControl>

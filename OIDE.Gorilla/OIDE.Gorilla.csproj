@@ -84,20 +84,30 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="Wpf.DragDrop, Version=0.1.3.12, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Wpf.DragDrop.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Atlas\CMaxBinRecPack.cs" />
     <Compile Include="Atlas\COAtlas.cs" />
     <Compile Include="CoreModule.cs" />
-    <Compile Include="Handler\FontHandler.cs" />
+    <Compile Include="Handler\DragDrop\GorillaToolViewDragHandler.cs" />
+    <Compile Include="Handler\DragDrop\GorillaToolViewDropHandler.cs" />
     <Compile Include="Handler\GorillaHandler.cs" />
-    <Compile Include="Model\FontModel.cs" />
-    <Compile Include="ViewModel\FontViewModel.cs" />
-    <Compile Include="View\FontView.xaml.cs">
-      <DependentUpon>FontView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gorilla\CanvasAssistant.cs" />
     <Compile Include="Gorilla\COGorilla.cs" />
+    <Compile Include="Interface\Service\IGorillaService.cs" />
+    <Compile Include="Interface\Service\IGorilla.cs" />
+    <Compile Include="Interface\Service\IGorillaItem.cs" />
+    <Compile Include="Model\GorillaToolModel.cs" />
+    <Compile Include="Service\GorillaItem.cs" />
+    <Compile Include="Service\GorillaManager.cs" />
+    <Compile Include="ViewModel\GorillaToolViewModel.cs" />
+    <Compile Include="View\GorillaToolView.xaml.cs">
+      <DependentUpon>GorillaToolView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GorillaView.xaml.cs">
       <DependentUpon>GorillaView.xaml</DependentUpon>
     </Compile>
@@ -122,8 +132,7 @@
     <Compile Include="Utils\Commands\Command.cs" />
     <Compile Include="Utils\Commands\CommandStack.cs" />
     <Compile Include="Utils\Singleton.cs" />
-    <Compile Include="ViewModel\CVMElement.cs" />
-    <Compile Include="ViewModel\CVMSprite.cs" />
+    <Compile Include="Model\SpriteModel.cs" />
     <Compile Include="ViewModel\CVMSpriteAnimation.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -136,9 +145,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="View\FontView.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="View\GorillaToolView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\GorillaView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -162,6 +171,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\FontType.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Themes\Themes.Default\Themes.Default.csproj">
+      <Project>{de89d67d-a35e-4958-95bd-101b93d6ca0b}</Project>
+      <Name>Themes.Default</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

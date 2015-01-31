@@ -12,14 +12,24 @@ using System.Windows.Controls;
 using CLGorilla.ViewModel;
 using System.Collections.ObjectModel;
 using Wide.Interfaces;
+using OIDE.Gorilla.Service;
+using OIDE.Gorilla.Interface.Services;
+using Microsoft.Practices.Unity;
 
 namespace OIDE.Gorilla.Atlas
 {
     class COAtlas
     {
-        public static void GenAtlas(ObservableCollection<System.Windows.UIElement> list, ObservableCollection<ViewModelBase> oc, String pathToImageFolder, String searchFilext)
+        public static void GenAtlas(ObservableCollection<System.Windows.UIElement> list,
+            ObservableCollection<IGorillaItem> oc, 
+            String pathToImageFolder, 
+            String searchFilext,
+            SquareSize width,
+            SquareSize height,
+            IGorilla gorilla,
+            IUnityContainer container)
         {
-            MaxRectsBinPack test = new MaxRectsBinPack(512, 1024, false);
+            MaxRectsBinPack test = new MaxRectsBinPack((int)width, (int)height, false);
 
             foreach (String imageFile in Directory.GetFiles(pathToImageFolder, searchFilext))
             {
@@ -47,7 +57,7 @@ namespace OIDE.Gorilla.Atlas
                 
                 // canvas.Children.Add(testRect);
 
-                CVMSprite newSprite = new CVMSprite();
+                SpriteModel newSprite = new SpriteModel(gorilla, container);
                 newSprite.Name = System.IO.Path.GetFileName(imageFile); 
                 newSprite.Path = imageFile;
                 newSprite.Rectangle = testRect;

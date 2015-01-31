@@ -7,6 +7,7 @@ using Wide.Interfaces;
 using Wide.Interfaces.Events;
 using System.ComponentModel;
 using Wide.Interfaces.Services;
+using Module.Properties.Interface.Services;
 
 namespace OIDE
 {
@@ -15,10 +16,12 @@ namespace OIDE
         private string _document;
         private ILoggerService _logger;
         private const string _title = "OIDE";
+        private IUnityContainer m_container;
 
         public MDWorkspace(IUnityContainer container, IEventAggregator eventAggregator)
             : base(container, eventAggregator)
         {
+            m_container = container;
             IEventAggregator aggregator = container.Resolve<IEventAggregator>();
             aggregator.GetEvent<ActiveContentChangedEvent>().Subscribe(ContentChanged);
             _document = "";
@@ -62,6 +65,14 @@ namespace OIDE
             RaisePropertyChanged("Title");
             if(model != null)
             {
+                //--------------------------------------------------------------------
+                //set current model for propertygrid if active document has changed
+                var propService = m_container.Resolve<IPropertiesService>();
+                var selectedModel = model.Model as Module.Properties.Interface.IItem;
+                propService.CurrentItem = selectedModel;
+                selectedModel.IsSelected = true;
+                //--------------------------------------------------------------------
+               
                 Logger.Log("Active document changed to " + model.Title, LogCategory.Info, LogPriority.None);
             }
         }

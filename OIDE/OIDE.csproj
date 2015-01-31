@@ -65,6 +65,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Module.Properties, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.Properties.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\Wide\Libs\NLog.dll</HintPath>
     </Reference>

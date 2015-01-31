@@ -1,0 +1,303 @@
+﻿<UserControl x:Class="OIDE.Gorilla.View.GorillaToolView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"  
+             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=Wpf.DragDrop"
+     
+               xmlns:handlers="clr-namespace:OIDE.Gorilla.Handlers"
+           
+             	xmlns:tree="clr-namespace:OIDE.Gorilla" >
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary x:Name="ThemeDictionary">
+
+                    <ResourceDictionary.MergedDictionaries>
+
+                        <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro.Resources;component/Icons.xaml" />-->
+                        <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/Wide;component/Interfaces/Styles/VS2012/LightColors.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/Wide;component/Interfaces/Styles/VS2012/LightTheme.xaml" />-->
+
+
+                    </ResourceDictionary.MergedDictionaries>
+                    <DataTemplate x:Key="DragAdorner">
+                        <Border Background="Silver"
+              BorderBrush="Gray"
+              BorderThickness="1"
+              CornerRadius="2"
+              Margin="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/OIDE.Gorilla;component/Icons/GorillaType.png"
+                 Width="16"
+                 Margin="0,0,2,0"
+                 VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding}"
+                     Margin="0,0,2,0"
+                     VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+
+
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <!--<tree:LevelToIndentConverter x:Key="LevelToIndentConverter"/>
+            <tree:CanExpandConverter x:Key="CanExpandConverter"/>-->
+
+            <!--<Style TargetType="{x:Type tree:RowExpander}">
+                <Setter Property="Focusable" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type tree:RowExpander}">
+                            <ToggleButton x:Name="Expander" 
+									  Style="{StaticResource ExpandCollapseToggleStyle}" 
+									  Margin="{Binding Node.Level, Converter={StaticResource LevelToIndentConverter},RelativeSource={RelativeSource AncestorType={x:Type tree:TreeListItem}}}"
+									  IsChecked="{Binding Node.IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeListItem}}}"
+									  Visibility="{Binding Node.IsExpandable, Converter={StaticResource CanExpandConverter},RelativeSource={RelativeSource AncestorType={x:Type tree:TreeListItem}}}"
+									  ClickMode="Press"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style TargetType="{x:Type tree:TreeListItem}">
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+            </Style>
+
+            <Style TargetType="{x:Type tree:TreeListItem}" x:Key="TreeListItemNodeStyle">
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <ContentPresenter Content="{TemplateBinding ContentControl.Content}" 
+										  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" 
+										  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
+										  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
+										  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="UIElement.IsEnabled" Value="False">
+                                    <Setter Property="TextElement.Foreground">
+                                        <Setter.Value>
+                                            <DynamicResource ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>-->
+            
+            <!--<handlers:GorillaToolViewDragHandler x:Key="GorillaToolViewDragHandler" />
+            <handlers:GorillaToolViewDropHandler x:Key="GorillaToolViewDropHandler" />-->
+
+        </ResourceDictionary>
+
+
+    </UserControl.Resources>
+
+    <!--http://www.codeproject.com/Articles/26288/Simplifying-the-WPF-TreeView-by-Using-the-ViewMode-->
+    <!--
+    multiselect:#
+    http://www.codeproject.com/Articles/24585/WPF-MultiSelect-TreeView-Sample
+    fullrow:
+    http://stackoverflow.com/questions/664632/highlight-whole-treeviewitem-line-in-wpf
+    -->
+
+
+    <!--<tree:TreeList x:Name="_treeList" tree:ListViewLayoutManager.Enabled="true" SelectionChanged="_treeList_SelectionChanged"
+                       ContextMenuOpening="_treeList_ContextMenuOpening" 
+                         dd:DragDrop.IsDragSource="True"
+                  dd:DragDrop.IsDropTarget="True"
+                  dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdorner}"
+                       dd:DragDrop.DragHandler="{StaticResource GorillaGraphToolViewDragHandler}"
+                  dd:DragDrop.DropHandler="{StaticResource GorillaGraphToolViewDropHandler}">
+            <ListView.Resources>
+                <ContextMenu  x:Key="RowContextMenu" Opened="ContextMenu_Opened"   >
+
+                </ContextMenu>
+
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    -->
+    <!--<EventSetter Event="PreviewMouseLeftButtonDown" Handler="OnListViewItem_PreviewMouseLeftButtonDown" />-->
+    <!--
+
+                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}">
+
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <tree:TreeList.View>
+                <GridView>
+
+
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style>
+                            <Setter Property="FrameworkElement.Visibility" Value="Collapsed"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridView.Columns>
+                        -->
+    <!--tree:RangeColumn.MaxWidth="{Binding ActualWidth, ElementName=_treeList, Mode=OneWay}"-->
+    <!--
+
+                        <GridViewColumn  Header=""    tree:RangeColumn.IsFillColumn="true">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel  Orientation="Horizontal" CanHorizontallyScroll="True">
+                                        <tree:RowExpander/>
+                                        -->
+    <!--<Image Source="{Binding Converter={StaticResource RegImageConverter}}"  Margin="0, 0, 5, 0"/>-->
+    <!--
+                                        <TextBlock Text="{Binding Name}">
+                                            -->
+    <!--<TextBlock.ContextMenu>
+                                                <ContextMenu ItemsSource="{Binding MenuOptions}"></ContextMenu>
+                                            </TextBlock.ContextMenu>-->
+    <!--
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn  Header=""    >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </tree:TreeList.View>
+            -->
+    <!--<tree:TreeList.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">                      
+                        <tree:RowExpander/>
+                            <Border Focusable="True" BorderThickness="{TemplateBinding Border.BorderThickness}" 
+								    Padding="{TemplateBinding Control.Padding}" 
+								    BorderBrush="{TemplateBinding Border.BorderBrush}" 
+								    Background="{TemplateBinding Panel.Background}" 
+								    Name="Bd" 
+								    SnapsToDevicePixels="True">
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                            </Border>
+                    </StackPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type tree:TreeListItem}}}" 
+									 Value="True">
+                            <Setter Property="Background" TargetName="Bd">
+                                <Setter.Value>
+                                    <DynamicResource ResourceKey="{x:Static SystemColors.HighlightBrushKey}" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="TextElement.Foreground">
+                                <Setter.Value>
+                                    <DynamicResource ResourceKey="{x:Static SystemColors.HighlightTextBrushKey}" />
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </tree:TreeList.ItemTemplate>-->
+    <!--
+        </tree:TreeList>-->
+
+    <!--<TreeView  ItemsSource="{Binding Items}" >
+            <HierarchicalDataTemplate  ItemsSource="{Binding Items}" >
+                <TreeViewItem Foreground="Blue" Header="{Binding Name}" ContextMenu="{Binding ContextMenu}" />
+                <HierarchicalDataTemplate.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Items}">
+                        <TreeViewItem Header="{Binding Name}"  ContextMenu="{Binding ContextMenu}" >
+                        </TreeViewItem>
+                    </HierarchicalDataTemplate>
+                </HierarchicalDataTemplate.ItemTemplate>
+            </HierarchicalDataTemplate>  
+        </TreeView>Background="{DynamicResource ControlHighlightedColorBrush}"-->
+    <Grid  >
+        <TreeView ItemsSource="{Binding Items}" 
+                   ContextMenuOpening="_treeList_ContextMenuOpening" 
+                  SelectedItemChanged="TreeView_SelectedItemChanged"
+                   dd:DragDrop.IsDragSource="False"
+                  dd:DragDrop.IsDropTarget="True"
+                  dd:DragDrop.DropHandler="{Binding}"
+                  dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdorner}"
+                  >
+            <TreeView.Resources>
+                <ContextMenu  x:Key="RowContextMenu" Opened="ContextMenu_Opened"   >
+
+                </ContextMenu>
+
+            </TreeView.Resources>
+            <TreeView.ItemTemplate>
+
+                <HierarchicalDataTemplate ItemsSource="{Binding Items}" >
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <!--<ColumnDefinition Width="1*"/>-->
+                            <ColumnDefinition Width="100" SharedSizeGroup="SliderColumn"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" Margin="0" />
+                        <!--<CheckBox  Grid.Column="0" IsChecked="{Binding Visible}"  Margin="5" />-->
+                        <!--<Slider    Grid.Column="2" Value="{Binding Value}" Width="100" Margin="10, 0, 0, 0" Maximum="1" />-->
+                    </Grid>
+
+                    <!--<TextBlock Foreground="Red" Text="{Binding Name}" />-->
+
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Items}">
+                            <TextBlock Text="{Binding Name}" >
+                                <TextBlock.InputBindings>
+                                    <!--<MouseBinding Gesture="LeftDoubleClick" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=DataContext.OpenElementCommand}"  />-->
+                                    <!--<MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenCommand}" />-->
+                                </TextBlock.InputBindings>
+                            </TextBlock>
+                        </HierarchicalDataTemplate>
+
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+
+            <TreeView.ItemContainerStyle>
+
+                <Style TargetType="{x:Type TreeViewItem}">
+
+
+                    <!--<EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>-->
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                    <!--<Setter Property="commandBehaviors:MouseDoubleClick.Command"  Value="{Binding YourCommand}"/>-->
+
+                    <!--<EventSetter Event="MouseDoubleClick" Handler="ProjItemDoubleClick" />-->
+                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
+                    <!--<Setter Property="IsSelected" Value="{Binding Path=SelectedElement}"/>-->
+                    <!--<Style.Triggers>
+                        <Trigger Property="IsSelected"  Value="{Binding IsSelected}">
+                        </Trigger>
+                    </Style.Triggers>-->
+
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+        </TreeView>
+
+
+    </Grid>
+</UserControl>

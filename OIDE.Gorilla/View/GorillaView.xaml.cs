@@ -6,6 +6,7 @@ using System;
 using System.Windows.Shapes;
 using CLGorilla.ViewModel;
 using System.Windows.Media;
+using OIDE.Gorilla.Service;
 
 namespace OIDE.Gorilla
 {
@@ -26,9 +27,16 @@ namespace OIDE.Gorilla
             // 
         }
 
+        private void btnGenFont_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            (this.DataContext as GorillaModel).GenFont();
+
+
+        }
+
         private Point startPoint;
         private Rectangle rect;
-        private CVMElement mNewDropElement;
+        private SpriteModel mNewDropElement;
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -43,11 +51,13 @@ namespace OIDE.Gorilla
             Canvas.SetTop(rect, startPoint.X);
            // canvas.Children.Add(rect);
 
-            mNewDropElement = new CVMElement();
+            var dc = (this.DataContext as GorillaModel);
+
+            mNewDropElement = new SpriteModel(dc,dc.UnityContainer);
             mNewDropElement.Name = "NewDroppedEle";
 
             ((GorillaModel)this.DataContext).Rectangles.Add(rect);
-            ((GorillaModel)this.DataContext).Items.Add(mNewDropElement);
+            ((GorillaModel)this.DataContext).GorillaItems.Add(mNewDropElement);
         }
 
 
@@ -93,5 +103,11 @@ namespace OIDE.Gorilla
         {
 
         }
+
+        private void textEditor_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

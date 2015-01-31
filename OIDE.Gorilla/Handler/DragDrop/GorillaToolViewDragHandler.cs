@@ -27,9 +27,9 @@
 using System.Windows;
 using GongSolutions.Wpf.DragDrop;
 
-namespace OIDE.Scene.Handlers
+namespace OIDE.Gorilla.Handlers
 {
-    public class SceneGraphToolViewDragHandler : DefaultDragHandler
+    public class GorillaToolViewDragHandler : DefaultDragHandler
     {
         //private TestCase _testCase;
 

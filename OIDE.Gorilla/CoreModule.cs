@@ -39,6 +39,8 @@ using Wide.Interfaces.Services;
 using Wide.Interfaces.Settings;
 using OIDE.Gorilla.Settings;
 using System.Windows;
+using OIDE.Gorilla.Interface.Services;
+using OIDE.Gorilla.Service;
 //using ComID.DBI;
 
 namespace OIDE.Gorilla
@@ -133,20 +135,23 @@ namespace OIDE.Gorilla
 
         private void RegisterParts()
         {
+            //------------------------------------------------------
+            // REgister GorillaService
+            //------------------------------------------------------
+            _container.RegisterType<IGorillaService, GorillaManager>(new ContainerControlledLifetimeManager());
+
+            _container.RegisterType<GorillaToolViewModel>();
+
+            IWorkspace workspace = _container.Resolve<AbstractWorkspace>();
+            workspace.Tools.Add(_container.Resolve<GorillaToolViewModel>());
+
+
             _container.RegisterType<GorillaHandler>();
             _container.RegisterType<GorillaViewModel>();
             _container.RegisterType<GorillaView>();
 
             IContentHandler handler = _container.Resolve<GorillaHandler>();
             _container.Resolve<IContentHandlerRegistry>().Register(handler);
-
-
-            _container.RegisterType<FontHandler>();
-            _container.RegisterType<FontViewModel>();
-            _container.RegisterType<FontView>();
-
-            IContentHandler handlerFont = _container.Resolve<FontHandler>();
-            _container.Resolve<IContentHandlerRegistry>().Register(handlerFont);
         }
 
         private void LoadTheme()

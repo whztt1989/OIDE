@@ -31,9 +31,9 @@ using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
 
-namespace OIDE.Scene.Handlers
+namespace OIDE.Gorilla.Handlers
 {
-    public class SceneGraphToolViewDropHandler : DefaultDropHandler
+    public class GorillaToolViewDropHandler : DefaultDropHandler
 	{
 		public override void DragOver(IDropInfo dropInfo)
 		{
