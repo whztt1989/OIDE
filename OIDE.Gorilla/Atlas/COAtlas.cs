@@ -39,7 +39,7 @@ namespace OIDE.Gorilla.Atlas
                 Rectangle testRect =  new Rectangle
                 {
                     Stroke = Brushes.LightBlue,
-                    StrokeThickness = 2
+                    StrokeThickness = 1
                 };
 
                 ImageBrush ib = new ImageBrush();

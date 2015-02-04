@@ -31,14 +31,13 @@
         <StackPanel Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal">
                 <Button Content="generate Atlas"  Click="btnGenAtlas_Click" />
-                <Button Content="gengorillafile"  Click="Button_Click" />
+                <Button Content="Savegorillafile"  Name="btnGenGorillaFile" Click="btnGenGorillaFile_Click" />
             </StackPanel>
         </StackPanel>
 
         <TabControl Grid.Row="2" Name="tabControl1" Grid.ColumnSpan="2">
             <TabItem Header="Texture" Name="tabItem1">
                 <Grid>
-
                     <ScrollViewer Name="scrollViewer2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                         <Canvas x:Name="canvas"
                                 Width="1024" Height="1024"
@@ -138,7 +137,9 @@
                         </Grid>
                     </GroupBox>
                     
-                   <Image Grid.Row="2" Grid.ColumnSpan="2" Stretch="None"  Source="{Binding FontImagePath}"  />
+                   <!--
+                    source locks the file in filesystem 
+                    <Image Grid.Row="2" Grid.ColumnSpan="2" Stretch="None" Source="{Binding FontImagePath}"  />-->
                  
                 </Grid>
             </TabItem>

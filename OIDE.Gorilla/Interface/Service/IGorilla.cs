@@ -17,6 +17,8 @@ namespace OIDE.Gorilla.Interface.Services
 
         bool AddItem(IGorillaItem item);
 
+        String TextureName { get; }
+
         IGorillaItem SelectedItem { get; set; }
     }
 }

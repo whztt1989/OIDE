@@ -98,11 +98,10 @@
     <Compile Include="Handler\GorillaHandler.cs" />
     <Compile Include="Gorilla\CanvasAssistant.cs" />
     <Compile Include="Gorilla\COGorilla.cs" />
+    <Compile Include="Interface\Service\IGorillaItem.cs" />
     <Compile Include="Interface\Service\IGorillaService.cs" />
     <Compile Include="Interface\Service\IGorilla.cs" />
-    <Compile Include="Interface\Service\IGorillaItem.cs" />
     <Compile Include="Model\GorillaToolModel.cs" />
-    <Compile Include="Service\GorillaItem.cs" />
     <Compile Include="Service\GorillaManager.cs" />
     <Compile Include="ViewModel\GorillaToolViewModel.cs" />
     <Compile Include="View\GorillaToolView.xaml.cs">

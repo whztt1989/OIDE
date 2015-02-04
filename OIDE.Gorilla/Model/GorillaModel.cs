@@ -37,6 +37,8 @@ using OIDE.Gorilla.Service;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
+using System.Windows.Media;
+using CLGorilla.Common;
 
 namespace OIDE.Gorilla
 {
@@ -69,6 +71,7 @@ namespace OIDE.Gorilla
         private String mGorillaCode;
         private ObservableCollection<ViewModelBase> mFonts;
         private String m_PathToGorillaFile;
+        private String m_PathToFontGorillaFile;
         private String m_ImageExtensions;
         private String m_FontImagePath;
         private String m_ImageFolder;
@@ -96,11 +99,15 @@ namespace OIDE.Gorilla
             ImageFolder = @"D:\Projekte\coop\XEngine\data\Test\XETUI\art";
             ImageExtensions = "*.png";
             FontImagePath = @"D:\Projekte\coop\Build\arial.png";
-            PathToGorillaFile = @"D:\Projekte\coop\XEngine\data\Test\XETUI\arial.gorilla";
+            TextureName = "arial.png";
+            Name = "TestGorillaAtlas";
+            PathToGorillaFile = @"D:\Projekte\coop\Build\" + Name + ".gorilla";
 
-            StreamReader streamReader = new StreamReader(m_PathToGorillaFile);
-            GorillaCode = streamReader.ReadToEnd();
-            streamReader.Close();
+            PathToFontGorillaFile = @"D:\Projekte\coop\Build\arial.gorilla";
+
+            //StreamReader streamReader = new StreamReader(m_PathToGorillaFile);
+            //GorillaCode = streamReader.ReadToEnd();
+            //streamReader.Close();
 
             width = SquareSize.SS_512;
             height = SquareSize.SS_512;
@@ -108,12 +115,18 @@ namespace OIDE.Gorilla
 
         #region properties
 
+        public String TextureName { get; set; }
+
         public SquareSize width { get; set; }
         public SquareSize height { get; set; }
 
         [Browsable(false)]
         public IUnityContainer UnityContainer { get; set; }
 
+        /// <summary>
+        /// filepath to the fontgen.exe generated file
+        /// </summary>
+        public String PathToFontGorillaFile { get { return m_PathToFontGorillaFile; } set { m_PathToFontGorillaFile = value; RaisePropertyChanged("PathToFontGorillaFile"); } }
         public String PathToGorillaFile { get { return m_PathToGorillaFile; } set { m_PathToGorillaFile = value; RaisePropertyChanged("PathToGorillaFile"); } }
       //  public String FilePath { get { return mFilePath; } set { mFilePath = value; RaisePropertyChanged("FilePath"); } }
 
@@ -180,6 +193,9 @@ namespace OIDE.Gorilla
         public void Gen()
         {
             OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, mImages, m_ImageFolder, m_ImageExtensions, width, height, this, UnityContainer);
+
+
+           GorillaCode = COGorilla.GenerateGorillaCode(this);
         }
 
         /// <summary>
@@ -207,8 +223,27 @@ namespace OIDE.Gorilla
 
         public bool AddItem(IGorillaItem item) { return true; }
 
+        private IGorillaItem m_SelectedItem;
         [Browsable(false)]
-        public IGorillaItem SelectedItem { get; set; }
+        public IGorillaItem SelectedItem
+        { 
+            get { return m_SelectedItem; } 
+            set {
+                if (m_SelectedItem != null)
+                {
+                    m_SelectedItem.Rectangle.Stroke = Brushes.LightBlue;
+                    m_SelectedItem.Rectangle.StrokeThickness = 1;
+                }
+
+                m_SelectedItem = value;
+                if (m_SelectedItem != null)
+                {
+                    m_SelectedItem.Rectangle.Stroke = Brushes.Red;
+                    m_SelectedItem.Rectangle.StrokeThickness = 1;
+                }
+             
+            } }
+
          [Browsable(false)]
          public CollectionOfIItem Items { get; set; }
         public string ContentID { get; set; }

@@ -20,12 +20,6 @@ namespace OIDE.Gorilla
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            COGorilla tmp = new COGorilla();
-            tmp.GenerateGorillaFile();
-            // 
-        }
 
         private void btnGenFont_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -45,7 +39,7 @@ namespace OIDE.Gorilla
             rect = new Rectangle
             {
                 Stroke = Brushes.LightBlue,
-                StrokeThickness = 2
+                StrokeThickness = 1
             };
             Canvas.SetLeft(rect, startPoint.X);
             Canvas.SetTop(rect, startPoint.X);
@@ -55,6 +49,7 @@ namespace OIDE.Gorilla
 
             mNewDropElement = new SpriteModel(dc,dc.UnityContainer);
             mNewDropElement.Name = "NewDroppedEle";
+            mNewDropElement.Rectangle = rect;
 
             ((GorillaModel)this.DataContext).Rectangles.Add(rect);
             ((GorillaModel)this.DataContext).GorillaItems.Add(mNewDropElement);
@@ -107,6 +102,10 @@ namespace OIDE.Gorilla
         private void textEditor_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnGenGorillaFile_Click(object sender, RoutedEventArgs e)
+        {
         }
 
     }

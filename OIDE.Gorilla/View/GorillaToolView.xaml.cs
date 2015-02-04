@@ -26,7 +26,7 @@ namespace OIDE.Gorilla.View
     public partial class GorillaToolView : UserControl, IContentView//, INotifyPropertyChanged
     {
         IPropertiesService mPropertiesService;
-        IGorillaService mSceneService;
+        IGorillaService m_GorillaService;
         IUnityContainer mcontainer;
         public GorillaToolView(IUnityContainer container)
         {
@@ -37,14 +37,18 @@ namespace OIDE.Gorilla.View
 
             mPropertiesService = container.Resolve<IPropertiesService>();
 
-            mSceneService = container.Resolve<IGorillaService>();
+            m_GorillaService = container.Resolve<IGorillaService>();
             //mSceneService.TreeList = _treeList;
 
         }
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            var tv = sender as TreeView;
+            var gi = tv.SelectedItem as IGorillaItem;
+            m_GorillaService.SelectedGorilla.SelectedItem = gi;
 
+            mPropertiesService.CurrentItem = gi;
         }
 
         private void ContextMenu_Opened(object sender, RoutedEventArgs e)

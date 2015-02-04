@@ -108,7 +108,7 @@ namespace OIDE.Gorilla
             }
 
             extension = Path.GetExtension(location);
-            return File.Exists(location) && extension == ".md";
+            return File.Exists(location) && extension == ".gorilla";
         }
 
         /// <summary>

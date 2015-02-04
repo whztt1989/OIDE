@@ -171,8 +171,8 @@ namespace OIDE.Gorilla
                     //    EntID = WIDE_Helper.StringToContentIDData(GorillaItem.ContentID).IntValue,
 
                     //};
-                    var gItem = new GorillaItem(m_GorillaService.SelectedGorilla, m_GorillaService.SelectedGorilla.UnityContainer);
-                    m_GorillaService.SelectedGorilla.GorillaItems.Add(gItem);
+                 //###   var gItem = new GorillaItem(m_GorillaService.SelectedGorilla, m_GorillaService.SelectedGorilla.UnityContainer);
+                    //###    m_GorillaService.SelectedGorilla.GorillaItems.Add(gItem);
 
                     //IGorillaNode tmp = item as IGorillaNode;
 
