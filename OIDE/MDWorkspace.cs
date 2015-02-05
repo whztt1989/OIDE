@@ -69,8 +69,11 @@ namespace OIDE
                 //set current model for propertygrid if active document has changed
                 var propService = m_container.Resolve<IPropertiesService>();
                 var selectedModel = model.Model as Module.Properties.Interface.IItem;
-                propService.CurrentItem = selectedModel;
-                selectedModel.IsSelected = true;
+                if (selectedModel != null)
+                {
+                    propService.CurrentItem = selectedModel;
+                    selectedModel.IsSelected = true;
+                }
                 //--------------------------------------------------------------------
                
                 Logger.Log("Active document changed to " + model.Title, LogCategory.Info, LogPriority.None);

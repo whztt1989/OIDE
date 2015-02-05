@@ -33,6 +33,7 @@ using Wide.Core.Attributes;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using Microsoft.Win32;
+using OIDE.Gorilla.Model;
 
 namespace OIDE.Gorilla
 {

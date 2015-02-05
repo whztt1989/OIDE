@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using Module.Properties.Interface;
 using Wide.Interfaces;
 using Wide.Interfaces.Controls;
+using OIDE.Gorilla.Model;
 
 namespace OIDE.Gorilla.Interface.Services
 {
@@ -24,7 +25,7 @@ namespace OIDE.Gorilla.Interface.Services
         /// The list of themes registered with the theme manager
         /// </summary>
         /// <value>The themes.</value>
-        ObservableCollection<IGorilla> Gorillas { get; }
+        ObservableCollection<GorillaModel> Gorillas { get; }
 
      //   TreeList TreeList { get; set; }
 
@@ -32,7 +33,7 @@ namespace OIDE.Gorilla.Interface.Services
 
       //  void SetAsRoot(IScene scene);
 
-        bool AddGorilla(IGorilla gorilla);
+        bool AddGorilla(GorillaModel gorilla);
 
         /// <summary>
         /// Called to set the current theme from the list of themes
@@ -41,7 +42,7 @@ namespace OIDE.Gorilla.Interface.Services
         /// <returns><c>true</c> if successful, <c>false</c> otherwise</returns>
        // bool SetCurrent(Guid guid);
 
-        IGorilla SelectedGorilla { get; set; }
+        GorillaModel SelectedGorilla { get; set; }
 
         GorillaToolModel GTM { get; set; }
         /// <summary>

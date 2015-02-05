@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
-namespace CLGorilla.Documents.Gorilla
+namespace OIDE.Gorilla.Helper
 {
 
     internal static class CanvasAssistant

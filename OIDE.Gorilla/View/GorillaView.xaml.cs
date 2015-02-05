@@ -1,12 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using CLGorilla.Common;
 using System.Windows.Input;
 using System;
 using System.Windows.Shapes;
-using CLGorilla.ViewModel;
 using System.Windows.Media;
 using OIDE.Gorilla.Service;
+using OIDE.Gorilla.Model;
 
 namespace OIDE.Gorilla
 {
@@ -106,6 +105,12 @@ namespace OIDE.Gorilla
 
         private void btnGenGorillaFile_Click(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void btnLoadFontCodeFile_Click(object sender, RoutedEventArgs e)
+        {
+            OIDE.Gorilla.Helper.FileLoader.LoadGorillaFont(((GorillaModel)this.DataContext).PathToFontGorillaFile, ((GorillaModel)this.DataContext));
+            
         }
 
     }

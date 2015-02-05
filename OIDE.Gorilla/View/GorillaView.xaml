@@ -7,12 +7,15 @@
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
               xmlns:System="clr-namespace:System;assembly=mscorlib"
             xmlns:my="clr-namespace:OIDE.Gorilla"
-             xmlns:local="clr-namespace:CLGorilla.Documents.Gorilla"
+             xmlns:local="clr-namespace:OIDE.Gorilla.Model"
+             xmlns:localhelper="clr-namespace:OIDE.Gorilla.Helper"
+            xmlns:xctk="http://schemas.nn.com/wpf/xaml/toolkit"
+           
              d:DesignHeight="600" d:DesignWidth="500" >
     <UserControl.Resources>
         <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="my:SquareSize"/>
+                <x:Type TypeName="local:SquareSize"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
@@ -30,7 +33,8 @@
 
         <StackPanel Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal">
-                <Button Content="generate Atlas"  Click="btnGenAtlas_Click" />
+                <Button Content="generate Code"  Click="btnGenAtlas_Click" />
+                <Button Content="Load FontCodeFile"  Name="btnLoadFontCodeFile"  Click="btnLoadFontCodeFile_Click"/>
                 <Button Content="Savegorillafile"  Name="btnGenGorillaFile" Click="btnGenGorillaFile_Click" />
             </StackPanel>
         </StackPanel>
@@ -38,16 +42,17 @@
         <TabControl Grid.Row="2" Name="tabControl1" Grid.ColumnSpan="2">
             <TabItem Header="Texture" Name="tabItem1">
                 <Grid>
-                    <ScrollViewer Name="scrollViewer2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <xctk:Zoombox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"  >
+                        <!-- scrollviewer will be suported in 2.5 Version https://wpftoolkit.codeplex.com/discussions/574091 -->
                         <Canvas x:Name="canvas"
-                                Width="1024" Height="1024"
-                                local:CanvasAssistant.BoundChildren="{Binding Rectangles}"
+                                Width="{Binding TexWidth}" Height="{Binding TexHeight}"
+                                localhelper:CanvasAssistant.BoundChildren="{Binding Rectangles}"
                                 MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove"
                                 MouseUp="Canvas_MouseUp" Background="#FFC1B9B9"
                                 PreviewMouseMove="canvas_PreviewMouseMove">
                             <Image Name="_image" />
                         </Canvas>
-                    </ScrollViewer>
+                    </xctk:Zoombox>
                 </Grid>
             </TabItem>
             <TabItem Header="Code" Name="tabItem2">

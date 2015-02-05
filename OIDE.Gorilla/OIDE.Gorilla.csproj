@@ -96,8 +96,8 @@
     <Compile Include="Handler\DragDrop\GorillaToolViewDragHandler.cs" />
     <Compile Include="Handler\DragDrop\GorillaToolViewDropHandler.cs" />
     <Compile Include="Handler\GorillaHandler.cs" />
-    <Compile Include="Gorilla\CanvasAssistant.cs" />
-    <Compile Include="Gorilla\COGorilla.cs" />
+    <Compile Include="Helper\CanvasAssistant.cs" />
+    <Compile Include="Helper\FileLoader.cs" />
     <Compile Include="Interface\Service\IGorillaItem.cs" />
     <Compile Include="Interface\Service\IGorillaService.cs" />
     <Compile Include="Interface\Service\IGorilla.cs" />

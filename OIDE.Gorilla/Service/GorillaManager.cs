@@ -12,6 +12,7 @@ using Wide.Interfaces.Services;
 using Module.Properties.Interface;
 using System.ComponentModel;
 using OIDE.Gorilla.Interface.Services;
+using OIDE.Gorilla.Model;
 
 namespace OIDE.Gorilla.Service
 {
@@ -88,7 +89,7 @@ namespace OIDE.Gorilla.Service
         /// <param name="logger">The injected logger</param>
         public GorillaManager(IEventAggregator eventAggregator, ILoggerService logger)
         {
-            Gorillas = new ObservableCollection<IGorilla>();
+            Gorillas = new ObservableCollection<GorillaModel>();
             _eventAggregator = eventAggregator;
             _logger = logger;
             //Service für project contextmenu buttons .....
@@ -108,8 +109,8 @@ namespace OIDE.Gorilla.Service
         /// <summary>
         /// The current item selected
         /// </summary>
-        private IGorilla mSelectedGorilla;
-        public IGorilla SelectedGorilla
+        private GorillaModel mSelectedGorilla;
+        public GorillaModel SelectedGorilla
         {
             get
             {
@@ -162,7 +163,7 @@ namespace OIDE.Gorilla.Service
         /// <summary>
         /// collection of treeview items
         /// </summary>
-        public ObservableCollection<IGorilla> Gorillas { get; internal set; }
+        public ObservableCollection<GorillaModel> Gorillas { get; internal set; }
 
 
         public ObservableCollection<IItem> PredefObjects { get { return mPredefObjects; } }
@@ -227,7 +228,7 @@ namespace OIDE.Gorilla.Service
         /// </summary>
         /// <param name="theme">The item to add</param>
         /// <returns>true, if successful - false, otherwise</returns>
-        public bool AddGorilla(IGorilla Gorilla)
+        public bool AddGorilla(GorillaModel Gorilla)
         {
             if (!Gorillas.Contains(Gorilla))
             {

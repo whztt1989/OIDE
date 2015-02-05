@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
 
-namespace OIDE.Gorilla.Interface.Services
-{
-    public interface IGorilla : IItem
-    {
-        ObservableCollection<IGorillaItem> GorillaItems { get; set; }
+//namespace OIDE.Gorilla.Interface.Services
+//{
+//    public interface IGorilla : IItem
+//    {
+//        ObservableCollection<IGorillaItem> GorillaItems { get; set; }
 
-      //  DAL.MDB.Scene DB_SceneData { get; }
+//      //  DAL.MDB.Scene DB_SceneData { get; }
 
-        bool AddItem(IGorillaItem item);
+//        bool AddItem(IGorillaItem item);
 
-        String TextureName { get; }
+//        String TextureName { get; }
 
-        IGorillaItem SelectedItem { get; set; }
-    }
-}
+//        IGorillaItem SelectedItem { get; set; }
+//    }
+//}

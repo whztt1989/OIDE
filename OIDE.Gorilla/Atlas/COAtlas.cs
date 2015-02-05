@@ -9,12 +9,12 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
-using CLGorilla.ViewModel;
 using System.Collections.ObjectModel;
 using Wide.Interfaces;
 using OIDE.Gorilla.Service;
 using OIDE.Gorilla.Interface.Services;
 using Microsoft.Practices.Unity;
+using OIDE.Gorilla.Model;
 
 namespace OIDE.Gorilla.Atlas
 {
@@ -26,7 +26,7 @@ namespace OIDE.Gorilla.Atlas
             String searchFilext,
             SquareSize width,
             SquareSize height,
-            IGorilla gorilla,
+            GorillaModel gorilla,
             IUnityContainer container)
         {
             MaxRectsBinPack test = new MaxRectsBinPack((int)width, (int)height, false);
@@ -54,7 +54,7 @@ namespace OIDE.Gorilla.Atlas
                 Canvas.SetTop(testRect, newPos.Top);
 
                 list.Add(testRect);
-                
+     
                 // canvas.Children.Add(testRect);
 
                 SpriteModel newSprite = new SpriteModel(gorilla, container);
