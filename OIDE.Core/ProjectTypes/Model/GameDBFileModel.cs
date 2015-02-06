@@ -41,6 +41,7 @@ using OIDE.Scene;
 using OIDE.Scene.Model;
 using DAL.MDB;
 using Module.Protob.Utilities;
+using System.Windows;
 
 namespace OIDE.Core
 {
@@ -235,6 +236,7 @@ namespace OIDE.Core
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Error:" + ex.Message);
             }
 
             //    scenes.Items.Add(scene);

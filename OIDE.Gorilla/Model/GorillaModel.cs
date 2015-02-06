@@ -139,7 +139,7 @@ namespace OIDE.Gorilla.Model
     /// <summary>
     /// Class TextModel which contains the text of the document
     /// </summary>
-    public class GorillaModel : TextModel
+    public class GorillaModel : TextModel , IItem
     {
 
         #region private members
@@ -161,7 +161,7 @@ namespace OIDE.Gorilla.Model
         private String m_FontImagePath;
         private String m_ImageFolder;
         private Texture m_Texture;
-        private String mFilePath;
+      //  private String mFilePath;
         private ObservableCollection<System.Windows.UIElement> mRectangles;
         private ObservableCollection<IGorillaItem> mImages;
 
@@ -229,7 +229,7 @@ namespace OIDE.Gorilla.Model
         [Category("Texture")]
         public Texture GorillaTexture
         {
-            get { return m_Texture; }
+            get { if (m_Texture == null) m_Texture = new Texture(); return m_Texture; }
             set { m_Texture = value; RaisePropertyChanged("Texture"); }
         }
 
@@ -418,7 +418,7 @@ namespace OIDE.Gorilla.Model
 
         [Browsable(false)]
         public CollectionOfIItem Items { get; set; }
-        public string ContentID { get; set; }
+        public object ContentID { get; private set; }
         [Browsable(false)]
         public bool HasChildren { get; set; }
         [Browsable(false)]

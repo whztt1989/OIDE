@@ -6,6 +6,7 @@ using System.Linq;
 using OIDE.Gorilla.Model;
 using OIDE.Gorilla.Interface.Services;
 using System.Windows.Shapes;
+using System.Windows;
 
 namespace OIDE.Gorilla.Helper
 {
@@ -24,13 +25,13 @@ namespace OIDE.Gorilla.Helper
             float.TryParse(intString, out tmp);
             return tmp;
 
-        }  
+        }
         public static void LoadFont(GorillaModel gorilla, StreamReader sr, String line)
         {
             FontModel font = new FontModel();
 
 
-            font.size = convertToInt(line.Replace("[Font.","").Replace("]",""));
+            font.size = convertToInt(line.Replace("[Font.", "").Replace("]", ""));
 
             while (!String.IsNullOrEmpty(line = sr.ReadLine()))
             {
@@ -96,8 +97,8 @@ namespace OIDE.Gorilla.Helper
                     String[] whitePixel = line.Split(' ');
                     gorilla.GorillaTexture.whitepixel = new Position() { x = convertToInt(whitePixel[1]), y = convertToInt(whitePixel[2]) };
                 }
-                
-               
+
+
             }
             //[Texture]
             //file arial.png
@@ -153,12 +154,35 @@ namespace OIDE.Gorilla.Helper
                 code += "file " + gorillaModel.TextureName + Environment.NewLine;
                 code += "whitepixel 510 510" + Environment.NewLine;
 
-                //fonts
-                foreach (var item in gorillaModel.GorillaItems.Where(x => x.GorillaType == GorillaType.Font))
-                {
-                    if (item.GorillaType == GorillaType.Sprite)
-                    {
+                //glyph_33 0 0 8 21
+                //verticaloffset_33 -11
+                //            glyph_121 101 270 25 37
+                //verticaloffset_121 -18
+                //kerning_121 65 1
+                //kerning_121 76 1
+                //kerning_121 84 2
+                //kerning_121 86 1
 
+                //fonts
+                foreach (var font in gorillaModel.Fonts)
+                {
+                    code += "[Font." + font.size + "]" + Environment.NewLine;
+
+                    foreach (var fontItem in font.Fonts)
+                    {
+                        if (fontItem.Glyph.X > 0)
+                            code += "glyph_" + fontItem.Index + " " + fontItem.Glyph.X + " " + fontItem.Glyph.Y + " " + fontItem.Glyph.width + " " + fontItem.Glyph.height + Environment.NewLine;
+
+                        if (fontItem.VerticalOffset > 0)
+                            code += "verticaloffset_" + fontItem.Index + " " + fontItem.VerticalOffset + Environment.NewLine;
+
+                        if (fontItem.Kerning.Any())
+                        {
+                            foreach (var kerning in fontItem.Kerning)
+                            {
+                                code += "kerning_" + fontItem.Index + " " + kerning.RightGlyphID + " " + kerning.KerningValue + Environment.NewLine;
+                            }
+                        }
                     }
                 }
                 //[Texture]
@@ -175,85 +199,14 @@ namespace OIDE.Gorilla.Helper
                 code += "[Sprites]" + Environment.NewLine;
                 foreach (var item in gorillaModel.GorillaItems.Where(x => x.GorillaType == GorillaType.Sprite))
                 {
-                    if (item.GorillaType == GorillaType.Sprite)
-                    {
-                        code += item.Name + " " + item.X + " " + item.Y + " " + item.Width + " " + item.Height + Environment.NewLine;
-                        // await writer.WriteLineAsync(item.Name + " " + item.X + " " + item.Y + " " + item.Width + " " + item.Height);
-                    }
+                    code += item.Name + " " + item.X + " " + item.Y + " " + item.Width + " " + item.Height + Environment.NewLine;
+                    // await writer.WriteLineAsync(item.Name + " " + item.X + " " + item.Y + " " + item.Width + " " + item.Height);
+
                 }
-
-                //    }
-
-                //if (projItem.Name.Equals("UI"))
-                //{
-                //    CVMCategory uiCategory = projItem as CVMCategory;
-                //    foreach (var UIItem in uiCategory.Items)
-                //    {
-                //        //------------------------------
-                //        //Gorilla File
-                //        //------------------------------
-                //        if (UIItem is CVMGorilla)
-                //        {
-                //            CVMGorilla gorillaItem = UIItem as CVMGorilla;
-                //            tw = new StreamWriter(gorillaItem.FilePath);
-
-                //            tw.WriteLine("[Header]");
-                //            tw.WriteLine("file.gorilla...");
-                //        }
-                //        //------------------------------
-                //        //Category
-                //        //------------------------------
-                //        else if (UIItem is CVMCategory)
-                //        {
-                //            CVMCategory category = UIItem as CVMCategory;
-                //           //    if (tw == null)
-                //               //         break; // Error Gorillfile not set!
-
-
-                //               if (category.Category == CategoryType.Image)
-                //               {
-                //                   tw.WriteLine("[Sprites]");
-                //               }
-
-                //               //-------------------------
-                //               // Elements
-                //               //-------------------------
-                //               foreach (var catItem in category.Items)
-                //               {
-                //                   //-------------------------
-                //                   //Image
-                //                   //-------------------------
-                //                   if (catItem is CVMImage)
-                //                   {
-                //                       CVMImage image = catItem as CVMImage;
-                //                       tw.WriteLine(image.FilePath);
-                //                   }
-                //                   //-------------------------
-                //                   //Font
-                //                   //-------------------------
-                //                   else if (category.Category == CategoryType.Font)
-                //                   {
-                //                       CVMFont font = catItem as CVMFont;
-
-                //                       tw.WriteLine("[Font.18]");
-                //                       //foreach (var fontLetter in font.Letters)
-                //                       //{
-                //                       //    tw.WriteLine("ffffff");
-                //                       //}
-                //                   }
-                //               }
-
-                //        }
-                //    }
-                //}
-
-
-                // close the stream
-                // tw.Close();
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show("Error:" + ex.Message);
             }
             return code;
 
