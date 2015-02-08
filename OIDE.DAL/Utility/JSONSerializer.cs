@@ -30,7 +30,7 @@ namespace DAL.Utility
 
                     StreamWriter writer = new StreamWriter(stream);
                     JsonTextWriter jsonWriter = new JsonTextWriter(writer);
-                    JsonSerializer ser = new JsonSerializer();
+                    JsonSerializer ser = new JsonSerializer() { Formatting = Formatting.Indented };
                     ser.Serialize(jsonWriter, dataToSerialize);
                     jsonWriter.Flush();
                 }

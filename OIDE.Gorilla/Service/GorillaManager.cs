@@ -118,7 +118,7 @@ namespace OIDE.Gorilla.Service
             }
             set 
             {
-                GTM.Items = value.GorillaItems;
+                GTM.Items = value.Items;
                 mSelectedGorilla = value; 
             }
         }

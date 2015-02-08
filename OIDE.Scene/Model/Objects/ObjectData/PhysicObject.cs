@@ -23,7 +23,7 @@
     //SOFTWARE.
 
 #endregion
-    
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
+using FlatBuffers;
 using Wide.Interfaces;
 
 namespace OIDE.Scene.Model.Objects
@@ -78,7 +79,19 @@ namespace OIDE.Scene.Model.Objects
         //[Browsable(false)]
         //public ProtoType.PhysicsObject ProtoData { get; set; }
 
-    
+   
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fbb"></param>
+        /// <returns>flatbuffers offset</returns>
+        public int Create(FlatBufferBuilder fbb)
+        {
+            XFBType.PhysicsObject.StartPhysicsObject(fbb);
+           
+            return XFBType.PhysicsObject.EndPhysicsObject(fbb);
+        }
+
         public PhysicObject()
         {
           //  ProtoData = new ProtoType.PhysicsObject();

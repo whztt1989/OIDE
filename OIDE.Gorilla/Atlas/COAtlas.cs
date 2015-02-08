@@ -15,13 +15,14 @@ using OIDE.Gorilla.Service;
 using OIDE.Gorilla.Interface.Services;
 using Microsoft.Practices.Unity;
 using OIDE.Gorilla.Model;
+using Module.Properties.Interface;
 
 namespace OIDE.Gorilla.Atlas
 {
     class COAtlas
     {
         public static void GenAtlas(ObservableCollection<System.Windows.UIElement> list,
-            ObservableCollection<IGorillaItem> oc, 
+            ObservableCollection<IItem> oc, 
             String pathToImageFolder, 
             String searchFilext,
             SquareSize width,

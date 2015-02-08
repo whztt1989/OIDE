@@ -249,16 +249,16 @@
             <TreeView.ItemTemplate>
 
                 <HierarchicalDataTemplate ItemsSource="{Binding Items}" >
-                    <Grid HorizontalAlignment="Stretch">
+                    <!--<Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
-                            <!--<ColumnDefinition Width="1*"/>-->
+                            --><!--<ColumnDefinition Width="1*"/>--><!--
                             <ColumnDefinition Width="100" SharedSizeGroup="SliderColumn"/>
-                        </Grid.ColumnDefinitions>
+                        </Grid.ColumnDefinitions>-->
                         <TextBlock Grid.Column="0" Text="{Binding Name}" Margin="0" />
                         <!--<CheckBox  Grid.Column="0" IsChecked="{Binding Visible}"  Margin="5" />-->
                         <!--<Slider    Grid.Column="2" Value="{Binding Value}" Width="100" Margin="10, 0, 0, 0" Maximum="1" />-->
-                    </Grid>
+                    <!--</Grid>-->
 
                     <!--<TextBlock Foreground="Red" Text="{Binding Name}" />-->
 
@@ -287,7 +287,7 @@
 
                     <!--<EventSetter Event="MouseDoubleClick" Handler="ProjItemDoubleClick" />-->
                     <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
-                    <!--<Setter Property="IsSelected" Value="{Binding Path=SelectedElement}"/>-->
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
                     <!--<Style.Triggers>
                         <Trigger Property="IsSelected"  Value="{Binding IsSelected}">
                         </Trigger>

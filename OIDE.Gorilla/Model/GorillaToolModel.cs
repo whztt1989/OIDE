@@ -57,8 +57,8 @@ namespace OIDE.Gorilla
         //  ObservableCollection<ContentModel> mItems;
 
      //   public CollectionOfIItem Items { get { return mProjectTreeService.Items; } }
-        ObservableCollection<IGorillaItem> schjrott;
-        public ObservableCollection<IGorillaItem> Items
+        ObservableCollection<IItem> schjrott;
+        public ObservableCollection<IItem> Items
         { 
             get { return schjrott; }
             set { schjrott = value; RaisePropertyChanged("Items"); }
@@ -204,7 +204,7 @@ namespace OIDE.Gorilla
      //       mProjectTreeService.Items = new CollectionOfIItem();
 
             m_GorillaService = container.Resolve<IGorillaService>();
-            Items = new ObservableCollection<IGorillaItem>();
+            Items = new ObservableCollection<IItem>();
          //   m_GorillaService.SelectedGorilla = new GorillaDataModel();
             m_GorillaService.GTM = this;
             //Service für project contextmenu buttons .....

@@ -1,4 +1,4 @@
-﻿<UserControl xmlns:D3DRenderImage="clr-namespace:OIDE.RenderImage.D3DRenderImage;assembly=OIDE.RenderImage"  xmlns:RenderImage="clr-namespace:OIDE.RenderImage.RenderImage;assembly=OIDE.RenderImage"  x:Class="OIDE.Scene.View.SceneViewerView"
+﻿<UserControl xmlns:OGLRenderImage="clr-namespace:OIDE.RenderImage.OGLRenderImage;assembly=OIDE.RenderImage"  xmlns:D3DRenderImage="clr-namespace:OIDE.RenderImage.D3DRenderImage;assembly=OIDE.RenderImage"  xmlns:RenderImage="clr-namespace:OIDE.RenderImage.RenderImage;assembly=OIDE.RenderImage"  x:Class="OIDE.Scene.View.SceneViewerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -67,14 +67,19 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
+
+        <OGLRenderImage:OGLRenderImage Background="YellowGreen"   Name="renderImage" Grid.Row="1" Grid.ColumnSpan="4"/>
         
-        
+        <!-- works with D3D9 !!!!!!!
         <D3DRenderImage:RenderTargetD3DImage Background="YellowGreen" Name="renderImage" Grid.Row="1" Grid.ColumnSpan="4"/>
-        
-        
-        <!-- funtzt !!!!!!!
+        -->
+
+
+        <!-- works with D3D9 !!!!!!!
         <RenderImage:RenderImage Name="renderImage"   Grid.Row="1" Grid.ColumnSpan="4" />-->
 
+        
+        
         <!--<Image x:Name="MogreImage" MouseDown="MogreImage_MouseDown" MouseMove="MogreImage_MouseMove"  
                        ToolTipService.InitialShowDelay="0" ToolTipService.IsEnabled="True"
                    MinHeight="1" MinWidth="1" Grid.Row="1"

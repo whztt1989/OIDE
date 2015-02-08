@@ -62,8 +62,8 @@ namespace OIDE.Scene.Model.Objects
     
 
 
-        private List<MeshModel> mMeshes = new List<MeshModel>();
-        public List<MeshModel> Meshes { get { return mMeshes; } set { mMeshes = value; } }
+        private List<MeshModel> m_Meshes = new List<MeshModel>();
+        public List<MeshModel> Meshes { get { return m_Meshes; } set { m_Meshes = value; } }
 
         private List<MaterialObject> m_Materials = new List<MaterialObject>();
         public List<MaterialObject> Materials { get { return m_Materials; } set { m_Materials = value; } }
@@ -89,9 +89,54 @@ namespace OIDE.Scene.Model.Objects
             Boolean.TryParse(m_FBData.CastShadows().ToString(), out m_CastShadows);
         }
 
+        /// <summary>
+        /// EntityBase is just a baseclass. the offset is needed for inherited object
+        /// </summary>
+        /// <param name="fbb"></param>
+        /// <returns></returns>
         public int Create(FlatBufferBuilder fbb)
         {
-            return XFBType.EntityBase.CreateEntityBase(fbb,0,0,0,0,0,0,0,0,0,0,0);
+            int AnimationInfo_OS = fbb.CreateString(m_AnimationInfo);
+            int AnimationTree_OS = fbb.CreateString(m_AnimationTree);
+            int Debug_OS = 0;
+            uint Mode_OS = 0;
+            int Boneparent_OS = fbb.CreateString(m_Boneparent);
+
+            int Physics_OS = 0;
+            foreach (var physic in m_Physics)
+            {
+                XFBType.EntityBase.StartPhysicsVector(fbb, m_Physics.Count);
+                XFBType.EntityBase.AddPhysics(fbb, physic.Create(fbb));
+                Physics_OS = fbb.EndVector();
+            }
+            int Materials_OS = 0;
+            foreach (var material in m_Materials)
+            {
+                XFBType.EntityBase.StartMaterialsVector(fbb, m_Materials.Count);
+                XFBType.EntityBase.AddPhysics(fbb, XFBType.Material.CreateMaterial(fbb, 0, 0));
+                Materials_OS = fbb.EndVector();
+            }
+
+            int Sounds_OS = 0;
+            foreach (var sound in m_Sounds)
+            {
+                XFBType.EntityBase.StartSoundsVector(fbb, m_Sounds.Count);
+                XFBType.EntityBase.AddSounds(fbb, XFBType.Sound.CreateSound(fbb, 0, 0, 0));
+                Sounds_OS = fbb.EndVector();
+            }
+
+            int Meshes_OS = 0;
+            foreach (var sound in m_Meshes)
+            {
+                XFBType.EntityBase.StartMeshesVector(fbb, m_Meshes.Count);
+                XFBType.EntityBase.AddMeshes(fbb, XFBType.Mesh.CreateMesh(fbb, 0, 0, 0,0));
+                Meshes_OS = fbb.EndVector();
+            }
+            
+            ushort Type_OS = (ushort)m_EntType;
+            byte CastShadows_OS = m_CastShadows ? (byte)0x01 : (byte)0x00;
+
+            return XFBType.EntityBase.CreateEntityBase(fbb, Meshes_OS, Sounds_OS, Materials_OS, Physics_OS, Type_OS, Boneparent_OS, Mode_OS, CastShadows_OS, Debug_OS, AnimationTree_OS, AnimationInfo_OS);
         }
 
         public EntityBase CreateDataForByteBuffer()

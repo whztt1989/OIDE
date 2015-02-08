@@ -89,6 +89,8 @@ namespace OIDE.InteropEditor.DLL
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate IntPtr stateInitDelegate(String stateName, int width, int height);
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        public delegate IntPtr RenderOnceTexturePtrDelegate(String stateName, int width, int height);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate bool stateUpdateDelegate();
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate void quitDelegate();
@@ -224,6 +226,7 @@ namespace OIDE.InteropEditor.DLL
 
         //  public StartStateDelegate StartState { get; set; }
         public stateInitDelegate stateInit { get; set; }
+        public RenderOnceTexturePtrDelegate RenderOnceTexturePtr { get; set; }
         public stateUpdateDelegate stateUpdate { get; set; }
         public quitDelegate quit { get; set; }
         public updateObjectDelegate updateObject { get; set; }
@@ -267,6 +270,7 @@ namespace OIDE.InteropEditor.DLL
 
                 //   StartState = (StartStateDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("startState", DLLPtr), typeof(StartStateDelegate));
                 stateInit = (stateInitDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("stateInit", DLLPtr), typeof(stateInitDelegate));
+                RenderOnceTexturePtr = (RenderOnceTexturePtrDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("renderOnceTexturePtr", DLLPtr), typeof(RenderOnceTexturePtrDelegate));
                 stateUpdate = (stateUpdateDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("stateUpdate", DLLPtr), typeof(stateUpdateDelegate));
                 quit = (quitDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("quit", DLLPtr), typeof(quitDelegate));
                 //    updateObject = (updateObjectDelegate)Marshal.GetDelegateForFunctionPointer(fLoadDLL_Fkt("updateObject", DLLPtr), typeof(updateObjectDelegate));

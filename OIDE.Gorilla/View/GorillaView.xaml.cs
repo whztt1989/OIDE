@@ -33,6 +33,9 @@ namespace OIDE.Gorilla
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (!Keyboard.IsKeyDown(Key.N))
+                return;
+
             startPoint = e.GetPosition(canvas);
 
             rect = new Rectangle
@@ -51,7 +54,7 @@ namespace OIDE.Gorilla
             mNewDropElement.Rectangle = rect;
 
             ((GorillaModel)this.DataContext).Rectangles.Add(rect);
-            ((GorillaModel)this.DataContext).GorillaItems.Add(mNewDropElement);
+            ((GorillaModel)this.DataContext).Items.Add(mNewDropElement);
         }
 
 

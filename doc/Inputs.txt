@@ -1,0 +1,8 @@
+Gorilla Canvas:
+
+Shift mousewheel = zoom
+Strg + LMT = move canvas
+Alt + LMT = zom region
+AltGr + MWheel = zoom
+
+N + LMT = new rectangle

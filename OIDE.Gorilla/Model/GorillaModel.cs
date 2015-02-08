@@ -39,6 +39,10 @@ using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using System.Windows.Media;
+using Module.Properties.Interface.Services;
+using System.Windows.Shapes;
+using System.Windows.Controls;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace OIDE.Gorilla.Model
 {
@@ -67,17 +71,70 @@ namespace OIDE.Gorilla.Model
         public Position whitepixel { get; set; }
     }
 
-    public class FontData
+    public class FontData : IItem
     {
+        private GorillaModel m_Gorilla;
+
         public int Index { get; set; }
+
+        [ExpandableObject]
         public Glyph Glyph { get; set; }
-        public List<Kerning> Kerning { get; set; }
+        public ObservableCollection<Kerning> Kerning { get; set; }
         public int VerticalOffset { get; set; }
 
-        public FontData()
+        public FontData(GorillaModel gorilla)
         {
-            Kerning = new List<Kerning>();
+            m_Gorilla = gorilla;
+            Kerning = new ObservableCollection<Kerning>();
+            UnityContainer = gorilla.UnityContainer;
         }
+
+        [Browsable(false)]
+        public IUnityContainer UnityContainer { get; set; }
+        [Browsable(false)]
+        public CollectionOfIItem Items { get; set; }
+        public String ContentID { get; private set; }
+        [Browsable(false)]
+        public bool HasChildren { get; set; }
+        [Browsable(false)]
+        public bool IsExpanded { get; set; }
+
+        private Boolean m_IsSelected;
+        [Browsable(false)]
+        public bool IsSelected
+        {
+            get { return m_IsSelected; }
+            set
+            {
+                m_IsSelected = value;
+                var propService = UnityContainer.Resolve<IPropertiesService>();
+                propService.CurrentItem = this;
+
+
+                m_Gorilla.SelectedRectangle.Stroke = Brushes.Red;
+                m_Gorilla.SelectedRectangle.StrokeThickness = 2;
+                m_Gorilla.SelectedRectangle.Width = Glyph.width;
+                m_Gorilla.SelectedRectangle.Height = Glyph.height;
+
+                Canvas.SetLeft(m_Gorilla.SelectedRectangle, Glyph.X);
+                Canvas.SetTop(m_Gorilla.SelectedRectangle, Glyph.Y);
+                //    var gorillaService = m_container.Resolve<IGorillaService>();
+                //    gorillaService.SelectedGorilla = this;
+            }
+        }
+        [Browsable(false)]
+        public List<System.Windows.Controls.MenuItem> MenuOptions { get; set; }
+        public string Name { get; set; }
+        [Browsable(false)]
+        public IItem Parent { get; set; }
+
+        public bool Create() { return true; }
+        public bool Delete() { return true; }
+        public void Drop(IItem item) { }
+        public void Finish() { }
+        public bool Open(object paramID) { return true; }
+        public void Refresh() { }
+        public bool Save(object param = null) { return true; }
     }
 
     public class Glyph
@@ -88,10 +145,11 @@ namespace OIDE.Gorilla.Model
         public int height { get; set; }
     }
 
-    public class FontModel
+    public class FontModel : IItem
     {
-        private ObservableCollection<FontData> mFonts;
-        public ObservableCollection<FontData> Fonts { get { return mFonts; } }
+        private GorillaModel m_Gorilla;
+        private CollectionOfIItem mFonts;
+        public CollectionOfIItem Items { get { return mFonts; } }
 
         public int size { get; set; }
         public int lineheight { get; set; }
@@ -103,37 +161,80 @@ namespace OIDE.Gorilla.Model
         public int rangeFrom { get; set; }
         public int rangeTo { get; set; }
 
-        public FontModel()
+        public FontModel(GorillaModel gorilla)
         {
-            mFonts = new ObservableCollection<FontData>();
+            m_Gorilla = gorilla;
+            UnityContainer = gorilla.UnityContainer;
+            mFonts = new CollectionOfIItem();
         }
 
         public void SetGlyph(int index, Glyph glyph)
         {
-            var font = mFonts.Where(x => x.Index == index);
+            var font = mFonts.Where(x => (x as FontData).Index == index);
             if (font.Any())
-                font.First().Glyph = glyph;
+                (font.First() as FontData).Glyph = glyph;
             else
-                mFonts.Add(new FontData() { Index = index, Glyph = glyph });
+                mFonts.Add(new FontData(m_Gorilla) { Name = index.ToString(), Index = index, Glyph = glyph });
         }
 
         public void SetVerticalOffset(int index, int offset)
         {
-            var font = mFonts.Where(x => x.Index == index);
+            var font = mFonts.Where(x => (x as FontData).Index == index);
             if (font.Any())
-                font.First().VerticalOffset = offset;
+                (font.First() as FontData).VerticalOffset = offset;
             else
-                mFonts.Add(new FontData() { Index = index, VerticalOffset = offset });
+                mFonts.Add(new FontData(m_Gorilla) { Name = index.ToString(), Index = index, VerticalOffset = offset });
         }
 
         public void SetKerning(int index, Kerning kerning)
         {
-            var font = mFonts.Where(x => x.Index == index);
+            var font = mFonts.Where(x => (x as FontData).Index == index);
             if (font.Any())
-                font.First().Kerning.Add(kerning);
+                (font.First() as FontData).Kerning.Add(kerning);
             else
-                mFonts.Add(new FontData() { Index = index, Kerning = new List<Kerning>() { kerning } });
+                mFonts.Add(new FontData(m_Gorilla) { Name = index.ToString(), Index = index, Kerning = new ObservableCollection<Kerning>() { kerning } });
         }
+
+        [Browsable(false)]
+        public IUnityContainer UnityContainer { get; set; }
+        [Browsable(false)]
+      //public CollectionOfIItem Items { get; set; }
+        public String ContentID { get; private set; }
+        [Browsable(false)]
+        public bool HasChildren { get; set; }
+        [Browsable(false)]
+        public bool IsExpanded { get; set; }
+
+        private Boolean m_IsSelected;
+        [Browsable(false)]
+        public bool IsSelected
+        {
+            get { return m_IsSelected; }
+            set
+            {
+                m_IsSelected = value;
+               var propService =  UnityContainer.Resolve<IPropertiesService>();
+               propService.CurrentItem = this;
+
+
+            //    var gorillaService = m_container.Resolve<IGorillaService>();
+            //    gorillaService.SelectedGorilla = this;
+            }
+        }
+        [Browsable(false)]
+        public List<System.Windows.Controls.MenuItem> MenuOptions { get; set; }
+        public string Name { get; set; }
+        [Browsable(false)]
+        public IItem Parent { get; set; }
+
+        public bool Create() { return true; }
+        public bool Delete() { return true; }
+        public void Drop(IItem item) { }
+        public void Finish() { }
+        public bool Open(object paramID) { return true; }
+        public void Refresh() { }
+        public bool Save(object param = null) { return true; }
+
     }
     
     /// <summary>
@@ -144,6 +245,7 @@ namespace OIDE.Gorilla.Model
 
         #region private members
 
+        private Rectangle m_SelectedRectangle;
         private UInt16 mOutlineWidth;
         private UInt16 mIntensityModifier;
         private Point3D mGlyphColor;
@@ -163,7 +265,7 @@ namespace OIDE.Gorilla.Model
         private Texture m_Texture;
       //  private String mFilePath;
         private ObservableCollection<System.Windows.UIElement> mRectangles;
-        private ObservableCollection<IGorillaItem> mImages;
+        private CollectionOfIItem m_items;
 
         #endregion
 
@@ -179,8 +281,10 @@ namespace OIDE.Gorilla.Model
             UnityContainer = container;
             mFonts = new ObservableCollection<FontModel>();
             mRectangles = new ObservableCollection<System.Windows.UIElement>();
-            mImages = new ObservableCollection<IGorillaItem>();
+            m_items = new CollectionOfIItem();
 
+            SelectedRectangle = new Rectangle();
+            mRectangles.Add(m_SelectedRectangle);
             ImageFolder = @"D:\Projekte\coop\XEngine\data\Test\XETUI\art";
             ImageExtensions = "*.png";
             FontImagePath = @"D:\Projekte\coop\Build\arial.png";
@@ -200,6 +304,8 @@ namespace OIDE.Gorilla.Model
 
         #region properties
 
+        public Rectangle SelectedRectangle { get { return m_SelectedRectangle; } set { m_SelectedRectangle = value; } }
+
         public String TextureName { get; set; }
 
         private SquareSize m_Width;
@@ -211,7 +317,7 @@ namespace OIDE.Gorilla.Model
             get { return m_Width; }
             set
             {
-                m_Width = value; TexWidth = (int)value; clearGorillaitems();
+                m_Width = value; TexWidth = (int)value;// clearGorillaitems();
                 RaisePropertyChanged("Width");
             }
         }
@@ -221,7 +327,7 @@ namespace OIDE.Gorilla.Model
             get { return m_Height; }
             set
             {
-                m_Height = value; TexHeight = (int)value; clearGorillaitems();
+                m_Height = value; TexHeight = (int)value; //clearGorillaitems();
                 RaisePropertyChanged("Height");
             }
         }
@@ -269,8 +375,8 @@ namespace OIDE.Gorilla.Model
         public String PathToGorillaFile { get { return m_PathToGorillaFile; } set { m_PathToGorillaFile = value; RaisePropertyChanged("PathToGorillaFile"); } }
         //  public String FilePath { get { return mFilePath; } set { mFilePath = value; RaisePropertyChanged("FilePath"); } }
 
-        [Category("Gorilla")]
-        public ObservableCollection<IGorillaItem> GorillaItems { get { return mImages; } set { mImages = value; } }
+        //[Category("Gorilla")]
+        //public ObservableCollection<IGorillaItem> GorillaItems { get { return m_GItems; } set { m_GItems = value; } }
         [Category("Gorilla")]
         public ObservableCollection<System.Windows.UIElement> Rectangles { get { return mRectangles; } }
 
@@ -318,6 +424,7 @@ namespace OIDE.Gorilla.Model
 
         #region methods
 
+
         public void GenFont()
         {
             try
@@ -347,22 +454,22 @@ namespace OIDE.Gorilla.Model
             }
         }
 
-        private void clearGorillaitems()
-        {
-            var copy = new ObservableCollection<System.Windows.UIElement>(mRectangles);
-            foreach (var item in copy)
-            {
-                mRectangles.Remove(item);
-            }
+        //private void clearGorillaitems()
+        //{
+        //    var copy = new ObservableCollection<System.Windows.UIElement>(mRectangles);
+        //    foreach (var item in copy)
+        //    {
+        //        mRectangles.Remove(item);
+        //    }
 
-            mImages.Clear();
-        }
+        //    m_items.Clear();
+        //}
 
         public void Gen()
         {
-            clearGorillaitems();
+        //    clearGorillaitems();
 
-            OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, mImages, m_ImageFolder, m_ImageExtensions, Width, Height, this, UnityContainer);
+            OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, m_items, m_ImageFolder, m_ImageExtensions, Width, Height, this, UnityContainer);
 
 
             GorillaCode = OIDE.Gorilla.Helper.FileLoader.GenerateGorillaCode(this);
@@ -400,24 +507,33 @@ namespace OIDE.Gorilla.Model
             get { return m_SelectedItem; }
             set
             {
-                if (m_SelectedItem != null)
+                //if (m_SelectedItem != null)
+                //{
+                //    m_SelectedItem.Rectangle.Stroke = Brushes.LightBlue;
+                //    m_SelectedItem.Rectangle.StrokeThickness = 1;
+                //}
+                if (value != null)
                 {
-                    m_SelectedItem.Rectangle.Stroke = Brushes.LightBlue;
-                    m_SelectedItem.Rectangle.StrokeThickness = 1;
-                }
+                    SelectedRectangle.Stroke = Brushes.Red;
+                    SelectedRectangle.StrokeThickness = 2;
+                    SelectedRectangle.Width = value.Width;
+                    SelectedRectangle.Height = value.Height;
 
-                m_SelectedItem = value;
-                if (m_SelectedItem != null)
-                {
-                    m_SelectedItem.Rectangle.Stroke = Brushes.Red;
-                    m_SelectedItem.Rectangle.StrokeThickness = 1;
+                    Canvas.SetLeft(SelectedRectangle, value.X);
+                    Canvas.SetTop(SelectedRectangle, value.Y);
                 }
+                m_SelectedItem = value;
+                //if (m_SelectedItem != null)
+                //{
+                //    m_SelectedItem.Rectangle.Stroke = Brushes.Red;
+                //    m_SelectedItem.Rectangle.StrokeThickness = 1;
+                //}
 
             }
         }
 
         [Browsable(false)]
-        public CollectionOfIItem Items { get; set; }
+        public CollectionOfIItem Items { get { return m_items; } private set { m_items = value; } }
         public object ContentID { get; private set; }
         [Browsable(false)]
         public bool HasChildren { get; set; }

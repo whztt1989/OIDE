@@ -28,11 +28,11 @@ namespace OIDE.Gorilla.Helper
         }
         public static void LoadFont(GorillaModel gorilla, StreamReader sr, String line)
         {
-            FontModel font = new FontModel();
+            FontModel font = new FontModel(gorilla);
 
 
             font.size = convertToInt(line.Replace("[Font.", "").Replace("]", ""));
-
+            font.Name = line;
             while (!String.IsNullOrEmpty(line = sr.ReadLine()))
             {
                 if (line.Contains("lineheight")) font.lineheight = convertToInt(line.Split(' ')[1]);
@@ -73,7 +73,9 @@ namespace OIDE.Gorilla.Helper
 
 
             }
+
             gorilla.Fonts.Add(font);
+            gorilla.Items.Add(font);
         }
 
         public static void LoadSprites(GorillaModel gorilla, StreamReader sr)
@@ -168,8 +170,9 @@ namespace OIDE.Gorilla.Helper
                 {
                     code += "[Font." + font.size + "]" + Environment.NewLine;
 
-                    foreach (var fontItem in font.Fonts)
+                    foreach (var item in font.Items)
                     {
+                        var fontItem = item as FontData;
                         if (fontItem.Glyph.X > 0)
                             code += "glyph_" + fontItem.Index + " " + fontItem.Glyph.X + " " + fontItem.Glyph.Y + " " + fontItem.Glyph.width + " " + fontItem.Glyph.height + Environment.NewLine;
 
@@ -197,9 +200,11 @@ namespace OIDE.Gorilla.Helper
                 //sprites 
                 //  await writer.WriteLineAsync("[Sprites]");
                 code += "[Sprites]" + Environment.NewLine;
-                foreach (var item in gorillaModel.GorillaItems.Where(x => x.GorillaType == GorillaType.Sprite))
+                foreach (var item in gorillaModel.Items)//.Where(x => x.GorillaType == GorillaType.Sprite))
                 {
-                    code += item.Name + " " + item.X + " " + item.Y + " " + item.Width + " " + item.Height + Environment.NewLine;
+                    var gorillaItem = item as IGorillaItem;
+                    if (gorillaItem != null && gorillaItem.GorillaType == GorillaType.Sprite)
+                        code += gorillaItem.Name + " " + gorillaItem.X + " " + gorillaItem.Y + " " + gorillaItem.Width + " " + gorillaItem.Height + Environment.NewLine;
                     // await writer.WriteLineAsync(item.Name + " " + item.X + " " + item.Y + " " + item.Width + " " + item.Height);
 
                 }

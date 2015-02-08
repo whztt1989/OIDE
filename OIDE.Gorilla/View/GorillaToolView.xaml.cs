@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Practices.Unity;
+using Module.Properties.Interface;
 using Module.Properties.Interface.Services;
 using OIDE.Gorilla.Interface.Services;
 using Wide.Interfaces;
@@ -45,8 +46,8 @@ namespace OIDE.Gorilla.View
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var tv = sender as TreeView;
-            var gi = tv.SelectedItem as IGorillaItem;
-            m_GorillaService.SelectedGorilla.SelectedItem = gi;
+            var gi = tv.SelectedItem as IItem;
+            m_GorillaService.SelectedGorilla.SelectedItem = gi as IGorillaItem;
 
             mPropertiesService.CurrentItem = gi;
         }
