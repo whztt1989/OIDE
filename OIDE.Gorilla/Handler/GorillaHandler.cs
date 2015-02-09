@@ -34,10 +34,11 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using Microsoft.Win32;
 using OIDE.Gorilla.Model;
+using OIDE.Gorilla.Model.Objects;
 
 namespace OIDE.Gorilla
 {
-    [FileContent("Gorilla files", "*.gorilla", 1)]
+    [FileContent("Gorilla files", "*.gorilladat", 1)]
     [NewContent("Gorilla files", 1, "Creates a new Gorilla file", "pack://application:,,,/OIDE.Gorilla;component/Icons/GorillaType.png")]
     internal class GorillaHandler : IContentHandler
     {
@@ -109,7 +110,7 @@ namespace OIDE.Gorilla
             }
 
             extension = Path.GetExtension(location);
-            return File.Exists(location) && extension == ".gorilla";
+            return File.Exists(location) && extension == ".gorilladat";
         }
 
         /// <summary>
@@ -130,7 +131,8 @@ namespace OIDE.Gorilla
                 model.SetLocation(info);
                 try
                 {
-                    model.Document.Text = File.ReadAllText(location);
+                 //   model.Document.Text = File.ReadAllText(location);
+                    model.Open(location);
                     model.SetDirty(false);
                 }
                 catch (Exception exception)
@@ -209,8 +211,8 @@ namespace OIDE.Gorilla
                     _dialog.InitialDirectory = Path.GetDirectoryName(location);
 
                 _dialog.CheckPathExists = true;
-                _dialog.DefaultExt = "gorilla";
-                _dialog.Filter = "Gorilla files (*.gorilla)|*.gorilla";
+                _dialog.DefaultExt = "gorilladat";
+                _dialog.Filter = "Gorilla File (*.gorilladat)|*.gorilladat";
                 
                 if (_dialog.ShowDialog() == true)
                 {
@@ -219,7 +221,10 @@ namespace OIDE.Gorilla
                     mdViewModel.Title = Path.GetFileName(location);
                     try
                     {
-                        File.WriteAllText(location, mdModel.Document.Text);
+                        //GorillaData test = new GorillaData() { GorillaFile = "ddfd", Texture = "sdfsdfsd" };
+
+                        //DAL.Utility.JSONSerializer.Serialize<GorillaData>(test, location);
+                        //   File.WriteAllText(location, mdModel.Document.Text);
                         mdModel.SetDirty(false);
                         return true;
                     }
@@ -235,7 +240,8 @@ namespace OIDE.Gorilla
             {
                 try
                 {
-                    File.WriteAllText(location, mdModel.Document.Text);
+                    DAL.Utility.JSONSerializer.Serialize<GorillaModel>(mdModel, location);
+                  //  File.WriteAllText(location, mdModel.Document.Text);
                     mdModel.SetDirty(false);
                     return true;
                 }

@@ -125,7 +125,16 @@ namespace OIDE.Scene
         /// <returns>True, if the file exists and has a .md extension - false otherwise</returns>
         public bool ValidateContentType(object info)
         {
-            return true;
+            string location = info as string;
+            string extension = "";
+
+            if (location == null)
+            {
+                return false;
+            }
+
+            extension = Path.GetExtension(location);
+            return File.Exists(location) && extension == ".scene";
         }
 
         /// <summary>

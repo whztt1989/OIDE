@@ -43,6 +43,7 @@ using Module.Properties.Interface.Services;
 using System.Windows.Shapes;
 using System.Windows.Controls;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using OIDE.Gorilla.Model.Objects;
 
 namespace OIDE.Gorilla.Model
 {
@@ -59,11 +60,6 @@ namespace OIDE.Gorilla.Model
         SS_2048 = 2048,
         SS_4096 = 4096,
     };
-    public struct Kerning
-    {
-        public int RightGlyphID {get;set;}
-        public int KerningValue {get;set;}
-    }
 
     public class Texture
     {
@@ -71,178 +67,11 @@ namespace OIDE.Gorilla.Model
         public Position whitepixel { get; set; }
     }
 
-    public class FontData : IItem
-    {
-        private GorillaModel m_Gorilla;
-
-        public int Index { get; set; }
-
-        [ExpandableObject]
-        public Glyph Glyph { get; set; }
-        public ObservableCollection<Kerning> Kerning { get; set; }
-        public int VerticalOffset { get; set; }
-
-        public FontData(GorillaModel gorilla)
-        {
-            m_Gorilla = gorilla;
-            Kerning = new ObservableCollection<Kerning>();
-            UnityContainer = gorilla.UnityContainer;
-        }
-
-        [Browsable(false)]
-        public IUnityContainer UnityContainer { get; set; }
-        [Browsable(false)]
-        public CollectionOfIItem Items { get; set; }
-        public String ContentID { get; private set; }
-        [Browsable(false)]
-        public bool HasChildren { get; set; }
-        [Browsable(false)]
-        public bool IsExpanded { get; set; }
-
-        private Boolean m_IsSelected;
-        [Browsable(false)]
-        public bool IsSelected
-        {
-            get { return m_IsSelected; }
-            set
-            {
-                m_IsSelected = value;
-                var propService = UnityContainer.Resolve<IPropertiesService>();
-                propService.CurrentItem = this;
-
-
-                m_Gorilla.SelectedRectangle.Stroke = Brushes.Red;
-                m_Gorilla.SelectedRectangle.StrokeThickness = 2;
-                m_Gorilla.SelectedRectangle.Width = Glyph.width;
-                m_Gorilla.SelectedRectangle.Height = Glyph.height;
-
-                Canvas.SetLeft(m_Gorilla.SelectedRectangle, Glyph.X);
-                Canvas.SetTop(m_Gorilla.SelectedRectangle, Glyph.Y);
-                //    var gorillaService = m_container.Resolve<IGorillaService>();
-                //    gorillaService.SelectedGorilla = this;
-            }
-        }
-        [Browsable(false)]
-        public List<System.Windows.Controls.MenuItem> MenuOptions { get; set; }
-        public string Name { get; set; }
-        [Browsable(false)]
-        public IItem Parent { get; set; }
-
-        public bool Create() { return true; }
-        public bool Delete() { return true; }
-        public void Drop(IItem item) { }
-        public void Finish() { }
-        public bool Open(object paramID) { return true; }
-        public void Refresh() { }
-        public bool Save(object param = null) { return true; }
-    }
-
-    public class Glyph
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
-    }
-
-    public class FontModel : IItem
-    {
-        private GorillaModel m_Gorilla;
-        private CollectionOfIItem mFonts;
-        public CollectionOfIItem Items { get { return mFonts; } }
-
-        public int size { get; set; }
-        public int lineheight { get; set; }
-        public int spacelength { get; set; }
-        public int baseline { get; set; }
-        public float kerning { get; set; }
-        public int letterspacing { get; set; }
-        public int monowidth { get; set; }
-        public int rangeFrom { get; set; }
-        public int rangeTo { get; set; }
-
-        public FontModel(GorillaModel gorilla)
-        {
-            m_Gorilla = gorilla;
-            UnityContainer = gorilla.UnityContainer;
-            mFonts = new CollectionOfIItem();
-        }
-
-        public void SetGlyph(int index, Glyph glyph)
-        {
-            var font = mFonts.Where(x => (x as FontData).Index == index);
-            if (font.Any())
-                (font.First() as FontData).Glyph = glyph;
-            else
-                mFonts.Add(new FontData(m_Gorilla) { Name = index.ToString(), Index = index, Glyph = glyph });
-        }
-
-        public void SetVerticalOffset(int index, int offset)
-        {
-            var font = mFonts.Where(x => (x as FontData).Index == index);
-            if (font.Any())
-                (font.First() as FontData).VerticalOffset = offset;
-            else
-                mFonts.Add(new FontData(m_Gorilla) { Name = index.ToString(), Index = index, VerticalOffset = offset });
-        }
-
-        public void SetKerning(int index, Kerning kerning)
-        {
-            var font = mFonts.Where(x => (x as FontData).Index == index);
-            if (font.Any())
-                (font.First() as FontData).Kerning.Add(kerning);
-            else
-                mFonts.Add(new FontData(m_Gorilla) { Name = index.ToString(), Index = index, Kerning = new ObservableCollection<Kerning>() { kerning } });
-        }
-
-        [Browsable(false)]
-        public IUnityContainer UnityContainer { get; set; }
-        [Browsable(false)]
-      //public CollectionOfIItem Items { get; set; }
-        public String ContentID { get; private set; }
-        [Browsable(false)]
-        public bool HasChildren { get; set; }
-        [Browsable(false)]
-        public bool IsExpanded { get; set; }
-
-        private Boolean m_IsSelected;
-        [Browsable(false)]
-        public bool IsSelected
-        {
-            get { return m_IsSelected; }
-            set
-            {
-                m_IsSelected = value;
-               var propService =  UnityContainer.Resolve<IPropertiesService>();
-               propService.CurrentItem = this;
-
-
-            //    var gorillaService = m_container.Resolve<IGorillaService>();
-            //    gorillaService.SelectedGorilla = this;
-            }
-        }
-        [Browsable(false)]
-        public List<System.Windows.Controls.MenuItem> MenuOptions { get; set; }
-        public string Name { get; set; }
-        [Browsable(false)]
-        public IItem Parent { get; set; }
-
-        public bool Create() { return true; }
-        public bool Delete() { return true; }
-        public void Drop(IItem item) { }
-        public void Finish() { }
-        public bool Open(object paramID) { return true; }
-        public void Refresh() { }
-        public bool Save(object param = null) { return true; }
-
-    }
-    
     /// <summary>
     /// Class TextModel which contains the text of the document
     /// </summary>
     public class GorillaModel : TextModel , IItem
     {
-
         #region private members
 
         private Rectangle m_SelectedRectangle;
@@ -252,20 +81,24 @@ namespace OIDE.Gorilla.Model
         private Point3D mOutlineColor;
         private UInt16 mFontSize;
         private String mFontFile;
-        private String mAlphabetFile;
-        private SquareSize mSquareTextureSize;
         //  private String mGeneratedFontImage;
         private String mGorillaCode;
         private ObservableCollection<FontModel> mFonts;
+
+        //settings
+        private String mAlphabetFile;
+        private SquareSize mSquareTextureSize;
         private String m_PathToGorillaFile;
         private String m_PathToFontGorillaFile;
         private String m_ImageExtensions;
         private String m_FontImagePath;
         private String m_ImageFolder;
         private Texture m_Texture;
+
       //  private String mFilePath;
         private ObservableCollection<System.Windows.UIElement> mRectangles;
         private CollectionOfIItem m_items;
+        private GorillaData m_GorillaData;
 
         #endregion
 
@@ -562,9 +395,21 @@ namespace OIDE.Gorilla.Model
         public bool Delete() { return true; }
         public void Drop(IItem item) { }
         public void Finish() { }
-        public bool Open(object paramID) { return true; }
+
+
+        public bool Open(object paramID) 
+        {
+            DAL.Utility.JSONSerializer.Deserialize<GorillaData>(this.Location.ToString());
+           
+            return true; 
+        }
+
         public void Refresh() { }
-        public bool Save(object param = null) { return true; }
+        public bool Save(object param = null)
+        {
+            DAL.Utility.JSONSerializer.Serialize<GorillaData>(m_GorillaData, param.ToString());
+            
+            return true; }
 
         #endregion
     }

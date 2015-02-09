@@ -36,6 +36,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\DAL.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\..\Wide\Libs\ICSharpCode.AvalonEdit.dll</HintPath>
       <Private>False</Private>
@@ -101,7 +105,10 @@
     <Compile Include="Interface\Service\IGorillaItem.cs" />
     <Compile Include="Interface\Service\IGorillaService.cs" />
     <Compile Include="Interface\Service\IGorilla.cs" />
+    <Compile Include="Model\FontData.cs" />
+    <Compile Include="Model\FontModel.cs" />
     <Compile Include="Model\GorillaToolModel.cs" />
+    <Compile Include="Model\Objects\GorillaData.cs" />
     <Compile Include="Service\GorillaManager.cs" />
     <Compile Include="ViewModel\GorillaToolViewModel.cs" />
     <Compile Include="View\GorillaToolView.xaml.cs">
