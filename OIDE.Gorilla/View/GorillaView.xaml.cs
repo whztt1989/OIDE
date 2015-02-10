@@ -6,6 +6,8 @@ using System.Windows.Shapes;
 using System.Windows.Media;
 using OIDE.Gorilla.Service;
 using OIDE.Gorilla.Model;
+using System.Windows.Media.Imaging;
+using System.Net.Cache;
 
 namespace OIDE.Gorilla
 {
@@ -22,10 +24,29 @@ namespace OIDE.Gorilla
 
         private void btnGenFont_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+          //  String path = (this.DataContext as GorillaModel).FontImagePath;
+      //      imgFont.Source = new BitmapImage(); 
             (this.DataContext as GorillaModel).GenFont();
 
 
+           //  SetImage((this.DataContext as GorillaModel).FontImagePath);
+
+             //imgFont.Source = new BitmapImage();
+             //SetImage((this.DataContext as GorillaModel).FontImagePath);
         }
+
+        //private void SetImage(String filename)
+        //{
+        //    BitmapImage bi = new BitmapImage();
+        //    bi.BeginInit();
+        //    bi.CacheOption = BitmapCacheOption.None;
+        //    bi.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+        //    bi.CacheOption = BitmapCacheOption.OnLoad;
+        //    bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+        //    bi.UriSource = new Uri(filename);
+        //    bi.EndInit();
+        //    (this.DataContext as GorillaModel).FontImage = bi;
+        //}
 
         private Point startPoint;
         private Rectangle rect;
@@ -114,6 +135,11 @@ namespace OIDE.Gorilla
         {
             OIDE.Gorilla.Helper.FileLoader.LoadGorillaFont(((GorillaModel)this.DataContext).PathToFontGorillaFile, ((GorillaModel)this.DataContext));
             
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+         //   SetImage((this.DataContext as GorillaModel).FontImagePath);
         }
 
     }

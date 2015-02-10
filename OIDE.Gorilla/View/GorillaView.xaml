@@ -10,7 +10,7 @@
              xmlns:local="clr-namespace:OIDE.Gorilla.Model"
              xmlns:localhelper="clr-namespace:OIDE.Gorilla.Helper"
             xmlns:xctk="http://schemas.nn.com/wpf/xaml/toolkit"
-           
+           Loaded="UserControl_Loaded"
              d:DesignHeight="600" d:DesignWidth="500" >
     <UserControl.Resources>
         <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
@@ -85,66 +85,10 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Button Grid.Row="0" Grid.ColumnSpan="2" Content="GenFont"  Click="btnGenFont_Click" />
-                    <GroupBox Grid.Row="1" Header="Font edit"  >
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50*" />
-                                <ColumnDefinition Width="50*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock TextWrapping="Wrap" Grid.Row="0" Text="Outline width. Leave to 0 for no outline" />
-                            <TextBox Grid.Column="1" Text="1" Grid.Row="0" />
-                            <TextBlock TextWrapping="Wrap" Grid.Row="1" Text="Intensity modifier" />
-                            <TextBox Grid.Column="1" Text="1" Grid.Row="1" />
-                            <TextBlock TextWrapping="Wrap" Grid.Row="2" Text="Main glyph color (ex: 0 1 0)" />
-                            <TextBox Grid.Column="1" Text="0 1 0" Grid.Row="2" />
-                            <TextBlock TextWrapping="Wrap" Grid.Row="3" Text="Outline color (ex: 0 1 1)" />
-                            <TextBox Grid.Column="1" Text="0 1 1" Grid.Row="3" />
-                            <TextBlock TextWrapping="Wrap" Grid.Row="4" Text="Font point size" />
-                            <TextBox Grid.Column="1" Text="18" Grid.Row="4" />
-                            <TextBlock TextWrapping="Wrap" Grid.Row="5" Text="Specify input font file (optional)" />
-                            <TextBox Grid.Column="1" Text="{Binding ImageFolder}" Grid.Row="5" />
-                        </Grid>
-                    </GroupBox>
-
-                    <GroupBox Grid.Column="1" Grid.Row="1">
-                        <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <!--<RowDefinition Height="Auto" />-->
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="149*" />
-                                <ColumnDefinition Width="391*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock TextWrapping="Wrap">specify an alphabet file. alphabet needs to be ASCII code ascending order.</TextBlock>
-                            <TextBox Grid.Column="1" Name="tbFontFile" Text="{Binding AlphabetFile, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBlock TextWrapping="Wrap" Grid.Row="1">Specify the output square texture size</TextBlock>
-                            <!--<ComboBox Grid.Column="1" Grid.Row="1"  ItemsSource="{Binding Source={x:Type my:SquareSize}}"  SelectedValue="{Binding SquareTextureSize}"> </ComboBox>-->
-
-                            <ComboBox Grid.Column="1" Grid.Row="1"  ItemsSource="{Binding Source={StaticResource dataFromEnum}}" SelectedItem="{Binding Path=SquareTextureSize}" />
-
-                            <!--<Button Grid.Row="6" Content="GenFont" Name="btnGenFont"  Grid.ColumnSpan="2" Click="btnGenFont_Click" />-->
-                            <TextBox Text="{Binding FontImagePath}" Grid.Column="1" Grid.Row="3"/>
-                            <Label Content="FontFile:" Grid.Row="3"  />
-                        </Grid>
-                    </GroupBox>
+                
                     
-                   <!--
-                    source locks the file in filesystem 
-                    <Image Grid.Row="2" Grid.ColumnSpan="2" Stretch="None" Source="{Binding FontImagePath}"  />-->
+                    <!--source locks the file in filesystem-->
+                    <Image Grid.Row="2" Name="imgFont" Grid.ColumnSpan="2" Stretch="None" Source="{Binding FontImage}"  />
                  
                 </Grid>
             </TabItem>

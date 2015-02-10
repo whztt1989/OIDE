@@ -44,6 +44,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using OIDE.Gorilla.Model.Objects;
+using System.Windows.Media.Imaging;
 
 namespace OIDE.Gorilla.Model
 {
@@ -94,7 +95,7 @@ namespace OIDE.Gorilla.Model
         private String m_FontImagePath;
         private String m_ImageFolder;
         private Texture m_Texture;
-
+        private BitmapImage m_fontImage;
       //  private String mFilePath;
         private ObservableCollection<System.Windows.UIElement> mRectangles;
         private CollectionOfIItem m_items;
@@ -218,28 +219,36 @@ namespace OIDE.Gorilla.Model
         [Category("Gorilla")]
         public String ImageExtensions { get { return m_ImageExtensions; } set { m_ImageExtensions = value; RaisePropertyChanged("ImageExtensions"); } }
         [Category("Font")]
+        [Description("FontFile")]
         public String FontImagePath { get { return m_FontImagePath; } set { m_FontImagePath = value; RaisePropertyChanged("FontImagePath"); } }
-
+        public BitmapImage FontImage { get { return m_fontImage; } set { m_fontImage = value; RaisePropertyChanged("FontImage"); } }
 
         public ObservableCollection<FontModel> Fonts { get { return mFonts; } }
 
         [Category("Font")]
-        public String AlphabetFile { get { return mAlphabetFile; } set { mAlphabetFile = value; RaisePropertyChanged("AlphabetFile"); } }
+        [Description("specify an alphabet file. alphabet needs to be ASCII code ascending order.")]
+      public String AlphabetFile { get { return mAlphabetFile; } set { mAlphabetFile = value; RaisePropertyChanged("AlphabetFile"); } }
         [Category("Font")]
-        public SquareSize SquareTextureSize { get { return mSquareTextureSize; } set { mSquareTextureSize = value; RaisePropertyChanged("SquareTextureSize"); } }
+     public SquareSize SquareTextureSize { get { return mSquareTextureSize; } set { mSquareTextureSize = value; RaisePropertyChanged("SquareTextureSize"); } }
         //  public String GeneratedFontImage { get { return mGeneratedFontImage; } set { mGeneratedFontImage = value; RaisePropertyChanged("GeneratedFontImage"); } }
         [Category("Font")]
+        [Description("Outline width. Leave to 0 for no outline")]
         public UInt16 OutlineWidth { get { return mOutlineWidth; } set { mOutlineWidth = value; RaisePropertyChanged("OutlineWidth"); } }
         [Category("Font")]
+        [Description("Intensity modifier")]
         public UInt16 IntensityModifier { get { return mIntensityModifier; } set { mIntensityModifier = value; RaisePropertyChanged("IntensityModifier"); } }
         [Category("Font")]
-        public Point3D GlyphColor { get { return mGlyphColor; } set { mGlyphColor = value; RaisePropertyChanged("GlyphColor"); } }
+        [Description("Main glyph color (ex: 0 1 0)")]
+      public Point3D GlyphColor { get { return mGlyphColor; } set { mGlyphColor = value; RaisePropertyChanged("GlyphColor"); } }
         [Category("Font")]
-        public Point3D OutlineColor { get { return mOutlineColor; } set { mOutlineColor = value; RaisePropertyChanged("OutlineColor"); } }
+        [Description("Outline color (ex: 0 1 1)")]
+      public Point3D OutlineColor { get { return mOutlineColor; } set { mOutlineColor = value; RaisePropertyChanged("OutlineColor"); } }
         [Category("Font")]
-        public UInt16 FontSize { get { return mFontSize; } set { mFontSize = value; RaisePropertyChanged("FontSize"); } }
+        [Description("Font point size")]
+      public UInt16 FontSize { get { return mFontSize; } set { mFontSize = value; RaisePropertyChanged("FontSize"); } }
         [Category("Font")]
-        public String FontFile { get { return mFontFile; } set { mFontFile = value; RaisePropertyChanged("FontFile"); } }
+        [Description("Specify input font file (optional)")]
+     public String FontFile { get { return mFontFile; } set { mFontFile = value; RaisePropertyChanged("FontFile"); } }
 
         [Browsable(false)]
         public String GorillaCode
@@ -272,7 +281,7 @@ namespace OIDE.Gorilla.Model
                 psi.UseShellExecute = false;
                 psi.RedirectStandardOutput = true;
                 psi.RedirectStandardInput = true;
-                psi.Arguments = "-f gorilla -t 512";
+                psi.Arguments = "-f gorilla -t " + ((int)SquareTextureSize).ToString();
                 System.Diagnostics.Process proz = System.Diagnostics.Process.Start(psi);
 
                 proz.StandardInput.WriteLine("-o 2 -i 2 -s 18 -c \"1 1 0\" -C \"1 0 0\" arial.ttf");
@@ -280,6 +289,18 @@ namespace OIDE.Gorilla.Model
                 proz.StandardInput.WriteLine("-o 2 -i 3 -s 36 -c \"1 1 1\" -C \"0 0 0\" arial.ttf");
 
                 proz.StandardInput.Close();
+
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.None;
+            //    bi.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                bi.UriSource = new Uri(FontImagePath);
+                bi.EndInit();
+               FontImage = bi;
+
+         
             }
             catch (Exception ex)
             {
