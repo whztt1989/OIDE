@@ -100,6 +100,7 @@ namespace OIDE.Gorilla.Model
         private ObservableCollection<System.Windows.UIElement> mRectangles;
         private CollectionOfIItem m_items;
         private GorillaData m_GorillaData;
+        private Boolean m_AutoGenFont;
 
         #endregion
 
@@ -215,6 +216,10 @@ namespace OIDE.Gorilla.Model
         public ObservableCollection<System.Windows.UIElement> Rectangles { get { return mRectangles; } }
 
         [Category("Gorilla")]
+        [Description("Automatically generate fontdata.")]
+        public Boolean AutoGenFont { get { return m_AutoGenFont; } set { m_AutoGenFont = value; RaisePropertyChanged("AutoGenFont"); } }
+
+        [Category("Gorilla")]
         public String ImageFolder { get { return m_ImageFolder; } set { m_ImageFolder = value; RaisePropertyChanged("ImageFolder"); } }
         [Category("Gorilla")]
         public String ImageExtensions { get { return m_ImageExtensions; } set { m_ImageExtensions = value; RaisePropertyChanged("ImageExtensions"); } }
@@ -225,28 +230,28 @@ namespace OIDE.Gorilla.Model
 
         public ObservableCollection<FontModel> Fonts { get { return mFonts; } }
 
-        [Category("Font")]
+        [Category("FontGenerator")]
         [Description("specify an alphabet file. alphabet needs to be ASCII code ascending order.")]
       public String AlphabetFile { get { return mAlphabetFile; } set { mAlphabetFile = value; RaisePropertyChanged("AlphabetFile"); } }
-        [Category("Font")]
+        [Category("FontGenerator")]
      public SquareSize SquareTextureSize { get { return mSquareTextureSize; } set { mSquareTextureSize = value; RaisePropertyChanged("SquareTextureSize"); } }
         //  public String GeneratedFontImage { get { return mGeneratedFontImage; } set { mGeneratedFontImage = value; RaisePropertyChanged("GeneratedFontImage"); } }
-        [Category("Font")]
+        [Category("FontGenerator")]
         [Description("Outline width. Leave to 0 for no outline")]
         public UInt16 OutlineWidth { get { return mOutlineWidth; } set { mOutlineWidth = value; RaisePropertyChanged("OutlineWidth"); } }
-        [Category("Font")]
+        [Category("FontGenerator")]
         [Description("Intensity modifier")]
         public UInt16 IntensityModifier { get { return mIntensityModifier; } set { mIntensityModifier = value; RaisePropertyChanged("IntensityModifier"); } }
-        [Category("Font")]
+        [Category("FontGenerator")]
         [Description("Main glyph color (ex: 0 1 0)")]
       public Point3D GlyphColor { get { return mGlyphColor; } set { mGlyphColor = value; RaisePropertyChanged("GlyphColor"); } }
-        [Category("Font")]
+        [Category("FontGenerator")]
         [Description("Outline color (ex: 0 1 1)")]
       public Point3D OutlineColor { get { return mOutlineColor; } set { mOutlineColor = value; RaisePropertyChanged("OutlineColor"); } }
-        [Category("Font")]
+        [Category("FontGenerator")]
         [Description("Font point size")]
       public UInt16 FontSize { get { return mFontSize; } set { mFontSize = value; RaisePropertyChanged("FontSize"); } }
-        [Category("Font")]
+        [Category("FontGenerator")]
         [Description("Specify input font file (optional)")]
      public String FontFile { get { return mFontFile; } set { mFontFile = value; RaisePropertyChanged("FontFile"); } }
 
@@ -266,6 +271,39 @@ namespace OIDE.Gorilla.Model
 
         #region methods
 
+        System.Diagnostics.Process proz = new System.Diagnostics.Process();
+
+        // Handle Exited event and display process information.
+        private void myProcess_Exited(object sender, System.EventArgs e)
+        {
+
+        //    eventHandled = true;
+            Console.WriteLine("Exit time:    {0}\r\n" +
+                "Exit code:    {1}\r", proz.ExitTime, proz.ExitCode);
+
+            if (AutoGenFont)
+            {
+             //   GenFont();
+                OIDE.Gorilla.Helper.FileLoader.LoadGorillaFont(PathToFontGorillaFile, this);
+            }
+
+            OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, m_items, m_ImageFolder, m_ImageExtensions, Width, Height, this, UnityContainer);
+
+
+            GorillaCode = OIDE.Gorilla.Helper.FileLoader.GenerateGorillaCode(this);
+
+
+            //BitmapImage bi = new BitmapImage();
+            //bi.BeginInit();
+            //bi.CacheOption = BitmapCacheOption.None;
+            ////    bi.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+            //bi.CacheOption = BitmapCacheOption.OnLoad;
+            //bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            //bi.UriSource = new Uri(FontImagePath);
+            //bi.EndInit();
+            //FontImage = bi;
+        }
+
 
         public void GenFont()
         {
@@ -281,24 +319,27 @@ namespace OIDE.Gorilla.Model
                 psi.UseShellExecute = false;
                 psi.RedirectStandardOutput = true;
                 psi.RedirectStandardInput = true;
-                psi.Arguments = "-f gorilla -t " + ((int)SquareTextureSize).ToString();
-                System.Diagnostics.Process proz = System.Diagnostics.Process.Start(psi);
+             //   psi.Arguments = "-f gorilla -t " + ((int)SquareTextureSize).ToString();
+
+
+             //   proz.StartInfo.FileName = @".\fontgen.exe";
+                proz.StartInfo.CreateNoWindow = true;
+                proz.EnableRaisingEvents = true;
+                proz.Exited += new EventHandler(myProcess_Exited);
+                proz.Start(@".\fontgen.exe", "-f gorilla -t " + ((int)SquareTextureSize).ToString());
+                //= System.Diagnostics.Process.Start(psi);
+            
+                //https://msdn.microsoft.com/de-de/library/h6ak8zt5%28v=vs.110%29.aspx
 
                 proz.StandardInput.WriteLine("-o 2 -i 2 -s 18 -c \"1 1 0\" -C \"1 0 0\" arial.ttf");
                 proz.StandardInput.WriteLine("-o 1 -i 2 -s 24 -c \"0 0 1\" -C \"1 0 1\" arial.ttf");
                 proz.StandardInput.WriteLine("-o 2 -i 3 -s 36 -c \"1 1 1\" -C \"0 0 0\" arial.ttf");
 
+               
+            //    proz.WaitForExit();
                 proz.StandardInput.Close();
-
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.CacheOption = BitmapCacheOption.None;
-            //    bi.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
-                bi.CacheOption = BitmapCacheOption.OnLoad;
-                bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-                bi.UriSource = new Uri(FontImagePath);
-                bi.EndInit();
-               FontImage = bi;
+             //   proz.Close();
+         
 
          
             }
@@ -308,25 +349,32 @@ namespace OIDE.Gorilla.Model
             }
         }
 
-        //private void clearGorillaitems()
-        //{
-        //    var copy = new ObservableCollection<System.Windows.UIElement>(mRectangles);
-        //    foreach (var item in copy)
-        //    {
-        //        mRectangles.Remove(item);
-        //    }
+        private void clearGorillaitems()
+        {
+            var copy = new ObservableCollection<System.Windows.UIElement>(mRectangles);
+            foreach (var item in copy)
+            {
+                mRectangles.Remove(item);
+            }
 
-        //    m_items.Clear();
-        //}
+            m_items.Clear();
+        }
 
         public void Gen()
         {
-        //    clearGorillaitems();
+           clearGorillaitems();
+   
 
-            OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, m_items, m_ImageFolder, m_ImageExtensions, Width, Height, this, UnityContainer);
+            if (AutoGenFont)
+            {
+                GenFont();
+       //         OIDE.Gorilla.Helper.FileLoader.LoadGorillaFont(PathToFontGorillaFile, this);
+            }
+
+         //   OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, m_items, m_ImageFolder, m_ImageExtensions, Width, Height, this, UnityContainer);
 
 
-            GorillaCode = OIDE.Gorilla.Helper.FileLoader.GenerateGorillaCode(this);
+       //     GorillaCode = OIDE.Gorilla.Helper.FileLoader.GenerateGorillaCode(this);
         }
 
         /// <summary>
