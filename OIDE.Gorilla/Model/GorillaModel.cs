@@ -271,38 +271,36 @@ namespace OIDE.Gorilla.Model
 
         #region methods
 
-        System.Diagnostics.Process proz = new System.Diagnostics.Process();
-
         // Handle Exited event and display process information.
-        private void myProcess_Exited(object sender, System.EventArgs e)
-        {
+        //private void myProcess_Exited(object sender, System.EventArgs e)
+        //{
 
-        //    eventHandled = true;
-            Console.WriteLine("Exit time:    {0}\r\n" +
-                "Exit code:    {1}\r", proz.ExitTime, proz.ExitCode);
+        ////    eventHandled = true;
+        //    Console.WriteLine("Exit time:    {0}\r\n" +
+        //        "Exit code:    {1}\r", proz.ExitTime, proz.ExitCode);
 
-            if (AutoGenFont)
-            {
-             //   GenFont();
-                OIDE.Gorilla.Helper.FileLoader.LoadGorillaFont(PathToFontGorillaFile, this);
-            }
+        //    if (AutoGenFont)
+        //    {
+        //     //   GenFont();
+        //        OIDE.Gorilla.Helper.FileLoader.LoadGorillaFont(PathToFontGorillaFile, this);
+        //    }
 
-            OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, m_items, m_ImageFolder, m_ImageExtensions, Width, Height, this, UnityContainer);
-
-
-            GorillaCode = OIDE.Gorilla.Helper.FileLoader.GenerateGorillaCode(this);
+        //    OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, m_items, m_ImageFolder, m_ImageExtensions, Width, Height, this, UnityContainer);
 
 
-            //BitmapImage bi = new BitmapImage();
-            //bi.BeginInit();
-            //bi.CacheOption = BitmapCacheOption.None;
-            ////    bi.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
-            //bi.CacheOption = BitmapCacheOption.OnLoad;
-            //bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
-            //bi.UriSource = new Uri(FontImagePath);
-            //bi.EndInit();
-            //FontImage = bi;
-        }
+        //    GorillaCode = OIDE.Gorilla.Helper.FileLoader.GenerateGorillaCode(this);
+
+
+        //    //BitmapImage bi = new BitmapImage();
+        //    //bi.BeginInit();
+        //    //bi.CacheOption = BitmapCacheOption.None;
+        //    ////    bi.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+        //    //bi.CacheOption = BitmapCacheOption.OnLoad;
+        //    //bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+        //    //bi.UriSource = new Uri(FontImagePath);
+        //    //bi.EndInit();
+        //    //FontImage = bi;
+        //}
 
 
         public void GenFont()
@@ -319,28 +317,35 @@ namespace OIDE.Gorilla.Model
                 psi.UseShellExecute = false;
                 psi.RedirectStandardOutput = true;
                 psi.RedirectStandardInput = true;
-             //   psi.Arguments = "-f gorilla -t " + ((int)SquareTextureSize).ToString();
-
+                psi.Arguments = "-f gorilla -t " + ((int)SquareTextureSize).ToString();
+                psi.CreateNoWindow = true;
 
              //   proz.StartInfo.FileName = @".\fontgen.exe";
-                proz.StartInfo.CreateNoWindow = true;
-                proz.EnableRaisingEvents = true;
-                proz.Exited += new EventHandler(myProcess_Exited);
-                proz.Start(@".\fontgen.exe", "-f gorilla -t " + ((int)SquareTextureSize).ToString());
-                //= System.Diagnostics.Process.Start(psi);
+                //proz.StartInfo.CreateNoWindow = true;
+                //proz.EnableRaisingEvents = true;
+                //proz.Exited += new EventHandler(myProcess_Exited);
+                System.Diagnostics.Process proccess = System.Diagnostics.Process.Start(psi);
             
                 //https://msdn.microsoft.com/de-de/library/h6ak8zt5%28v=vs.110%29.aspx
 
-                proz.StandardInput.WriteLine("-o 2 -i 2 -s 18 -c \"1 1 0\" -C \"1 0 0\" arial.ttf");
-                proz.StandardInput.WriteLine("-o 1 -i 2 -s 24 -c \"0 0 1\" -C \"1 0 1\" arial.ttf");
-                proz.StandardInput.WriteLine("-o 2 -i 3 -s 36 -c \"1 1 1\" -C \"0 0 0\" arial.ttf");
+                proccess.StandardInput.WriteLine("-o 2 -i 2 -s 18 -c \"1 1 0\" -C \"1 0 0\" arial.ttf");
+                proccess.StandardInput.WriteLine("-o 1 -i 2 -s 24 -c \"0 0 1\" -C \"1 0 1\" arial.ttf");
+                proccess.StandardInput.WriteLine("-o 2 -i 3 -s 36 -c \"1 1 1\" -C \"0 0 0\" arial.ttf");
 
                
             //    proz.WaitForExit();
-                proz.StandardInput.Close();
+                proccess.StandardInput.Close();
              //   proz.Close();
-         
 
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CacheOption = BitmapCacheOption.None;
+                //    bi.UriCachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                bi.UriSource = new Uri(FontImagePath);
+                bi.EndInit();
+                FontImage = bi;
          
             }
             catch (Exception ex)
@@ -357,7 +362,7 @@ namespace OIDE.Gorilla.Model
                 mRectangles.Remove(item);
             }
 
-            m_items.Clear();
+         //   m_items.Clear();
         }
 
         public void Gen()
@@ -367,14 +372,14 @@ namespace OIDE.Gorilla.Model
 
             if (AutoGenFont)
             {
-                GenFont();
-       //         OIDE.Gorilla.Helper.FileLoader.LoadGorillaFont(PathToFontGorillaFile, this);
+               // GenFont();
+                OIDE.Gorilla.Helper.FileLoader.LoadGorillaFont(PathToFontGorillaFile, this);
             }
 
-         //   OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, m_items, m_ImageFolder, m_ImageExtensions, Width, Height, this, UnityContainer);
+            OIDE.Gorilla.Atlas.COAtlas.GenAtlas(mRectangles, m_items, m_ImageFolder, m_ImageExtensions, Width, Height, this, UnityContainer);
 
 
-       //     GorillaCode = OIDE.Gorilla.Helper.FileLoader.GenerateGorillaCode(this);
+            GorillaCode = OIDE.Gorilla.Helper.FileLoader.GenerateGorillaCode(this);
         }
 
         /// <summary>

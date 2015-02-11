@@ -101,12 +101,16 @@ namespace OIDE.Scene.Model.Objects
             m_Location = new Vector3() { X = m_FBData.Transform().Loc().X() ,  Y = m_FBData.Transform().Loc().Y(), Z = m_FBData.Transform().Loc().Z()};
             m_Scale = new Vector3() { X = m_FBData.Transform().Scl().X(), Y = m_FBData.Transform().Scl().Y(), Z = m_FBData.Transform().Scl().Z() };
         }
-        
+
+        //not implemented
+        public int Create(FlatBufferBuilder fbbParent) { return 0; }
+
+
         /// <summary>
         /// resets the flatbufferbuilder
         /// </summary>
         /// <returns>byte data</returns>
-        public Byte[] CreateByteBuffer()
+        public Byte[] CreateByteBuffer(IFBObject child = null)
         {
             //--------------------------------------
             //create flatbuffer data

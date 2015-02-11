@@ -153,19 +153,36 @@ namespace OIDE.Scene.Model.Objects.ObjectData
 
 
         [Category("Entity basic")]
-        public Boolean Debug
+        public Boolean ShowDebug
         {
-            get { return m_BaseObj_FBData.Debug; }
+            get { return m_BaseObj_FBData.ShowDebug; }
             set
             {
-                int res = m_BaseObj_FBData.SetDebug(value);
+                int res = m_BaseObj_FBData.SetShowDebug(value);
                 if (res != 0) //fehler beim senden
                 {
                     var logger = UnityContainer.Resolve<ILoggerService>();
-                    logger.Log("Flatbuffer EntityBaseModel.Debug.SetDebug invalid (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
+                    logger.Log("Flatbuffer EntityBaseModel.ShowDebug.SetShowDebug invalid (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
                 }
 
-                RaisePropertyChanged("Debug");
+                RaisePropertyChanged("ShowDebug");
+            }
+        }
+
+        [Category("Entity basic")]
+        public Boolean ShowAABB
+        {
+            get { return m_BaseObj_FBData.ShowAABB; }
+            set
+            {
+                int res = m_BaseObj_FBData.SetShowAABB(value);
+                if (res != 0) //fehler beim senden
+                {
+                    var logger = UnityContainer.Resolve<ILoggerService>();
+                    logger.Log("Flatbuffer EntityBaseModel.ShowDebug.SetShowAABB invalid (" + value.ToString() + "): " + res, LogCategory.Error, LogPriority.High);
+                }
+
+                RaisePropertyChanged("ShowAABB");
             }
         }
 

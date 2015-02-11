@@ -11,13 +11,13 @@ using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model.Objects
 {
-    public class FB_StaticObjectModel : FB_EntityBaseModel, IFBObject
+    public class FB_StaticObjectModel : IFBObject
     {
         #region private members
        
         private XFBType.StaticEntity m_FBData = new XFBType.StaticEntity();
         private int m_Group;
-        private FB_EntityBaseModel m_EntityBaseModel;
+   //     private FB_EntityBaseModel m_EntityBaseModel;
 
         #endregion
         
@@ -29,7 +29,7 @@ namespace OIDE.Scene.Model.Objects
        public String RelPathToXML { get; set; }
 
        public int Group { get { return m_Group; } set { m_Group = value; } }
-       public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
+      // public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
 
 
         #endregion
@@ -41,19 +41,22 @@ namespace OIDE.Scene.Model.Objects
             ByteBuffer byteBuffer = new ByteBuffer(fbData);
             m_FBData = XFBType.StaticEntity.GetRootAsStaticEntity(byteBuffer); // read 
 
-            base.Read(m_FBData.Entitybase());
-            
            //     m_Group = XFBType.Group(); //per node!
             
         }
 
-        public Byte[] CreateByteBuffer()
+       public int Create(FlatBufferBuilder fbbChild)
+       {
+           return 0;
+       }
+
+       public Byte[] CreateByteBuffer(IFBObject child)
         {
             //--------------------------------------
             //create flatbuffer data
             //--------------------------------------
             FlatBufferBuilder fbb = new FlatBufferBuilder(1);
-            int soOffset  = XFBType.StaticEntity.CreateStaticEntity(fbb, base.Create(fbb));
+            int soOffset = XFBType.StaticEntity.CreateStaticEntity(fbb, child.Create(fbb));
             fbb.Finish(soOffset); //!!!!! important ..
 
             return fbb.SizedByteArray();  //bytebuffer

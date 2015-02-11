@@ -35,7 +35,7 @@ namespace OIDE.Scene.Model.Objects
             m_ColourAmbient = color;
 
             //send to c++ DLL
-            Byte[] tmp = CreateByteBuffer();
+           // Byte[] tmp = CreateByteBuffer();
 
             //if (DLL_Singleton.Instance != null)
             //{
@@ -97,12 +97,16 @@ namespace OIDE.Scene.Model.Objects
             XFBType.Colour colourNOT = m_FBDataNOT.ColourAmbient();
             m_ColourAmbient = System.Windows.Media.Color.FromScRgb(colourNOT.A(), colourNOT.R(), colourNOT.G(), colourNOT.B());
         }
+
+        //not implemented
+        public int Create(FlatBufferBuilder fbbParent) { return 0; }
+
         
         /// <summary>
         /// resets the flatbufferbuilder
         /// </summary>
         /// <returns>byte data</returns>
-        public Byte[] CreateByteBuffer()
+        public Byte[] CreateByteBuffer(IFBObject child = null)
         {
             //m_ColourAmbient.A = 255;
             //m_ColourAmbient.R = 90;

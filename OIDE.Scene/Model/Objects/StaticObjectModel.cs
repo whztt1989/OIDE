@@ -61,7 +61,7 @@ namespace OIDE.Scene.Model
         { 
              if(item is FileItem)
              {
-                 if (m_FBData == null || m_FBData.EntityBaseModel == null)
+                 if (m_FBData == null )
                      this.Open(this.ContentID);
 
                  //todo
@@ -267,8 +267,7 @@ namespace OIDE.Scene.Model
                 //foreach (var item in m_Materials)
                 //    ProtoData.gameEntity.materials.Add(item.ProtoData);
 
-
-                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer();
+                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer(base.m_BaseObj_FBData);
                 DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
 
 
@@ -337,7 +336,7 @@ namespace OIDE.Scene.Model
 
             
             m_FBData = new FB_StaticObjectModel();
-            base.m_BaseObj_FBData = m_FBData;
+            base.m_BaseObj_FBData = new FB_EntityBaseModel();
 
             DB_Entity = new DAL.IDAL.EntityContainer();
             DB_Entity.Entity = new Entity();

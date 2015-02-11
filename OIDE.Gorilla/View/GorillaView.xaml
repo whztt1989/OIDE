@@ -84,7 +84,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Grid.ColumnSpan="2" Content="GenFont"  Click="btnGenFont_Click" />
+                    <Button Grid.Row="0" Grid.ColumnSpan="2" Content="GenFont (FIXME: Click twice for image refresh)"  Click="btnGenFont_Click" />
                 
                     
                     <!--source locks the file in filesystem-->

@@ -95,12 +95,16 @@ namespace OIDE.Scene.Model.Objects
             m_FileName = m_FBData.FileName();
             m_RessGrp = m_FBData.RessGrp();
         }
-        
+
+        //not implemented
+        public int Create(FlatBufferBuilder fbbParent) { return 0; }
+
+
         /// <summary>
         /// resets the flatbufferbuilder
         /// </summary>
         /// <returns>byte data</returns>
-        public Byte[] CreateByteBuffer()
+        public Byte[] CreateByteBuffer(IFBObject child = null)
         {
             //--------------------------------------
             //create flatbuffer data
