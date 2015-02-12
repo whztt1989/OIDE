@@ -13,7 +13,7 @@ using System.Runtime.Serialization;
 
 namespace OIDE.Scene.Model.Objects
 {
-    [DataContract]
+    [Serializable]
     public class FB_SceneModel : IFBObject
     {
         private XFBType.Scene m_FBData = new XFBType.Scene();

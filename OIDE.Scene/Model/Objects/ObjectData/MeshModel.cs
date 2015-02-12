@@ -13,6 +13,7 @@ using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace OIDE.Scene.Model.Objects
 {
+    [Serializable]
     public class PlaneModel : MeshModel
     {
         private FB_PlaneModel m_PlaneModel_FBData;
@@ -48,6 +49,7 @@ namespace OIDE.Scene.Model.Objects
         }
     }
 
+      [Serializable]
     public class CubeModel : MeshModel
     {
         /// <summary>
@@ -69,7 +71,10 @@ namespace OIDE.Scene.Model.Objects
         #endregion
     }
 
-     public class MeshModel  : ViewModelBase
+      [System.Xml.Serialization.XmlInclude(typeof(CubeModel))]
+      [System.Xml.Serialization.XmlInclude(typeof(PlaneModel))]
+       [Serializable]
+     public class MeshModel  
     {
          /// <summary>
         /// needed for propertygrid collection

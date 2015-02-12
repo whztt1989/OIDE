@@ -50,6 +50,8 @@ using DAL;
 using DAL.MDB;
 using WIDE_Helpers;
 using OIDE.Scene.Model.Objects.ObjectData;
+using System.Windows;
+using System.IO;
 
 namespace OIDE.Scene.Model
 {
@@ -185,7 +187,8 @@ namespace OIDE.Scene.Model
                 List<MenuItem> list = new List<MenuItem>();
                 MenuItem miSave = new MenuItem() { Command = CmdSaveStaticObj, Header = "Save" };
                 list.Add(miSave);
-            
+                MenuItem miDelete = new MenuItem() { Command = CmdDeleteStaticObj, Header = "Delete" };
+                list.Add(miDelete);
                 MenuItem miObjects = new MenuItem() { Header = "Add new object" };
 
                 MenuItem miObj1 = new MenuItem() {  Header = "Add Plane" };
@@ -236,10 +239,12 @@ namespace OIDE.Scene.Model
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
             //read data from lokal json file
-            m_FBData = DAL.Utility.JSONSerializer.Deserialize<FB_StaticObjectModel>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".json"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+            m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
                 Create();
-
+           
+            base.m_BaseObj_FBData = m_FBData.EntityBaseModel; //set base entity data
+          
             return m_opened = true;
         }
 
@@ -268,7 +273,9 @@ namespace OIDE.Scene.Model
                 //    ProtoData.gameEntity.materials.Add(item.ProtoData);
 
                 DB_Entity.Entity.Data = m_FBData.CreateByteBuffer(base.m_BaseObj_FBData);
-                DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
+
+                if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
+                    DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
 
 
                 if (DB_Entity.Entity.EntID > 0)
@@ -277,22 +284,25 @@ namespace OIDE.Scene.Model
                 {
                     DB_Entity.Entity.EntType = (decimal)EntityTypes.NT_Static;
                     m_dbI.insertEntity(DB_Entity.Entity);
+                    ContentID = ContentID + ":"+ DB_Entity.Entity.EntID;
                 }
 
                 //if (DLL_Singleton.Instance.EditorInitialized)
                 //    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
 
-                DAL.Utility.JSONSerializer.Serialize<FB_StaticObjectModel>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".json");  // XML Serialize
+                m_FBData.EntityBaseModel = base.m_BaseObj_FBData;
+                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
             catch (Exception ex)
             {
-                //     MessageBox.Show("dreck_" + id + "_!!!!");
+                MessageBox.Show("error: " + ex.Message);
             }
             return true;
         }
 
         private ICommand CmdSaveStaticObj;
+        private ICommand CmdDeleteStaticObj;
 
         public Boolean Create()
         {
@@ -300,7 +310,23 @@ namespace OIDE.Scene.Model
             
             return true; 
         }
-        public Boolean Delete() { return true; }
+        public Boolean Delete() {
+
+            try
+            {
+                m_dbI.deleteEntity(DB_Entity.Entity);
+                Parent.Items.Remove(this);
+
+                if (File.Exists("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"))
+                    File.Delete("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");
+
+                MessageBox.Show("Static entity deleted");
+            }catch(Exception ex)
+            {
+                 MessageBox.Show("Error: static entity not deleted: " + ex.Message);
+            }
+            return true;
+        }
         public Boolean Closing() { return true; }
 
         [XmlIgnore]
@@ -325,7 +351,8 @@ namespace OIDE.Scene.Model
             Parent = parent;
             SceneItems = new ObservableCollection<ISceneItem>();
             CmdSaveStaticObj = new CmdSaveStaticObject(this);
-            //  mtest = new Byte[10];
+            CmdDeleteStaticObj = new CmdDeleteStaticObject(this);
+          //  mtest = new Byte[10];
             Items = new CollectionOfIItem();
 
             if (dbI != null)
@@ -348,7 +375,26 @@ namespace OIDE.Scene.Model
         }
     }
 
+  public class CmdDeleteStaticObject : ICommand
+    {
+        private StaticObjectModel m_StaticObjectModel;
+        public event EventHandler CanExecuteChanged;
 
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            m_StaticObjectModel.Delete();
+        }
+
+        public CmdDeleteStaticObject(StaticObjectModel som)
+        {
+            m_StaticObjectModel = som;
+        }
+    }
     public class CmdSaveStaticObject : ICommand
     {
         private StaticObjectModel m_StaticObjectModel;

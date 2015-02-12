@@ -30,7 +30,8 @@ namespace DAL.Utility
 
                     StreamWriter writer = new StreamWriter(stream);
                     JsonTextWriter jsonWriter = new JsonTextWriter(writer);
-                    JsonSerializer ser = new JsonSerializer() { Formatting = Formatting.Indented };
+
+                    JsonSerializer ser = new JsonSerializer() { Formatting = Formatting.Indented, TypeNameHandling = TypeNameHandling.All };
                     ser.Serialize(jsonWriter, dataToSerialize);
                     jsonWriter.Flush();
                 }
@@ -58,7 +59,7 @@ namespace DAL.Utility
                 {
                     StreamReader reader = new StreamReader(stream);
                     JsonTextReader jsonReader = new JsonTextReader(reader);
-                    JsonSerializer ser = new JsonSerializer();
+                    JsonSerializer ser = new JsonSerializer() { TypeNameHandling = TypeNameHandling.All };
                     serializedData = ser.Deserialize<T>(jsonReader);
                 }
             }

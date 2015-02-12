@@ -88,16 +88,24 @@ namespace OIDE.Scene.Model
 
         public void Drop(IItem item)
         {
-            if (item is ISceneItem)
+            try
             {
-                var sceneItem  = item as ISceneItem;
-
-                DAL.MDB.SceneNode node = new SceneNode() 
+                if (item is ISceneItem)
                 {
-                    Name = "NEWNode_" + sceneItem.Name,
-                    EntID = Module.Properties.Helpers.Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
-                };
-                m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer, m_DBI)  { SceneNode = node, Name = node.Name ?? "NodeNoname" });
+                    var sceneItem = item as ISceneItem;
+
+                    DAL.MDB.SceneNode node = new SceneNode()
+                    {
+                        Name = "NEWNode_" + sceneItem.Name,
+                        EntID = Module.Properties.Helpers.Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
+                    };
+
+                    m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer, m_DBI) { SceneNode = node, Name = node.Name ?? "NodeNoname" });
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 
@@ -233,14 +241,14 @@ namespace OIDE.Scene.Model
 
             int sceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
           
-            String path = AppDomain.CurrentDomain.BaseDirectory + "Scene\\" + sceneID + ".json";
+            String path = AppDomain.CurrentDomain.BaseDirectory + "Scene\\" + sceneID + ".xml";
             //read sceneData from DAL -- Read data from XML not from database -> database data not human readable
-            m_FB_SceneData = DAL.Utility.JSONSerializer.Deserialize<FB_SceneModel>(path); // XML Serialize
+            m_FB_SceneData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneModel>(path); // XML Serialize
             if (m_FB_SceneData == null)
                 m_FB_SceneData = new FB_SceneModel();
             // m_FB_SceneData.Read(scene.Data); //just for testing if data correctly saved!
 
-            m_FB_SceneData.RelPathToXML = "Scene\\" + sceneID + ".json";
+            m_FB_SceneData.RelPathToXML = "Scene\\" + sceneID + ".xml";
             m_FB_SceneData.AbsPathToXML = path;
 
 
@@ -259,7 +267,7 @@ namespace OIDE.Scene.Model
                         if (nodeContainer.Node.Data == null)
                             nodeDeserialized = new FB_SceneNode();
                         else
-                            nodeDeserialized = DAL.Utility.JSONSerializer.Deserialize<FB_SceneNode>("Scene/Nodes/" + nodeContainer.Node.NodeID + ".json"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+                            nodeDeserialized = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneNode>("Scene/Nodes/" + nodeContainer.Node.NodeID + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
 
                         m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer,m_DBI) { SceneNode = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" });
                     }
@@ -354,7 +362,7 @@ namespace OIDE.Scene.Model
             else
                 m_DBI.insertScene(DB_SceneData);
 
-            DAL.Utility.JSONSerializer.Serialize<FB_SceneModel>(m_FB_SceneData, m_FB_SceneData.AbsPathToXML); // XML Serialize
+            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_SceneModel>(m_FB_SceneData, m_FB_SceneData.AbsPathToXML); // XML Serialize
 
             //##   DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
 

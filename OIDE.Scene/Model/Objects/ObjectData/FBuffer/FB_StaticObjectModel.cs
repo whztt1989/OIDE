@@ -11,13 +11,15 @@ using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model.Objects
 {
+    [Serializable]
     public class FB_StaticObjectModel : IFBObject
     {
         #region private members
        
         private XFBType.StaticEntity m_FBData = new XFBType.StaticEntity();
         private int m_Group;
-   //     private FB_EntityBaseModel m_EntityBaseModel;
+   
+        private FB_EntityBaseModel m_EntityBaseModel;
 
         #endregion
         
@@ -29,7 +31,11 @@ namespace OIDE.Scene.Model.Objects
        public String RelPathToXML { get; set; }
 
        public int Group { get { return m_Group; } set { m_Group = value; } }
-      // public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
+      
+        /// <summary>
+        /// only for serialization
+        /// </summary>
+      public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
 
 
         #endregion

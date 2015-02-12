@@ -58,21 +58,27 @@ namespace OIDE.Scene.Service
 
         [XmlIgnore]
         public DAL.MDB.SceneNode SceneNode
-        { get { return mSceneNode; }
+        {
+            get { 
+                return mSceneNode;
+            }
             set 
             { 
                 mSceneNode = value;
                 ContentID = "NodeID:##:" + value.NodeID;
 
-                m_FB_SceneNode.Read(value.Data);
-                //if (value.Data == null)
-                //{
+                if (value.Data != null)
+                {
+                    m_FB_SceneNode.Read(value.Data);
+                }
+                else
+                {
                 //    Node = new ProtoType.Node();
                 //    Node.transform = new TransformStateData();
                 //    Node.transform.scl = new Vec3f();
                 //    Node.transform.loc = new Vec3f();
                 //    Node.transform.rot = new Quat4f();
-                //}
+                }
                 //else
                 //    Node = ProtoSerialize.Deserialize<ProtoType.Node>(value.Data);
             }

@@ -119,6 +119,19 @@ namespace DAL
             mCtx.SaveChanges();
             return true;
         }
+      
+        public bool deleteEntity(Entity po)
+        {
+            var result = mCtx.Entity.Where(x => x.EntID == po.EntID);
+            if (result.Any())
+            {
+                mCtx.Entity.Remove(result.First());
+                mCtx.SaveChanges();
+                return true;
+            }
+            else
+                return false;
+        }
 
         public bool updateEntity(Entity po)
         {

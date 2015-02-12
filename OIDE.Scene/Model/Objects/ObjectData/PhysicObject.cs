@@ -33,12 +33,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
 using FlatBuffers;
+using Microsoft.Practices.Unity;
 using Wide.Interfaces;
 
 namespace OIDE.Scene.Model.Objects
 {
-    public class PhysicObject : ViewModelBase
+    [Serializable]
+    public class PhysicObject 
     {
+        private IUnityContainer UnityContainer;
+        private FB_PhysicsModel m_Physics_FBData;
+
         public enum ShapeType
         {
             SH_BOX,
@@ -53,8 +58,8 @@ namespace OIDE.Scene.Model.Objects
         }
 
         //todo proto def
-        //public Point Offset { get; set; }
-        //public String AttachToBone { get; set; }
+        public Point Offset { get; set; }
+        public String AttachToBone { get; set; }
 
         //public uint colMask { get { return ProtoData.colMask; } set { ProtoData.colMask = value; } }
         //public ProtoType.PhysicsType type { get { return ProtoData.type; } set { ProtoData.type = value; } }
@@ -92,6 +97,13 @@ namespace OIDE.Scene.Model.Objects
             return XFBType.PhysicsObject.EndPhysicsObject(fbb);
         }
 
+        public PhysicObject(IUnityContainer unityContainer)
+        {
+            UnityContainer = unityContainer; 
+        }
+
+
+      
         public PhysicObject()
         {
           //  ProtoData = new ProtoType.PhysicsObject();

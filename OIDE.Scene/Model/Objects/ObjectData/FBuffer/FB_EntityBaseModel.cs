@@ -14,6 +14,7 @@ using OIDE.Scene.Model.Objects.ObjectData;
 
 namespace OIDE.Scene.Model.Objects
 {
+    [Serializable]
     public class FB_EntityBaseModel : IFBObject
     {
         #region private members
@@ -39,17 +40,17 @@ namespace OIDE.Scene.Model.Objects
         public String AbsPathToXML { get; set; }
 
         public String RelPathToXML { get; set; }
-        public String AnimationInfo { get { return m_AnimationInfo; } }
-        public String AnimationTree { get { return m_AnimationTree; } }
-        public String Boneparent { get { return m_Boneparent; } }
-        public Boolean CastShadows { get { return m_CastShadows; } }
-        public uint Renderqueue { get { return m_Renderqueue; } }
-        public EntityTypes EntType { get { return m_EntType; } }
-        public uint Mode { get { return m_Mode; } }
-        public Boolean ShowDebug { get { return m_ShowDebug; } }
-        public Boolean ShowAABB { get { return m_ShowAABB; } }
+        public String AnimationInfo { get { return m_AnimationInfo; } set { m_AnimationInfo = value; } }
+        public String AnimationTree { get { return m_AnimationTree; } set { m_AnimationTree = value; } }
+        public String Boneparent { get { return m_Boneparent; } set { m_Boneparent = value; } }
+        public Boolean CastShadows { get { return m_CastShadows; } set { m_CastShadows = value; } }
+        public uint Renderqueue { get { return m_Renderqueue; } set { m_Renderqueue = value; } }
+        public EntityTypes EntType { get { return m_EntType; } set { m_EntType = value; } }
+        public uint Mode { get { return m_Mode; } set { m_Mode = value; } }
+        public Boolean ShowDebug { get { return m_ShowDebug; }  set { m_ShowDebug = value; } }
+        public Boolean ShowAABB { get { return m_ShowAABB; }  set { m_ShowAABB = value; } }
 
-        public uint Group { get { return m_Group; } }
+        public uint Group { get { return m_Group; } set { m_Group = value; } }
 
 
         //todo
@@ -88,9 +89,10 @@ namespace OIDE.Scene.Model.Objects
             //not implemented
         }
 
-        public void Read(EntityBase data)
+        public void Read(XFBType.EntityBase fbBase)
         {
-            m_FBData = data;
+            m_FBData = fbBase;
+
 
             m_AnimationInfo = m_FBData.AnimationInfo();
             m_AnimationTree = m_FBData.AnimationTree();
@@ -118,45 +120,36 @@ namespace OIDE.Scene.Model.Objects
                 foreach (var physic in m_Physics)
                     physic.Create(fbbParent);
                 physicsOffset = fbbParent.EndVector();
-            }
-
-            XFBType.EntityBase.StartEntityBase(fbbParent);
-
-            if (m_AnimationInfo != null) XFBType.EntityBase.AddAnimationInfo(fbbParent, animInfoOffset);
-            if (m_AnimationTree != null) XFBType.EntityBase.AddAnimationTree(fbbParent, animTreeOffset);
-            XFBType.EntityBase.AddDebug(fbbParent, debugOffset);
-            XFBType.EntityBase.AddMode(fbbParent, m_Mode);
-            if (m_Boneparent != null)  XFBType.EntityBase.AddBoneparent(fbbParent, BoneparentOffset);
-            if (m_Physics.Any()) XFBType.EntityBase.AddPhysics(fbbParent, physicsOffset);
+            } 
             
-            // todo -----
+            int materialOffset = 0;
             if (m_Materials.Any())
             {
                 XFBType.EntityBase.StartMaterialsVector(fbbParent, m_Materials.Count);
                 foreach (var material in m_Materials)
-                {
-                    XFBType.Material.CreateMaterial(fbbParent, fbbParent.CreateString("name"), fbbParent.CreateString("Ressgrp"));
-                }
-                XFBType.EntityBase.AddMaterials(fbbParent, fbbParent.EndVector());
+                    XFBType.Material.CreateMaterial(fbbParent, fbbParent.CreateString(material.Name), fbbParent.CreateString(material.RessGrp));
+               materialOffset = fbbParent.EndVector();
             }
-
+          
+            int soundsOffset = 0;
             if (m_Sounds.Any())
             {
                 XFBType.EntityBase.StartSoundsVector(fbbParent, m_Sounds.Count);
                 foreach (var sound in m_Sounds)
-                {
-                    XFBType.Sound.CreateSound(fbbParent, fbbParent.CreateString("name"), fbbParent.CreateString("filename"), fbbParent.CreateString("Ressgrp"));
-                }
-                XFBType.EntityBase.AddSounds(fbbParent, fbbParent.EndVector());
+                    XFBType.Sound.CreateSound(fbbParent, fbbParent.CreateString(sound.Name), fbbParent.CreateString(sound.FileName), fbbParent.CreateString(sound.RessGrp));
+                
+                soundsOffset = fbbParent.EndVector();
             }
 
+            int meshesOffset = 0;
             if (m_Meshes.Any())
             {
-                XFBType.EntityBase.StartSoundsVector(fbbParent, m_Meshes.Count);
+                XFBType.EntityBase.StartMeshesVector(fbbParent, m_Meshes.Count);
+             
                 foreach (var mesh in m_Meshes)
                 {
                     var plane = mesh as PlaneModel;
-                    if(plane != null)
+                    if (plane != null)
                     {
                         int planeOffset = 0;
                         XFBType.OgrePlane.StartOgrePlane(fbbParent);
@@ -172,8 +165,9 @@ namespace OIDE.Scene.Model.Objects
                         XFBType.OgrePlane.AddYsegments(fbbParent, plane.ysegments);
                         XFBType.OgrePlane.AddYTile(fbbParent, plane.yTile);
                         planeOffset = XFBType.OgrePlane.EndOgrePlane(fbbParent);
-                      
+
                         XFBType.Mesh.CreateMesh(fbbParent, fbbParent.CreateString("name"), fbbParent.CreateString("Ressgrp"), planeOffset, 0);
+             
                         continue;
                     }
                     var cube = mesh as CubeModel;
@@ -181,17 +175,27 @@ namespace OIDE.Scene.Model.Objects
                     {
                         XFBType.Mesh.CreateMesh(fbbParent, fbbParent.CreateString("name"), fbbParent.CreateString("Ressgrp"), 0, XFBType.OgreCube.CreateOgreCube(fbbParent, cube.width));
                         continue;
-
                     }
-                     
+                }
 
-                 }
-                XFBType.EntityBase.AddMeshes(fbbParent, fbbParent.EndVector());
+               
+                meshesOffset = fbbParent.EndVector();   
             }
 
+            XFBType.EntityBase.StartEntityBase(fbbParent);
+
+            if (m_AnimationInfo != null) XFBType.EntityBase.AddAnimationInfo(fbbParent, animInfoOffset);
+            if (m_AnimationTree != null) XFBType.EntityBase.AddAnimationTree(fbbParent, animTreeOffset);
+            XFBType.EntityBase.AddDebug(fbbParent, debugOffset);
+            XFBType.EntityBase.AddMode(fbbParent, m_Mode);
+            if (m_Boneparent != null)  XFBType.EntityBase.AddBoneparent(fbbParent, BoneparentOffset);
+            if (m_Physics.Any()) XFBType.EntityBase.AddPhysics(fbbParent, physicsOffset);
+            if (m_Materials.Any()) XFBType.EntityBase.AddMaterials(fbbParent, materialOffset);
+            if (m_Sounds.Any()) XFBType.EntityBase.AddSounds(fbbParent, soundsOffset);
+            if (m_Meshes.Any()) XFBType.EntityBase.AddMeshes(fbbParent, meshesOffset);
+         
             XFBType.EntityBase.AddType(fbbParent, (ushort)m_EntType);
             XFBType.EntityBase.AddCastShadows(fbbParent, m_CastShadows ? (byte)0x01 : (byte)0x00);
-
 
             return XFBType.EntityBase.EndEntityBase(fbbParent);
             // return XFBType.EntityBase.CreateEntityBase(fbbParent, Meshes_OS, Sounds_OS, Materials_OS, Physics_OS, Type_OS, Boneparent_OS, Mode_OS, CastShadows_OS, Debug_OS, AnimationTree_OS, AnimationInfo_OS);
