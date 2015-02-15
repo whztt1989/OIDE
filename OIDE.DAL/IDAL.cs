@@ -35,6 +35,7 @@ using Module.DB.Interface.Services;
 using Module.DB.Settings;
 using System.Data;
 using DAL.MDB;
+using System.Windows;
 
 
 namespace DAL
@@ -331,20 +332,27 @@ namespace DAL
         }
 
 
-        public bool insertSceneNode(SceneNode sceneNode)
-        {
-            mCtx.SceneNode.Add(sceneNode);
-            mCtx.SaveChanges();
-            return true;
-        }
+        //public bool insertSceneNode(SceneNode sceneNode)
+        //{
+        //    mCtx.SceneNode.Add(sceneNode);
+        //    mCtx.SaveChanges();
+        //    return true;
+        //}
 
         public bool DeleteSceneNode(Int32 id)
         {
-            // Scene tmp = new Scene() { Data = data };
-            mCtx.SceneNode.Remove(mCtx.SceneNode.Where(x => x.NodeID == id).First());
-            mCtx.SaveChanges();
-            // id = (int)tmp.SceneID;
-            return true;
+            try
+            {
+                // Scene tmp = new Scene() { Data = data };
+                mCtx.SceneNode.Remove(mCtx.SceneNode.Where(x => x.NodeID == id).First());
+                mCtx.SaveChanges();
+                // id = (int)tmp.SceneID;
+                return true;
+            }catch(Exception ex)
+            {
+                MessageBox.Show("error in DeleteSceneNode '" + id + "' " + ex.Message);
+            }
+            return false;
         }
 
         public bool updateSceneNode(SceneNode sceneNode)
@@ -361,7 +369,12 @@ namespace DAL
                 return true;
             }
             else
-                return false;
+            {
+                mCtx.SceneNode.Add(sceneNode);
+                mCtx.SaveChanges();
+                return true;
+            }
+                
         }
 
         //public IEnumerable<SceneContainer> selectCompleteScene(int id)

@@ -9,12 +9,12 @@
         <EntityTypeShape EntityType="dbDataModel.EntityData" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dbDataModel.Fog" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dbDataModel.Material" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbDataModel.Scene" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbDataModel.SceneNode" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dbDataModel.Sky" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dbDataModel.Terrain" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dbDataModel.MatUsedInScene" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dbDataModel.UI" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="dbDataModel.SceneNode" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="dbDataModel.Scene" Width="1.5" PointX="7.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

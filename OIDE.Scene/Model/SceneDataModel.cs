@@ -52,9 +52,11 @@ using System.Windows.Media;
 using FlatBuffers;
 using OIDE.Scene.Model.Objects;
 using DAL.MDB;
+using OIDE.Scene.Model.Objects.FBufferObject;
 
 namespace OIDE.Scene.Model
 {
+
     public enum EntityTypes : ushort
     {
         NT_Unkown,
@@ -100,7 +102,11 @@ namespace OIDE.Scene.Model
                         EntID = Module.Properties.Helpers.Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
                     };
 
-                    m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer, m_DBI) { SceneNode = node, Name = node.Name ?? "NodeNoname" });
+                    int highestNodeID = 1;
+                    if(m_SceneItems.Any())
+                        highestNodeID = m_SceneItems.Max(x => x.NodeID) + 1;
+
+                    m_SceneItems.Add(new SceneNodeModel(this, UnityContainer, m_DBI) { NodeID = highestNodeID, SceneNodeDB = node, Name = node.Name ?? "NodeNoname" });
                 }
             }
             catch(Exception ex)
@@ -113,7 +119,7 @@ namespace OIDE.Scene.Model
         [XmlIgnore]
         public DAL.MDB.Scene DB_SceneData  { get;  set; }
 
-        private FB_SceneModel m_FB_SceneData = new FB_SceneModel();
+        private FB_Scene m_FB_SceneData = new FB_Scene();
         
         [XmlIgnore]
         [Category("Scene Data")]
@@ -238,21 +244,23 @@ namespace OIDE.Scene.Model
 
             m_SceneService.SelectedScene = this;
 
-
             int sceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
           
             String path = AppDomain.CurrentDomain.BaseDirectory + "Scene\\" + sceneID + ".xml";
             //read sceneData from DAL -- Read data from XML not from database -> database data not human readable
-            m_FB_SceneData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneModel>(path); // XML Serialize
+            m_FB_SceneData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_Scene>(path); // XML Serialize
             if (m_FB_SceneData == null)
-                m_FB_SceneData = new FB_SceneModel();
-            // m_FB_SceneData.Read(scene.Data); //just for testing if data correctly saved!
-
+                m_FB_SceneData = new FB_Scene();
+            
+       
             m_FB_SceneData.RelPathToXML = "Scene\\" + sceneID + ".xml";
             m_FB_SceneData.AbsPathToXML = path;
 
 
             DB_SceneData = m_DBI.selectSceneDataOnly(sceneID); // database data
+
+       //     m_FB_SceneData.Read(DB_SceneData.Data); //just for testing if data correctly saved!
+
 
             IEnumerable<DAL.IDAL.SceneNodeContainer> result = m_DBI.selectSceneNodes(sceneID); //scenenodes from database
 
@@ -263,13 +271,9 @@ namespace OIDE.Scene.Model
                 {
                     if(!m_SceneItems.Where(x => x.NodeID == nodeContainer.Node.NodeID).Any()) // add node to scene if not exists
                     {
-                        FB_SceneNode nodeDeserialized;
-                        if (nodeContainer.Node.Data == null)
-                            nodeDeserialized = new FB_SceneNode();
-                        else
-                            nodeDeserialized = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneNode>("Scene/Nodes/" + nodeContainer.Node.NodeID + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
-
-                        m_SceneItems.Add(new SceneNodeEntity(this, UnityContainer,m_DBI) { SceneNode = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" });
+                        var sceneNode = new SceneNodeModel(this, UnityContainer, m_DBI) { SceneNodeDB = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" };
+                        sceneNode.Open(sceneID);
+                        m_SceneItems.Add(sceneNode);
                     }
 
                     switch ((EntityTypes)nodeContainer.Entity.EntType)
@@ -352,7 +356,10 @@ namespace OIDE.Scene.Model
 
             DB_SceneData.Data = m_FB_SceneData.CreateByteBuffer();
             DB_SceneData.SceneID = SceneID;
-     
+
+
+          //  m_FB_SceneData.Read(DB_SceneData.Data);
+
             // ProtoType.Scene protoData = new ProtoType.Scene();
             // protoData.colourAmbient = new ProtoType.Colour() { r = 5 , b =  6 , g = 7 };
        
@@ -362,7 +369,7 @@ namespace OIDE.Scene.Model
             else
                 m_DBI.insertScene(DB_SceneData);
 
-            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_SceneModel>(m_FB_SceneData, m_FB_SceneData.AbsPathToXML); // XML Serialize
+            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_Scene>(m_FB_SceneData, m_FB_SceneData.AbsPathToXML); // XML Serialize
 
             //##   DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
 
@@ -378,7 +385,7 @@ namespace OIDE.Scene.Model
                 {
                     //foreach (var sceneItem in sceneCategoryItem.SceneItems)
                     //{
-                    ISceneNode sNode = sceneItem as ISceneNode;
+                    //ISceneNode sNode = sceneItem as ISceneNode;
                     ISceneItem sItem = sceneItem as ISceneItem;
 
                     //-------------  Camera ----------------------------
@@ -399,19 +406,10 @@ namespace OIDE.Scene.Model
                     //}
 
                     //Create scenenode for database
-                    sNode.SceneNode.EntID = sNode.SceneNode.EntID;
-
-                    sNode.SceneNode.SceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
-                    sNode.SceneNode.Name = sItem.Name;
-                    sNode.SceneNode.Data = ProtoSerialize.Serialize(sNode.ByteBuffer);//Node data
-
-
-                    //save sceneNode to db
-                    if (sNode.SceneNode.NodeID > 0)
-                        m_DBI.updateSceneNode(sNode.SceneNode);
-                    else
-                        m_DBI.insertSceneNode(sNode.SceneNode);
-
+                    var sNode = sceneItem as SceneNodeModel;
+                    if (sNode != null)
+                        sNode.Save(SceneID);
+                    
                     //add items to scene categories not root !!
                     //using (MemoryStream stream = new MemoryStream(sceneItem.SceneItems..Node.Data))
                     //{

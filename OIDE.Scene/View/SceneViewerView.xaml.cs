@@ -113,7 +113,7 @@ namespace OIDE.Scene.View
 
         private void btnTextFB_Click(object sender, RoutedEventArgs e)
         {
-            FB_SceneModel tmp = new FB_SceneModel();
+            FB_Scene tmp = new FB_Scene();
             //tmp.Create();
             //tmp.Read();
         }

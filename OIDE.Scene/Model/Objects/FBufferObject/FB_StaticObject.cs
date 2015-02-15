@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wide.Interfaces;
 using System.Xml.Serialization;
+using System.Windows;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -44,11 +45,33 @@ namespace OIDE.Scene.Model.Objects
 
        public void Read(Byte[] fbData)
         {
+            try { 
             ByteBuffer byteBuffer = new ByteBuffer(fbData);
             m_FBData = XFBType.StaticEntity.GetRootAsStaticEntity(byteBuffer); // read 
 
+            var entbase = m_FBData.Entitybase();
+            var animinfo = entbase.AnimationInfo();
+
+            var len = entbase.MeshesLength();
+            var lenmat = entbase.MaterialsLength();
+ 
+            var lensound = entbase.SoundsLength();
+            var lenphys = entbase.PhysicsLength();
+
+            var mat = entbase.Materials(0);
+            var mat1 = entbase.Materials(1);
+            var matname = mat.Name();
+            var matname1 = mat1.Name();
+            var meshes = m_FBData.Entitybase().Meshes(0);
+            var name = meshes.Name();
+           
+
            //     m_Group = XFBType.Group(); //per node!
-            
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("error: " + ex.Message);
+            }
         }
 
        public int Create(FlatBufferBuilder fbbChild)
@@ -58,15 +81,24 @@ namespace OIDE.Scene.Model.Objects
 
        public Byte[] CreateByteBuffer(IFBObject child)
         {
-            //--------------------------------------
-            //create flatbuffer data
-            //--------------------------------------
-            FlatBufferBuilder fbb = new FlatBufferBuilder(1);
-            int soOffset = XFBType.StaticEntity.CreateStaticEntity(fbb, child.Create(fbb));
-            fbb.Finish(soOffset); //!!!!! important ..
+            try
+            {
+                //--------------------------------------
+                //create flatbuffer data
+                //--------------------------------------
+                FlatBufferBuilder fbb = new FlatBufferBuilder(1);
+                int soOffset = XFBType.StaticEntity.CreateStaticEntity(fbb, child.Create(fbb));
+                fbb.Finish(soOffset); //!!!!! important ..
 
-            return fbb.SizedByteArray();  //bytebuffer
-            //--------------------------------------
+                return fbb.SizedByteArray();  //bytebuffer
+                //--------------------------------------
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("error: " + ex.Message);
+            }
+
+           return new Byte[0];
         }
 
        #endregion

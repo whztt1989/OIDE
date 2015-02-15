@@ -15,8 +15,8 @@ namespace DAL.MDB
     public partial class SceneNode
     {
         public long NodeID { get; set; }
-        public long EntID { get; set; }
-        public Nullable<long> SceneID { get; set; }
+        public Nullable<long> EntID { get; set; }
+        public long SceneID { get; set; }
         public byte[] Data { get; set; }
         public string Name { get; set; }
     }

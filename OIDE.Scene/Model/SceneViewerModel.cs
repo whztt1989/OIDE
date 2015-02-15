@@ -126,7 +126,7 @@ namespace OIDE.Scene.Model
 
                     if (sourceItem is ISceneItem)
                     {
-                        ISceneNode tmpSceneNode = sourceItem as ISceneNode;
+                        SceneNodeModel tmpSceneNode = sourceItem as SceneNodeModel;
 
                         //todo
                         //if (tmpSceneNode.Node == null)

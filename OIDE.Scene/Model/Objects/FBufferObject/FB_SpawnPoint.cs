@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 namespace OIDE.Scene.Model.Objects
 {
     [Serializable]
-    public class FB_PhysicsModel : ViewModelBase, IFBObject
+    public class FB_SpawnPointModel : ViewModelBase, IFBObject
     {
         private XFBType.Scene m_FBData = new XFBType.Scene();
         #region sceneData
@@ -35,7 +35,7 @@ namespace OIDE.Scene.Model.Objects
             m_ColourAmbient = color;
 
             //send to c++ DLL
-            Byte[] tmp = CreateByteBuffer();
+           // Byte[] tmp = CreateByteBuffer();
 
             //if (DLL_Singleton.Instance != null)
             //{
@@ -101,7 +101,7 @@ namespace OIDE.Scene.Model.Objects
         //not implemented
         public int Create(FlatBufferBuilder fbbParent) { return 0; }
 
-
+        
         /// <summary>
         /// resets the flatbufferbuilder
         /// </summary>
@@ -118,9 +118,10 @@ namespace OIDE.Scene.Model.Objects
             // fbb.CreateString();
             FlatBufferBuilder fbb = new FlatBufferBuilder(1);
 
-            int coloroffset = XFBType.Colour.CreateColour(fbb, m_ColourAmbient.R, m_ColourAmbient.G, m_ColourAmbient.B, m_ColourAmbient.A);
-            int sceneoffset = XFBType.Scene.CreateScene(fbb, coloroffset);
-            fbb.Finish(sceneoffset); //!!!!! important ..
+            //int coloroffset = XFBType.Colour.CreateColour(fbb, m_ColourAmbient.R, m_ColourAmbient.G, m_ColourAmbient.B, m_ColourAmbient.A);
+            //XFBType.Scene.StartScene(fbb);
+            //XFBType.Scene.AddColourAmbient(fbb, coloroffset);
+            //fbb.Finish(XFBType.Scene.EndScene(fbb)); //!!!!! important ..
        
             // Dump to output directory so we can inspect later, if needed
             //using (var ms = new MemoryStream(fbb.DataBuffer().Data))//, fbb.DataBuffer().position(), fbb.Offset()))

@@ -29,6 +29,8 @@ public class EntityBase : Table {
   public Debug Debug(Debug obj) { int o = __offset(20); return o != 0 ? obj.__init(__indirect(o + bb_pos), bb) : null; }
   public string AnimationTree() { int o = __offset(22); return o != 0 ? __string(o + bb_pos) : null; }
   public string AnimationInfo() { int o = __offset(24); return o != 0 ? __string(o + bb_pos) : null; }
+  public uint Renderqueue() { int o = __offset(26); return o != 0 ? bb.GetUint(o + bb_pos) : (uint)0; }
+  public uint Group() { int o = __offset(28); return o != 0 ? bb.GetUint(o + bb_pos) : (uint)0; }
 
   public static int CreateEntityBase(FlatBufferBuilder builder,
       int meshes = 0,
@@ -41,8 +43,12 @@ public class EntityBase : Table {
       byte castShadows = 0,
       int debug = 0,
       int animationTree = 0,
-      int animationInfo = 0) {
-    builder.StartObject(11);
+      int animationInfo = 0,
+      uint renderqueue = 0,
+      uint group = 0) {
+    builder.StartObject(13);
+    EntityBase.AddGroup(builder, group);
+    EntityBase.AddRenderqueue(builder, renderqueue);
     EntityBase.AddAnimationInfo(builder, animationInfo);
     EntityBase.AddAnimationTree(builder, animationTree);
     EntityBase.AddDebug(builder, debug);
@@ -57,7 +63,7 @@ public class EntityBase : Table {
     return EntityBase.EndEntityBase(builder);
   }
 
-  public static void StartEntityBase(FlatBufferBuilder builder) { builder.StartObject(11); }
+  public static void StartEntityBase(FlatBufferBuilder builder) { builder.StartObject(13); }
   public static void AddMeshes(FlatBufferBuilder builder, int meshesOffset) { builder.AddOffset(0, meshesOffset, 0); }
   public static int CreateMeshesVector(FlatBufferBuilder builder, int[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i]); return builder.EndVector(); }
   public static void StartMeshesVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
@@ -77,6 +83,8 @@ public class EntityBase : Table {
   public static void AddDebug(FlatBufferBuilder builder, int debugOffset) { builder.AddOffset(8, debugOffset, 0); }
   public static void AddAnimationTree(FlatBufferBuilder builder, int animationTreeOffset) { builder.AddOffset(9, animationTreeOffset, 0); }
   public static void AddAnimationInfo(FlatBufferBuilder builder, int animationInfoOffset) { builder.AddOffset(10, animationInfoOffset, 0); }
+  public static void AddRenderqueue(FlatBufferBuilder builder, uint renderqueue) { builder.AddUint(11, renderqueue, 0); }
+  public static void AddGroup(FlatBufferBuilder builder, uint group) { builder.AddUint(12, group, 0); }
   public static int EndEntityBase(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return o;

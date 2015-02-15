@@ -178,7 +178,7 @@ namespace OIDE.Scene
 
                     };
 
-                    m_SceneService.SelectedScene.SceneItems.Add(new SceneNodeEntity(m_SceneService.SelectedScene, m_SceneService.SelectedScene.UnityContainer, new IDAL()) { SceneNode = node, Name = node.Name ?? "NodeNoname" });
+                    m_SceneService.SelectedScene.SceneItems.Add(new SceneNodeModel(m_SceneService.SelectedScene, m_SceneService.SelectedScene.UnityContainer, new IDAL()) { SceneNodeDB = node, Name = node.Name ?? "NodeNoname" });
 
                     //ISceneNode tmp = item as ISceneNode;
 
