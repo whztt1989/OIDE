@@ -33,6 +33,21 @@ namespace OIDE.Scene.Model.Objects
 
        public int Group { get { return m_Group; } set { m_Group = value; } }
       
+        public int SetGroup(int group)
+       {
+           int res = 0;
+           m_Group = group;
+
+           //send to c++ DLL
+           Byte[] tmp = CreateByteBuffer();
+
+           //if (DLL_Singleton.Instance != null)
+           //{
+           //  todo  res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
+           //}
+           return res;
+       }
+        
         /// <summary>
         /// only for serialization
         /// </summary>
@@ -60,9 +75,14 @@ namespace OIDE.Scene.Model.Objects
 
             var mat = entbase.Materials(0);
             var mat1 = entbase.Materials(1);
+
             var matname = mat.Name();
             var matname1 = mat1.Name();
-            var meshes = m_FBData.Entitybase().Meshes(0);
+
+            var phyiscs = entbase.Physics(0);
+            var phyT1 = phyiscs.Boneparent();
+
+            var meshes = entbase.Meshes(0);
             var name = meshes.Name();
            
 
@@ -79,7 +99,7 @@ namespace OIDE.Scene.Model.Objects
            return 0;
        }
 
-       public Byte[] CreateByteBuffer(IFBObject child)
+       public Byte[] CreateByteBuffer(IFBObject child = null)
         {
             try
             {

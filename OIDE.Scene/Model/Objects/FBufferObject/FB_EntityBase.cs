@@ -108,53 +108,49 @@ namespace OIDE.Scene.Model.Objects
             int physicsOffset = 0;
             if (m_Physics.Any())
             {
-                XFBType.EntityBase.StartPhysicsVector(fbbParent, m_Physics.Count);
+                List<int> physOffsets = new List<int>();
                 foreach (var physic in m_Physics)
-                    fbbParent.AddOffset(physic.Create(fbbParent));
-                physicsOffset = XFBType.PhysicsObject.EndPhysicsObject(fbbParent);// fbbParent.EndVector();
+                    physOffsets.Add(physic.Create(fbbParent));
+              
+
+                XFBType.EntityBase.StartPhysicsVector(fbbParent, m_Physics.Count);
+                foreach (var physic in physOffsets)
+                    fbbParent.AddOffset(physic);
+                physicsOffset = fbbParent.EndVector();   
             } 
             
             int materialOffset = 0;
             if (m_Materials.Any())
             {
-                XFBType.EntityBase.StartMaterialsVector(fbbParent, m_Materials.Count);
+                List<int> matOffsets = new List<int>();
                 foreach (var material in m_Materials)
-                    fbbParent.AddOffset(XFBType.Material.CreateMaterial(fbbParent, fbbParent.CreateString(material.Name ?? ""), fbbParent.CreateString(material.RessGrp ?? "")));
+                   matOffsets.Add(XFBType.Material.CreateMaterial(fbbParent, fbbParent.CreateString(material.Name ?? ""), fbbParent.CreateString(material.RessGrp ?? "")));
+
+                XFBType.EntityBase.StartMaterialsVector(fbbParent, m_Materials.Count);
+                foreach (var material in matOffsets)
+                    fbbParent.AddOffset(material);
                 materialOffset = fbbParent.EndVector();   
             }
           
             int soundsOffset = 0;
             if (m_Sounds.Any())
             {
-                XFBType.EntityBase.StartSoundsVector(fbbParent, m_Sounds.Count);
+                List<int> soundOffsets = new List<int>();
                 foreach (var sound in m_Sounds)
-                   fbbParent.AddOffset(XFBType.Sound.CreateSound(fbbParent, fbbParent.CreateString(sound.Name ?? ""), fbbParent.CreateString(sound.FileName ?? ""), fbbParent.CreateString(sound.RessGrp ?? "")));
+                   soundOffsets.Add(XFBType.Sound.CreateSound(fbbParent, fbbParent.CreateString(sound.Name ?? ""), fbbParent.CreateString(sound.FileName ?? ""), fbbParent.CreateString(sound.RessGrp ?? "")));
 
+                XFBType.EntityBase.StartSoundsVector(fbbParent, m_Sounds.Count);
+                foreach (var sound in soundOffsets)
+                    fbbParent.AddOffset(sound);
                 soundsOffset = fbbParent.EndVector();   
             }
 
             int meshesOffset = 0;
             if (m_Meshes.Any())
             {
-                XFBType.EntityBase.StartMeshesVector(fbbParent, m_Meshes.Count);
-             
+                List<int> meshOffsets = new List<int>();
                 foreach (var mesh in m_Meshes)
                 {
-                   // int tt =  fbbParent.CreateString("KK");
-                   // fbbParent.StartObject(1);
-                   // //Mesh.AddCube(builder, cube);
-                   // //Mesh.AddPlane(builder, plane);
-                   // //Mesh.AddRessGrp(builder, RessGrp);
-                   // Mesh.AddName(fbbParent, tt);
-                   //int meshoffset = Mesh.EndMesh(fbbParent);
-                   //fbbParent.AddOffset(meshoffset);
-
-                   // XFBType.Mesh.CreateMesh(fbbParent, fbbParent.CreateString("KK"), fbbParent.CreateString(""), 0, 0);
-             
-
-                 //   XFBType.Mesh.CreateMesh(fbbParent, fbbParent.CreateString(mesh.Name ?? ""), fbbParent.CreateString(mesh.RessGrp ?? ""), 0, 0);
-             
-
                     var plane = mesh as PlaneModel;
                     if (plane != null)
                     {
@@ -173,19 +169,21 @@ namespace OIDE.Scene.Model.Objects
                         XFBType.OgrePlane.AddYTile(fbbParent, plane.yTile);
                         planeOffset = XFBType.OgrePlane.EndOgrePlane(fbbParent);
 
-                      fbbParent.AddOffset(XFBType.Mesh.CreateMesh(fbbParent, fbbParent.CreateString(mesh.Name ?? ""), fbbParent.CreateString(mesh.RessGrp ?? ""), planeOffset, 0));
-             
+                        meshOffsets.Add(XFBType.Mesh.CreateMesh(fbbParent, fbbParent.CreateString(mesh.Name ?? ""), fbbParent.CreateString(mesh.RessGrp ?? ""), planeOffset, 0));
+
                         continue;
                     }
                     var cube = mesh as CubeModel;
                     if (cube != null)
                     {
-                        fbbParent.AddOffset(XFBType.Mesh.CreateMesh(fbbParent, fbbParent.CreateString(mesh.Name), fbbParent.CreateString(mesh.RessGrp), 0, XFBType.OgreCube.CreateOgreCube(fbbParent, cube.width)));
+                        meshOffsets.Add(XFBType.Mesh.CreateMesh(fbbParent, fbbParent.CreateString(mesh.Name), fbbParent.CreateString(mesh.RessGrp), 0, XFBType.OgreCube.CreateOgreCube(fbbParent, cube.width)));
                         continue;
                     }
                 }
 
-
+                XFBType.EntityBase.StartMeshesVector(fbbParent, m_Meshes.Count);
+                foreach (var mesh in meshOffsets)
+                    fbbParent.AddOffset(mesh);
                 meshesOffset = fbbParent.EndVector();   
             }
 

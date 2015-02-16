@@ -74,23 +74,30 @@ namespace OIDE.Scene.Model.Objects
         public uint colGroupMask { get { return m_colGroupMask; } set { m_colGroupMask = value; } }
         public float charStepHeight { get { return m_charStepHeight; } set { m_charStepHeight = value; } }
         public float charJumpSpeed { get { return m_charJumpSpeed; } set { m_charJumpSpeed = value; } }
-        public float charFallSpeed { get { return m_charFallSpeed; } set { m_charFallSpeed = value; } }
+        public float charFallSpeed { get { return m_charFallSpeed; } set { UpdateSelectedObject(this, m_charFallSpeed, value); } }
 
-        public int SetColourAmbient(System.Windows.Media.Color color)
+        //update selected object on c++ side
+        public static object UpdateSelectedObject(IFBObject objectdata, object oldValue, object newValue)
         {
+            return 0;
+
+            //todo   send only if changed from GUI!
+         
             int res = 0;
-            m_ColourAmbient = color;
-
             //send to c++ DLL
-            Byte[] tmp = CreateByteBuffer();
+            Byte[] tmp = objectdata.CreateByteBuffer(null);
 
-            //if (DLL_Singleton.Instance != null)
-            //{
-            //  todo  res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
-            //}
-            return res;
+           if (DLL_Singleton.Instance != null)
+           {
+           //  todo  res = DLL_Singleton.Instance.command("cmd update 0", tmp, tmp.Length);
+           }
+
+           if (res == 0) // OK = 0
+           {
+               oldValue = newValue;
+           }
         }
-
+        
         #endregion
 
 
@@ -147,8 +154,8 @@ namespace OIDE.Scene.Model.Objects
             
             if (m_AttachToBone != null)
                 XFBType.PhysicsObject.AddBoneparent(fbbParent, boneParentOS);
-          
-            return fbbParent.EndVector();
+
+            return XFBType.PhysicsObject.EndPhysicsObject(fbbParent);
         }
 
 
@@ -158,7 +165,9 @@ namespace OIDE.Scene.Model.Objects
         /// <returns>byte data</returns>
         public Byte[] CreateByteBuffer(IFBObject child = null)
         {
-            throw new Exception("CreateByteBuffer - not implemented");
+            FlatBufferBuilder fbbParent = new FlatBufferBuilder(1);
+            fbbParent.Finish(Create(fbbParent));
+            return fbbParent.SizedByteArray();      
         }
 
         #endregion

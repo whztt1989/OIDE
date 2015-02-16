@@ -35,6 +35,7 @@ using System.Xml.Serialization;
 using FlatBuffers;
 using Microsoft.Practices.Unity;
 using Wide.Interfaces;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -42,10 +43,11 @@ namespace OIDE.Scene.Model.Objects
     /// class represents a physics object on view
     /// </summary>
     [Serializable]
-    public class PhysicObject 
+    public class PhysicObject : ViewModelBase
     {
         private IUnityContainer UnityContainer;
         private FB_Physics m_Physics_FBData;
+        private ILoggerService m_Logger;
 
         public enum PhysicsType : sbyte
         {
@@ -72,7 +74,13 @@ namespace OIDE.Scene.Model.Objects
             SH_PLANE
         }
 
-        public OIDE.Scene.Interface.Services.Vector3 Offset { get { return m_Physics_FBData.Offset; } set { m_Physics_FBData.Offset = value; } }
+        public OIDE.Scene.Interface.Services.Vector3 Offset { get { return m_Physics_FBData.Offset; }
+            set {
+                 m_Physics_FBData.Offset = value;   
+                RaisePropertyChanged("AnimationInfo");
+            }
+        }
+
         public String AttachToBone { get { return m_Physics_FBData.AttachToBone; } set { m_Physics_FBData.AttachToBone = value; } }
 
         public short colMask { get { return m_Physics_FBData.colMask; } set { m_Physics_FBData.colMask = value; } }
@@ -94,6 +102,11 @@ namespace OIDE.Scene.Model.Objects
         public float charJumpSpeed { get { return m_Physics_FBData.charJumpSpeed; } set { m_Physics_FBData.charJumpSpeed = value; } }
         public float charFallSpeed { get { return m_Physics_FBData.charFallSpeed; } set { m_Physics_FBData.charFallSpeed = value; } }
 
+
+
+        [Category("Entity basic")]
+        [Description("animationinfo - triggers")]
+   
         public int Create(FlatBufferBuilder fbb)
         {
             return m_Physics_FBData.Create(fbb);
@@ -103,6 +116,7 @@ namespace OIDE.Scene.Model.Objects
         {
             UnityContainer = unityContainer;
             m_Physics_FBData = new FB_Physics();
+            m_Logger = UnityContainer.Resolve<ILoggerService>();
         }
       
         public PhysicObject()

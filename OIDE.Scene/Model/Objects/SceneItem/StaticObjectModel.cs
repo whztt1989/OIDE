@@ -172,7 +172,8 @@ namespace OIDE.Scene.Model
             if (m_FBData == null)
                 Create();
            
-            base.m_BaseObj_FBData = m_FBData.EntityBaseModel; //set base entity data
+
+            base.SetFBData(m_FBData.EntityBaseModel); //set base entity data
 
             //test
             m_FBData.Read(DB_Entity.Entity.Data);

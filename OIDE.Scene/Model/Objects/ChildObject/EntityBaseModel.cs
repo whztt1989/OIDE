@@ -17,11 +17,17 @@ namespace OIDE.Scene.Model.Objects.ObjectData
     {
         public EntityBaseModel(IUnityContainer unityContainer)
         {
-            UnityContainer = unityContainer; 
+            UnityContainer = unityContainer;
+            m_BaseObj_FBData = new FB_EntityBaseModel();
         }
 
         protected FB_EntityBaseModel m_BaseObj_FBData;
 
+        public void SetFBData(FB_EntityBaseModel FBBaseModel)
+        {
+            if (FBBaseModel != null)
+             m_BaseObj_FBData = FBBaseModel;
+        }
 
         #region Properties
 
