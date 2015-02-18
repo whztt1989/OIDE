@@ -10,6 +10,7 @@ using Wide.Interfaces;
 using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
+using OIDE.Scene.Model.Objects.FBufferObject;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -17,6 +18,7 @@ namespace OIDE.Scene.Model.Objects
     public class FB_Scene : IFBObject
     {
         private XFBType.Scene m_FBData = new XFBType.Scene();
+    
         #region sceneData
 
         private int m_coloroffset = 0; 
@@ -26,63 +28,15 @@ namespace OIDE.Scene.Model.Objects
 
         #region Properties
 
-        [DataMember]
-        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = value; } } //public setter needed for serialization
+        [XmlIgnore]
+        public object Parent { get; set; }
+
+        public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = FB_Helper.UpdateSelectedObject(this, m_ColourAmbient, value); } } //public setter needed for serialization
 
         public String AbsPathToXML { get; set; }
-
-        [DataMember]
         public String RelPathToXML { get; set; }
    
-        public int SetColourAmbient(System.Windows.Media.Color color)
-        {
-            int res = 0;
-            m_ColourAmbient = color;
-
-            //send to c++ DLL
-            Byte[] tmp = CreateByteBuffer();
-
-            //if (DLL_Singleton.Instance != null)
-            //{
-            //  todo  res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
-            //}
-            return res;
-        }
-
         #endregion
-
-        //public static FB_SceneModel XMLDeSerialize(String filename)
-        //{
-        //    XmlSerializer serializer = new XmlSerializer(typeof(FB_SceneModel));
-        //    // A FileStream is needed to read the XML document.
-        //    using (FileStream fs = new FileStream(filename, FileMode.Open))
-        //    {
-        //        return (FB_SceneModel)serializer.Deserialize(fs);
-        //    }
-        //}
-
-        //public void XMLSerialize(String filename)
-        //{
-        //    XmlSerializer serializer = new XmlSerializer(this.GetType());
-
-        //    // Determine whether the directory exists.
-        //    if (!Directory.Exists(Path.GetDirectoryName(filename)))
-        //        Directory.CreateDirectory(Path.GetDirectoryName(filename));
-
-        //    if (!File.Exists(filename))
-        //    {
-        //        var fileStream = File.Open(filename, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-        //        fileStream.Close();
-        //    }
-
-        //    using (StreamWriter sw = new StreamWriter(filename))
-        //    {
-        //        // Serialize the purchase order, and close the TextWriter.
-        //        serializer.Serialize(sw, this);
-        //        sw.Close();
-        //    }
-
-        //}
 
         /// <summary>
         /// reads flatbuffers byte data into object

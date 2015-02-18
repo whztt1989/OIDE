@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Wide.Interfaces;
 using System.Xml.Serialization;
 using System.Windows;
+using OIDE.Scene.Model.Objects.FBufferObject;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -16,77 +17,66 @@ namespace OIDE.Scene.Model.Objects
     public class FB_StaticObjectModel : IFBObject
     {
         #region private members
-       
+
         private XFBType.StaticEntity m_FBData = new XFBType.StaticEntity();
         private int m_Group;
-   
+
         private FB_EntityBaseModel m_EntityBaseModel;
 
         #endregion
-        
+
         #region Properties
 
-       [XmlIgnore]
-       public String AbsPathToXML { get; set; }
+        [XmlIgnore]
+        public object Parent { get; set; }
 
-       public String RelPathToXML { get; set; }
+        [XmlIgnore]
+        public String AbsPathToXML { get; set; }
 
-       public int Group { get { return m_Group; } set { m_Group = value; } }
-      
-        public int SetGroup(int group)
-       {
-           int res = 0;
-           m_Group = group;
+        public String RelPathToXML { get; set; }
 
-           //send to c++ DLL
-           Byte[] tmp = CreateByteBuffer();
+        public int Group { get { return m_Group; } set { m_Group = FB_Helper.UpdateSelectedObject(this, m_Group, value); } }
 
-           //if (DLL_Singleton.Instance != null)
-           //{
-           //  todo  res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
-           //}
-           return res;
-       }
-        
         /// <summary>
         /// only for serialization
         /// </summary>
-      public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
+        public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
 
 
         #endregion
 
-       #region methods
+        #region methods
 
-       public void Read(Byte[] fbData)
+        public void Read(Byte[] fbData)
         {
-            try { 
-            ByteBuffer byteBuffer = new ByteBuffer(fbData);
-            m_FBData = XFBType.StaticEntity.GetRootAsStaticEntity(byteBuffer); // read 
+            try
+            {
+                ByteBuffer byteBuffer = new ByteBuffer(fbData);
+                m_FBData = XFBType.StaticEntity.GetRootAsStaticEntity(byteBuffer); // read 
 
-            var entbase = m_FBData.Entitybase();
-            var animinfo = entbase.AnimationInfo();
+                var entbase = m_FBData.Entitybase();
+                var animinfo = entbase.AnimationInfo();
 
-            var len = entbase.MeshesLength();
-            var lenmat = entbase.MaterialsLength();
- 
-            var lensound = entbase.SoundsLength();
-            var lenphys = entbase.PhysicsLength();
+                var len = entbase.MeshesLength();
+                var lenmat = entbase.MaterialsLength();
 
-            var mat = entbase.Materials(0);
-            var mat1 = entbase.Materials(1);
+                var lensound = entbase.SoundsLength();
+                var lenphys = entbase.PhysicsLength();
 
-            var matname = mat.Name();
-            var matname1 = mat1.Name();
+                var mat = entbase.Materials(0);
+                var mat1 = entbase.Materials(1);
 
-            var phyiscs = entbase.Physics(0);
-            var phyT1 = phyiscs.Boneparent();
+                var matname = mat.Name();
+                var matname1 = mat1.Name();
 
-            var meshes = entbase.Meshes(0);
-            var name = meshes.Name();
-           
+                var phyiscs = entbase.Physics(0);
+                var phyT1 = phyiscs.Boneparent();
 
-           //     m_Group = XFBType.Group(); //per node!
+                var meshes = entbase.Meshes(0);
+                var name = meshes.Name();
+
+
+                //     m_Group = XFBType.Group(); //per node!
             }
             catch (Exception ex)
             {
@@ -94,12 +84,12 @@ namespace OIDE.Scene.Model.Objects
             }
         }
 
-       public int Create(FlatBufferBuilder fbbChild)
-       {
-           return 0;
-       }
+        public int Create(FlatBufferBuilder fbbChild)
+        {
+            return 0;
+        }
 
-       public Byte[] CreateByteBuffer(IFBObject child = null)
+        public Byte[] CreateByteBuffer(IFBObject child = null)
         {
             try
             {
@@ -113,14 +103,14 @@ namespace OIDE.Scene.Model.Objects
                 return fbb.SizedByteArray();  //bytebuffer
                 //--------------------------------------
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("error: " + ex.Message);
             }
 
-           return new Byte[0];
+            return new Byte[0];
         }
 
-       #endregion
+        #endregion
     }
 }

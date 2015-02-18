@@ -37,6 +37,7 @@ using OIDE.Core.Model;
 using Module.History.Service;
 using OIDE.Service;
 using OIDE.AssetBrowser.Interface.Services;
+using OIDE.Core.ProjectTypes.Model;
 
 namespace OIDE.Core
 {
@@ -46,7 +47,6 @@ namespace OIDE.Core
     [XmlInclude(typeof(ScenesListModel))]
     [XmlInclude(typeof(FileCategoryModel))]
     [XmlInclude(typeof(SceneDataModel))]
-  //  [XmlInclude(typeof(PhysicsObjectModel))]
     [Serializable]
     public class GameProjectModel : ContentModel, IItem, ISerializableObj, ICategoryItem
     {
@@ -62,36 +62,6 @@ namespace OIDE.Core
         public String ContentID { get; set; }
 
         private CollectionOfIItem m_Items;
-
-        //public System.Xml.Schema.XmlSchema GetSchema() { return null; }
-
-        //public void ReadXml(System.Xml.XmlReader reader)
-        //{
-        //    //reader.MoveToContent();
-        //    //Name = reader.GetAttribute("Name");
-        //    //Boolean isEmptyElement = reader.IsEmptyElement; // (1)
-        //    //reader.ReadStartElement();
-        //    //if (!isEmptyElement) // (1)
-        //    //{
-        //    //    Birthday = DateTime.ParseExact(reader.
-        //    //        ReadElementString("Birthday"), "yyyy-MM-dd", null);
-        //    //    reader.ReadEndElement();
-        //    //}
-        //}
-
-        //public void WriteXml(System.Xml.XmlWriter writer)
-        //{
-        //    writer.WriteAttributeString("Name", Name);
-
-        //    writer.WriteElementString("Items",
-        //           Birthday.ToString("yyyy-MM-dd"));
-
-        //    foreach (var item in m_Items)
-        //    {
-        //        writer.WriteElementString("Birthday",
-        //            Birthday.ToString("yyyy-MM-dd"));
-        //    }   
-        //}
 
 
         [Browsable(false)]
@@ -205,9 +175,7 @@ namespace OIDE.Core
         public void Finish() { }
     
         public GameProjectModel()
-           // : base(null, null)
         {
-
         }
 
         #region Settings
@@ -224,6 +192,7 @@ namespace OIDE.Core
         public GameProjectModel(IUnityContainer container, ISceneService sceneService, ICommandManager commandManager, IMenuService menuService)
          //   : base(commandManager, menuService)
         {
+          
             AssetFolder = "D:\\Projekte\\coop\\AssetData"; //todo set per propertygrid
 
             UnityContainer = container;

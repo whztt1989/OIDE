@@ -181,7 +181,7 @@ namespace OIDE.Core
                                 break;
                             case EntityTypes.NT_Character:
 
-                                CharacterObjModel tmpChar = new CharacterObjModel(characterObjects, UnityContainer, m_DBI)
+                                CharacterItem tmpChar = new CharacterItem(characterObjects, UnityContainer, m_DBI)
                                 {
                                     ContentID = "CharacterObjID:##:" + gameEntity.Entity.EntID,
                                     Name = gameEntity.Entity.Name ?? ("Noname CharObj " + (int)gameEntity.Entity.EntID),

@@ -65,7 +65,7 @@ namespace OIDE.Scene.Model
     //    }
     //}
 
-    public class CharacterObjModel : EntityBaseModel, ISceneItem
+    public class CharacterItem : EntityBaseModel, ISceneItem
     {
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
@@ -329,13 +329,13 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public IUnityContainer UnityContainer { get; protected set; }
 
-        public CharacterObjModel()
+        public CharacterItem()
             : base(null)
         {
 
         }
 
-        public CharacterObjModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
+        public CharacterItem(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
             : base(unityContainer)
         {
             UnityContainer = unityContainer;
@@ -367,7 +367,7 @@ namespace OIDE.Scene.Model
 
     public class CmdSaveCharacterObject : ICommand
     {
-        private CharacterObjModel m_CharacterObjModel;
+        private CharacterItem m_CharacterObjModel;
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
@@ -380,7 +380,7 @@ namespace OIDE.Scene.Model
             m_CharacterObjModel.Save(parameter);
         }
 
-        public CmdSaveCharacterObject(CharacterObjModel som)
+        public CmdSaveCharacterObject(CharacterItem som)
         {
             m_CharacterObjModel = som;
         }

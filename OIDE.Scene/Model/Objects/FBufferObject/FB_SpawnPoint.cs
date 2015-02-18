@@ -25,6 +25,10 @@ namespace OIDE.Scene.Model.Objects
 
         #region Properties
 
+        [XmlIgnore]
+        public object Parent { get; set; }
+
+
         public String AbsPathToXML { get; set; }
         public String RelPathToXML { get; set; }
         public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = value; } }

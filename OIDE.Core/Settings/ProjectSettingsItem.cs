@@ -28,9 +28,10 @@ using Wide.Interfaces.Settings;
 
 namespace XIDE.Core.Settings
 {
-    public class MDSettingsItem : AbstractSettingsItem
+    public class ProjectSettingsItem : AbstractSettingsItem
     {
-        public MDSettingsItem(string title, int priority, AbstractSettings settings) : base(title, settings)
+        public ProjectSettingsItem(string title, int priority, AbstractSettings settings)
+            : base(title, settings)
         {
             this.Priority = priority;
         }

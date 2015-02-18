@@ -138,7 +138,16 @@ namespace OIDE.Core.ProjectTypes.Handler
         /// <returns>True, if the file exists and has a .gameProject extension - false otherwise</returns>
         public bool ValidateContentType(object info)
         {
-            return true;
+            String fileeExt = Path.GetExtension(info.ToString());
+
+            if (fileeExt.EndsWith(".gameProj"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>

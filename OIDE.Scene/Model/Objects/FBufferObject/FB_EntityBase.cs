@@ -11,6 +11,8 @@ using System.Xml.Serialization;
 using Wide.Interfaces;
 using XFBType;
 using OIDE.Scene.Model.Objects.ObjectData;
+using OIDE.Scene.Model.Objects.FBufferObject;
+using OIDE.Scene.Model.Objects.ChildObject;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -37,38 +39,27 @@ namespace OIDE.Scene.Model.Objects
         #region Properties
 
         [XmlIgnore]
+        public object Parent { get; set; }
+
+
+        [XmlIgnore]
         public String AbsPathToXML { get; set; }
 
         public String RelPathToXML { get; set; }
-        public String AnimationInfo { get { return m_AnimationInfo; } set { m_AnimationInfo = value; } }
-        public String AnimationTree { get { return m_AnimationTree; } set { m_AnimationTree = value; } }
-        public String Boneparent { get { return m_Boneparent; } set { m_Boneparent = value; } }
-        public Boolean CastShadows { get { return m_CastShadows; } set { m_CastShadows = value; } }
-        public uint Renderqueue { get { return m_Renderqueue; } set { m_Renderqueue = value; } }
-        public EntityTypes EntType { get { return m_EntType; } set { m_EntType = value; } }
-        public uint Mode { get { return m_Mode; } set { m_Mode = value; } }
-        public Boolean ShowDebug { get { return m_ShowDebug; }  set { m_ShowDebug = value; } }
-        public Boolean ShowAABB { get { return m_ShowAABB; }  set { m_ShowAABB = value; } }
-
-        public uint Group { get { return m_Group; } set { m_Group = value; } }
-
-
-        //todo
-        public int SetAnimationInfo(String animationInfo) { m_AnimationInfo = animationInfo; return 0; }
-        public int SetAnimationTree(String animationTree) { m_AnimationTree = animationTree; return 0; }
-        public int SetBoneparent(String boneParent) { m_Boneparent = boneParent; return 0; }
-        public int SetCastShadows(Boolean castShadows) { m_CastShadows = castShadows; return 0; }
-        public int SetRenderqueue(uint renderqueue) { m_Renderqueue = renderqueue; return 0; }
-        public int SetEntType(EntityTypes entType) { m_EntType = entType; return 0; }
-        public int SetMode(uint mode) { m_Mode = mode; return 0; }
-        public int SetShowDebug(Boolean debug) { m_ShowDebug = debug; return 0; }
-        public int SetShowAABB(Boolean debug) { m_ShowAABB = debug; return 0; }
-        public int SetGroup(uint group) { m_Group = group; return 0; }
+        public String AnimationInfo { get { return m_AnimationInfo; } set { m_AnimationInfo = FB_Helper.UpdateSelectedObject(this, m_AnimationInfo, value); } }
+        public String AnimationTree { get { return m_AnimationTree; } set { m_AnimationTree = FB_Helper.UpdateSelectedObject(this, m_AnimationTree, value); } }
+        public String Boneparent { get { return m_Boneparent; } set { m_Boneparent = FB_Helper.UpdateSelectedObject(this, m_Boneparent, value); } }
+        public Boolean CastShadows { get { return m_CastShadows; } set { m_CastShadows = FB_Helper.UpdateSelectedObject(this, m_CastShadows, value); } }
+        public uint Renderqueue { get { return m_Renderqueue; } set { m_Renderqueue = FB_Helper.UpdateSelectedObject(this, m_Renderqueue, value); } }
+        public EntityTypes EntType { get { return m_EntType; } set { m_EntType = FB_Helper.UpdateSelectedObject(this, m_EntType, value); } }
+        public uint Mode { get { return m_Mode; } set { m_Mode = FB_Helper.UpdateSelectedObject(this, m_Mode, value); } }
+        public Boolean ShowDebug { get { return m_ShowDebug; } set { m_ShowDebug = FB_Helper.UpdateSelectedObject(this, m_ShowDebug, value); } }
+        public Boolean ShowAABB { get { return m_ShowAABB; } set { m_ShowAABB = FB_Helper.UpdateSelectedObject(this, m_ShowAABB, value); } }
+        public uint Group { get { return m_Group; } set { m_Group = FB_Helper.UpdateSelectedObject(this, m_Group, value); } }
 
 
-
-        private List<MeshModel> m_Meshes = new List<MeshModel>();
-        public List<MeshModel> Meshes { get { return m_Meshes; } set { m_Meshes = value; } }
+        private List<MeshObject> m_Meshes = new List<MeshObject>();
+        public List<MeshObject> Meshes { get { return m_Meshes; } set { m_Meshes = value; } }
 
         private List<MaterialObject> m_Materials = new List<MaterialObject>();
         public List<MaterialObject> Materials { get { return m_Materials; } set { m_Materials = value; } }
@@ -151,7 +142,7 @@ namespace OIDE.Scene.Model.Objects
                 List<int> meshOffsets = new List<int>();
                 foreach (var mesh in m_Meshes)
                 {
-                    var plane = mesh as PlaneModel;
+                    var plane = mesh as PlaneObject;
                     if (plane != null)
                     {
                         int planeOffset = 0;
@@ -173,7 +164,7 @@ namespace OIDE.Scene.Model.Objects
 
                         continue;
                     }
-                    var cube = mesh as CubeModel;
+                    var cube = mesh as CubeObject;
                     if (cube != null)
                     {
                         meshOffsets.Add(XFBType.Mesh.CreateMesh(fbbParent, fbbParent.CreateString(mesh.Name), fbbParent.CreateString(mesh.RessGrp), 0, XFBType.OgreCube.CreateOgreCube(fbbParent, cube.width)));

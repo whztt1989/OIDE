@@ -132,7 +132,6 @@
     <Compile Include="Model\OIDE_RFS.cs" />
     <Compile Include="Model\OIDEZipArchive.cs" />
     <Compile Include="Model\ScenesListModel.cs" />
-    <Compile Include="ProjectTypes\Data\GameProjectData.cs" />
     <Compile Include="ProjectTypes\Handler\GameProjectHandler.cs" />
     <Compile Include="ProjectTypes\Model\GameDBFileModel.cs" />
     <Compile Include="ProjectTypes\Model\GameProjectModel.cs" />
@@ -142,7 +141,6 @@
     <Compile Include="ProjectTypes\View\GameProjectView.xaml.cs">
       <DependentUpon>GameProjectView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SaveAsMenuItemViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -157,7 +155,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Settings\EditorOptions.cs" />
-    <Compile Include="Settings\MDSettingsItem.cs" />
+    <Compile Include="Settings\ProjectSettingsItem.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

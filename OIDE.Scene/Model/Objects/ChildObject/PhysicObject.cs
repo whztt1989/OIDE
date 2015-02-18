@@ -102,8 +102,6 @@ namespace OIDE.Scene.Model.Objects
         public float charJumpSpeed { get { return m_Physics_FBData.charJumpSpeed; } set { m_Physics_FBData.charJumpSpeed = value; } }
         public float charFallSpeed { get { return m_Physics_FBData.charFallSpeed; } set { m_Physics_FBData.charFallSpeed = value; } }
 
-
-
         [Category("Entity basic")]
         [Description("animationinfo - triggers")]
    

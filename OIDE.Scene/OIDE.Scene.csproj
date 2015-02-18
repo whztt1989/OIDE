@@ -40,7 +40,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\FlatBuffers.dll</HintPath>
     </Reference>
-    <Reference Include="Helper.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="Helper.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\Helper.Utilities.dll</HintPath>
     </Reference>
@@ -153,14 +153,14 @@
     <Compile Include="Interface\Services\ISceneService.cs" />
     <Compile Include="Model\Categeories\CharacterCategoryModel.cs" />
     <Compile Include="Model\Categeories\SpawnPointCategoryModel.cs" />
-    <Compile Include="Model\Objects\FBufferObject\FB_Material.cs" />
+    <Compile Include="Model\Objects\ChildObject\CubeObject.cs" />
+    <Compile Include="Model\Objects\ChildObject\PlaneObject.cs" />
+    <Compile Include="Model\Objects\FBufferObject\FB_Helper.cs" />
     <Compile Include="Model\Objects\ChildObject\MaterialObject.cs" />
-    <Compile Include="Model\Objects\ChildObject\MeshModel.cs" />
+    <Compile Include="Model\Objects\ChildObject\MeshObject.cs" />
     <Compile Include="Model\Objects\ChildObject\EntityBaseModel.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_EntityBase.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_Physics.cs" />
-    <Compile Include="Model\Objects\FBufferObject\FB_Mesh.cs" />
-    <Compile Include="Model\Objects\FBufferObject\FB_Plane.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_SceneNode.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_Sound.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_SpawnPoint.cs" />
@@ -171,7 +171,7 @@
     <Compile Include="Service\PredefObjectCategoyModel.cs" />
     <Compile Include="Model\Objects\SceneItem\CameraModel.cs" />
     <Compile Include="Model\Categeories\StaticObjectCategoyModel.cs" />
-    <Compile Include="Model\Objects\SceneItem\CharacterObjModel.cs" />
+    <Compile Include="Model\Objects\SceneItem\CharacterItem.cs" />
     <Compile Include="Model\Objects\SceneItem\LightModel.cs" />
     <Compile Include="Model\Categeories\SceneCategoyModel.cs" />
     <Compile Include="Model\Categeories\SceneFilterModel.cs" />

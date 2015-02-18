@@ -8,12 +8,15 @@ using FlatBuffers;
 using Module.Protob.Interface;
 using OIDE.InteropEditor.DLL;
 using OIDE.Scene.Interface.Services;
+using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model.Objects.FBufferObject
 {
     [Serializable]
     public class FB_SceneNode : IFBObject
     {
+        #region private members
+
         private XFBType.Node m_FBData = new XFBType.Node();
 
         private Quaternion m_Rotation;
@@ -22,85 +25,26 @@ namespace OIDE.Scene.Model.Objects.FBufferObject
         private Boolean m_IsVisible;
         private Boolean m_IsEnabled;
 
+        #endregion
 
-        public Boolean IsVisible { get { return m_IsVisible; } set { SetIsVisible(value); } }
-        public Boolean IsEnabled { get { return m_IsEnabled; } set { SetIsEnabled(value); } }
-        public Quaternion Rotation { get { return m_Rotation; } set { SetRotation(value); } }
-        public Vector3 Location { get { return m_Location; } set { SetLocation(value); } }
-        public Vector3 Scale { get { return m_Scale; } set { SetScale(value); } }
+        #region Properties
+
+        [XmlIgnore]
+        public object Parent { get; set; }
+
+        public Boolean IsVisible { get { return m_IsVisible; } set { m_IsVisible = FB_Helper.UpdateSelectedObject(this, m_IsVisible, value); } }
+        public Boolean IsEnabled { get { return m_IsEnabled; } set { m_IsEnabled = FB_Helper.UpdateSelectedObject(this, m_IsEnabled, value); } }
+        public Quaternion Rotation { get { return m_Rotation; } set { m_Rotation = FB_Helper.UpdateSelectedObject(this, m_Rotation, value); } }
+        public Vector3 Location { get { return m_Location; } set { m_Location = FB_Helper.UpdateSelectedObject(this, m_Location, value); ; } }
+        public Vector3 Scale { get { return m_Scale; } set { m_Scale = FB_Helper.UpdateSelectedObject(this, m_Scale, value); } }
 
         public String AbsPathToXML { get; set; }
         public String RelPathToXML { get; set; }
 
-        public int SetIsEnabled(Boolean IsEnabled)
-        {
-            var m_oldIsEnabled = IsEnabled;
-            m_IsEnabled = IsEnabled;
+        #endregion
 
-            //send to c++ DLL
-            Byte[] tmp = CreateByteBuffer();
-            int res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
-            if (res != 0) //fehler beim senden
-                m_IsEnabled = IsEnabled;
+        #region Methods 
 
-            return res;
-        }
-
-        public int SetIsVisible(Boolean isVisible)
-        {
-            var m_oldIsVisible = isVisible;
-            m_IsVisible = isVisible;
-
-            //send to c++ DLL
-            Byte[] tmp = CreateByteBuffer();
-            int res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
-            if (res != 0) //fehler beim senden
-                m_IsVisible = isVisible;
-
-            return res;
-        }
-
-        public int SetRotation(Quaternion rotation)
-        {
-            var m_oldRotation = rotation;
-            m_Rotation = rotation;
-
-            //send to c++ DLL
-            Byte[] tmp = CreateByteBuffer();
-            int res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
-            if (res != 0) //fehler beim senden
-                m_Rotation = m_oldRotation;
-
-            return res;
-        }
-
-        public int SetLocation(Vector3 location)
-        {
-            var m_oldLocation = location;
-            m_Location = location;
-
-            //send to c++ DLL
-            Byte[] tmp = CreateByteBuffer();
-            int res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
-            if (res != 0) //fehler beim senden
-                m_Location = m_oldLocation;
-
-            return res;
-        }
-
-        public int SetScale(Vector3 scale)
-        {
-            var m_oldScale = scale;
-            m_Scale = scale;
-
-            //send to c++ DLL
-            Byte[] tmp = CreateByteBuffer();
-            int res = DLL_Singleton.Instance.command("cmd sceneUpdate 0", tmp, tmp.Length);
-            if (res != 0) //fehler beim senden
-                m_Scale = m_oldScale;
-
-            return res;
-        }
 
         /// <summary>
         /// reads flatbuffers byte data into object
@@ -119,7 +63,6 @@ namespace OIDE.Scene.Model.Objects.FBufferObject
 
         //not implemented
         public int Create(FlatBufferBuilder fbbParent) { return 0; }
-
 
         /// <summary>
         /// resets the flatbufferbuilder
@@ -161,5 +104,7 @@ namespace OIDE.Scene.Model.Objects.FBufferObject
 
             return new Byte[0];
         }
+
+        #endregion
     }
 }

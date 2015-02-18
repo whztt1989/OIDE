@@ -1,45 +1,74 @@
-﻿using FlatBuffers;
-using Module.Protob.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Wide.Interfaces;
-using OIDE.InteropEditor.DLL;
-using System.Xml.Serialization;
+using Microsoft.Practices.Unity;
+using OIDE.Scene.Interface.Services;
+using OIDE.Scene.Model.Objects.ObjectData;
+using Wide.Interfaces.Services;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using OIDE.Scene.Model.Objects.FBufferObject;
+using Module.Protob.Interface;
+using FlatBuffers;
+using OIDE.Scene.Model.Objects.ChildObject;
+using System.Xml.Serialization;
 
 namespace OIDE.Scene.Model.Objects
 {
+    [System.Xml.Serialization.XmlInclude(typeof(CubeObject))]
+    [System.Xml.Serialization.XmlInclude(typeof(PlaneObject))]
     [Serializable]
-    public class FB_SoundModel : IFBObject
+    public class MeshObject : Wide.Interfaces.ViewModelBase, IFBObject
     {
-        private XFBType.Sound m_FBData = new XFBType.Sound();
-      
-        #region sceneData
-
         private String m_Name;
         private String m_FileName;
         private String m_RessGrp;
+
+        /// <summary>
+        /// needed for propertygrid collection
+        /// </summary>
+        public MeshObject()
+        {
+        }
+
+        public MeshObject(IUnityContainer unityContainer)
+        {
+            UnityContainer = unityContainer;
+        }
+        
+        #region MeshData
+
+
+        #endregion
+
+        #region private properties
+
+        [Browsable(false)]
+        private IUnityContainer UnityContainer { get; set; }
 
         #endregion
 
         #region Properties
 
-        [XmlIgnore]
-        public object Parent { get; set; }
-
-        public String AbsPathToXML { get; set; }
-        public String RelPathToXML { get; set; }
         public String Name { get { return m_Name; } set { m_Name = FB_Helper.UpdateSelectedObject(this, m_Name, value); } }
         public String FileName { get { return m_FileName; } set { m_FileName = FB_Helper.UpdateSelectedObject(this, m_FileName, value); } }
         public String RessGrp { get { return m_RessGrp; } set { m_RessGrp = FB_Helper.UpdateSelectedObject(this, m_RessGrp, value); } }
 
 
         #endregion
-        
+
+
+         
+        #region IFBObject
+
+        [XmlIgnore]
+        public object Parent { get; set; }
+
+        public String AbsPathToXML { get; set; }
+        public String RelPathToXML { get; set; }
+
         /// <summary>
         /// reads flatbuffers byte data into object
         /// </summary>
@@ -47,11 +76,8 @@ namespace OIDE.Scene.Model.Objects
         public void Read(Byte[] fbData)
         {
             ByteBuffer byteBuffer = new ByteBuffer(fbData);
-
-            m_FBData = XFBType.Sound.GetRootAsSound(byteBuffer); // read 
-            m_Name = m_FBData.Name();
-            m_FileName = m_FBData.FileName();
-            m_RessGrp = m_FBData.RessGrp();
+            // XFBType.Mesh.
+            //  m_FBData = XFBType.Mesh.GetRootAsMesh(byteBuffer); // read 
         }
 
         //not implemented
@@ -73,5 +99,7 @@ namespace OIDE.Scene.Model.Objects
             return fbb.SizedByteArray(); //bytebuffer
             //--------------------------------------
         }
+
+        #endregion
     }
 }

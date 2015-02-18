@@ -12,8 +12,6 @@
                xmlns:handlers="clr-namespace:OIDE.Scene.Handlers"
            
              	xmlns:tree="clr-namespace:OIDE.Scene"
-
-            
              >
     <UserControl.Resources>
 
@@ -76,8 +74,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-
+            
             <Style TargetType="{x:Type tree:TreeListItem}">
                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
             </Style>
@@ -283,7 +280,6 @@
         <TreeView.ItemContainerStyle>
             
             <Style TargetType="{x:Type TreeViewItem}">
-                
                 
                 <!--<EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>-->
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
