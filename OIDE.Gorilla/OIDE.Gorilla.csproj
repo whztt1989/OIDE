@@ -104,7 +104,6 @@
     <Compile Include="Helper\FileLoader.cs" />
     <Compile Include="Interface\Service\IGorillaItem.cs" />
     <Compile Include="Interface\Service\IGorillaService.cs" />
-    <Compile Include="Interface\Service\IGorilla.cs" />
     <Compile Include="Model\FontData.cs" />
     <Compile Include="Model\FontModel.cs" />
     <Compile Include="Model\GorillaToolModel.cs" />

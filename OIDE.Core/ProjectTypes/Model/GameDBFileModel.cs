@@ -42,6 +42,7 @@ using OIDE.Scene.Model;
 using DAL.MDB;
 using Module.Protob.Utilities;
 using System.Windows;
+using Helper.Utilities.Event;
 
 namespace OIDE.Core
 {
@@ -79,7 +80,9 @@ namespace OIDE.Core
 
         public Boolean Open()
         {
-
+            GameStateListModel gameStates = new GameStateListModel(this, UnityContainer) { Name = "GameStates" };
+            gameStates.IsExpanded = true;
+            this.Items.Add(gameStates);
 
             ScenesListModel scenesProto = new ScenesListModel(this, UnityContainer) { Name = "Scenes" };
             scenesProto.IsExpanded = true;
@@ -140,8 +143,6 @@ namespace OIDE.Core
 
             try
             {
-
-
                 IEnumerable<DAL.IDAL.EntityContainer> result = m_DBI.selectAllEntities();
 
                 if (result != null)

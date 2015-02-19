@@ -36,12 +36,17 @@ using System.Xml.Serialization;
 using DAL;
 using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
+using System.Collections.ObjectModel;
+using Helper.Utilities.Event;
 
-namespace OIDE.Core.ProjectTypes.Model
+namespace OIDE.Core.Model
 {
-    public class GameStateCategory : IItem
+    [Serializable]
+    public class GameStateModel : IItem
     {
-          private IDAL m_DBI;
+        private IDAL m_DBI;
+
+        private ObservableCollection<IObjectEvent> m_ObjectEvents = new ObservableCollection<IObjectEvent>();
 
         public String Name { get; set; }
         public CollectionOfIItem Items { get; set; }
@@ -68,13 +73,15 @@ namespace OIDE.Core.ProjectTypes.Model
         [XmlIgnore]
         public IItem Parent { get; private set; }
 
+        /// <summary>
+        /// gamestate Events
+        /// </summary>
+        public ObservableCollection<IObjectEvent> ObjectEvents { get { return m_ObjectEvents; } set { m_ObjectEvents = value; } }
 
         private Boolean mOpened;
 
         public Boolean Open()
         {
-
-
             ScenesListModel scenesProto = new ScenesListModel(this, UnityContainer) { Name = "Scenes" };
             scenesProto.IsExpanded = true;
             this.Items.Add(scenesProto);
@@ -104,8 +111,6 @@ namespace OIDE.Core.ProjectTypes.Model
 
             try
             {
-
-
                 IEnumerable<DAL.IDAL.EntityContainer> result = m_DBI.selectAllEntities();
 
                 if (result != null)
@@ -209,12 +214,13 @@ namespace OIDE.Core.ProjectTypes.Model
             return mOpened = true;
 
         }
+
         public Boolean Save() { return true; }
         public Boolean Delete() { return true; }
 
         public String Location { get; set; }
 
-        public GameStateCategory()
+        public GameStateModel()
         {
             m_DBI = new IDAL();
 
@@ -224,7 +230,7 @@ namespace OIDE.Core.ProjectTypes.Model
         [XmlIgnore]
         public IUnityContainer UnityContainer { get; private set; }
 
-        public GameStateCategory(IItem parent, IUnityContainer unityContainer)
+        public GameStateModel(IItem parent, IUnityContainer unityContainer)
         {
             Name = "GameStates";
             UnityContainer = unityContainer;

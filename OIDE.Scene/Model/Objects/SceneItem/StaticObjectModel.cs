@@ -176,7 +176,7 @@ namespace OIDE.Scene.Model
             base.SetFBData(m_FBData.EntityBaseModel); //set base entity data
 
             //test
-            m_FBData.Read(DB_Entity.Entity.Data);
+         //   m_FBData.Read(DB_Entity.Entity.Data);
 
 
             return m_opened = true;

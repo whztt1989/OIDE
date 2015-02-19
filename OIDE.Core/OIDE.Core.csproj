@@ -131,12 +131,12 @@
     <Compile Include="CoreModule.cs" />
     <Compile Include="Model\OIDE_RFS.cs" />
     <Compile Include="Model\OIDEZipArchive.cs" />
+    <Compile Include="Model\GameStateListModel.cs" />
     <Compile Include="Model\ScenesListModel.cs" />
     <Compile Include="ProjectTypes\Handler\GameProjectHandler.cs" />
     <Compile Include="ProjectTypes\Model\GameDBFileModel.cs" />
     <Compile Include="ProjectTypes\Model\GameProjectModel.cs" />
-    <Compile Include="ProjectTypes\Model\GameStateCategory.cs" />
-    <Compile Include="ProjectTypes\Model\GameStateModel.cs" />
+    <Compile Include="Model\GameStateModel.cs" />
     <Compile Include="ProjectTypes\ViewModel\GameProjectViewModel.cs" />
     <Compile Include="ProjectTypes\View\GameProjectView.xaml.cs">
       <DependentUpon>GameProjectView.xaml</DependentUpon>

@@ -37,7 +37,7 @@ using OIDE.Core.Model;
 using Module.History.Service;
 using OIDE.Service;
 using OIDE.AssetBrowser.Interface.Services;
-using OIDE.Core.ProjectTypes.Model;
+using Helper.Utilities.Event;
 
 namespace OIDE.Core
 {
@@ -214,18 +214,6 @@ namespace OIDE.Core
             assetBrowser.SetAsRoot(fileAssets);
             //foreach (var item in fileAssets.Items)
             //    assetBrowser.AddItem(item);
-
-
-            var gsc = new OIDE.Core.ProjectTypes.Model.GameStateCategory() { Name = "GameStates" };
-            gsc.Items = new CollectionOfIItem();
-            var gsctrl = new OIDE.Core.ProjectTypes.Model.GameStateModel() { Name = "XTControllerState" };
-            gsc.Items.Add(gsctrl);
-            var gsctrl1 = new OIDE.Core.ProjectTypes.Model.GameStateModel() { Name = "XTUIState" };
-            gsc.Items.Add(gsctrl1);
-            var gsctrl2 = new OIDE.Core.ProjectTypes.Model.GameStateModel() { Name = "XTInputControllerState" };
-            gsc.Items.Add(gsctrl2);
-            m_Items.Add(gsc);
-
 
             //-----------------------------------------
             //Customize Database category structure

@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module.Tools.Output", "..\.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.DAL", "..\OIDE.DAL\OIDE.DAL.csproj", "{4E3441FD-DE10-4751-8CF0-D2DF0C590602}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.Animation", "..\OIDE.Animation\OIDE.Animation.csproj", "{BE289554-2B90-4B0A-B762-0D69BE5E7C62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,10 @@ Global
 		{4E3441FD-DE10-4751-8CF0-D2DF0C590602}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E3441FD-DE10-4751-8CF0-D2DF0C590602}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E3441FD-DE10-4751-8CF0-D2DF0C590602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE289554-2B90-4B0A-B762-0D69BE5E7C62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE289554-2B90-4B0A-B762-0D69BE5E7C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE289554-2B90-4B0A-B762-0D69BE5E7C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE289554-2B90-4B0A-B762-0D69BE5E7C62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
