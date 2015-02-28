@@ -36,6 +36,7 @@ using FlatBuffers;
 using Microsoft.Practices.Unity;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -74,13 +75,42 @@ namespace OIDE.Scene.Model.Objects
             SH_PLANE
         }
 
-        public OIDE.Scene.Interface.Services.Vector3 Offset { get { return m_Physics_FBData.Offset; }
+        //  [Editor(typeof(Module.Properties.Types.Vector3Editor), typeof(Module.Properties.Types.Vector3Editor))]
+        [ExpandableObject]
+        public OIDE.Scene.Interface.Services.Vector3 Offset
+        {
+            get { return m_Physics_FBData.Offset; }
             set {
                  m_Physics_FBData.Offset = value;   
                 RaisePropertyChanged("AnimationInfo");
             }
         }
 
+      //  [Editor(typeof(Module.Properties.Types.Vector3Editor), typeof(Module.Properties.Types.Vector3Editor))]
+     [ExpandableObject]
+        public OIDE.Scene.Interface.Services.Vector3 Scale
+        {
+            get { return m_Physics_FBData.scale; }
+            set
+            {
+                m_Physics_FBData.scale = value;
+                RaisePropertyChanged("Scale");
+            }
+        }
+
+     //  [Editor(typeof(Module.Properties.Types.Vector3Editor), typeof(Module.Properties.Types.Vector3Editor))]
+     [ExpandableObject]
+     public OIDE.Scene.Interface.Services.Vector3 Size
+        {
+            get { return m_Physics_FBData.size; }
+            set
+            {
+                m_Physics_FBData.size = value;
+                RaisePropertyChanged("Size");
+            }
+        }
+
+        public Boolean ParentIsNode { get { return m_Physics_FBData.parentIsNode; } set { m_Physics_FBData.parentIsNode = value; } }
         public String AttachToBone { get { return m_Physics_FBData.AttachToBone; } set { m_Physics_FBData.AttachToBone = value; } }
 
         public short colMask { get { return m_Physics_FBData.colMask; } set { m_Physics_FBData.colMask = value; } }

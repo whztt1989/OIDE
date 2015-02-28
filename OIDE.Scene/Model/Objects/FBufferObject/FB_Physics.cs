@@ -41,8 +41,11 @@ namespace OIDE.Scene.Model.Objects
         private float m_charStepHeight;
         private float m_charJumpSpeed;
         private float m_charFallSpeed;
+        private bool m_parentIsNode;
 
         private OIDE.Scene.Interface.Services.Vector3 m_Offset;
+        private OIDE.Scene.Interface.Services.Vector3 m_size;
+        private OIDE.Scene.Interface.Services.Vector3 m_scale;
         private String m_AttachToBone;
 
         #endregion
@@ -55,7 +58,12 @@ namespace OIDE.Scene.Model.Objects
         public String AbsPathToXML { get; set; }
         public String RelPathToXML { get; set; }
 
+        public Vector3 scale { get { return m_scale; } set { m_scale = FB_Helper.UpdateSelectedObject(this, m_scale, value); } }
+        public Vector3 size { get { return m_size; } set { m_size = FB_Helper.UpdateSelectedObject(this, m_size, value); } }
+        public bool parentIsNode { get { return m_parentIsNode; } set { m_parentIsNode = FB_Helper.UpdateSelectedObject(this, m_parentIsNode, value); } }
+        
         public OIDE.Scene.Interface.Services.Vector3 Offset { get { return m_Offset; } set { m_Offset = FB_Helper.UpdateSelectedObject(this, m_Offset, value); } }
+      
         public String AttachToBone { get { return m_AttachToBone; } set { m_AttachToBone = FB_Helper.UpdateSelectedObject(this, m_AttachToBone, value); } }
 
         public short colMask { get { return m_colMask; } set { m_colMask = FB_Helper.UpdateSelectedObject(this, m_colMask, value); } }
@@ -123,6 +131,10 @@ namespace OIDE.Scene.Model.Objects
 
             //Structures are always stored inline, they need to be created right where they're used
             XFBType.PhysicsObject.AddOffset(fbbParent, XFBType.Vec3f.CreateVec3f(fbbParent, m_Offset.X, m_Offset.Y, m_Offset.Z));
+            XFBType.PhysicsObject.AddSize(fbbParent, XFBType.Vec3f.CreateVec3f(fbbParent, m_size.X, m_size.Y, m_size.Z));
+            XFBType.PhysicsObject.AddScale(fbbParent, XFBType.Vec3f.CreateVec3f(fbbParent, m_scale.X, m_scale.Y, m_scale.Z));
+
+            XFBType.PhysicsObject.AddParentIsNode(fbbParent, m_parentIsNode ? (byte)0x01 : (byte)0x00);
 
             if (m_AttachToBone != null)
                 XFBType.PhysicsObject.AddBoneparent(fbbParent, boneParentOS);

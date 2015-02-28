@@ -182,11 +182,11 @@ namespace OIDE.Core
                                 break;
                             case EntityTypes.NT_Character:
 
-                                CharacterItem tmpChar = new CharacterItem(characterObjects, UnityContainer, m_DBI)
+                                CharacterEntity tmpChar = new CharacterEntity(characterObjects, UnityContainer, m_DBI)
                                 {
                                     ContentID = "CharacterObjID:##:" + gameEntity.Entity.EntID,
                                     Name = gameEntity.Entity.Name ?? ("Noname CharObj " + (int)gameEntity.Entity.EntID),
-                                    DBData = gameEntity
+                                    DB_Entity = gameEntity
                                 };// Data = gameEntityDataDeserialized });
 
                                 characterObjects.Items.Add(tmpChar);

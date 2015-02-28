@@ -50,6 +50,8 @@ using OIDE.VFS.View;
 using DAL.MDB;
 using WIDE_Helpers;
 using OIDE.Scene.Model.Objects.ObjectData;
+using System.Windows;
+using System.IO;
 
 namespace OIDE.Scene.Model
 {
@@ -65,8 +67,11 @@ namespace OIDE.Scene.Model
     //    }
     //}
 
-    public class CharacterItem : EntityBaseModel, ISceneItem
+    public class CharacterEntity : EntityBaseModel, ISceneItem
     {
+        private FB_CharacterObject m_FBData;
+
+
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
         public Int32 NodeID { get; set; }
@@ -76,7 +81,7 @@ namespace OIDE.Scene.Model
         //    [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.ComboBoxEditor))]
         //    [NewItemTypes(new Type[] { typeof(RaceGenderViewModel) })]
       //   [ItemsSource(typeof(RaceGenderItemsSource))]
-        [Editor(typeof(ObjectComboBoxEditor), typeof(ObjectComboBoxEditor))]  
+   //     [Editor(typeof(ObjectComboBoxEditor), typeof(ObjectComboBoxEditor))]  
       
       //  public ProtoType.AI AI { get { return mData.ai; } }
 
@@ -121,34 +126,9 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public DAL.MDB.SceneNode SceneNode { get; protected set; }
 
-        protected Entity mDBData;
-
         [XmlIgnore]
         [Browsable(false)]
-        public object DBData
-        {
-            get { return mDBData; }
-            set
-            {
-                mDBData = value as Entity;
-
-                Entity dbData = value as Entity;
-                //ProtoType.CharEntity dataStaticObj = new ProtoType.CharEntity();
-
-                //if (dbData.Data != null)
-                //{
-                //    mData = ProtoSerialize.Deserialize<ProtoType.CharEntity>(dbData.Data);
-
-                //    if (mData.gameEntity == null)
-                //        mData.gameEntity = new ProtoType.GameEntity();
-
-                //    foreach (var item in mData.gameEntity.physics)
-                //        m_Physics.Add(new PhysicObject() { ProtoData = item });
-
-                //    m_Race = mDBData.RaceID ?? 0;
-                //}
-            }
-        }
+        public DAL.IDAL.EntityContainer DB_Entity { get; set; }
 
         #region GameEntityData
 
@@ -167,10 +147,10 @@ namespace OIDE.Scene.Model
         //public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
         //public List<ProtoType.Mesh> Meshes { get { return mData.gameEntity.meshes; } }
 
-        private List<PhysicObject> m_Physics;
-        [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
-        [Category("GameEntity")]
-        public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
+        //private List<PhysicObject> m_Physics;
+        //[Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        //[Category("GameEntity")]
+        //public List<PhysicObject> Physics { get { return m_Physics; } set { m_Physics = value; } }
 
         //private List<ProtoType.Sound> mSounds;
         //[Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
@@ -193,23 +173,13 @@ namespace OIDE.Scene.Model
         //[Category("Debug")]
         //public ProtoType.Debug Debug { get { return mData.gameEntity.debug; } set { mData.gameEntity.debug = value; } }
 
-        private long m_Race;
-        [Category("Character")]
-        public long RaceID { get { return m_Race; } set { m_Race = value; } }
+        //private long m_Race;
+        //[Category("Character")]
+        //public long RaceID { get { return m_Race; } set { m_Race = value; } }
       
 
         #endregion
-
-        // [XmlIgnore]
-        // public ProtoType.OgreSysType OgreSystemType { get { return mData.gameEntity.ogreSysType; } set { mData.gameEntity.ogreSysType = value; } }
-
-        [XmlIgnore]
-        //[Category("Conections")]
-        //[Description("This property is a complex property and has no default editor.")]
-        //  [ExpandableObject]
-        [Browsable(false)]
-        //public ProtoType.CharEntity ProtoData { get { return mData; } }
-
+        
         private IDAL m_dbI;
 
         public Int32 ID { get; set; }
@@ -236,8 +206,20 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
 
+        private Boolean m_opened;
+        
+        private Boolean m_IsSelected;
         [Browsable(false)]
-        public Boolean IsSelected { get; set; }
+        public Boolean IsSelected
+        {
+            get { return m_IsSelected; }
+            set
+            {
+                m_IsSelected = value;
+
+                Open(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
+            }
+        }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -249,39 +231,26 @@ namespace OIDE.Scene.Model
 
         public Boolean Closing() { return true; }
 
-        public Boolean Create()
-        {
-            //mData = new ProtoType.CharEntity();
-            //mData.gameEntity = new ProtoType.GameEntity();
-
-            //DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Character };
-            return true;
-        }
-
         public Boolean Open(object id)
         {
-            int contentID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
-            if (contentID > 0)
-            {
-                DBData = m_dbI.selectEntity(contentID);
+            if (m_opened)
+                return true;
 
-                // Console.WriteLine(BitConverter.ToString(res));
-                //try
-                //{
-                //    mData = ProtoSerialize.Deserialize<ProtoType.CharEntity>((DBData as DAL.MDB.GameEntity).Data);
-                //}
-                //catch
-                //{
-                //    mData = new ProtoType.CharEntity();
-                //}
-            }
-            else
-            {
-                //mData = new ProtoType.CharEntity();
+            //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
-                //DBData = new GameEntity() { EntType = (decimal)ProtoType.EntityTypes.NT_Character };
-            }
-            return true;
+            //read data from lokal json file
+            m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+            if (m_FBData == null)
+                Create();
+
+
+            base.SetFBData(m_FBData.EntityBaseModel); //set base entity data
+
+            //test
+            //   m_FBData.Read(DB_Entity.Entity.Data);
+
+
+            return m_opened = true;
         }
 
         private ICommand CmdSaveCharacterObj;
@@ -293,56 +262,76 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                DAL.MDB.Entity gameEntity = DBData as DAL.MDB.Entity;
+                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer(base.m_BaseObj_FBData);
+                DB_Entity.Entity.Name = Name;
 
-                //Update Phyiscs Data
-                //ProtoData.gameEntity.physics.Clear();
-                //foreach (var item in m_Physics)
-                //    ProtoData.gameEntity.physics.Add(item.ProtoData);
+                if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
+                    DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
 
-                //gameEntity.Data = ProtoSerialize.Serialize(ProtoData);
-                //gameEntity.Name = this.Name;
-                //gameEntity.RaceID = m_Race;
+                //test
+                m_FBData.Read(DB_Entity.Entity.Data);
 
-                //if (gameEntity.EntID > 0)
-                //    m_dbI.updateGameEntity(gameEntity);
-                //else
-                //{
-                //    gameEntity.EntType = (decimal)ProtoType.EntityTypes.NT_Character;
-                //    m_dbI.insertGameEntity(gameEntity);
-                //}
+                if (DB_Entity.Entity.EntID > 0)
+                    m_dbI.updateEntity(DB_Entity.Entity);
+                else
+                {
+                    DB_Entity.Entity.EntType = (decimal)EntityTypes.NT_Character;
+                    m_dbI.insertEntity(DB_Entity.Entity);
+                    ContentID = ContentID + ":" + DB_Entity.Entity.EntID;
+                }
 
-                //if (DLL_Singleton.Instance.EditorInitialized)
-                //    DLL_Singleton.Instance.command("cmd physic " + gameEntity.EntID, gameEntity.Data, gameEntity.Data.Length); //.updateObject(0, (int)ObjType.Physic);
+                m_FBData.EntityBaseModel = base.m_BaseObj_FBData;
+                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_CharacterObject>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
             catch (Exception ex)
             {
-                //     MessageBox.Show("dreck_" + id + "_!!!!");
+                MessageBox.Show("error: " + ex.Message);
             }
             return true;
         }
 
-        public Boolean Delete() { return true; }
+        public Boolean Create()
+        {
+            m_FBData = new FB_CharacterObject();
+
+            return true;
+        }
+
+        public Boolean Delete()
+        {
+
+            try
+            {
+                m_dbI.deleteEntity(DB_Entity.Entity);
+                Parent.Items.Remove(this);
+
+                if (File.Exists("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"))
+                    File.Delete("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");
+
+                MessageBox.Show("character entity deleted");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: character entity not deleted: " + ex.Message);
+            }
+            return true;
+        }
 
         [XmlIgnore]
         [Browsable(false)]
         public IUnityContainer UnityContainer { get; protected set; }
 
-        public CharacterItem()
+        public CharacterEntity()
             : base(null)
         {
 
         }
 
-        public CharacterItem(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
+        public CharacterEntity(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
             : base(unityContainer)
         {
             UnityContainer = unityContainer;
-
-           // mMeshes = new List<Mesh>();
-        //    mSounds = new List<ProtoType.Sound>();
-         //   mRaceGenderVM = new RaceGenderViewModel();
 
             //mMeshes = new List<string>();
             Parent = parent;
@@ -356,9 +345,15 @@ namespace OIDE.Scene.Model
             else
                 m_dbI = new IDAL();
 
-            m_Physics = new List<PhysicObject>();
-        //    mData = new ProtoType.CharEntity();
-         //   mData.gameEntity = new ProtoType.GameEntity();
+
+
+            m_FBData = new FB_CharacterObject();
+            base.m_BaseObj_FBData = new FB_EntityBaseModel();
+
+            DB_Entity = new DAL.IDAL.EntityContainer();
+            DB_Entity.Entity = new Entity();
+            //mData = new ProtoType.StaticEntity();
+            //mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
             SceneNode = new DAL.MDB.SceneNode();
         }
@@ -367,7 +362,7 @@ namespace OIDE.Scene.Model
 
     public class CmdSaveCharacterObject : ICommand
     {
-        private CharacterItem m_CharacterObjModel;
+        private CharacterEntity m_CharacterObjModel;
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
@@ -380,7 +375,7 @@ namespace OIDE.Scene.Model
             m_CharacterObjModel.Save(parameter);
         }
 
-        public CmdSaveCharacterObject(CharacterItem som)
+        public CmdSaveCharacterObject(CharacterEntity som)
         {
             m_CharacterObjModel = som;
         }

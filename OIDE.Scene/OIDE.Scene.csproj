@@ -164,6 +164,7 @@
     <Compile Include="Model\Objects\FBufferObject\FB_SceneNode.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_Sound.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_SpawnPoint.cs" />
+    <Compile Include="Model\Objects\FBufferObject\FB_CharacterObject.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_StaticObject.cs" />
     <Compile Include="Model\Objects\ChildObject\PhysicObject.cs" />
     <Compile Include="Model\Objects\ChildObject\SoundObject.cs" />
@@ -171,7 +172,7 @@
     <Compile Include="Service\PredefObjectCategoyModel.cs" />
     <Compile Include="Model\Objects\SceneItem\CameraModel.cs" />
     <Compile Include="Model\Categeories\StaticObjectCategoyModel.cs" />
-    <Compile Include="Model\Objects\SceneItem\CharacterItem.cs" />
+    <Compile Include="Model\Objects\SceneItem\CharacterEntity.cs" />
     <Compile Include="Model\Objects\SceneItem\LightModel.cs" />
     <Compile Include="Model\Categeories\SceneCategoyModel.cs" />
     <Compile Include="Model\Categeories\SceneFilterModel.cs" />

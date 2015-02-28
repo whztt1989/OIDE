@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameProjectModel xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="0" Name="Game" IsExpanded="true" IsSelected="true">
+  <Items>
+    <IItem AssemblyQualifiedName="OIDE.Core.Model.OIDE_RFS, OIDE.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <OIDE_RFS ID="0" Name="AssetData" IsExpanded="false" IsSelected="false">
+        <ContentID>RootVFSID:##:</ContentID>
+        <Items>
+          <IItem AssemblyQualifiedName="OIDE.VFS.VFS_Types.RootFileSystem.DirectoryItem, OIDE.VFS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"

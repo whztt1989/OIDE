@@ -134,7 +134,7 @@ namespace OIDE.Scene
         {
             CharacterCategoryModel parent = parameter as CharacterCategoryModel;
 
-            CharacterItem pom = new CharacterItem(parent, parent.UnityContainer) { Name = "Character Obj NEW", ContentID = "CharacterEntID:##" };
+            CharacterEntity pom = new CharacterEntity(parent, parent.UnityContainer) { Name = "Character Obj NEW", ContentID = "CharacterEntID:##" };
 
             pom.Create();
 
