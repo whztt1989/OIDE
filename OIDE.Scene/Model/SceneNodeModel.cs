@@ -28,14 +28,17 @@ namespace OIDE.Scene.Model
 {
     public class SceneNodeModel : ViewModelBase, ISceneItem
     {
-        FB_SceneNode m_FB_SceneNode = new FB_SceneNode();
+        FB_SceneNode m_FB_SceneNode; 
 
         #region UI Properties
 
         public Boolean IsVisible { get { return m_FB_SceneNode.IsVisible; } set { m_FB_SceneNode.IsVisible = value; RaisePropertyChanged("IsVisible"); } }
         public Boolean IsEnabled { get { return m_FB_SceneNode.IsEnabled; } set { m_FB_SceneNode.IsEnabled = value; RaisePropertyChanged("IsEnabled"); } }
+        [ExpandableObject]
         public Quaternion Rotation { get { return m_FB_SceneNode.Rotation; } set { m_FB_SceneNode.Rotation = value; RaisePropertyChanged("Rotation"); } }
+        [ExpandableObject]
         public Vector3 Location { get { return m_FB_SceneNode.Location; } set { m_FB_SceneNode.Location = value; RaisePropertyChanged("Location"); } }
+        [ExpandableObject]
         public Vector3 Scale { get { return m_FB_SceneNode.Scale; } set { m_FB_SceneNode.Scale = value; RaisePropertyChanged("Scale"); } }
         
         #endregion
@@ -114,7 +117,9 @@ namespace OIDE.Scene.Model
             if (uint.TryParse(id.ToString(), out sceneID) && sceneID > 0) //scenedata already loaded with scene
             {
                 NodeID = (int)SceneNodeDB.NodeID;
-                m_FB_SceneNode = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneNode>("Scene/" + sceneID + "/Nodes/" + SceneNodeDB.NodeID + ".xml");
+                var loaded  = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneNode>("Scene/" + sceneID + "/Nodes/" + SceneNodeDB.NodeID + ".xml");
+                if (loaded != null) // catch null reference if file not found
+                    m_FB_SceneNode = loaded;
             }
             else
             {
@@ -194,6 +199,11 @@ namespace OIDE.Scene.Model
                 m_DBI = dbi;
 
             mCmdDeleteNode = new CmdDeleteNode(this);
+
+            m_FB_SceneNode = new FB_SceneNode();
+            m_FB_SceneNode.Rotation = new Quaternion();
+            m_FB_SceneNode.Location = new Vector3();
+            m_FB_SceneNode.Scale = new Vector3();
         }
 
     }

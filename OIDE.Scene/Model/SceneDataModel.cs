@@ -344,6 +344,8 @@ namespace OIDE.Scene.Model
 
 
             //  mData = ProtoSerialize.Deserialize<ProtoType.Scene>(result);
+            if (DB_SceneData == null)
+                DB_SceneData = new DAL.MDB.Scene();
 
             DB_SceneData.Data = m_FB_SceneData.CreateByteBuffer();
             DB_SceneData.SceneID = SceneID;

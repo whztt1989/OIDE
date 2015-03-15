@@ -206,7 +206,7 @@ namespace DAL
             }
              catch(Exception ex)
             {
-           //     MessageBox.Show("dreck_" + id + "_!!!!");
+                MessageBox.Show("selectAllEntities. " + ex.Message);
             }
 
             return null;

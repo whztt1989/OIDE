@@ -193,7 +193,7 @@ namespace OIDE.Core
          //   : base(commandManager, menuService)
         {
           
-            AssetFolder = "D:\\Projekte\\coop\\AssetData"; //todo set per propertygrid
+            AssetFolder = @"E:\Projekte\coop\OIDE\data"; //todo set per propertygrid
 
             UnityContainer = container;
             m_Items = new CollectionOfIItem();
