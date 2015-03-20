@@ -18,7 +18,7 @@
     <NuGetPackageImportStamp>98fcf003</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -108,10 +108,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Theme, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\Theme.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -172,6 +168,10 @@
     <Resource Include="Icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Themes\Themes.Default\Themes.Default.csproj">
+      <Project>{de89d67d-a35e-4958-95bd-101b93d6ca0b}</Project>
+      <Name>Themes.Default</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\WPF_IDE\Wide.csproj">
       <Project>{9f20f5ef-4f7e-4ae2-a462-4cd2256fb3ff}</Project>
       <Name>Wide</Name>

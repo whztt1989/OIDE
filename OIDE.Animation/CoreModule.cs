@@ -71,7 +71,6 @@ namespace OIDE.Animation
 
         }
 
-
         private void LoadToolbar()
         {
             _eventAggregator.GetEvent<SplashMessageUpdateEvent>().Publish(new SplashMessageUpdateEvent
