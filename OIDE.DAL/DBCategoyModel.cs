@@ -66,8 +66,8 @@ namespace DAL
         [XmlIgnore]
         public IItem Parent { get; private set; }
 
-         public Boolean Create() { return true; }
-         public Boolean Open(object id) { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
+         public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
          public Boolean Save(object param) { return true; }
          public Boolean Delete() { return true; }
          public Boolean Closing() { return true; }

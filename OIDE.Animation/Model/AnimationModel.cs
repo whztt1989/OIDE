@@ -444,13 +444,13 @@ namespace OIDE.Animation.Model
         [Browsable(false)]
         public IItem Parent { get; set; }
 
-        public bool Create() { return true; }
+        public bool Create(IUnityContainer unityContainer) { return true; }
         public bool Delete() { return true; }
         public void Drop(IItem item) { }
         public void Finish() { }
 
 
-        public bool Open(object paramID) 
+        public bool Open(IUnityContainer unityContainer, object paramID) 
         {
             //DAL.Utility.JSONSerializer.Deserialize<AnimationData>(this.Location.ToString());
            

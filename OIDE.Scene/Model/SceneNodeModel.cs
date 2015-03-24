@@ -108,10 +108,10 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        public Boolean Create() { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Closing() { return true; }
 
-        public Boolean Open(object id)
+        public Boolean Open(IUnityContainer unityContainer, object id)
         {
             uint sceneID = 0;
             if (uint.TryParse(id.ToString(), out sceneID) && sceneID > 0) //scenedata already loaded with scene

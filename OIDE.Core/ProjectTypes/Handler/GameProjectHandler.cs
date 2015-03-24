@@ -100,7 +100,7 @@ namespace OIDE.Core.ProjectTypes.Handler
             //Set the model and view
             vm.SetModel(model);
             vm.SetView(view);
-            vm.Title = "Game";
+            vm.Title = "New Game Project";
             vm.View.DataContext = model;
             vm.SetHandler(this);
             model.SetDirty(true);
@@ -119,7 +119,7 @@ namespace OIDE.Core.ProjectTypes.Handler
             //root.Items.Add(test);
 
           //  GameProjectModel gameProject = _container.Resolve<GameProjectModel>(); //new GameProjectModel(_container) { Name = "Game", IsExpanded = true };
-            model.Name = "Game";
+            model.Name = "New Game Project";
             model.IsExpanded = true;
          //   root.Items.Add(gameProject);
            
@@ -166,12 +166,9 @@ namespace OIDE.Core.ProjectTypes.Handler
                     GameProjectViewModel vm = _container.Resolve<GameProjectViewModel>();
                     var model = _container.Resolve<GameProjectModel>();
                     var view = _container.Resolve<GameProjectView>();
-
-                    //-----------------------------------
-                    // Deserialize Object
-                    //-----------------------------------
-                    model = ObjectSerialize.DeSerializeObjectFromXML<GameProjectModel>(model, location.ToString());
-
+                    var mProjectTreeService = _container.Resolve<IProjectTreeService>();
+        
+                  
                     //Model details
                     model.SetLocation(info); 
 
@@ -181,10 +178,13 @@ namespace OIDE.Core.ProjectTypes.Handler
                     vm.Title = Path.GetFileName(location);
                     vm.View.DataContext = model;
 
-                  
+                    model.Open(_container, location);
 
               //      model.Document.Text = File.ReadAllText(location);
                     model.SetDirty(false);
+
+                    mProjectTreeService.SetAsRoot(model);
+
 
                     return vm;
                 }
@@ -266,12 +266,8 @@ namespace OIDE.Core.ProjectTypes.Handler
                     gameProjectViewModel.Title = Path.GetFileName(location);
                     try
                     {
-                        //-----------------------------------
-                        // Serialize Object
-                        //-----------------------------------
-                        gameProjectModel.SerializeObjectToXML();   
-                    
-                        gameProjectModel.SetDirty(false);
+                        if (gameProjectModel.Save(location))
+                            gameProjectModel.SetDirty(false);
                         return true;
                     }
                     catch (Exception exception)
@@ -287,12 +283,8 @@ namespace OIDE.Core.ProjectTypes.Handler
             {
                 try
                 {
-                    //-----------------------------------
-                    // Serialize Object
-                    //-----------------------------------
-                    gameProjectModel.SerializeObjectToXML();
-
-                    gameProjectModel.SetDirty(false);
+                    if (gameProjectModel.Save(location))
+                        gameProjectModel.SetDirty(false);
 
                     return true;
                 }

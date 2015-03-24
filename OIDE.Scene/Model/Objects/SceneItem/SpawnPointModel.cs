@@ -203,7 +203,7 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        public Boolean Open(object id)
+        public Boolean Open(IUnityContainer unityContainer, object id)
         {
 
             DBData = m_dbI.selectEntity(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
@@ -270,7 +270,7 @@ namespace OIDE.Scene.Model
 
         private ICommand CmdSaveSpawnPointObj;
 
-        public Boolean Create() { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
 

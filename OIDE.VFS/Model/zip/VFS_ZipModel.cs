@@ -159,8 +159,8 @@ namespace OIDE.VFS
             set { this.result = value; RaisePropertyChanged("Result"); }
         }
 
-        public Boolean Create() { return true; }
-        public Boolean Open(object id)
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
+        public Boolean Open(IUnityContainer unityContainer, object id)
         {
 
             if (!File.Exists(FilePath))

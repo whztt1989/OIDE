@@ -94,11 +94,11 @@ namespace OIDE.Gorilla.Model
         [Browsable(false)]
         public IItem Parent { get; set; }
 
-        public bool Create() { return true; }
+        public bool Create(IUnityContainer unityContainer) { return true; }
         public bool Delete() { return true; }
         public void Drop(IItem item) { }
         public void Finish() { }
-        public bool Open(object paramID) { return true; }
+        public bool Open(IUnityContainer unityContainer, object paramID) { return true; }
         public void Refresh() { }
         public bool Save(object param = null) { return true; }
 

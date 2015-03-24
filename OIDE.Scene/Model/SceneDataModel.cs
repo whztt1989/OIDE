@@ -193,7 +193,7 @@ namespace OIDE.Scene.Model
             set
             {
                 m_IsSelected = value;
-                if (value) Open(null);
+               // if (value) Open(null);
             }
         }
 
@@ -218,7 +218,7 @@ namespace OIDE.Scene.Model
 
         #region public command methods
 
-        public Boolean Create() { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
 
         public Boolean Closing() {
             m_Opened = false;
@@ -226,7 +226,7 @@ namespace OIDE.Scene.Model
 
         private Boolean m_Opened;
 
-        public Boolean Open(object id)
+        public Boolean Open(IUnityContainer unityContainer, object id)
         {
             if (m_Opened)
                 return false;
@@ -263,7 +263,7 @@ namespace OIDE.Scene.Model
                     if(!m_SceneItems.Where(x => x.NodeID == nodeContainer.Node.NodeID).Any()) // add node to scene if not exists
                     {
                         var sceneNode = new SceneNodeModel(this, UnityContainer, m_DBI) { SceneNodeDB = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" };
-                        sceneNode.Open(sceneID);
+                        sceneNode.Open(UnityContainer, sceneID);
                         m_SceneItems.Add(sceneNode);
                     }
 

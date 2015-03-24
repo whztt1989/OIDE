@@ -123,7 +123,7 @@
     <Compile Include="View\AssetBrowserToolView.xaml.cs">
       <DependentUpon>AssetBrowserToolView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\CategoyModel.cs" />
+    <Compile Include="Model\AsssetCategoryModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

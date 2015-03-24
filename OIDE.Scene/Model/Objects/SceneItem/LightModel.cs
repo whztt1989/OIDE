@@ -100,8 +100,8 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        public Boolean Create() { return true; }
-        public Boolean Open(object id) { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
+        public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
         public Boolean Save(object param) { return true; }
         public void Refresh() { }
         public void Finish() { }

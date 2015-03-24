@@ -41,7 +41,6 @@ using Helper.Utilities.Event;
 
 namespace OIDE.Core.Model
 {
-    [Serializable]
     public class GameStateModel : IItem
     {
         private IDAL m_DBI;
@@ -53,13 +52,13 @@ namespace OIDE.Core.Model
 
         public String ContentID { get; set; }
 
-
         [Browsable(false)]
         [XmlIgnore]
         public List<MenuItem> MenuOptions { get; protected set; }
 
         private Boolean mIsExpanded;
 
+        [XmlIgnore] //only manuell expand -> open!
         public Boolean IsExpanded { get { return mIsExpanded; } set { mIsExpanded = value; if (!mOpened) Open(); } }
         public Boolean IsSelected { get; set; }
         public Boolean Enabled { get; set; }
@@ -76,6 +75,7 @@ namespace OIDE.Core.Model
         /// <summary>
         /// gamestate Events
         /// </summary>
+        [XmlIgnore]
         public ObservableCollection<IObjectEvent> ObjectEvents { get { return m_ObjectEvents; } set { m_ObjectEvents = value; } }
 
         private Boolean mOpened;
@@ -252,8 +252,8 @@ namespace OIDE.Core.Model
         }
 
 
-        public Boolean Create() { return true; }
-        public Boolean Open(object id) { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
+        public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
         public Boolean Save(object param) { return true; }
         public Boolean Closing() { return true; }
         public void Refresh() { }

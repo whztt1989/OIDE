@@ -217,7 +217,7 @@ namespace OIDE.Scene.Model
             {
                 m_IsSelected = value;
 
-                Open(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
+           //     Open(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
             }
         }
 
@@ -231,7 +231,7 @@ namespace OIDE.Scene.Model
 
         public Boolean Closing() { return true; }
 
-        public Boolean Open(object id)
+        public Boolean Open(IUnityContainer unityContainer, object id)
         {
             if (m_opened)
                 return true;
@@ -241,7 +241,7 @@ namespace OIDE.Scene.Model
             //read data from lokal json file
             m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
-                Create();
+                Create(unityContainer);
 
 
             base.SetFBData(m_FBData.EntityBaseModel); //set base entity data
@@ -291,8 +291,9 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public Boolean Create()
+        public Boolean Create(IUnityContainer unityContainer)
         {
+            UnityContainer = unityContainer;
             m_FBData = new FB_CharacterObject();
 
             return true;

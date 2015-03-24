@@ -64,7 +64,7 @@ namespace OIDE.Scene.Model
              if(item is FileItem)
              {
                  if (m_FBData == null )
-                     this.Open(this.ContentID);
+                     this.Open(item.UnityContainer, this.ContentID);
 
                  //todo
                  //ProtoType.Mesh mesh = new ProtoType.Mesh();
@@ -152,7 +152,7 @@ namespace OIDE.Scene.Model
             {
                 m_IsSelected = value;
                     
-                Open(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
+             //   Open(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
             }
         }
 
@@ -160,7 +160,7 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        public Boolean Open(object id)
+        public Boolean Open(IUnityContainer unityContainer, object id)
         {
             if (m_opened)
                 return true;
@@ -170,7 +170,7 @@ namespace OIDE.Scene.Model
             //read data from lokal json file
             m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
-                Create();
+                Create(unityContainer);
            
 
             base.SetFBData(m_FBData.EntityBaseModel); //set base entity data
@@ -221,7 +221,7 @@ namespace OIDE.Scene.Model
         private ICommand CmdSaveStaticObj;
         private ICommand CmdDeleteStaticObj;
 
-        public Boolean Create()
+        public Boolean Create(IUnityContainer unityContainer)
         {
             m_FBData = new FB_StaticObjectModel();
             

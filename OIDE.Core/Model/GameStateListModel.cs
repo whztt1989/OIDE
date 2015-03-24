@@ -88,21 +88,18 @@ namespace OIDE.Core
     }
 
 
-    [System.Xml.Serialization.XmlInclude(typeof(GameStateListModel))]
-    [System.Xml.Serialization.XmlInclude(typeof(FileCategoryModel))]
-    [System.Xml.Serialization.XmlInclude(typeof(GameStateModel))]
+    //[System.Xml.Serialization.XmlInclude(typeof(GameStateListModel))]
+    //[System.Xml.Serialization.XmlInclude(typeof(FileCategoryModel))]
+    //[System.Xml.Serialization.XmlInclude(typeof(GameStateModel))]
   //  [System.Xml.Serialization.XmlInclude(typeof(PhysicsObjectModel))]
-    public class GameStateListModel : FileCategoryModel
+    public class GameStateListModel : IItem
     {
         //ICommandManager m_CommandManager;
         //IMenuService m_MenuService;
         private ICommand m_cmdCreateGameState;
 
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
-
         public GameStateListModel()
-            : base(null, null)
+          //  : base(null, null)
         {
 
         }
@@ -121,10 +118,11 @@ namespace OIDE.Core
             public String Task { get; set; }
         }
 
-        public GameStateListModel(IItem parent, IUnityContainer container) :
-            base(parent, container)
+        public GameStateListModel(IItem parent, IUnityContainer container) 
+         //   base(parent, container)
         {
             UnityContainer = container;
+            Items = new CollectionOfIItem();
             //m_CommandManager = commandManager;
             //m_MenuService = menuService;
           //  IGameStateService sceneService = container.Resolve<IGameStateService>();
@@ -174,5 +172,31 @@ namespace OIDE.Core
             //this.Items.Add(sceneProto1);
            
         }
+
+        public string ContentID { get; set; }
+        [XmlIgnore]
+        public bool HasChildren { get; set; }
+        [XmlAttribute]
+        public bool IsExpanded { get; set; }
+        [XmlAttribute]
+        public bool IsSelected { get; set; }
+        public CollectionOfIItem Items { get; set; }
+        [XmlIgnore]
+        public List<System.Windows.Controls.MenuItem> MenuOptions { get; protected set; }
+        [XmlAttribute]
+        public string Name { get; set; }
+        [XmlIgnore]
+        public IItem Parent { get; set; }
+        [XmlIgnore]
+        public IUnityContainer UnityContainer { get; set; }
+
+        public void Closing() { }
+        public bool Create(IUnityContainer unityContainer) { return true; }
+        public bool Delete() { return true; }
+        public void Drop(IItem item) { }
+        public void Finish() { }
+        public bool Open(IUnityContainer unityContainer, object paramID) { return true; }
+        public void Refresh() { }
+        public bool Save(object param) { return true; }
     }
 }

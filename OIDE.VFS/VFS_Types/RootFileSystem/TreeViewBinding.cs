@@ -61,9 +61,9 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         public IUnityContainer UnityContainer { get; set; }
 
         public Boolean Closing() { return true; }
-        public bool Create() { return true; }
+        public bool Create(IUnityContainer unityContainer) { return true; }
         public bool Delete() { return true; }
-        public bool Open(object id) { return true; }
+        public bool Open(IUnityContainer unityContainer, object id) { return true; }
         public bool Save(object param = null) { return true; }
         public void Refresh() { }
         public void Finish() { }

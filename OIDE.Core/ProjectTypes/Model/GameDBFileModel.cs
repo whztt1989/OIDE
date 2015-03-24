@@ -46,11 +46,12 @@ using Helper.Utilities.Event;
 
 namespace OIDE.Core
 {
-    public class GameDBFileModel : IDBFileModel, IItem
+    public class GameDBFileModel : ViewModelBase, IDBFileModel, IItem
     {
+        private String m_Name;
         private IDAL m_DBI;
 
-        public String Name { get; set; }
+        public String Name { get { return m_Name; } set { m_Name = value; RaisePropertyChanged("Name"); } }
         public CollectionOfIItem Items { get; set; }
 
         public String ContentID { get; set; }
@@ -62,7 +63,7 @@ namespace OIDE.Core
 
         private Boolean mIsExpanded;
 
-        public Boolean IsExpanded { get { return mIsExpanded; } set { mIsExpanded = value; if (!mOpened) Open(); } }
+        public Boolean IsExpanded { get { return mIsExpanded; } set { mIsExpanded = value;  } }
         public Boolean IsSelected { get; set; }
         public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
@@ -78,7 +79,7 @@ namespace OIDE.Core
 
         private Boolean mOpened;
 
-        public Boolean Open()
+        public Boolean Open(IUnityContainer unityContainer, object id)
         {
             GameStateListModel gameStates = new GameStateListModel(this, UnityContainer) { Name = "GameStates" };
             gameStates.IsExpanded = true;
@@ -304,8 +305,7 @@ namespace OIDE.Core
         }
 
 
-        public Boolean Create() { return true; }
-        public Boolean Open(object id) { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Save(object param) { return true; }
         public Boolean Closing() { return true; }
         public void Refresh() { }

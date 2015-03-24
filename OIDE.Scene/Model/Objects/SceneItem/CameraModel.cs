@@ -114,15 +114,15 @@ namespace OIDE.Scene.Model
         [XmlIgnore]
         public IItem Parent { get; private set; }
 
-        public Boolean Open(object id)
+        public Boolean Open(IUnityContainer unityContainer,object id)
         {
 
             //todo ! from db
            // SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
                         
             return true; }
-        public Boolean Create() { return true; }
-        public Boolean Save(object param) { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
+        public Boolean Save( object param) { return true; }
         public void Refresh() { }
         public void Finish() { }
         public Boolean Delete() { return true; }

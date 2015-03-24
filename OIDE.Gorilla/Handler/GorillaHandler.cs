@@ -132,7 +132,7 @@ namespace OIDE.Gorilla
                 try
                 {
                  //   model.Document.Text = File.ReadAllText(location);
-                    model.Open(location);
+                    model.Open(_container, location);
                     model.SetDirty(false);
                 }
                 catch (Exception exception)

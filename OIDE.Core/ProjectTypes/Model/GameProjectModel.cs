@@ -35,34 +35,33 @@ using OIDE.Scene;
 using OIDE.VFS;
 using OIDE.Core.Model;
 using Module.History.Service;
-using OIDE.Service;
 using OIDE.AssetBrowser.Interface.Services;
 using Helper.Utilities.Event;
+using OIDE.Core.ProjectTypes.Model;
 
 namespace OIDE.Core
 {
     /// <summary>
     /// Class TextModel which contains the text of the document
     /// </summary>
-    [XmlInclude(typeof(ScenesListModel))]
-    [XmlInclude(typeof(FileCategoryModel))]
-    [XmlInclude(typeof(SceneDataModel))]
-    [Serializable]
-    public class GameProjectModel : ContentModel, IItem, ISerializableObj, ICategoryItem
+    public class GameProjectModel : ContentModel, IItem, ICategoryItem
     {
+        private GameProjectData m_GameProjectData;
         private string result;
+        private String m_Name;
 
         public void Drop(IItem item) { }
-
-        [XmlAttribute]
         public Int32 ID { get; set; }
-        [XmlAttribute]
-        public String Name { get; set; }
+        public String Name { get { return m_GameProjectData.Name; }
+            set {
+                if (m_GameProjectData.Name != value)
+                    IsDirty = true;
 
+                  m_GameProjectData.Name = value; 
+
+                RaisePropertyChanged("Name");
+            } }
         public String ContentID { get; set; }
-
-        private CollectionOfIItem m_Items;
-
 
         [Browsable(false)]
         //[XmlArray("Items")]
@@ -71,11 +70,10 @@ namespace OIDE.Core
         //[XmlElement(typeof(CategoryModel))]
         //[XmlElement(typeof(SceneDataModel))]
         //[XmlElement(typeof(PhysicsObjectModel))]
-        public CollectionOfIItem Items { get { return m_Items; } set { m_Items = value; } }
-
+    //    [XmlElement(typeof(PhysicsObjectModel))]
+        public CollectionOfIItem Items { get { return m_GameProjectData.Items; } set { m_GameProjectData.Items = value; } }
 
         [Browsable(false)]
-        [XmlIgnore]
         public List<MenuItem> MenuOptions
         {
             get
@@ -87,7 +85,7 @@ namespace OIDE.Core
                 foreach (var type in CanAddThisItems)
                 {
                     miAddItem.Items.Add(new MenuItem() { Header = type.Name, Command = new CmdAddExistingItemToGameProject(this), CommandParameter = type });
-               }
+                }
 
                 list.Add(miAddItem);
                 list.Add(new MenuItem() { Header = "Save" });
@@ -96,41 +94,37 @@ namespace OIDE.Core
             }
         }
 
+        [Browsable(false)]
+        public Boolean IsExpanded { 
+            get { return m_GameProjectData.IsExpanded; } 
+            set {
+                if (m_GameProjectData.IsExpanded != value)
+                    IsDirty = true;
+
+                m_GameProjectData.IsExpanded = value;
+            } }
 
         [Browsable(false)]
-        [XmlAttribute]
-        public Boolean IsExpanded { get; set; }
-
-        [Browsable(false)]
-        [XmlAttribute]
         public Boolean IsSelected { get; set; }
 
-        [XmlIgnore]
         public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-        [XmlIgnore]
         public IItem Parent { get; private set; }
 
-        [XmlIgnore]
         public ICommand RaiseConfirmation { get; private set; }
         //  public ICommand RaiseSelectAEF { get; private set; }
 
         //   public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
-        [XmlIgnore]
         public InteractionRequest<Confirmation> ConfirmationRequest { get; private set; }
 
         private void OnRaiseConfirmation()
         {
-            this.ConfirmationRequest.Raise(
-                new Confirmation { Content = "Confirmation Message", Title = "WPF Confirmation" },
+            this.ConfirmationRequest.Raise( new Confirmation { Content = "Confirmation Message", Title = "WPF Confirmation" },
                 (cb) => { Result = cb.Confirmed ? "The user confirmed" : "The user cancelled"; });
         }
 
-
-        [XmlIgnore]
         public List<System.Type> CanAddThisItems { get; private set; }
 
-        [XmlIgnore]
         public IUnityContainer UnityContainer { get; private set; }
 
         //private void OnRaiseSelectAEF()
@@ -150,34 +144,38 @@ namespace OIDE.Core
         //        });
         //}
 
-        [XmlIgnore]
         public string Result
         {
             get { return this.result; }
             set { this.result = value; RaisePropertyChanged("Result"); }
         }
 
-        public void SerializeObjectToXML()
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
+        public Boolean Open(IUnityContainer unityContainer, object id) 
         {
-            ObjectSerialize.SerializeObjectToXML<GameProjectModel>(this, this.Location.ToString());
-        }
+            //-----------------------------------
+            // Deserialize Object
+            //-----------------------------------
+            m_GameProjectData = ObjectSerialize.DeSerializeObjectFromXML<GameProjectData>(m_GameProjectData, id.ToString());
 
-        public Boolean Create() { return true; }
-        public Boolean Open(object id) 
-        { 
-        
             return true; 
         }
-        public Boolean Save(object param = null) { return true; }
+        public Boolean Save(object param = null)
+        {
+
+            //-----------------------------------
+            // Serialize Object
+            //-----------------------------------
+            ObjectSerialize.SerializeObjectToXML<GameProjectData>(m_GameProjectData, param.ToString());
+                 
+
+            return true; 
+        }
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
         public void Refresh() { }
         public void Finish() { }
     
-        public GameProjectModel()
-        {
-        }
-
         #region Settings
 
         public String AssetFolder { get; set; }
@@ -192,34 +190,34 @@ namespace OIDE.Core
         public GameProjectModel(IUnityContainer container, ISceneService sceneService, ICommandManager commandManager, IMenuService menuService)
          //   : base(commandManager, menuService)
         {
-          
-            AssetFolder = @"E:\Projekte\coop\OIDE\data"; //todo set per propertygrid
-
             UnityContainer = container;
-            m_Items = new CollectionOfIItem();
+         //   m_Items = new CollectionOfIItem();
+            m_GameProjectData = new GameProjectData();
+            
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
             this.CanAddThisItems = new List<Type>();
-
+        
             CanAddThisItems.Add(typeof(OIDE_RFS));
             CanAddThisItems.Add(typeof(OIDEZipArchive));
-         //   CanAddThisItems.Add(typeof(GameDBFileModel));
+            CanAddThisItems.Add(typeof(GameDBFileModel));
+       //   CanAddThisItems.Add(typeof(GameDBFileModel));
             //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
             //  this.RaiseSelectAEF = new DelegateCommand(this.OnRaiseSelectAEF);
 
-            var assetBrowser = container.Resolve<IAssetBrowserTreeService>();
-            OIDE_RFS fileAssets = new OIDE_RFS(this, container) { Name = "Assets VFS", ContentID = "RootVFSID:##:" };
-            fileAssets.Open(AssetFolder);
-            m_Items.Add(fileAssets);
-            assetBrowser.SetAsRoot(fileAssets);
+            //###    var assetBrowser = container.Resolve<IAssetBrowserTreeService>();
+            //###     OIDE_RFS fileAssets = new OIDE_RFS(this, container) { Name = "Assets VFS", ContentID = "RootVFSID:##:" };
+            //###      fileAssets.Open(AssetFolder);
+            //###      m_Items.Add(fileAssets);
+            //###       assetBrowser.SetAsRoot(fileAssets);
             //foreach (var item in fileAssets.Items)
             //    assetBrowser.AddItem(item);
 
             //-----------------------------------------
             //Customize Database category structure
             //-----------------------------------------
-            GameDBFileModel dbData = new GameDBFileModel(this, container);
-           dbData.IsExpanded = true;
+       //###     GameDBFileModel dbData = new GameDBFileModel(this, container);
+       //###    dbData.IsExpanded = true;
 
             //            PredefObjectCategoyModel predefCategory = new PredefObjectCategoyModel(this, container) { Name = "Ogre System Objects" };
 
@@ -227,7 +225,7 @@ namespace OIDE.Core
             ////sceneService.PredefObjects  ??????
             //            m_Items.Add(predefCategory);
 
-            m_Items.Add(dbData);
+            //###    m_Items.Add(dbData);
         }
 
         internal void SetLocation(object location)
@@ -306,6 +304,23 @@ namespace OIDE.Core
                // Type instance = (Type)Activator.CreateInstance(t);
                // object obj = t.GetConstructor(new Type[] { }).Invoke(new object[] { });
              //   mpm.Items.Add(obj as IItem);
+            }
+            else if (t.Name == "GameDBFileModel")
+            {
+                GameDBFileModel dbData = new GameDBFileModel(mpm, mpm.UnityContainer) {Name = "DBFile"};
+                mpm.Items.Add(dbData);
+                dbData.IsExpanded = true;
+            }
+            else if (t.Name == "OIDE_RFS")
+            {
+                mpm.AssetFolder = @"E:\Projekte\coop\OIDE\data"; //todo set per propertygrid
+                var assetBrowser = mpm.UnityContainer.Resolve<IAssetBrowserTreeService>();
+                OIDE_RFS fileAssets = new OIDE_RFS(mpm, mpm.UnityContainer) { Name = "Assets VFS", ContentID = "RootVFSID:##:" };
+                fileAssets.Open(mpm.UnityContainer, mpm.AssetFolder);
+                //        m_Items.Add(fileAssets);
+                assetBrowser.SetAsRoot(fileAssets);
+
+                mpm.Items.Add(new OIDE_RFS(mpm, mpm.UnityContainer) { Name = "RFS" });
             }
         }
 

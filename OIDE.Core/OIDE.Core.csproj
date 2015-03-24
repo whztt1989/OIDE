@@ -135,6 +135,7 @@
     <Compile Include="Model\ScenesListModel.cs" />
     <Compile Include="ProjectTypes\Handler\GameProjectHandler.cs" />
     <Compile Include="ProjectTypes\Model\GameDBFileModel.cs" />
+    <Compile Include="ProjectTypes\Model\GameProjectData.cs" />
     <Compile Include="ProjectTypes\Model\GameProjectModel.cs" />
     <Compile Include="Model\GameStateModel.cs" />
     <Compile Include="ProjectTypes\ViewModel\GameProjectViewModel.cs" />
