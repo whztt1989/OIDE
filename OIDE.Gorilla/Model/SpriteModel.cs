@@ -13,10 +13,12 @@ using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
 using System.ComponentModel;
 using OIDE.Gorilla.Model;
+using Wide.Interfaces.Services;
+using Wide.Core.Services;
 
 namespace OIDE.Gorilla.Model
 {
-    public class SpriteModel : ViewModelBase, IGorillaItem
+    public class SpriteModel : PItem, IGorillaItem
     {
         Rectangle rectselected = new Rectangle
         {

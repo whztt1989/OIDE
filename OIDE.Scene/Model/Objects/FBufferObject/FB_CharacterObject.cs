@@ -10,11 +10,16 @@ using Wide.Interfaces;
 using System.Xml.Serialization;
 using System.Windows;
 using OIDE.Scene.Model.Objects.FBufferObject;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using System.ComponentModel;
+using OIDE.VFS.View;
+using OIDE.Scene.Model.Objects.ObjectData;
+using Microsoft.Practices.Unity;
 
 namespace OIDE.Scene.Model.Objects
 {
     [Serializable]
-    public class FB_CharacterObject : IFBObject
+    public class FB_CharacterObject : EntityBaseModel, IFBObject
     {
         #region private members
 
@@ -37,13 +42,27 @@ namespace OIDE.Scene.Model.Objects
 
         public int Group { get { return m_Group; } set { m_Group = FB_Helper.UpdateSelectedObject(this, m_Group, value); } }
 
+        //todo prototype!!!! or? skeleton path is located in mesh  file ...
+        private String mSkeleton;
+
+        [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
+        [Category("GameEntity")]
+        public String Skeleton { get { return mSkeleton; } set { mSkeleton = value; } }
+
         /// <summary>
         /// only for serialization
         /// </summary>
+        [ExpandableObject]
         public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
 
 
         #endregion
+
+        public FB_CharacterObject(IUnityContainer unityContainer)
+            : base (unityContainer)
+        {
+            m_EntityBaseModel = new FB_EntityBaseModel();
+        }
 
         #region methods
 

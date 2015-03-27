@@ -68,7 +68,7 @@
         </Border>-->
 
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="30"
-                   FontWeight="Bold" Margin="0,30,0,0" Text="OIDE - Ogre Editor" Foreground="#FF007ACC">
+                   FontWeight="Bold" Margin="0,30,0,0" Text="OIDE - Editor" Foreground="#FF007ACC">
             <!--<TextBlock.Effect>
                 <DropShadowEffect Opacity="0.7" ShadowDepth="4" />
             </TextBlock.Effect>-->

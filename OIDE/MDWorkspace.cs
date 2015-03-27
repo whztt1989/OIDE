@@ -8,6 +8,10 @@ using Wide.Interfaces.Events;
 using System.ComponentModel;
 using Wide.Interfaces.Services;
 using Module.Properties.Interface.Services;
+using Module.PFExplorer.Interface.Services;
+using OIDE.Scene.Model;
+using OIDE.Scene;
+using OIDE.Scene.Interface.Services;
 
 namespace OIDE
 {
@@ -68,7 +72,7 @@ namespace OIDE
                 //--------------------------------------------------------------------
                 //set current model for propertygrid if active document has changed
                 var propService = m_container.Resolve<IPropertiesService>();
-                var selectedModel = model.Model as Module.Properties.Interface.IItem;
+                var selectedModel = model.Model as IItem;
                 if (selectedModel != null)
                 {
                     propService.CurrentItem = selectedModel;
@@ -76,7 +80,29 @@ namespace OIDE
                 }
                 //--------------------------------------------------------------------
                
+                //was it a scene?
+                var scene = model as SceneViewerViewModel;
+                var sceneService = m_container.Resolve<ISceneService>();
+                if (scene == null)
+                {
+                  //  if (sceneService.SelectedScene != null)
+                  //      sceneService.SelectedScene.Items.Clear();// = null;
+                    sceneService.SGTM.Items = null;
+                }
+                else
+                {
+                    var sceneSelected = scene.Model as IScene;
+                    sceneService.SelectedScene = sceneSelected;
+                }
+             
                 Logger.Log("Active document changed to " + model.Title, LogCategory.Info, LogPriority.None);
+            }
+            else
+            {
+                var propService = m_container.Resolve<IPropertiesService>();
+                var mProjectTreeService = _container.Resolve<IProjectTreeService>();
+                mProjectTreeService.SetAsRoot(null);
+                propService.CurrentItem = null;
             }
         }
 

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using Module.Properties.Interface;
 using Wide.Interfaces;
 using Wide.Interfaces.Controls;
+using Wide.Interfaces.Services;
 
 namespace OIDE.AssetBrowser.Interface.Services
 {

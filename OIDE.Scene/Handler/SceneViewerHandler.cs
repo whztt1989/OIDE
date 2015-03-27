@@ -78,7 +78,7 @@ namespace OIDE.Scene
         public ContentViewModel NewContent(object parameter)
         {
             var vm = _container.Resolve<SceneViewerViewModel>();
-            var model = _container.Resolve<SceneViewerModel>();
+            var model = _container.Resolve<SceneDataModel>();
             var view = _container.Resolve<SceneViewerView>();
 
             //Model details
@@ -105,8 +105,9 @@ namespace OIDE.Scene
             if(pfExplorerService.SelectedItem != null)
               parent = pfExplorerService.SelectedItem;
 
-            SceneDataModel newScene = new SceneDataModel(parent, _container) { Name = "Scene NEW", ContentID = "SceneID:##:" };
-            
+            SceneDataModel newScene = new SceneDataModel() { Name = "Scene NEW", ContentID = "SceneID:##:" };
+            newScene.Parent = parent;
+
             if(pfExplorerService.SelectedItem != null)
                 pfExplorerService.SelectedItem.Items.Add(newScene);
          
@@ -147,16 +148,15 @@ namespace OIDE.Scene
             var location = info as string;
             if (location != null)
             {
+                SceneDataModel model = null;
                 SceneViewerViewModel vm = _container.Resolve<SceneViewerViewModel>();
-                var model = _container.Resolve<SceneViewerModel>();
                 var view = _container.Resolve<SceneViewerView>();
 
-                //Model details
-                model.SetLocation(info);
                 try
                 {
                     ISceneService sceneService = _container.Resolve<ISceneService>();
-
+                    IProjectTreeService pfExplorerService = _container.Resolve<IProjectTreeService>();
+         
                     //          string[] split = Regex.Split(info.ToString(), ":##:");
                     //if (split.Count() == 2)
                     //{
@@ -170,6 +170,31 @@ namespace OIDE.Scene
                         sceneService.SelectedScene = scene.First();
                         sceneService.SelectedScene.Open(_container, info);
                     }
+                    else //new scene
+                    {
+                    //    SceneDataModel newScene = new SceneDataModel() { Name = "Scene NEW", ContentID = "SceneID:##:" };
+                       // newScene.Parent = parent;
+
+                        if (pfExplorerService.SelectedItem is SceneDataModel)
+                        {    // pfExplorerService.SelectedItem.Items.Add(newScene);
+                           var newScene =  pfExplorerService.SelectedItem as SceneDataModel;
+                           if (newScene != null)
+                           {
+                               sceneService.Scenes.Add(newScene);
+                               //  sceneService.SelectedScene = newScene;
+                               newScene.Open(_container, -1);
+
+                               model = newScene;
+                           }
+                        }
+                    }
+
+                    //Model details
+                    if (model == null)
+                      model = _container.Resolve<SceneDataModel>();
+                    
+                    model.SetLocation(info);
+            
                     //  model.SetLocation("AuftragID:##:" + info + "");
 
                     //      model.Document.Text = File.ReadAllText(location);
@@ -232,7 +257,7 @@ namespace OIDE.Scene
                 throw new ArgumentException("ContentViewModel needs to be a SceneViewertViewModel to save details");
             }
 
-            var gameProjectModel = gameProjectViewModel.Model as SceneViewerModel;
+            var gameProjectModel = gameProjectViewModel.Model as SceneDataModel;
 
             if (gameProjectModel == null)
             {
@@ -343,7 +368,7 @@ namespace OIDE.Scene
             {
                 string identifier = split[0];
                 string path = split[1];
-                if (identifier == "SceneID" && ValidateContentType(path))
+                if (identifier == "SceneID") // && ValidateContentType(path)) no sceneID = new scene
                 {
                     return true;
                 }

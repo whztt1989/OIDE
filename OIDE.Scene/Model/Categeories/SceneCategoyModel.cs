@@ -38,73 +38,36 @@ using OIDE.Scene.Interface.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 using System.Windows.Input;
+using OIDE.Scene.Interface;
+using Wide.Core.Services;
 
 namespace OIDE.Scene
 {
-
-    public class SceneCategoryModel : ViewModelBase, ISceneItem
+    public class SceneCategoryModel : PItem, ISceneItem
     {
-        public String Name { get; set; }
         public Int32 NodeID { get; set; }
       
         [Browsable(false)]
         [XmlIgnore]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
-
-        public CollectionOfIItem Items { get; set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
 
         public void Drop(IItem item) { }
 
-        public String ContentID { get; set; }
-
         [Browsable(false)]
         [XmlIgnore]
-        public List<MenuItem> MenuOptions { get; protected set; }
+        public override List<MenuItem> MenuOptions { get { return null; } }
 
-        public Boolean IsExpanded { get; set; }
-        public Boolean IsSelected { get; set; }
-        public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IItem Parent { get; private set; }
-
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
-        public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
-        public Boolean Save(object param) { return true; }
-        public void Refresh() { }
-        public void Finish() { }
-        public Boolean Delete() { return true; }
-        public Boolean Closing() { return true; }
-
+        public override Boolean Create(IUnityContainer unityContainer) { return true; }
+        public override Boolean Open(IUnityContainer unityContainer, object id) { return true; }
+        public override Boolean Save(object param) { return true; }
+        public override void Refresh() { }
+        public override Boolean Delete() { return true; }
+       
         public SceneCategoryModel()
         {
-
-        }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
-
-        public SceneCategoryModel(IItem parent, IUnityContainer container)
-        {
-            UnityContainer = container;
-            Parent = parent;
-            Items = new CollectionOfIItem();
-            SceneItems = new ObservableCollection<ISceneItem>();
-            MenuOptions = new List<MenuItem>();
-
-            //MenuItem miAdd = new MenuItem() { Command = new CmdCreateStaticObj(container), CommandParameter = this, Header = "Create static object" };
-            //MenuOptions.Add(miAdd);
-
+            SceneItems = new CollectionOfISceneItem();
         }
     }
-
-
-
 }

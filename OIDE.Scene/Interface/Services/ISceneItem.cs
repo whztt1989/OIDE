@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Module.Properties.Interface;
+using Wide.Interfaces.Services;
+using Wide.Core.Services;
 
 namespace OIDE.Scene.Interface.Services
 {
@@ -13,7 +15,7 @@ namespace OIDE.Scene.Interface.Services
         /// <summary>
         /// subitems of this sceneitem
         /// </summary>
-        ObservableCollection<ISceneItem> SceneItems { get; }
+        CollectionOfISceneItem SceneItems { get; }
 
 
         Int32 NodeID { get; set; }

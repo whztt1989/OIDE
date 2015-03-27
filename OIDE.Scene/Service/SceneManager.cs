@@ -121,7 +121,11 @@ namespace OIDE.Scene.Service
             }
             set 
             {
-                SGTM.Items = value.SceneItems;
+                if (value == null)
+                    SGTM.Items.Clear();
+                else
+                     SGTM.Items = value.SceneItems;
+
                 mSelectedScene = value; 
             }
         }

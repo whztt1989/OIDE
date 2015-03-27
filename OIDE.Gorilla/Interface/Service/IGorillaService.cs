@@ -9,6 +9,7 @@ using Module.Properties.Interface;
 using Wide.Interfaces;
 using Wide.Interfaces.Controls;
 using OIDE.Gorilla.Model;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Gorilla.Interface.Services
 {

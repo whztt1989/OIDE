@@ -19,31 +19,11 @@ using Wide.Interfaces.Services;
 
 namespace OIDE.VFS.VFS_Types.RootFileSystem
 {
-    public  class RootVFS : ContentModel, IItem, IVFSArchive
+    public  class RootVFS : ContentModel, IVFSArchive
     {
-
         private string result;
-        private CollectionOfIItem m_Items;
 
-        public Boolean Closing() { return true; }
         public void Drop(IItem item) { }
-
-        [XmlAttribute]
-        public Int32 ID { get; set; }
-     
-        [XmlAttribute]
-        public String Name { get; set; }
-
-        /// <summary>
-        /// ContentID for WIDE
-        /// </summary>
-        public String ContentID { get; set; }
-       
-        /// <summary>
-        /// Collection of subitems of this object
-        /// </summary>
-        [Browsable(false)]
-        public CollectionOfIItem Items { get { return m_Items; } set { m_Items = value; } }
 
         private CmdSaveRFS CmdSaveRFS;
 
@@ -52,7 +32,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         /// </summary>
         [Browsable(false)]
         [XmlIgnore]
-        public List<MenuItem> MenuOptions
+        public override List<MenuItem> MenuOptions
         {
             get
             {
@@ -68,38 +48,6 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
                 return list;
             }
         }
-
-        #region Item
-
-        /// <summary>
-        /// Item ist Expanded
-        /// </summary>
-        [Browsable(false)]
-        [XmlAttribute]
-        public Boolean IsExpanded { get; set; }
-
-        /// <summary>
-        /// Item is selected
-        /// </summary>
-        [Browsable(false)]
-        [XmlAttribute]
-        public Boolean IsSelected { get; set; }
-
-        /// <summary>
-        /// Item has children
-        /// </summary>
-        [Browsable(false)]
-        [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
-
-        /// <summary>
-        /// parent of this item
-        /// </summary>
-        [Browsable(false)]
-        [XmlIgnore]
-        public IItem Parent { get; private set; }
-
-        #endregion 
 
         [Browsable(false)]
         [XmlIgnore]
@@ -142,7 +90,7 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
             var itemProvider = new ItemProvider();
 
             if (Directory.Exists(FilePath))
-                m_Items = itemProvider.GetItems(FilePath);
+                Items = itemProvider.GetItems(FilePath);
           
 
             return true; 
@@ -185,25 +133,13 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
 
         #endregion
 
-        public RootVFS()
-        {
-            m_Items = new CollectionOfIItem();
-        }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
-
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
         /// </summary>
         /// <param name="commandManager">The injected command manager.</param>
         /// <param name="menuService">The menu service.</param>
-        public RootVFS(IItem parent, IUnityContainer container)
+        public RootVFS()
         {
-            UnityContainer = container;
-            m_Items = new CollectionOfIItem();
             this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
             this.CmdSaveRFS = new CmdSaveRFS(this);

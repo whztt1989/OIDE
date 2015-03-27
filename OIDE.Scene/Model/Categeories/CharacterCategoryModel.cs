@@ -41,31 +41,24 @@ using System.Windows.Input;
 using DAL;
 using System.IO;
 using OIDE.Scene.Model;
+using OIDE.Scene.Interface;
+using Wide.Core.Services;
 
 namespace OIDE.Scene
 {
-
-    public class CharacterCategoryModel : ViewModelBase, ISceneItem
+    public class CharacterCategoryModel : PItem, ISceneItem
     {
-        private Boolean m_IsExpanded;
-
-        public String Name { get; set; }
         public Int32 NodeID { get; set; }
       
         public void Drop(IItem item) { }
 
         [Browsable(false)]
-        public CollectionOfIItem Items { get; set; }
-
+        [XmlIgnore]
+        public CollectionOfISceneItem SceneItems { get; private set; }
+   
         [Browsable(false)]
         [XmlIgnore]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
-
-        public String ContentID { get; set; }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public List<MenuItem> MenuOptions 
+        public override List<MenuItem> MenuOptions 
         {
               get
             {
@@ -79,44 +72,19 @@ namespace OIDE.Scene
                 return menuOptions;
             }
         }
-
-      
-        public Boolean IsExpanded { get { return m_IsExpanded; } set { m_IsExpanded = value; RaisePropertyChanged("IsExpanded"); } }
-        public Boolean IsSelected { get; set; }
-        public Boolean Enabled { get; set; }
+ 
         public Boolean Visible { get; set; }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
+        public override Boolean Create(IUnityContainer unityContainer) { return true; }
+        public override Boolean Open(IUnityContainer unityContainer, object id) { return true; }
+        public override Boolean Save(object param) { return true; }
+        public override void Refresh() { }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public IItem Parent { get; private set; }
-
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
-        public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
-        public Boolean Save(object param) { return true; }
-        public void Refresh() { }
-        public void Finish() { }
-        public Boolean Delete() { return true; }
-        public Boolean Closing() { return true; }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
+        public override Boolean Delete() { return true; }
 
         public CharacterCategoryModel()
         {
-
-        }
-
-        public CharacterCategoryModel(IItem parent, IUnityContainer container)
-        {
-            UnityContainer = container;
-            Parent = parent;
-            Items = new CollectionOfIItem();
-            SceneItems = new ObservableCollection<ISceneItem>();
+            SceneItems = new CollectionOfISceneItem();
         }
     }
 
@@ -134,10 +102,9 @@ namespace OIDE.Scene
         {
             CharacterCategoryModel parent = parameter as CharacterCategoryModel;
 
-            CharacterEntity pom = new CharacterEntity(parent, parent.UnityContainer) { Name = "Character Obj NEW", ContentID = "CharacterEntID:##" };
+            CharacterEntity pom = new CharacterEntity() { Parent = parent, Name = "Character Obj NEW", ContentID = "CharacterEntID:##" };
 
             pom.Create(parent.UnityContainer);
-
             parent.Items.Add(pom);
 
             ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();

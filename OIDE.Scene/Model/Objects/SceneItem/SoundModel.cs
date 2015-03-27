@@ -49,7 +49,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
 
         [XmlIgnore]
         [ExpandableObject]
@@ -108,7 +108,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
 
         public Boolean Open()
         {

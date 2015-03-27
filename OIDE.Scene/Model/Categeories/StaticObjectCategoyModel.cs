@@ -39,11 +39,13 @@ using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 using System.Windows.Input;
 using OIDE.Scene.Model;
+using OIDE.Scene.Interface;
+using Wide.Core.Services;
 
 namespace OIDE.Scene
 {
 
-    public class StaticObjectCategoyModel : ViewModelBase, ISceneItem
+    public class StaticObjectCategoyModel : PItem, ISceneItem
     {
         public String Name { get; set; }
         public Int32 NodeID { get; set; }
@@ -53,7 +55,7 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
 
         public void Drop(IItem item) { }
 
@@ -85,7 +87,7 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
 
         public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
@@ -97,7 +99,7 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; set; }
 
         public StaticObjectCategoyModel()
         {
@@ -109,7 +111,7 @@ namespace OIDE.Scene
             UnityContainer = container;
             Parent = parent;
             Items = new CollectionOfIItem();
-            SceneItems = new ObservableCollection<ISceneItem>();
+            SceneItems = new CollectionOfISceneItem();
         
 
         }
@@ -129,7 +131,7 @@ namespace OIDE.Scene
         {
             StaticObjectCategoyModel parent = parameter as StaticObjectCategoyModel;
 
-            StaticObjectModel pom = new StaticObjectModel(parent, parent.UnityContainer) { Name = "Static Obj NEW", ContentID = "StaticEntID:##" };
+            StaticObjectModel pom = new StaticObjectModel() { Parent = parent, UnityContainer =  parent.UnityContainer, Name = "Static Obj NEW", ContentID = "StaticEntID:##" };
 
             pom.Save(parameter);
 

@@ -38,10 +38,11 @@ using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
 using System.Collections.ObjectModel;
 using Helper.Utilities.Event;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Core.Model
 {
-    public class GameStateModel : IItem
+    public class OIDEStateModel// : IItem
     {
         private IDAL m_DBI;
 
@@ -50,27 +51,29 @@ namespace OIDE.Core.Model
         public String Name { get; set; }
         public CollectionOfIItem Items { get; set; }
 
-        public String ContentID { get; set; }
+      //  public String ContentID { get; set; }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public List<MenuItem> MenuOptions { get; protected set; }
+    ///    [Browsable(false)]
+    //    [XmlIgnore]
+     //   public List<MenuItem> MenuOptions { get; protected set; }
 
-        private Boolean mIsExpanded;
+     //   private Boolean mIsExpanded;
 
-        [XmlIgnore] //only manuell expand -> open!
-        public Boolean IsExpanded { get { return mIsExpanded; } set { mIsExpanded = value; if (!mOpened) Open(); } }
-        public Boolean IsSelected { get; set; }
-        public Boolean Enabled { get; set; }
-        public Boolean Visible { get; set; }
+    //    [XmlIgnore] //only manuell expand -> open!
+    //    public Boolean IsExpanded { get { return mIsExpanded; } set { mIsExpanded = value; 
+        //    if (!mOpened) Open(); 
+    //    } }
+        //public Boolean IsSelected { get; set; }
+        //public Boolean Enabled { get; set; }
+        //public Boolean Visible { get; set; }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+        //[Browsable(false)]
+        //[XmlIgnore]
+        //public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public IItem Parent { get; private set; }
+        //[Browsable(false)]
+        //[XmlIgnore]
+        //public IItem Parent { get; set; }
 
         /// <summary>
         /// gamestate Events
@@ -78,32 +81,32 @@ namespace OIDE.Core.Model
         [XmlIgnore]
         public ObservableCollection<IObjectEvent> ObjectEvents { get { return m_ObjectEvents; } set { m_ObjectEvents = value; } }
 
-        private Boolean mOpened;
+     //   private Boolean mOpened;
 
         public Boolean Open()
         {
-            ScenesListModel scenesProto = new ScenesListModel(this, UnityContainer) { Name = "Scenes" };
-            scenesProto.IsExpanded = true;
-            this.Items.Add(scenesProto);
+            //ScenesListModel scenesProto = new ScenesListModel(this, UnityContainer) { Name = "Scenes" };
+            //scenesProto.IsExpanded = true;
+            //this.Items.Add(scenesProto);
 
-            DBCategoryModel dbRuntime = new DBCategoryModel(this, UnityContainer) { Name = "Runtime Data (not needed now)" };
-            //DBCategoryModel players = new DBCategoryModel(dbRuntime, unityContainer) { Name = "Players" };
-            //DBCategoryModel player1 = new DBCategoryModel(players, unityContainer) { Name = "Player1" };
-            //DBCategoryModel charsPlayer = new DBCategoryModel(player1, unityContainer) { Name = "Characters" };
-            //DBCategoryModel char1Player = new DBCategoryModel(charsPlayer, unityContainer) { Name = "Character 1" };
-            //charsPlayer.Items.Add(char1Player);
-            //player1.Items.Add(charsPlayer);
-            //players.Items.Add(player1);
-            //dbRuntime.Items.Add(players);
-            //this.Items.Add(dbRuntime);
+            //DBCategoryModel dbRuntime = new DBCategoryModel(this, UnityContainer) { Name = "Runtime Data (not needed now)" };
+            ////DBCategoryModel players = new DBCategoryModel(dbRuntime, unityContainer) { Name = "Players" };
+            ////DBCategoryModel player1 = new DBCategoryModel(players, unityContainer) { Name = "Player1" };
+            ////DBCategoryModel charsPlayer = new DBCategoryModel(player1, unityContainer) { Name = "Characters" };
+            ////DBCategoryModel char1Player = new DBCategoryModel(charsPlayer, unityContainer) { Name = "Character 1" };
+            ////charsPlayer.Items.Add(char1Player);
+            ////player1.Items.Add(charsPlayer);
+            ////players.Items.Add(player1);
+            ////dbRuntime.Items.Add(players);
+            ////this.Items.Add(dbRuntime);
 
-            DBCategoryModel scriptMats = new DBCategoryModel(this, UnityContainer) { Name = "Materials (Scripts)" };
-            //DBCategoryModel mat1 = new DBCategoryModel(scriptMats, UnityContainer) { Name = "MaterialsScript1" };
-            //scriptMats.Items.Add(mat1);
-            this.Items.Add(scriptMats);
+            //DBCategoryModel scriptMats = new DBCategoryModel(this, UnityContainer) { Name = "Materials (Scripts)" };
+            ////DBCategoryModel mat1 = new DBCategoryModel(scriptMats, UnityContainer) { Name = "MaterialsScript1" };
+            ////scriptMats.Items.Add(mat1);
+            //this.Items.Add(scriptMats);
 
-            DBCategoryModel objects = new DBCategoryModel(this, UnityContainer) { Name = "GameEntites" };
-            objects.IsExpanded = true;
+            //DBCategoryModel objects = new DBCategoryModel(this, UnityContainer) { Name = "GameEntites" };
+            //objects.IsExpanded = true;
 
             //PhysicCategoryModel allOgreObjects = new PhysicCategoryModel(objects, UnityContainer) { Name = "Ogre Objects" };
             //allOgreObjects.Items.Add(new StaticObjectModel(allOgreObjects, UnityContainer) { Name = "Plane" });
@@ -209,9 +212,9 @@ namespace OIDE.Core.Model
             }
 
             //    scenes.Items.Add(scene);
-            this.Items.Add(objects);
+     //       this.Items.Add(objects);
            
-            return mOpened = true;
+            return true;
 
         }
 
@@ -220,44 +223,44 @@ namespace OIDE.Core.Model
 
         public String Location { get; set; }
 
-        public GameStateModel()
+        public OIDEStateModel()
         {
-            m_DBI = new IDAL();
+          //  m_DBI = new IDAL(UnityContainer);
 
         }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
+        //[Browsable(false)]
+        //[XmlIgnore]
+        //public IUnityContainer UnityContainer { get; private set; }
 
-        public GameStateModel(IItem parent, IUnityContainer unityContainer)
-        {
-            Name = "GameStates";
-            UnityContainer = unityContainer;
-            Parent = parent;
-            Items = new CollectionOfIItem();
-            MenuOptions = new List<MenuItem>();
+        //public GameStateModel(IItem parent, IUnityContainer unityContainer)
+        //{
+        //    Name = "GameStates";
+        //    UnityContainer = unityContainer;
+        //    Parent = parent;
+        //    Items = new CollectionOfIItem();
+        //    MenuOptions = new List<MenuItem>();
 
-            MenuItem mib1a = new MenuItem();
-            mib1a.Header = "Text.xaml";
-            MenuOptions.Add(mib1a);
+        //    MenuItem mib1a = new MenuItem();
+        //    mib1a.Header = "Text.xaml";
+        //    MenuOptions.Add(mib1a);
 
-            m_DBI = new IDAL();
-
-
+        //    m_DBI = new IDAL();
 
 
 
 
-        }
 
 
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
-        public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
-        public Boolean Save(object param) { return true; }
-        public Boolean Closing() { return true; }
-        public void Refresh() { }
-        public void Finish() { }
-        public void Drop(IItem item) { }
+        //}
+
+
+        //public Boolean Create(IUnityContainer unityContainer) { return true; }
+        //public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
+        //public Boolean Save(object param) { return true; }
+        //public Boolean Closing() { return true; }
+        //public void Refresh() { }
+        //public void Finish() { }
+        //public void Drop(IItem item) { }
     }
 }

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
 using Wide.Interfaces;
+using Wide.Interfaces.Services;
+using Wide.Core.Services;
 
 namespace OIDE.Scene.Interface.Services
 {
@@ -23,7 +25,7 @@ namespace OIDE.Scene.Interface.Services
 
         public override string ToString()
         {
-            return string.Format("{0}, {1}, {2}, {3}", X, Y, Z);
+            return string.Format("{0}, {1}, {2}", X, Y, Z);
         }
     }
 
@@ -33,11 +35,16 @@ namespace OIDE.Scene.Interface.Services
         public float X { get; set; }
         public float Y { get; set; }
         public float Z { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0}, {1}, {2}, {3}", W , X, Y, Z);
+        }
     }
 
     public interface IScene : IItem
     {
-        ObservableCollection<ISceneItem> SceneItems { get; set; }
+        CollectionOfISceneItem SceneItems { get; set; }
 
         DAL.MDB.Scene DB_SceneData { get; }
 

@@ -16,6 +16,7 @@ using OIDE.Gorilla.Interface.Services;
 using Microsoft.Practices.Unity;
 using OIDE.Gorilla.Model;
 using Module.Properties.Interface;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Gorilla.Atlas
 {

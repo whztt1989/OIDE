@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wide.Core.Services;
+using Wide.Interfaces.Services;
 
 namespace OIDE.VFS.VFS_Types.RootFileSystem
 {
@@ -44,29 +46,9 @@ namespace OIDE.VFS.VFS_Types.RootFileSystem
         }
     }
 
-    public class Item : IItem
+    public class Item : PItem
     {
-        public string Name { get; set; }
-       // public string Path { get; set; }
-
-        public void Drop(IItem item) { }
-
-        public string ContentID { get; set; }
-        public bool HasChildren { get; set; }
-        public bool IsExpanded { get; set; }
-        public bool IsSelected { get; set; }
-        public CollectionOfIItem Items { get; set; }
-        public List<System.Windows.Controls.MenuItem> MenuOptions { get; set; }
-        public IItem Parent { get; set; }
-        public IUnityContainer UnityContainer { get; set; }
-
-        public Boolean Closing() { return true; }
-        public bool Create(IUnityContainer unityContainer) { return true; }
-        public bool Delete() { return true; }
-        public bool Open(IUnityContainer unityContainer, object id) { return true; }
-        public bool Save(object param = null) { return true; }
-        public void Refresh() { }
-        public void Finish() { }
+     
     
     }
 

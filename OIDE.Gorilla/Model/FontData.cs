@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Wide.Core.Services;
+using Wide.Interfaces.Services;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace OIDE.Gorilla.Model
@@ -27,7 +29,7 @@ namespace OIDE.Gorilla.Model
         public int height { get; set; }
     }
 
-    public class FontData : IItem
+    public class FontData : PItem
     {
         private GorillaModel m_Gorilla;
 

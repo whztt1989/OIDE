@@ -43,53 +43,66 @@ using DAL.MDB;
 using Module.Protob.Utilities;
 using System.Windows;
 using Helper.Utilities.Event;
+using Module.History.Service;
+using System.Windows.Input;
+using Wide.Core.Services;
 
 namespace OIDE.Core
 {
-    public class GameDBFileModel : ViewModelBase, IDBFileModel, IItem
+    public class OIDEDBFileModel : PItem, IDBFileModel
     {
-        private String m_Name;
         private IDAL m_DBI;
+        private ICommand CmdDeleteDBFile;
+     
+   
+        [Browsable(false)]
+        [XmlIgnore]
+        public override List<MenuItem> MenuOptions
+        {
+            get
+            {
+                List<MenuItem> list = new List<MenuItem>();
 
-        public String Name { get { return m_Name; } set { m_Name = value; RaisePropertyChanged("Name"); } }
-        public CollectionOfIItem Items { get; set; }
+                MenuItem miAddItem = new MenuItem() { Header = "Add Item" };
 
-        public String ContentID { get; set; }
+                foreach (var type in CanAddThisItems)
+                {
+                    miAddItem.Items.Add(new MenuItem() { Header = type.Name, Command = new CmdAddExistingItemToDBFile(this), CommandParameter = type });
+                }
 
+                list.Add(miAddItem);
+                list.Add(new MenuItem() { Header = "Save" });
+                list.Add(new MenuItem() { Header = "Rename" });
+
+                MenuItem miDelete = new MenuItem() { Command = CmdDeleteDBFile, Header = "Delete scene" };
+                list.Add(miDelete);
+
+                return list;
+            }
+        }
 
         [Browsable(false)]
         [XmlIgnore]
-        public List<MenuItem> MenuOptions { get; protected set; }
+        public List<System.Type> CanAddThisItems { get; private set; }
 
-        private Boolean mIsExpanded;
-
-        public Boolean IsExpanded { get { return mIsExpanded; } set { mIsExpanded = value;  } }
-        public Boolean IsSelected { get; set; }
-        public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
+       private Boolean mOpened;
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public IItem Parent { get; private set; }
-
-
-        private Boolean mOpened;
-
-        public Boolean Open(IUnityContainer unityContainer, object id)
+        public override Boolean Open(IUnityContainer unityContainer, object id)
         {
-            GameStateListModel gameStates = new GameStateListModel(this, UnityContainer) { Name = "GameStates" };
-            gameStates.IsExpanded = true;
-            this.Items.Add(gameStates);
+            //GameStateListModel gameStates = new GameStateListModel(this, UnityContainer) { Name = "GameStates" };
+            //gameStates.IsExpanded = true;
+            //this.Items.Add(gameStates);
 
-            ScenesListModel scenesProto = new ScenesListModel(this, UnityContainer) { Name = "Scenes" };
+            m_DBI = new IDAL(unityContainer);
+
+
+            ScenesListModel scenesProto = new ScenesListModel() { Parent = this, UnityContainer = UnityContainer, Name = "Scenes" };
             scenesProto.IsExpanded = true;
             this.Items.Add(scenesProto);
 
-            DBCategoryModel dbRuntime = new DBCategoryModel(this, UnityContainer) { Name = "Runtime Data (not needed now)" };
+            DBCategoryModel dbRuntime = new DBCategoryModel() { Parent = this, UnityContainer = UnityContainer, Name = "Runtime Data (not needed now)" };
             //DBCategoryModel players = new DBCategoryModel(dbRuntime, unityContainer) { Name = "Players" };
             //DBCategoryModel player1 = new DBCategoryModel(players, unityContainer) { Name = "Player1" };
             //DBCategoryModel charsPlayer = new DBCategoryModel(player1, unityContainer) { Name = "Characters" };
@@ -100,22 +113,22 @@ namespace OIDE.Core
             //dbRuntime.Items.Add(players);
             //this.Items.Add(dbRuntime);
 
-            DBCategoryModel scriptMats = new DBCategoryModel(this, UnityContainer) { Name = "Materials (Scripts)" };
+            DBCategoryModel scriptMats = new DBCategoryModel() { Parent = this, UnityContainer = UnityContainer, Name = "Materials (Scripts)" };
             //DBCategoryModel mat1 = new DBCategoryModel(scriptMats, UnityContainer) { Name = "MaterialsScript1" };
             //scriptMats.Items.Add(mat1);
             this.Items.Add(scriptMats);
 
-            DBCategoryModel objects = new DBCategoryModel(this, UnityContainer) { Name = "GameEntites" };
+            DBCategoryModel objects = new DBCategoryModel() { Parent = this, UnityContainer = UnityContainer, Name = "GameEntites" };
             objects.IsExpanded = true;
 
-            StaticObjectCategoyModel staticObjects = new StaticObjectCategoyModel(objects, UnityContainer) { Name = "Statics" };
+            StaticObjectCategoyModel staticObjects = new StaticObjectCategoyModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Statics" };
 
             //StaticObjectModel object1 = new StaticObjectModel(staticObjects, unityContainer) { Name = "Floor" };
             //staticObjects.Items.Add(object1);
 
 
 
-            CharacterCategoryModel characterObjects = new CharacterCategoryModel(objects, UnityContainer) { Name = "Characters" };
+            CharacterCategoryModel characterObjects = new CharacterCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Characters" };
       //      CreatureCategoryModel creatureObjects = new CreatureCategoryModel(objects, UnityContainer) { Name = "Creatures" };
             //RaceModel race = new RaceModel(chars, unityContainer) { Name = "Human" };
             //GenderModel male = new GenderModel(race, unityContainer) { Name = "Male" };
@@ -126,17 +139,17 @@ namespace OIDE.Core
             //PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, unityContainer) { Name = "pomChar1" };
             //allPhysics.Items.Add(po1);
 
-            SpawnPointCategoryModel allSpawns = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "SpawnPoints" };
-            
-            
-            SpawnPointCategoryModel allTrigger = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Triggers" };
-            SpawnPointCategoryModel allLights = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Lights" };
-            SpawnPointCategoryModel allSkies = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Skies" };
-            SpawnPointCategoryModel allTerrains = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Terrains" };
-            SpawnPointCategoryModel allSounds = new SpawnPointCategoryModel(objects, UnityContainer) { Name = "Sounds" };
+            SpawnPointCategoryModel allSpawns = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "SpawnPoints" };
 
 
-            StaticObjectCategoyModel DynamicObjects = new StaticObjectCategoyModel(objects, UnityContainer) { Name = "Dynamics" };
+            SpawnPointCategoryModel allTrigger = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Triggers" };
+            SpawnPointCategoryModel allLights = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Lights" };
+            SpawnPointCategoryModel allSkies = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Skies" };
+            SpawnPointCategoryModel allTerrains = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Terrains" };
+            SpawnPointCategoryModel allSounds = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Sounds" };
+
+
+            StaticObjectCategoyModel DynamicObjects = new StaticObjectCategoyModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Dynamics" };
 
             //PhysicCategoryModel allOgreObjects = new PhysicCategoryModel(objects, UnityContainer) { Name = "Ogre Objects" };
             //allOgreObjects.Items.Add(new StaticObjectModel(allOgreObjects, UnityContainer) { Name = "Plane" });
@@ -160,8 +173,10 @@ namespace OIDE.Core
                         {
                             case EntityTypes.NT_SpawnPoint:
 
-                                SpawnPointModel tmpSpawnPoint = new SpawnPointModel(allSpawns, UnityContainer, m_DBI)
+                                SpawnPointModel tmpSpawnPoint = new SpawnPointModel()
                                 {
+                                    Parent = allSpawns,
+                                    UnityContainer = UnityContainer,
                                     ContentID = "SpawnPointID:##:" + gameEntity.Entity.EntID,
                                     Name = gameEntity.Entity.Name ?? ("Noname SpawnPoint " + (int)gameEntity.Entity.EntID),
                                     DBData = gameEntity
@@ -172,8 +187,10 @@ namespace OIDE.Core
 
                             case EntityTypes.NT_Static:
 
-                                StaticObjectModel tmp = new StaticObjectModel(staticObjects, UnityContainer, m_DBI)
+                                StaticObjectModel tmp = new StaticObjectModel()
                                 {
+                                    Parent = staticObjects,
+                                    UnityContainer = UnityContainer,
                                     ContentID = "StaticID:##:" + gameEntity.Entity.EntID,
                                     Name = gameEntity.Entity.Name ?? ("Noname Static " + (int)gameEntity.Entity.EntID),
                                     DB_Entity = gameEntity
@@ -183,8 +200,10 @@ namespace OIDE.Core
                                 break;
                             case EntityTypes.NT_Character:
 
-                                CharacterEntity tmpChar = new CharacterEntity(characterObjects, UnityContainer, m_DBI)
+                                CharacterEntity tmpChar = new CharacterEntity()
                                 {
+                                    Parent = characterObjects,
+                                    UnityContainer = UnityContainer,
                                     ContentID = "CharacterObjID:##:" + gameEntity.Entity.EntID,
                                     Name = gameEntity.Entity.Name ?? ("Noname CharObj " + (int)gameEntity.Entity.EntID),
                                     DB_Entity = gameEntity
@@ -268,48 +287,125 @@ namespace OIDE.Core
             return mOpened = true;
 
         }
-        public Boolean Save() { return true; }
-        public Boolean Delete() { return true; }
+     
+        public override  Boolean Delete() 
+        {
+            return true; 
+        }
 
         public String Location { get; set; }
 
-        public GameDBFileModel()
-        {
-            m_DBI = new IDAL();
-
-        }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
-
-        public GameDBFileModel(IItem parent, IUnityContainer unityContainer)
+        public OIDEDBFileModel()
         {
             Name = "SQLiteDB";
-            UnityContainer = unityContainer;
-            Parent = parent;
+         //   Parent = parent;
             Items = new CollectionOfIItem();
-            MenuOptions = new List<MenuItem>();
-
+            this.CanAddThisItems = new List<Type>();
+    
             MenuItem mib1a = new MenuItem();
             mib1a.Header = "Text.xaml";
             MenuOptions.Add(mib1a);
 
-            m_DBI = new IDAL();
+           // m_DBI = new IDAL();
+
+      
+            CanAddThisItems.Add(typeof(SceneDataModel));
 
 
-
-
-
+            CmdDeleteDBFile = new CmdDeleteDBFile(this);
 
         }
 
 
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
-        public Boolean Save(object param) { return true; }
-        public Boolean Closing() { return true; }
-        public void Refresh() { }
-        public void Finish() { }
-        public void Drop(IItem item) { }
+        public override  Boolean Create(IUnityContainer unityContainer)
+        {
+            m_DBI = new IDAL(unityContainer);
+            return true;
+        }
+        public override Boolean Save(object param) { return true; }
+        public override Boolean Closing() { return true; }
+        public override void Refresh() { }
+        public override void Finish() { }
+        public override void Drop(IItem item) { }
+    }
+
+
+
+    public class CmdAddExistingItemToDBFile : IHistoryCommand
+    {
+        private OIDEDBFileModel mpm;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            Type t = parameter as Type;
+
+            //to create the objects i need the parameter data!!!!
+            //         mpm.Save();
+            if (t.Name == "SceneDataModel")
+            {
+                mpm.Items.Add(new SceneDataModel() { Parent = mpm, UnityContainer = mpm.UnityContainer, Name = "new scene", ContentID = "SceneID:##:" });
+                // Type instance = (Type)Activator.CreateInstance(t);
+                // object obj = t.GetConstructor(new Type[] { }).Invoke(new object[] { });
+                //   mpm.Items.Add(obj as IItem);
+            }
+        }
+
+        public CmdAddExistingItemToDBFile(OIDEDBFileModel pm)
+        {
+            mpm = pm;
+        }
+
+        public bool CanRedo() { return true; }
+        public bool CanUndo() { return true; }
+        public void Redo() { }
+        public string ShortMessage() { return "add item"; }
+        public void Undo() { }
+
+    }
+
+    public class CmdDeleteDBFile : ICommand
+    {
+        private OIDEDBFileModel m_model;
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            m_model.Items.Clear();
+            m_model.Parent.Items.Remove(m_model);
+            //IDAL dbI = new IDAL();
+
+            m_model.Delete();
+            //// To serialize the hashtable and its key/value pairs,  
+            //// you must first open a stream for writing. 
+            //// In this case, use a file stream.
+            //using (MemoryStream inputStream = new MemoryStream())
+            //{
+            //    // write to a file
+            //    ProtoBuf.Serializer.Serialize(inputStream, mpm.Data);
+
+            //    if (mpm.ID > -1)
+            //        dbI.updatePhysics(mpm.ID, inputStream.ToArray());
+            //    else
+            //        dbI.insertPhysics(mpm.ID, inputStream.ToArray());
+            //}
+
+            //DLL_Singleton.Instance.updateObject(0, (int)ObjType.Physic);
+        }
+
+        public CmdDeleteDBFile(OIDEDBFileModel model)
+        {
+            m_model = model;
+        }
     }
 }

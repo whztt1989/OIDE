@@ -131,16 +131,15 @@
     <Compile Include="CoreModule.cs" />
     <Compile Include="Model\OIDE_RFS.cs" />
     <Compile Include="Model\OIDEZipArchive.cs" />
-    <Compile Include="Model\GameStateListModel.cs" />
     <Compile Include="Model\ScenesListModel.cs" />
-    <Compile Include="ProjectTypes\Handler\GameProjectHandler.cs" />
-    <Compile Include="ProjectTypes\Model\GameDBFileModel.cs" />
-    <Compile Include="ProjectTypes\Model\GameProjectData.cs" />
-    <Compile Include="ProjectTypes\Model\GameProjectModel.cs" />
-    <Compile Include="Model\GameStateModel.cs" />
-    <Compile Include="ProjectTypes\ViewModel\GameProjectViewModel.cs" />
-    <Compile Include="ProjectTypes\View\GameProjectView.xaml.cs">
-      <DependentUpon>GameProjectView.xaml</DependentUpon>
+    <Compile Include="ProjectTypes\Handler\OIDEProjectHandler.cs" />
+    <Compile Include="ProjectTypes\Model\OIDEDBFileModel.cs" />
+    <Compile Include="ProjectTypes\Model\OIDEProjectData.cs" />
+    <Compile Include="ProjectTypes\Model\OIDEProjectModel.cs" />
+    <Compile Include="Model\OIDEStateModel.cs" />
+    <Compile Include="ProjectTypes\ViewModel\OIDEProjectViewModel.cs" />
+    <Compile Include="ProjectTypes\View\OIDEProjectView.xaml.cs">
+      <DependentUpon>OIDEProjectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -168,7 +167,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ProjectTypes\View\GameProjectView.xaml">
+    <Page Include="ProjectTypes\View\OIDEProjectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

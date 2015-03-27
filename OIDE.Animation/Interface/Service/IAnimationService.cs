@@ -9,6 +9,7 @@ using Module.Properties.Interface;
 using Wide.Interfaces;
 using Wide.Interfaces.Controls;
 using OIDE.Animation.Model;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Animation.Interface.Services
 {

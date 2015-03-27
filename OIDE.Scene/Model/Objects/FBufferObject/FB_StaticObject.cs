@@ -10,11 +10,14 @@ using Wide.Interfaces;
 using System.Xml.Serialization;
 using System.Windows;
 using OIDE.Scene.Model.Objects.FBufferObject;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
+using OIDE.Scene.Model.Objects.ObjectData;
+using Microsoft.Practices.Unity;
 
 namespace OIDE.Scene.Model.Objects
 {
     [Serializable]
-    public class FB_StaticObjectModel : IFBObject
+    public class FB_StaticObjectModel : EntityBaseModel , IFBObject
     {
         #region private members
 
@@ -27,6 +30,13 @@ namespace OIDE.Scene.Model.Objects
 
         #region Properties
 
+        /// <summary>
+        /// only for serialization
+        /// </summary>
+        [ExpandableObject]
+        public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
+
+
         [XmlIgnore]
         public object Parent { get; set; }
 
@@ -37,13 +47,14 @@ namespace OIDE.Scene.Model.Objects
 
         public int Group { get { return m_Group; } set { m_Group = FB_Helper.UpdateSelectedObject(this, m_Group, value); } }
 
-        /// <summary>
-        /// only for serialization
-        /// </summary>
-        public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
-
 
         #endregion
+
+        public FB_StaticObjectModel(IUnityContainer unityContainer)
+            : base (unityContainer)
+        {
+            m_EntityBaseModel = new FB_EntityBaseModel();
+        }
 
         #region methods
 

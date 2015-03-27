@@ -11,6 +11,7 @@ using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using OIDE.Scene.Model.Objects.FBufferObject;
+using OIDE.Scene.Interface;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -18,7 +19,8 @@ namespace OIDE.Scene.Model.Objects
     public class FB_Scene : IFBObject
     {
         private XFBType.Scene m_FBData = new XFBType.Scene();
-    
+        private CollectionOfISceneItem m_SceneItems = new CollectionOfISceneItem();
+
         #region sceneData
 
         private int m_coloroffset = 0; 
@@ -30,6 +32,9 @@ namespace OIDE.Scene.Model.Objects
 
         [XmlIgnore]
         public object Parent { get; set; }
+
+        public CollectionOfISceneItem SceneItems { get { return m_SceneItems; } set { m_SceneItems = value; } }
+
 
         public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = FB_Helper.UpdateSelectedObject(this, m_ColourAmbient, value); } } //public setter needed for serialization
 

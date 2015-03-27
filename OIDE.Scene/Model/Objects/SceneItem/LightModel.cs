@@ -36,14 +36,17 @@ using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
 using OIDE.Scene.Interface.Services;
 using System.Xml.Serialization;
+using OIDE.Scene.Interface;
+using Wide.Interfaces.Services;
+using Wide.Core.Services;
 
 namespace OIDE.Scene.Model
 {
-    public class LightModel : ISceneItem
+    public class LightModel :PItem, ISceneItem
     {
         [XmlIgnore]
         [Browsable(false)]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
 
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
@@ -68,7 +71,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
        
         public Int32 ID { get; set; }
         public String Name { get; set; }
@@ -109,7 +112,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; set; }
 
         /// <summary>
         /// default constructor for serlialization
@@ -123,7 +126,7 @@ namespace OIDE.Scene.Model
         {
             UnityContainer = unityContainer;
             Parent = parent;
-            SceneItems = new ObservableCollection<ISceneItem>();
+            SceneItems = new CollectionOfISceneItem();
         }
 
     }

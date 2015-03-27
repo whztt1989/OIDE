@@ -18,6 +18,7 @@ using Module.Properties.Interface;
 using Module.Properties.Interface.Services;
 using OIDE.Animation.Interface.Services;
 using Wide.Interfaces;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Animation.View
 {

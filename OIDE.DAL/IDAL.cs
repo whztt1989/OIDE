@@ -36,6 +36,8 @@ using Module.DB.Settings;
 using System.Data;
 using DAL.MDB;
 using System.Windows;
+using Microsoft.Practices.Unity;
+using Wide.Interfaces.Services;
 
 
 namespace DAL
@@ -43,10 +45,14 @@ namespace DAL
     public class IDAL: IDisposable
     {
         dbDataEntities mCtx;
+        IUnityContainer m_Container;
+        ILoggerService m_loggerService;
 
-        public IDAL()
+        public IDAL(IUnityContainer container)
         {
             mCtx = new dbDataEntities();
+            m_Container = container;
+            m_loggerService = container.Resolve<ILoggerService>();
         //    mCtx.Database.Connection.StateChange += new StateChangeEventHandler(StateChange);
         }
 
@@ -264,11 +270,20 @@ namespace DAL
 
         public bool DeleteScene(Int32 id)
         {
-           // Scene tmp = new Scene() { Data = data };
-            mCtx.Scene.Remove(mCtx.Scene.Where(x => x.SceneID == id).First());
-            mCtx.SaveChanges();
-           // id = (int)tmp.SceneID;
-            return true;
+            try
+            {
+                // Scene tmp = new Scene() { Data = data };
+                mCtx.Scene.Remove(mCtx.Scene.Where(x => x.SceneID == id).First());
+                mCtx.SaveChanges();
+                // id = (int)tmp.SceneID;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                m_loggerService.Log("error IDAL.DeleteScene(id="+id+")" + (ex.InnerException != null ? ex.InnerException.Message : ex.Message) , LogCategory.Exception, LogPriority.High);
+                //     MessageBox.Show("dreck_" + id + "_!!!!");
+            }
+            return false;
         }
 
         public bool updateScene(Scene scene)

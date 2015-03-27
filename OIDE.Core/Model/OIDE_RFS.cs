@@ -35,6 +35,7 @@ using OIDE.VFS;
 using System.IO;
 using System.Windows.Input;
 using OIDE.VFS.VFS_Types.RootFileSystem;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Core.Model
 {
@@ -49,11 +50,11 @@ namespace OIDE.Core.Model
         }
 
         //todo OnExpand Event .. to load zip file not in constructor?
-        public OIDE_RFS(IItem parent, IUnityContainer container)
-            : base(parent , container)
-        {
+        //public OIDE_RFS(IItem parent, IUnityContainer container)
+        //    : base(parent , container)
+        //{
 
-            IsDirty = true;
-        }
+        //    IsDirty = true;
+        //}
     }
 }

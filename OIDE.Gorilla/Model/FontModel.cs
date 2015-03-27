@@ -8,11 +8,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wide.Core.Services;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Gorilla.Model
 {
 
-    public class FontModel : IItem
+    public class FontModel : PItem
     {
         private GorillaModel m_Gorilla;
         private CollectionOfIItem mFonts;

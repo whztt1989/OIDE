@@ -65,7 +65,7 @@ namespace DAL
 
         //[Browsable(false)]
         //[XmlIgnore]
-        //public IItem Parent { get; private set; }
+        //public IItem Parent { get; set; }
 
         //public Boolean Create() { return true; }
         //public Boolean Open(object id) { return true; }

@@ -10,6 +10,7 @@ using Wide.Interfaces;
 using Wide.Interfaces.Controls;
 using OIDE.Scene;
 using OIDE.Scene.Model;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Scene.Interface.Services
 {

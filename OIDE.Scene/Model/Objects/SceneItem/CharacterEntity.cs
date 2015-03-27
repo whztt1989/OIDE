@@ -52,6 +52,7 @@ using WIDE_Helpers;
 using OIDE.Scene.Model.Objects.ObjectData;
 using System.Windows;
 using System.IO;
+using Wide.Core.Services;
 
 namespace OIDE.Scene.Model
 {
@@ -67,13 +68,9 @@ namespace OIDE.Scene.Model
     //    }
     //}
 
-    public class CharacterEntity : EntityBaseModel, ISceneItem
+    public class CharacterEntity : PItem, ISceneItem
     {
-        private FB_CharacterObject m_FBData;
-
-
         public Boolean Visible { get; set; }
-        public Boolean Enabled { get; set; }
         public Int32 NodeID { get; set; }
       
         #region protodata
@@ -107,20 +104,19 @@ namespace OIDE.Scene.Model
             }
         }
 
-        public String ContentID { get; set; }
-
+     
         [XmlIgnore]
         [Browsable(false)]
-        public ObservableCollection<ISceneItem> SceneItems { get; protected set; }
+        public CollectionOfISceneItem SceneItems { get; protected set; }
 
-        public Byte[] ByteBuffer
-        {
-            get
-            {
-                //todo return m_FB_SceneNode.CreateByteBuffer();
-                return new Byte[0];
-            }
-        }
+        //public Byte[] ByteBuffer
+        //{
+        //    get
+        //    {
+        //        //todo return m_FB_SceneNode.CreateByteBuffer();
+        //        return new Byte[0];
+        //    }
+        //}
 
         [XmlIgnore]
         [Browsable(false)]
@@ -130,15 +126,20 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public DAL.IDAL.EntityContainer DB_Entity { get; set; }
 
-        #region GameEntityData
+    //    #region GameEntityData
 
-        //todo prototype!!!! or? skeleton path is located in mesh  file ...
-        private String mSkeleton;
 
-        [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
-        [Category("GameEntity")]
-        public String Skeleton { get { return mSkeleton; } set { mSkeleton = value; } }
-      
+        #region serializable data
+
+        private FB_CharacterObject m_FBData;// = new FB_CharacterObject();
+
+   //     [XmlIgnore]
+   //     [ExpandableObject]
+  //      public FB_CharacterObject FB_CharacterObject { get { return m_FBData; } }
+
+        #endregion
+
+
         //  private List<String> mMeshes;
         //private List<Mesh> mMeshes;
         //[Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
@@ -178,20 +179,14 @@ namespace OIDE.Scene.Model
         //public long RaceID { get { return m_Race; } set { m_Race = value; } }
       
 
-        #endregion
+    //    #endregion
         
         private IDAL m_dbI;
 
-        public Int32 ID { get; set; }
-        public String Name { get; set; }
-
+   
         [XmlIgnore]
         [Browsable(false)]
-        public CollectionOfIItem Items { get; protected set; }
-
-        [XmlIgnore]
-        [Browsable(false)]
-        public List<MenuItem> MenuOptions
+        public override List<MenuItem> MenuOptions
         {
             get
             {
@@ -202,41 +197,20 @@ namespace OIDE.Scene.Model
             }
         }
 
-
-        [Browsable(false)]
-        public Boolean IsExpanded { get; set; }
-
         private Boolean m_opened;
-        
-        private Boolean m_IsSelected;
-        [Browsable(false)]
-        public Boolean IsSelected
-        {
-            get { return m_IsSelected; }
-            set
-            {
-                m_IsSelected = value;
 
-           //     Open(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
-            }
-        }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
-
-        [XmlIgnore]
-        [Browsable(false)]
-        public IItem Parent { get; protected set; }
-
-        public Boolean Closing() { return true; }
-
-        public Boolean Open(IUnityContainer unityContainer, object id)
+        public override Boolean Open(IUnityContainer unityContainer, object id)
         {
             if (m_opened)
                 return true;
 
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
+
+            //if (dbI != null)
+            //    m_dbI = dbI;
+            //else
+                m_dbI = new IDAL(unityContainer);
 
             //read data from lokal json file
             m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
@@ -244,7 +218,7 @@ namespace OIDE.Scene.Model
                 Create(unityContainer);
 
 
-            base.SetFBData(m_FBData.EntityBaseModel); //set base entity data
+            m_FBData.SetFBData(m_FBData.EntityBaseModel); //set base entity data
 
             //test
             //   m_FBData.Read(DB_Entity.Entity.Data);
@@ -255,14 +229,14 @@ namespace OIDE.Scene.Model
 
         private ICommand CmdSaveCharacterObj;
 
-        public void Refresh() { }
-        public void Finish() { }
+        public override void Refresh() { }
+        public override void Finish() { }
 
-        public Boolean Save(object param)
+        public override Boolean Save(object param)
         {
             try
             {
-                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer(base.m_BaseObj_FBData);
+                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer(m_FBData.BaseObj_FBData);
                 DB_Entity.Entity.Name = Name;
 
                 if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
@@ -280,7 +254,7 @@ namespace OIDE.Scene.Model
                     ContentID = ContentID + ":" + DB_Entity.Entity.EntID;
                 }
 
-                m_FBData.EntityBaseModel = base.m_BaseObj_FBData;
+                m_FBData.EntityBaseModel = m_FBData.BaseObj_FBData;
                 Helper.Utilities.USystem.XMLSerializer.Serialize<FB_CharacterObject>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
@@ -291,15 +265,20 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public Boolean Create(IUnityContainer unityContainer)
+        public override Boolean Create(IUnityContainer unityContainer)
         {
             UnityContainer = unityContainer;
-            m_FBData = new FB_CharacterObject();
+            m_FBData = new FB_CharacterObject(unityContainer);
+
+            //if (dbI != null)
+            //    m_dbI = dbI;
+            //else
+                m_dbI = new IDAL(unityContainer);
 
             return true;
         }
 
-        public Boolean Delete()
+        public override Boolean Delete()
         {
 
             try
@@ -319,45 +298,53 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public IUnityContainer UnityContainer { get; protected set; }
-
         public CharacterEntity()
-            : base(null)
-        {
-
-        }
-
-        public CharacterEntity(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
-            : base(unityContainer)
-        {
-            UnityContainer = unityContainer;
-
-            //mMeshes = new List<string>();
-            Parent = parent;
-            SceneItems = new ObservableCollection<ISceneItem>();
+         //   : base(null)
+        { 
+            SceneItems = new CollectionOfISceneItem();
             CmdSaveCharacterObj = new CmdSaveCharacterObject(this);
-            //  mtest = new Byte[10];
+
             Items = new CollectionOfIItem();
 
-            if (dbI != null)
-                m_dbI = dbI;
-            else
-                m_dbI = new IDAL();
 
 
-
-            m_FBData = new FB_CharacterObject();
-            base.m_BaseObj_FBData = new FB_EntityBaseModel();
+          //  m_FBData = new FB_CharacterObject(unityContainer);
 
             DB_Entity = new DAL.IDAL.EntityContainer();
             DB_Entity.Entity = new Entity();
-            //mData = new ProtoType.StaticEntity();
-            //mData.gameEntity = new ProtoType.GameEntity();
-            /// ???????????????????????????
             SceneNode = new DAL.MDB.SceneNode();
+          
         }
+
+        //public CharacterEntity(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
+        //    : base(unityContainer)
+        //{
+        //    UnityContainer = unityContainer;
+
+        //    //mMeshes = new List<string>();
+        //    Parent = parent;
+        //    SceneItems = new CollectionOfISceneItem();
+        //    CmdSaveCharacterObj = new CmdSaveCharacterObject(this);
+        //    //  mtest = new Byte[10];
+        //    Items = new CollectionOfIItem();
+
+        //    if (dbI != null)
+        //        m_dbI = dbI;
+        //    else
+        //        m_dbI = new IDAL(unityContainer);
+
+
+
+        //    m_FBData = new FB_CharacterObject();
+        //    base.m_BaseObj_FBData = new FB_EntityBaseModel();
+
+        //    DB_Entity = new DAL.IDAL.EntityContainer();
+        //    DB_Entity.Entity = new Entity();
+        //    //mData = new ProtoType.StaticEntity();
+        //    //mData.gameEntity = new ProtoType.GameEntity();
+        //    /// ???????????????????????????
+        //    SceneNode = new DAL.MDB.SceneNode();
+        //}
     }
 
 

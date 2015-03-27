@@ -39,11 +39,13 @@ using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 using System.Windows.Input;
 using OIDE.Scene.Model;
+using OIDE.Scene.Interface;
+using Wide.Core.Services;
 
 namespace OIDE.Scene
 {
 
-    public class SpawnPointCategoryModel : ViewModelBase, ISceneItem
+    public class SpawnPointCategoryModel : PItem, ISceneItem
     {
         public String Name { get; set; }
         public Int32 NodeID { get; set; }
@@ -56,7 +58,7 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
 
         public String ContentID { get; set; }
 
@@ -85,7 +87,7 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
 
         public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
@@ -97,7 +99,7 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; set; }
 
         public SpawnPointCategoryModel()
         {
@@ -109,7 +111,7 @@ namespace OIDE.Scene
             UnityContainer = container;
             Parent = parent;
             Items = new CollectionOfIItem();
-            SceneItems = new ObservableCollection<ISceneItem>();
+            SceneItems = new CollectionOfISceneItem();
 
 
         }

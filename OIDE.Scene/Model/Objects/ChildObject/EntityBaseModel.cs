@@ -24,6 +24,8 @@ namespace OIDE.Scene.Model.Objects.ObjectData
 
         protected FB_EntityBaseModel m_BaseObj_FBData;
 
+        public FB_EntityBaseModel BaseObj_FBData { get { return m_BaseObj_FBData; } }
+
         public void SetFBData(FB_EntityBaseModel FBBaseModel)
         {
             if (FBBaseModel != null)

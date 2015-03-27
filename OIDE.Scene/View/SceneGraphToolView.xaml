@@ -10,7 +10,8 @@
               xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=Wpf.DragDrop"
      
                xmlns:handlers="clr-namespace:OIDE.Scene.Handlers"
-           
+            xmlns:xctk="http://schemas.nn.com/wpf/xaml/toolkit"
+            
              	xmlns:tree="clr-namespace:OIDE.Scene"
              >
     <UserControl.Resources>
@@ -74,7 +75,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
             <Style TargetType="{x:Type tree:TreeListItem}">
                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
             </Style>
@@ -233,6 +234,10 @@
             </HierarchicalDataTemplate>  
         </TreeView>-->
     <Grid  Background="{DynamicResource ControlHighlightedColorBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="113*"/>
+            <RowDefinition Height="187*"/>
+        </Grid.RowDefinitions>
         <TreeView ItemsSource="{Binding Items}" 
                    ContextMenuOpening="_treeList_ContextMenuOpening" 
                   SelectedItemChanged="TreeView_SelectedItemChanged"
@@ -241,15 +246,15 @@
                   dd:DragDrop.DropHandler="{Binding}"
                   dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdorner}"
                   >
-        <TreeView.Resources>
-            <ContextMenu  x:Key="RowContextMenu" Opened="ContextMenu_Opened"   >
+            <TreeView.Resources>
+                <ContextMenu  x:Key="RowContextMenu" Opened="ContextMenu_Opened"   >
 
-            </ContextMenu>
+                </ContextMenu>
 
-        </TreeView.Resources>
-        <TreeView.ItemTemplate>
+            </TreeView.Resources>
+            <TreeView.ItemTemplate>
 
-            <HierarchicalDataTemplate ItemsSource="{Binding Items}" >
+                <HierarchicalDataTemplate ItemsSource="{Binding Items}" >
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -258,45 +263,47 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="5" />
                         <CheckBox  Grid.Column="0" IsChecked="{Binding Visible}"  Margin="5" />
-                         <!--<Slider    Grid.Column="2" Value="{Binding Value}" Width="100" Margin="10, 0, 0, 0" Maximum="1" />-->
+                        <!--<Slider    Grid.Column="2" Value="{Binding Value}" Width="100" Margin="10, 0, 0, 0" Maximum="1" />-->
                     </Grid>
-                
+
                     <!--<TextBlock Foreground="Red" Text="{Binding Name}" />-->
 
-                <HierarchicalDataTemplate.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Items}">
-                        <TextBlock Text="{Binding Name}" >
-                            <TextBlock.InputBindings>
-                                <!--<MouseBinding Gesture="LeftDoubleClick" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=DataContext.OpenElementCommand}"  />-->
-                                <!--<MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenCommand}" />-->
-                            </TextBlock.InputBindings>
-                        </TextBlock>
-                    </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Items}">
+                            <TextBlock Text="{Binding Name}" >
+                                <TextBlock.InputBindings>
+                                    <!--<MouseBinding Gesture="LeftDoubleClick" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type TreeView}}, Path=DataContext.OpenElementCommand}"  />-->
+                                    <!--<MouseBinding Gesture="LeftDoubleClick" Command="{Binding OpenCommand}" />-->
+                                </TextBlock.InputBindings>
+                            </TextBlock>
+                        </HierarchicalDataTemplate>
 
-                </HierarchicalDataTemplate.ItemTemplate>
-            </HierarchicalDataTemplate>
-        </TreeView.ItemTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
 
-        <TreeView.ItemContainerStyle>
-            
-            <Style TargetType="{x:Type TreeViewItem}">
-                
-                <!--<EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>-->
-                <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
-                <!--<Setter Property="commandBehaviors:MouseDoubleClick.Command"  Value="{Binding YourCommand}"/>-->
+            <TreeView.ItemContainerStyle>
 
-                <!--<EventSetter Event="MouseDoubleClick" Handler="ProjItemDoubleClick" />-->
-                <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
-                <!--<Setter Property="IsSelected" Value="{Binding Path=SelectedElement}"/>-->
-                <!--<Style.Triggers>
+                <Style TargetType="{x:Type TreeViewItem}">
+
+                    <!--<EventSetter Event="TreeViewItem.PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>-->
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                    <!--<Setter Property="commandBehaviors:MouseDoubleClick.Command"  Value="{Binding YourCommand}"/>-->
+
+                    <!--<EventSetter Event="MouseDoubleClick" Handler="ProjItemDoubleClick" />-->
+                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
+                    <!--<Setter Property="IsSelected" Value="{Binding Path=SelectedElement}"/>-->
+                    <!--<Style.Triggers>
                         <Trigger Property="IsSelected"  Value="{Binding IsSelected}">
                         </Trigger>
                     </Style.Triggers>-->
 
-            </Style>
-        </TreeView.ItemContainerStyle>
+                </Style>
+            </TreeView.ItemContainerStyle>
 
-    </TreeView>
+        </TreeView>
+        
+        <xctk:PropertyGrid Background="White" Grid.Row="1" BorderThickness="0" Name="propGrid" SelectedObject="{Binding SelectedObject}" ShowSortOptions="True" IsCategorized="True" />
 
 
     </Grid>

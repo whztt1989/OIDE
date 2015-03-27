@@ -42,6 +42,7 @@ using System.Windows;
 using Module.DB.Interface.Services;
 using OIDE.Core.ProjectTypes.Handler;
 using OIDE.Core.ProjectTypes.View;
+using Module.PFExplorer.Interface.Services;
 
 namespace OIDE.Core
 {
@@ -72,6 +73,14 @@ namespace OIDE.Core
             RegisterDatabase();
             SetDatabaseContext();
 
+     //       _eventAggregator.GetEvent<ActiveContentChangedEvent>().Subscribe(ActiveContentChanged);
+
+        }
+
+        private void ActiveContentChanged(ContentViewModel model)
+        {
+  //          var mProjectTreeService = _container.Resolve<IProjectTreeService>();
+  //          mProjectTreeService.SetAsRoot(null);
         }
 
         private void RegisterDatabase()
@@ -135,11 +144,11 @@ namespace OIDE.Core
 
         private void RegisterParts()
         {
-            _container.RegisterType<GameProjectHandler>();
-            _container.RegisterType<GameProjectViewModel>();
-            _container.RegisterType<GameProjectView>();
+            _container.RegisterType<OIDEProjectHandler>();
+            _container.RegisterType<OIDEProjectViewModel>();
+            _container.RegisterType<OIDEProjectView>();
 
-            IContentHandler handler = _container.Resolve<GameProjectHandler>();
+            IContentHandler handler = _container.Resolve<OIDEProjectHandler>();
             _container.Resolve<IContentHandlerRegistry>().Register(handler);
         }
 

@@ -36,10 +36,12 @@ using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 using System.ComponentModel;
+using OIDE.Scene.Interface;
+using Wide.Core.Services;
 
 namespace OIDE.Scene
 {
-    public class SceneFilterModel : ViewModelBase, ISceneItem
+    public class SceneFilterModel : PItem, ISceneItem
     {
         public String Name { get; set; }
         public Int32 NodeID { get; set; }
@@ -64,7 +66,7 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
 
         [Browsable(false)]
         [XmlIgnore]
@@ -72,7 +74,7 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
 
         public SceneFilterModel()
         {
@@ -89,7 +91,7 @@ namespace OIDE.Scene
 
         [Browsable(false)]
         [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; set; }
 
         public SceneFilterModel(IItem parent, IUnityContainer unityContainer)
         {

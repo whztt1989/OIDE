@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Controls.Primitives;
 using Module.Properties.Interface;
 using OIDE.Scene.Interface.Services;
+using OIDE.Scene.Interface;
 
 namespace  OIDE.Scene
 {
@@ -180,7 +181,7 @@ namespace  OIDE.Scene
 
         public IScene RootItem { get; set; }
 
-		private ObservableCollection<ISceneItem> GetChildren(TreeNode parent)
+		private CollectionOfISceneItem GetChildren(TreeNode parent)
 		{
             if (RootItem != null)
             {

@@ -130,7 +130,7 @@ namespace OIDE.VFS
         /// </summary>
         [Browsable(false)]
         [XmlIgnore]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
 
         #endregion 
 
@@ -236,11 +236,12 @@ namespace OIDE.VFS
                            ICommandManager commandMgr = UnityContainer.Resolve<ICommandManager>();
                            IMenuService menuService = UnityContainer.Resolve<IMenuService>();
                            
-                           var item = new FileItem(commandMgr, menuService)
+                           var item = new FileItem()//commandMgr, menuService)
                            {
+                               UnityContainer = UnityContainer,
                                ContentID  = "FILE:##:",
                                Name = file.Name,
-                               Path = file.FullName
+                           //todo    Path = file.FullName
                            };
 
                            m_Items.Add(item);
@@ -295,7 +296,7 @@ namespace OIDE.VFS
 
         [Browsable(false)]
         [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
@@ -336,9 +337,9 @@ namespace OIDE.VFS
             //m_Items.Add(gameData);
 
 
-            Items.Add(new FileCategoryModel(parent, container) { Name = "Meshes" });
-            Items.Add(new FileCategoryModel(parent, container) { Name = "Textures" });
-            Items.Add(new FileCategoryModel(parent, container) { Name = "Sounds" });
+            Items.Add(new FileCategoryModel() { Parent = parent, UnityContainer = container,  Name = "Meshes" });
+            Items.Add(new FileCategoryModel() { Parent = parent, UnityContainer = container, Name = "Textures" });
+            Items.Add(new FileCategoryModel() { Parent = parent, UnityContainer = container, Name = "Sounds" });
 
             //-----------------------------------------
             //Customize Database category structure

@@ -23,57 +23,12 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
+using Wide.Core.Services;
 
 namespace OIDE.AssetBrowser
 {
-    public class AsssetCategoryModel : ViewModelBase, IItem
+    public class AsssetCategoryModel : PItem, IItem
     {
-        [XmlAttribute]
-        public String Name { get;set; }
-        public CollectionOfIItem Items { get; set; }
-
-        public void Drop(IItem item) { }
-        
-
-        [XmlIgnore]
-        public List<MenuItem> MenuOptions { get; protected set; }
-        [XmlAttribute]
-        public Boolean IsExpanded { get; set; }
-        [XmlAttribute]
-        public Boolean IsSelected { get; set; }
-
-        [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
-
-        [XmlIgnore]
-        public IItem Parent { get; private set; }
-
-        public String ContentID { get; set; }
-
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
-        public Boolean Save(object param) { return true; }
-        public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
-        public Boolean Delete() { return true; }
-        public Boolean Closing() { return true; }
-        public void Refresh() {  }
-        public void Finish() {  }
-
-        public AsssetCategoryModel() { }
-
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
-
-        public AsssetCategoryModel(IItem parent, IUnityContainer unityContainer)
-        {
-            Parent = parent;
-            Items = new CollectionOfIItem();
-            MenuOptions = new List<MenuItem>();
-            UnityContainer = unityContainer;
-
-            MenuItem mib1a = new MenuItem();
-            mib1a.Header = "Text.xaml";
-            MenuOptions.Add(mib1a);
-
-        }
+     
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Module.Properties.Interface;
 using Xceed.Wpf.Toolkit.PropertyGrid;
 using Xceed.Wpf.Toolkit.PropertyGrid.Editors;
+using Wide.Interfaces.Services;
 
 namespace OIDE.VFS.View
 {

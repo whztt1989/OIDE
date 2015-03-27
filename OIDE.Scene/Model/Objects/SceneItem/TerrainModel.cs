@@ -35,12 +35,15 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using Module.Properties.Interface;
 using Microsoft.Practices.Unity;
+using OIDE.Scene.Interface;
+using Wide.Interfaces.Services;
+using Wide.Core.Services;
 
 namespace OIDE.Scene.Model
 {
-    public class TerrainModel : ISceneItem
+    public class TerrainModel : PItem, ISceneItem
     {
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
 
@@ -52,7 +55,7 @@ namespace OIDE.Scene.Model
         public String Name { get; set; }
         public Int32 NodeID { get; set; }
       
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
         [Browsable(false)]
         public CollectionOfIItem Items { get; private set; }
         [Browsable(false)]
@@ -81,14 +84,14 @@ namespace OIDE.Scene.Model
         public Boolean IsSelected { get; set; }
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; set; }
         public TreeNode TreeNode { get; set; }
 
         public TerrainModel(ISceneItem parent,IUnityContainer unityContainer )
         {
             UnityContainer = unityContainer;
             Parent = parent;
-            SceneItems = new ObservableCollection<ISceneItem>();
+            SceneItems = new CollectionOfISceneItem();
             parent.SceneItems.Add(this);
         }
 

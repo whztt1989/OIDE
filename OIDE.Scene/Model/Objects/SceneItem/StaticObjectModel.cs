@@ -52,10 +52,12 @@ using WIDE_Helpers;
 using OIDE.Scene.Model.Objects.ObjectData;
 using System.Windows;
 using System.IO;
+using OIDE.Scene.Interface;
+using Wide.Core.Services;
 
 namespace OIDE.Scene.Model
 {
-    public class StaticObjectModel : EntityBaseModel, ISceneItem
+    public class StaticObjectModel : PItem, ISceneItem
     {
         private FB_StaticObjectModel m_FBData;
 
@@ -77,7 +79,7 @@ namespace OIDE.Scene.Model
         
         [XmlIgnore]
         [Browsable(false)]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
 
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
@@ -98,7 +100,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
 
         private string m_Name;
         public String Name { get { return m_Name; } set { m_Name = value; RaisePropertyChanged("Name"); } }
@@ -165,15 +167,23 @@ namespace OIDE.Scene.Model
             if (m_opened)
                 return true;
 
+            m_FBData = new FB_StaticObjectModel(unityContainer);
+
+            UnityContainer = unityContainer;
+            //if (dbI != null)
+            //    m_dbI = dbI;
+            //else
+                m_dbI = new IDAL(unityContainer);
+
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
             //read data from lokal json file
             m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
                 Create(unityContainer);
-           
 
-            base.SetFBData(m_FBData.EntityBaseModel); //set base entity data
+
+            m_FBData.SetFBData(m_FBData.EntityBaseModel); //set base entity data
 
             //test
          //   m_FBData.Read(DB_Entity.Entity.Data);
@@ -189,7 +199,7 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer(base.m_BaseObj_FBData);
+                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer(m_FBData.EntityBaseModel);
                 DB_Entity.Entity.Name = Name;
 
                 if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
@@ -207,7 +217,7 @@ namespace OIDE.Scene.Model
                     ContentID = ContentID + ":"+ DB_Entity.Entity.EntID;
                 }
 
-                m_FBData.EntityBaseModel = base.m_BaseObj_FBData;
+                m_FBData.EntityBaseModel = m_FBData.EntityBaseModel;
                 Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
@@ -223,8 +233,14 @@ namespace OIDE.Scene.Model
 
         public Boolean Create(IUnityContainer unityContainer)
         {
-            m_FBData = new FB_StaticObjectModel();
+            m_FBData = new FB_StaticObjectModel(unityContainer);
             
+            UnityContainer = unityContainer;
+            //if (dbI != null)
+            //    m_dbI = dbI;
+            //else
+                m_dbI = new IDAL(unityContainer);
+
             return true; 
         }
         public Boolean Delete() {
@@ -248,39 +264,27 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; set; }
 
         /// <summary>
         /// Default contructor for serialization
         /// </summary>
         public StaticObjectModel()
-            : base(null)
+       //     : base(null)
         {
-
-        }
-
-        public StaticObjectModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
-            : base(unityContainer)
-        {     
-            UnityContainer = unityContainer;
-
+          
             //mMeshes = new List<string>();
-            Parent = parent;
-            SceneItems = new ObservableCollection<ISceneItem>();
+          //  Parent = parent;
+            SceneItems = new CollectionOfISceneItem();
             CmdSaveStaticObj = new CmdSaveStaticObject(this);
             CmdDeleteStaticObj = new CmdDeleteStaticObject(this);
-          //  mtest = new Byte[10];
+            //  mtest = new Byte[10];
             Items = new CollectionOfIItem();
 
-            if (dbI != null)
-                m_dbI = dbI;
-            else
-                m_dbI = new IDAL();
 
 
-            
-            m_FBData = new FB_StaticObjectModel();
-            base.m_BaseObj_FBData = new FB_EntityBaseModel();
+
+          //  m_FBData.m_BaseObj_FBData = new FB_EntityBaseModel();
 
             DB_Entity = new DAL.IDAL.EntityContainer();
             DB_Entity.Entity = new Entity();
@@ -288,8 +292,39 @@ namespace OIDE.Scene.Model
             //mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
             SceneNode = new DAL.MDB.SceneNode();
-
         }
+
+        //public StaticObjectModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
+        //    : base(unityContainer)
+        //{     
+        //    UnityContainer = unityContainer;
+
+        //    //mMeshes = new List<string>();
+        //    Parent = parent;
+        //    SceneItems = new CollectionOfISceneItem();
+        //    CmdSaveStaticObj = new CmdSaveStaticObject(this);
+        //    CmdDeleteStaticObj = new CmdDeleteStaticObject(this);
+        //  //  mtest = new Byte[10];
+        //    Items = new CollectionOfIItem();
+
+        //    if (dbI != null)
+        //        m_dbI = dbI;
+        //    else
+        //        m_dbI = new IDAL(unityContainer);
+
+
+            
+        //    m_FBData = new FB_StaticObjectModel();
+        //    base.m_BaseObj_FBData = new FB_EntityBaseModel();
+
+        //    DB_Entity = new DAL.IDAL.EntityContainer();
+        //    DB_Entity.Entity = new Entity();
+        //    //mData = new ProtoType.StaticEntity();
+        //    //mData.gameEntity = new ProtoType.GameEntity();
+        //    /// ???????????????????????????
+        //    SceneNode = new DAL.MDB.SceneNode();
+
+        //}
     }
 
   public class CmdDeleteStaticObject : ICommand

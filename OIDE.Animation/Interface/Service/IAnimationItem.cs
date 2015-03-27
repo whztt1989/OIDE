@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Module.Properties.Interface;
 using System.Windows.Shapes;
+using Wide.Interfaces.Services;
 
 namespace OIDE.Animation.Interface.Services
 {

@@ -47,10 +47,12 @@ using OIDE.VFS.VFS_Types.RootFileSystem;
 using OIDE.Scene.Model.Objects;
 using Module.Properties.Types;
 using WIDE_Helpers;
+using OIDE.Scene.Interface;
+using Wide.Core.Services;
 
 namespace OIDE.Scene.Model
 {
-    public class SpawnPointModel : ISceneItem
+    public class SpawnPointModel : PItem, ISceneItem
     {
         //private ProtoType.SpawnPoint mData;
 
@@ -69,7 +71,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
 
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
@@ -164,7 +166,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
 
         public String Name { get; set; }
 
@@ -276,7 +278,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; set; }
 
         /// <summary>
         /// Default contructor for serialization
@@ -292,7 +294,7 @@ namespace OIDE.Scene.Model
 
             //mMeshes = new List<string>();
             Parent = parent;
-            SceneItems = new ObservableCollection<ISceneItem>();
+            SceneItems = new CollectionOfISceneItem();
             CmdSaveSpawnPointObj = new CmdSaveSpawnPoint(this);
             //  mtest = new Byte[10];
             Items = new CollectionOfIItem();
@@ -300,7 +302,7 @@ namespace OIDE.Scene.Model
             if (dbI != null)
                 m_dbI = dbI;
             else
-                m_dbI = new IDAL();
+                m_dbI = new IDAL(unityContainer);
 
           
             //mData = new ProtoType.SpawnPoint();

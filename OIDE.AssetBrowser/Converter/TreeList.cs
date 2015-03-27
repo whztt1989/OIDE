@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using System.Windows.Controls.Primitives;
 using Module.Properties.Interface;
+using Wide.Interfaces.Services;
 
 namespace OIDE.AssetBrowser
 {

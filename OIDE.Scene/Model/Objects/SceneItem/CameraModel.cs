@@ -37,10 +37,13 @@ using Module.Properties.Interface;
 using Microsoft.Practices.Unity;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Xml.Serialization;
+using OIDE.Scene.Interface;
+using Wide.Interfaces.Services;
+using Wide.Core.Services;
 
 namespace OIDE.Scene.Model
 {
-    public class CameraModel : ISceneItem
+    public class CameraModel : PItem, ISceneItem
     {
         public Boolean Visible { get; set; }
         public Boolean Enabled { get; set; }
@@ -49,7 +52,7 @@ namespace OIDE.Scene.Model
 
         [Browsable(false)]
         [XmlIgnore]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; private set; }
 
         public void Drop(IItem item) { }
 
@@ -112,7 +115,7 @@ namespace OIDE.Scene.Model
 
         [Browsable(false)]
         [XmlIgnore]
-        public IItem Parent { get; private set; }
+        public IItem Parent { get; set; }
 
         public Boolean Open(IUnityContainer unityContainer,object id)
         {
@@ -130,7 +133,7 @@ namespace OIDE.Scene.Model
 
         [Browsable(false)]
         [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
+        public IUnityContainer UnityContainer { get; set; }
 
         public CameraModel (IItem parent,IUnityContainer unityContainer)
         {

@@ -42,6 +42,7 @@ using OIDE.Scene;
 using Microsoft.Practices.Unity;
 using OIDE.Scene.Interface.Services;
 using DAL;
+using System.ComponentModel;
 
 
 namespace OIDE.Core
@@ -61,7 +62,7 @@ namespace OIDE.Core
         {
             ScenesListModel sceneCategoryModel = parameter as ScenesListModel;
 
-            sceneCategoryModel.Items.Add(new SceneDataModel(sceneCategoryModel, sceneCategoryModel.UnityContainer) { Name = "Scene 1", ContentID = "SceneID:##:" }); //CreateScene();
+            sceneCategoryModel.Items.Add(new SceneDataModel() { Parent = sceneCategoryModel, UnityContainer = sceneCategoryModel.UnityContainer, Name = "Scene 1", ContentID = "SceneID:##:" }); //CreateScene();
 
             //IDAL dbI = new IDAL();
 
@@ -100,52 +101,58 @@ namespace OIDE.Core
         private ICommand m_cmdCreateScene;
 
         [XmlIgnore]
-        public IUnityContainer UnityContainer { get; private set; }
+        [Browsable(false)]
+        public IUnityContainer UnityContainer { get; set; }
 
         public ScenesListModel()
-            : base(null, null)
+          //  : base(null, null)
         {
-
-        }
-
-        public ScenesListModel(IItem parent, IUnityContainer container) :
-            base(parent, container)
-        {
-            UnityContainer = container;
-            //m_CommandManager = commandManager;
-            //m_MenuService = menuService;
-            ISceneService sceneService = container.Resolve<ISceneService>();
-            IDAL iDAL = new IDAL();
-            
-            var allScenes =  iDAL.selectAllScenesDataOnly();
-
-            if (allScenes != null)
-            {
-                foreach (var scene in allScenes)
-                {
-                    SceneDataModel sceneProto2 = new SceneDataModel(this, container)
-                    { 
-                        Name = "Scene_" + scene.SceneID,
-                        ContentID = "SceneID:##:" + scene.SceneID, 
-                        SceneID = scene.SceneID ,
-                      //todo  SceneData = scene
-                    };
-
-                    sceneService.AddScene(sceneProto2);
-                    this.Items.Add(sceneProto2);
-                }
-            }
-
             MenuOptions = new List<MenuItem>();
             m_cmdCreateScene = new CmdCreateScene(this);
             MenuItem mib1a = new MenuItem() { Header = "Create Scene", Command = m_cmdCreateScene, CommandParameter = this };
             MenuOptions.Add(mib1a);
-
-            //SceneDataModel sceneProto1 = new SceneDataModel(this, container) { Name = "Scene1.proto", ContentID = "SceneID:##:0" };
-            //sceneService.AddScene(sceneProto1);
-     
-            //this.Items.Add(sceneProto1);
-           
         }
+
+        //public ScenesListModel(IItem parent, IUnityContainer container) :
+        //    base(parent, container)
+        //{
+        //    UnityContainer = container;
+        //    //m_CommandManager = commandManager;
+        //    //m_MenuService = menuService;
+        //    ISceneService sceneService = container.Resolve<ISceneService>();
+        //    IDAL iDAL = new IDAL();
+            
+        //    var allScenes =  iDAL.selectAllScenesDataOnly();
+
+        //    if (allScenes != null)
+        //    {
+        //        foreach (var scene in allScenes)
+        //        {
+        //            SceneDataModel sceneProto2 = new SceneDataModel()
+        //            { 
+        //                Parent = this,
+        //                Name = "Scene_" + scene.SceneID,
+        //                ContentID = "SceneID:##:" + scene.SceneID, 
+        //                SceneID = scene.SceneID ,
+        //                UnityContainer = container
+        //              //todo  SceneData = scene
+        //            };
+
+        //            sceneService.AddScene(sceneProto2);
+        //            this.Items.Add(sceneProto2);
+        //        }
+        //    }
+
+        //    MenuOptions = new List<MenuItem>();
+        //    m_cmdCreateScene = new CmdCreateScene(this);
+        //    MenuItem mib1a = new MenuItem() { Header = "Create Scene", Command = m_cmdCreateScene, CommandParameter = this };
+        //    MenuOptions.Add(mib1a);
+
+        //    //SceneDataModel sceneProto1 = new SceneDataModel(this, container) { Name = "Scene1.proto", ContentID = "SceneID:##:0" };
+        //    //sceneService.AddScene(sceneProto1);
+     
+        //    //this.Items.Add(sceneProto1);
+           
+     //   }
     }
 }

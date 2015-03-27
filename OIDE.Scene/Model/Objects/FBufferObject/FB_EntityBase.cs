@@ -17,7 +17,7 @@ using OIDE.Scene.Model.Objects.ChildObject;
 namespace OIDE.Scene.Model.Objects
 {
     [Serializable]
-    public class FB_EntityBaseModel : IFBObject
+    public class FB_EntityBaseModel :  IFBObject
     {
         #region private members
 

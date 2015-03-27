@@ -8,6 +8,8 @@ using Module.Properties.Interface;
 using WpfTreeViewBinding.Model;
 using Wide.Core.TextDocument;
 using Wide.Interfaces.Services;
+using Module.Properties.Interface.Services;
+using Wide.Core.Services;
 
 namespace OIDE.VFS
 {
@@ -50,78 +52,48 @@ namespace OIDE.VFS
 
 namespace WpfTreeViewBinding.Model
 {
-    public class FileItem : TextModel,  IItem
+    public class FileItem : PItem
     {
-        public string Name { get; set; }
-        public string Path { get; set; }
+        //public string Name { get; set; }
+        //public string Path { get; set; }
 
-        public void Drop(IItem item) { }
+        //public void Drop(IItem item) { }
 
-        public string ContentID { get; set; }
-        public bool HasChildren { get; set; }
-        public bool IsExpanded { get; set; }
-        public bool IsSelected { get; set; }
-        public CollectionOfIItem Items { get; set; }
-        public List<System.Windows.Controls.MenuItem> MenuOptions { get; set; }
-        public IItem Parent { get; set; }
-        public IUnityContainer UnityContainer { get; set; }
+        //public string ContentID { get; set; }
+        //public bool HasChildren { get; set; }
+        //public bool IsExpanded { get; set; }
+        //public bool IsSelected { get; set; }
+        //public CollectionOfIItem Items { get; set; }
+        //public List<System.Windows.Controls.MenuItem> MenuOptions { get; set; }
+        //public IItem Parent { get; set; }
+        //public IUnityContainer UnityContainer { get; set; }
 
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
-        public bool Delete() { return true; }
-        public bool Open(IUnityContainer unityContainer, object id)
-        {
+        //public Boolean Create(IUnityContainer unityContainer) { return true; }
+        //public bool Delete() { return true; }
+        //public bool Open(IUnityContainer unityContainer, object id)
+        //{
 
-            return true;
-        }
-        public bool Save(object param = null) { return true; }
-        public void Refresh() { }
-        public void Finish() { }
+        //    return true;
+        //}
+        //public bool Save(object param = null) { return true; }
+        //public void Refresh() { }
+        //public void Finish() { }
     
-        public Boolean Closing() { return true; }
+        //public Boolean Closing() { return true; }
 
 
-        public FileItem(ICommandManager commandManager, IMenuService menuService)
-            : base(commandManager , menuService)
-        {
-            Items = new CollectionOfIItem();
-        }
+        //public FileItem(ICommandManager commandManager, IMenuService menuService)
+        //    : base(commandManager , menuService)
+        //{
+        //    Items = new CollectionOfIItem();
+        //}
     }
 }
 
 namespace WpfTreeViewBinding.Model
 {
-    public class DirectoryItem : IItem
+    public class DirectoryItem : PItem
     {
-        public string Name { get; set; }
-        public string Path { get; set; }
-
-        public void Drop(IItem item) { }
-
-        public string ContentID { get; set; }
-        public bool HasChildren { get; set; }
-        public bool IsExpanded { get; set; }
-        public bool IsSelected { get; set; }
-        public CollectionOfIItem Items { get; set; }
-        public List<System.Windows.Controls.MenuItem> MenuOptions { get; set; }
-        public IItem Parent { get; set; }
-        public IUnityContainer UnityContainer { get; set; }
-
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
-        public Boolean Closing() { return true; }
-        public bool Delete() { return true; }
-        public bool Open(IUnityContainer unityContainer, object id)
-        {
-
-            return true;
-        }
-        public bool Save(object param = null) { return true; }
-        public void Refresh() { }
-        public void Finish() { }
-    
-
-        public DirectoryItem()
-        {
-            Items = new CollectionOfIItem();
-        }
+       
     }
 }

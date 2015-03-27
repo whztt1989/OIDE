@@ -23,10 +23,14 @@ using Module.Protob.Interface;
 using OIDE.InteropEditor.DLL;
 using FlatBuffers;
 using OIDE.Scene.Model.Objects.FBufferObject;
+using OIDE.Scene.Interface;
+using Wide.Interfaces.Services;
+using Wide.Core.Services;
 
 namespace OIDE.Scene.Model
 {
-    public class SceneNodeModel : ViewModelBase, ISceneItem
+    [Serializable]
+    public class SceneNodeModel : PItem, ISceneItem
     {
         FB_SceneNode m_FB_SceneNode; 
 
@@ -49,6 +53,12 @@ namespace OIDE.Scene.Model
 
         public long EntityID { get { return (long)m_SceneNodeDB.EntID; } set { m_SceneNodeDB.EntID = value; RaisePropertyChanged("EntityID"); } }
 
+        [XmlIgnore]
+        [Browsable(false)]
+        public IDAL IDAL { get; set; }
+
+        [XmlIgnore]
+        [Browsable(false)]       
         public DAL.MDB.SceneNode SceneNodeDB
         {
             get {    return m_SceneNodeDB; }
@@ -74,13 +84,15 @@ namespace OIDE.Scene.Model
         public String Name { get { return m_Name; } set { m_Name = value; RaisePropertyChanged("Name"); } }
 
         [Browsable(false)]
-        public ObservableCollection<ISceneItem> SceneItems { get; private set; }
+        public CollectionOfISceneItem SceneItems { get; set; }
 
 
-        [Browsable(false)]
+        [XmlIgnore]
+        [Browsable(false)]            
         public CollectionOfIItem Items { get; set; }
 
-        [Browsable(false)]
+        [XmlIgnore]
+        [Browsable(false)]             
         public List<MenuItem> MenuOptions
         {
             get
@@ -96,8 +108,9 @@ namespace OIDE.Scene.Model
             }
         }
 
-        [Browsable(false)]
-        public IItem Parent { get; private set; }
+        [XmlIgnore]
+        [Browsable(false)]       
+        public IItem Parent { get; set; }
 
         [Browsable(false)]
         public Boolean IsExpanded { get; set; }
@@ -105,7 +118,8 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public Boolean IsSelected { get; set; }
 
-        [Browsable(false)]
+        [XmlIgnore]
+        [Browsable(false)]         
         public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         public Boolean Create(IUnityContainer unityContainer) { return true; }
@@ -114,17 +128,22 @@ namespace OIDE.Scene.Model
         public Boolean Open(IUnityContainer unityContainer, object id)
         {
             uint sceneID = 0;
-            if (uint.TryParse(id.ToString(), out sceneID) && sceneID > 0) //scenedata already loaded with scene
-            {
-                NodeID = (int)SceneNodeDB.NodeID;
-                var loaded  = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneNode>("Scene/" + sceneID + "/Nodes/" + SceneNodeDB.NodeID + ".xml");
-                if (loaded != null) // catch null reference if file not found
-                    m_FB_SceneNode = loaded;
-            }
-            else
-            {
-                //todo load node directly from xml file - what is nodeid and scenenode here? .. not a use case        
-            }
+            
+            
+            //done in scene open!
+
+
+            //if (uint.TryParse(id.ToString(), out sceneID) && sceneID > 0) //scenedata already loaded with scene
+            //{
+            //    NodeID = (int)SceneNodeDB.NodeID;
+            //    var loaded  = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_SceneNode>("Scene/" + sceneID + "/Nodes/" + SceneNodeDB.NodeID + ".xml");
+            //    if (loaded != null) // catch null reference if file not found
+            //        m_FB_SceneNode = loaded;
+            //}
+            //else
+            //{
+            //    //todo load node directly from xml file - what is nodeid and scenenode here? .. not a use case        
+            //}
        
             return true;
         }
@@ -151,11 +170,13 @@ namespace OIDE.Scene.Model
 
             //save sceneNode to db
             if (NodeID > 0)
-                m_DBI.updateSceneNode(m_SceneNodeDB);
+                IDAL.updateSceneNode(m_SceneNodeDB);
             //else
             //    m_DBI.insertSceneNode(m_SceneNodeDB);
 
-            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_SceneNode>(m_FB_SceneNode,"Scene/" + sceneID + "/Nodes/" + NodeID + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+              //done in scene save!
+  
+            //Helper.Utilities.USystem.XMLSerializer.Serialize<FB_SceneNode>(m_FB_SceneNode,"Scene/" + sceneID + "/Nodes/" + NodeID + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
 
             return true; 
         }
@@ -177,26 +198,23 @@ namespace OIDE.Scene.Model
           //  m_model.Items.Clear();
             (Parent as IScene).SceneItems.Remove(this);
 
-            m_DBI.DeleteSceneNode(NodeID);
+            IDAL.DeleteSceneNode(NodeID);
 
             return true; 
         }
 
-        private IDAL m_DBI;
+       // private IDAL m_DBI;
 
-        [Browsable(false)]
-        public IUnityContainer UnityContainer { get; private set; }
+        [XmlIgnore]
+        [Browsable(false)]  
+        public IUnityContainer UnityContainer { get; set; }
 
         private CmdDeleteNode mCmdDeleteNode;
 
-        public SceneNodeModel(IScene parent, IUnityContainer container, IDAL  dbi)
+        public SceneNodeModel()//IScene parent, IUnityContainer container, IDAL  dbi)
         {
-            this.Parent = parent;
+         //   this.Parent = parent;
 
-            if(dbi == null)
-                m_DBI = new IDAL();
-            else
-                m_DBI = dbi;
 
             mCmdDeleteNode = new CmdDeleteNode(this);
 

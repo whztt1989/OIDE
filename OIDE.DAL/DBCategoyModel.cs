@@ -36,69 +36,13 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
+using Wide.Core.Services;
 
 namespace DAL
 {
 
-    public class DBCategoryModel : ViewModelBase, IItem
+    public class DBCategoryModel : PItem
     {
-        public String Name { get;set; }
-        public CollectionOfIItem Items { get; set; }
-
-        public String ContentID { get; set; }
-
-        public void Drop(IItem item) { }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public List<MenuItem> MenuOptions { get; protected set; }
-
-        public Boolean IsExpanded { get; set; }
-        public Boolean IsSelected { get; set; }
-        public Boolean Enabled { get; set; }
-        public Boolean Visible { get; set; }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public Boolean HasChildren { get { return Items != null && Items.Count > 0 ? true : false; } }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IItem Parent { get; private set; }
-
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
-         public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
-         public Boolean Save(object param) { return true; }
-         public Boolean Delete() { return true; }
-         public Boolean Closing() { return true; }
-         public void Refresh() { }
-         public void Finish() { }
     
-
-         public DBCategoryModel()
-        {
-
-        }
-
-         [Browsable(false)]
-         [XmlIgnore]
-         public IUnityContainer UnityContainer { get; private set; }
-
-         public DBCategoryModel(IItem parent, IUnityContainer unityContainer)
-        {
-            UnityContainer = unityContainer;
-            Parent = parent;
-            Items = new CollectionOfIItem();
-            MenuOptions = new List<MenuItem>();
-
-            MenuItem mib1a = new MenuItem();
-            mib1a.Header = "Text.xaml";
-            MenuOptions.Add(mib1a);
-
-
-
-         
-
-        }
     }
 }

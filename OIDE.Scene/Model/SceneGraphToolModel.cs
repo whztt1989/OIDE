@@ -43,6 +43,7 @@ using GongSolutions.Wpf.DragDrop.Utilities;
 using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
 using DAL.MDB;
 using WIDE_Helpers;
+using OIDE.Scene.Interface;
 
 namespace OIDE.Scene
 {
@@ -62,12 +63,19 @@ namespace OIDE.Scene
 
         //  ObservableCollection<ContentModel> mItems;
 
+        object mSelectedObject;
+        public object SelectedObject { get { return mSelectedObject; } set { mSelectedObject = value; RaisePropertyChanged("SelectedObject"); } }
+
+
      //   public CollectionOfIItem Items { get { return mProjectTreeService.Items; } }
-        ObservableCollection<ISceneItem> schjrott;
-        public ObservableCollection<ISceneItem> Items
+        CollectionOfISceneItem schjrott;
+        public CollectionOfISceneItem Items
         { 
             get { return schjrott; }
-            set { schjrott = value; RaisePropertyChanged("Items"); }
+            set { 
+                schjrott = value; 
+                RaisePropertyChanged("Items");
+            }
         }
 
         void IDropTarget.DragOver(IDropInfo dropInfo)
@@ -178,7 +186,15 @@ namespace OIDE.Scene
 
                     };
 
-                    m_SceneService.SelectedScene.SceneItems.Add(new SceneNodeModel(m_SceneService.SelectedScene, m_SceneService.SelectedScene.UnityContainer, new IDAL()) { SceneNodeDB = node, Name = node.Name ?? "NodeNoname" });
+                    //   m_SceneService.SelectedScene.SceneItems.Add(new SceneNodeModel(m_SceneService.SelectedScene, m_SceneService.SelectedScene.UnityContainer, new IDAL(m_SceneService.SelectedScene.UnityContainer)) { SceneNodeDB = node, Name = node.Name ?? "NodeNoname" });
+                    m_SceneService.SelectedScene.SceneItems.Add(
+                        new SceneNodeModel()
+                        {
+                            UnityContainer = m_SceneService.SelectedScene.UnityContainer,
+                            Parent = m_SceneService.SelectedScene,
+                            SceneNodeDB = node,
+                            Name = node.Name ?? "NodeNoname"
+                        });
 
                     //ISceneNode tmp = item as ISceneNode;
 
@@ -189,7 +205,7 @@ namespace OIDE.Scene
                 }
         }
 
-        //public ObservableCollection<ISceneItem> Items { 
+        //public CollectionOfISceneItem Items { 
         //    get { 
         //        return m_SceneService.SceneItems;
         //    }
@@ -209,7 +225,7 @@ namespace OIDE.Scene
             mProjectTreeService.Items = new CollectionOfIItem();
 
             m_SceneService = container.Resolve<ISceneService>();
-            Items = new ObservableCollection<ISceneItem>();
+            Items = new CollectionOfISceneItem();
          //   m_SceneService.SelectedScene = new SceneDataModel();
             m_SceneService.SGTM = this;
             //Service für project contextmenu buttons .....
