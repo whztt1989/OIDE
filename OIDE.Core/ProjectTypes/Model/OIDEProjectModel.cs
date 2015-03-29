@@ -30,10 +30,6 @@ using Module.PFExplorer.Interface;
 using System.Xml;
 using System.Xml.Schema;
 using Microsoft.Practices.Unity;
-using OIDE.Scene.Model;
-using OIDE.Scene.Interface.Services;
-using OIDE.Scene;
-using OIDE.VFS;
 using OIDE.Core.Model;
 using Module.History.Service;
 using OIDE.AssetBrowser.Interface.Services;
@@ -41,13 +37,17 @@ using Helper.Utilities.Event;
 using OIDE.Core.ProjectTypes.Model;
 using DAL;
 using Wide.Core.Services;
+using System.IO;
+using Module.Properties.Types;
+using OIDE.AssetBrowser.Helper;
+using OIDE.Scene;
 
 namespace OIDE.Core
 {
     /// <summary>
     /// Class TextModel which contains the text of the document
     /// </summary>
-    public class OIDEProjectModel : ContentModel, ICategoryItem
+    public class OIDEProjectModel : ContentModel, ICategoryItem, IProjectFile
     {
         private OIDEProjectData m_OIDEProjectData;
         private string result;
@@ -172,6 +172,9 @@ namespace OIDE.Core
             }
         }
 
+        [Editor(typeof(FilePathEditor), typeof(FilePathEditor))]
+        public String Folder { get; set; }
+
         public override Boolean Open(IUnityContainer unityContainer, object id) 
         {
             //-----------------------------------
@@ -190,6 +193,8 @@ namespace OIDE.Core
             {
 
             }
+
+            Folder = Path.GetDirectoryName(id.ToString());
 
             return true; 
         }
@@ -219,8 +224,28 @@ namespace OIDE.Core
         public override void Finish() { }
     
         #region Settings
+        
+       [Editor(typeof(FilePathEditor), typeof(FilePathEditor))]
+        public String AssetFolder
+        {
+            get { return m_OIDEProjectData.AssetFolder; }
+            set
+            {
+                m_OIDEProjectData.AssetFolder = value;
+                var assetBrowser = UnityContainer.Resolve<IAssetBrowserTreeService>();
 
-        public String AssetFolder { get; set; }
+                if (Directory.Exists(m_OIDEProjectData.AssetFolder))
+                {
+                    var itemProvider = new ItemProvider();
+
+                    assetBrowser.Items = itemProvider.GetItems(m_OIDEProjectData.AssetFolder);  
+                }
+                else
+                {
+                    assetBrowser.Items.Clear();
+                }
+            }
+        }
 
         #endregion
 
@@ -229,7 +254,7 @@ namespace OIDE.Core
         /// </summary>
         /// <param name="commandManager">The injected command manager.</param>
         /// <param name="menuService">The menu service.</param>
-        public OIDEProjectModel(IUnityContainer container, ISceneService sceneService, ICommandManager commandManager, IMenuService menuService)
+        public OIDEProjectModel(IUnityContainer container, ICommandManager commandManager, IMenuService menuService)
          //   : base(commandManager, menuService)
         {
             UnityContainer = container;
@@ -240,8 +265,6 @@ namespace OIDE.Core
             this.ConfirmationRequest = new InteractionRequest<Confirmation>();
             this.CanAddThisItems = new List<Type>();
         
-            CanAddThisItems.Add(typeof(OIDE_RFS));
-            CanAddThisItems.Add(typeof(OIDEZipArchive));
             CanAddThisItems.Add(typeof(OIDEDBFileModel));
        //   CanAddThisItems.Add(typeof(OIDEDBFileModel));
             //  this.SelectAEFRequest = new InteractionRequest<PSelectAEFViewModel>();
@@ -340,20 +363,18 @@ namespace OIDE.Core
       
             //to create the objects i need the parameter data!!!!
    //         mpm.Save();
-            if (t.Name == "OIDEZipArchive")
-            {
-                mpm.Items.Add(new OIDEZipArchive() { Parent = mpm, UnityContainer = mpm.UnityContainer, Name = "Unknown.zip" });
-               // Type instance = (Type)Activator.CreateInstance(t);
-               // object obj = t.GetConstructor(new Type[] { }).Invoke(new object[] { });
-             //   mpm.Items.Add(obj as IItem);
-            }
-            else if (t.Name == "OIDEDBFileModel")
+            //if (t.Name == "OIDEZipArchive")
+            //{
+            //    mpm.Items.Add(new OIDEZipArchive() { Parent = mpm, UnityContainer = mpm.UnityContainer, Name = "Unknown.zip" });
+            //   // Type instance = (Type)Activator.CreateInstance(t);
+            //   // object obj = t.GetConstructor(new Type[] { }).Invoke(new object[] { });
+            // //   mpm.Items.Add(obj as IItem);
+            //}
+            if (t.Name == "OIDEDBFileModel")
             {
                 OIDEDBFileModel dbData = new OIDEDBFileModel() {Name = "DBFile"};
-                mpm.Items.Add(dbData);
-                dbData.IsExpanded = true;
-
-                DBCategoryModel objects = new DBCategoryModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Entities" };
+              
+                DBTableModel objects = new DBTableModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Entities" };
                 objects.IsExpanded = true;
 
                 StaticObjectCategoyModel staticObjects = new StaticObjectCategoyModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Statics" };
@@ -365,7 +386,7 @@ namespace OIDE.Core
                 SpawnPointCategoryModel allTrigger = new SpawnPointCategoryModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Triggers" };
                 SpawnPointCategoryModel allLights = new SpawnPointCategoryModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Lights" };
                 SpawnPointCategoryModel allSkies = new SpawnPointCategoryModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Skies" };
-                SpawnPointCategoryModel allTerrains = new SpawnPointCategoryModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Terrains" };
+                //SpawnPointCategoryModel allTerrains = new SpawnPointCategoryModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Terrains" };
                 SpawnPointCategoryModel allSounds = new SpawnPointCategoryModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Sounds" };
                 StaticObjectCategoyModel DynamicObjects = new StaticObjectCategoyModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Dynamics" };
 
@@ -373,23 +394,36 @@ namespace OIDE.Core
                 objects.Items.Add(allSpawns);
                 objects.Items.Add(allLights);
                 objects.Items.Add(allSkies);
-                objects.Items.Add(allTerrains);
+                //objects.Items.Add(allTerrains);
                 objects.Items.Add(allSounds);
                 objects.Items.Add(DynamicObjects);
+                //dbData.Items.Add(objects);
+              
+                
+                
                 dbData.Items.Add(objects);
 
-            }
-            else if (t.Name == "OIDE_RFS")
-            {
-                mpm.AssetFolder = @"E:\Projekte\coop\OIDE\data"; //todo set per propertygrid
-                var assetBrowser = mpm.UnityContainer.Resolve<IAssetBrowserTreeService>();
-                OIDE_RFS fileAssets = new OIDE_RFS() { Parent = mpm, UnityContainer = mpm.UnityContainer, Name = "Assets VFS", ContentID = "RootVFSID:##:" };
-                fileAssets.Open(mpm.UnityContainer, mpm.AssetFolder);
-                //        m_Items.Add(fileAssets);
-                assetBrowser.SetAsRoot(fileAssets);
+                SceneCategoryModel scenes = new SceneCategoryModel() { Parent = dbData, UnityContainer = mpm.UnityContainer, Name = "Scenes" };
+                scenes.IsExpanded = true;
+                dbData.Items.Add(scenes);
 
-                mpm.Items.Add(new OIDE_RFS() { Parent = mpm, UnityContainer = mpm.UnityContainer, Name = "RFS" });
+
+                mpm.Items.Add(dbData);
+                dbData.IsExpanded = true;
+
+
             }
+            //else if (t.Name == "OIDE_RFS")
+            //{
+            //    mpm.AssetFolder = @"E:\Projekte\coop\OIDE\data"; //todo set per propertygrid
+            //    var assetBrowser = mpm.UnityContainer.Resolve<IAssetBrowserTreeService>();
+            //    OIDE_RFS fileAssets = new OIDE_RFS() { Parent = mpm, UnityContainer = mpm.UnityContainer, Name = "Assets VFS", ContentID = "RootVFSID:##:" };
+            //    fileAssets.Open(mpm.UnityContainer, mpm.AssetFolder);
+            //    //        m_Items.Add(fileAssets);
+            //    assetBrowser.SetAsRoot(fileAssets);
+
+            //    mpm.Items.Add(new OIDE_RFS() { Parent = mpm, UnityContainer = mpm.UnityContainer, Name = "RFS" });
+            //}
         }
 
         public CmdAddExistingItemToOIDEProject(OIDEProjectModel pm)

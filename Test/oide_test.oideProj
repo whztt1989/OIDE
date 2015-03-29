@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <OIDEProjectData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Name> OIDE Project</Name>
+  <Name>New OIDE Project</Name>
   <Items>
     <IItem AssemblyQualifiedName="OIDE.Core.OIDEDBFileModel, OIDE.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <OIDEDBFileModel>
@@ -8,8 +8,8 @@
         <IsExpanded>true</IsExpanded>
         <IsSelected>false</IsSelected>
         <Items>
-          <IItem AssemblyQualifiedName="DAL.DBCategoryModel, DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <DBCategoryModel>
+          <IItem AssemblyQualifiedName="DAL.DBTableModel, DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <DBTableModel>
               <Name>Entities</Name>
               <IsExpanded>true</IsExpanded>
               <IsSelected>false</IsSelected>
@@ -35,10 +35,9 @@
                           <Name>Character Obj NEW</Name>
                           <ContentID>CharacterEntID:##</ContentID>
                           <IsExpanded>false</IsExpanded>
-                          <IsSelected>false</IsSelected>
+                          <IsSelected>true</IsSelected>
                           <Items />
                           <Visible>false</Visible>
-                          <NodeID>0</NodeID>
                         </CharacterEntity>
                       </IItem>
                     </Items>
@@ -88,16 +87,6 @@
                 </IItem>
                 <IItem AssemblyQualifiedName="OIDE.Scene.SpawnPointCategoryModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
                   <SpawnPointCategoryModel>
-                    <Name>Terrains</Name>
-                    <IsExpanded>false</IsExpanded>
-                    <IsSelected>false</IsSelected>
-                    <NodeID>0</NodeID>
-                    <Enabled>false</Enabled>
-                    <Visible>false</Visible>
-                  </SpawnPointCategoryModel>
-                </IItem>
-                <IItem AssemblyQualifiedName="OIDE.Scene.SpawnPointCategoryModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-                  <SpawnPointCategoryModel>
                     <Name>Sounds</Name>
                     <IsExpanded>false</IsExpanded>
                     <IsSelected>false</IsSelected>
@@ -117,17 +106,30 @@
                   </StaticObjectCategoyModel>
                 </IItem>
               </Items>
-            </DBCategoryModel>
+              <IncID>0</IncID>
+            </DBTableModel>
           </IItem>
-          <IItem AssemblyQualifiedName="OIDE.Scene.Model.SceneDataModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <SceneDataModel>
-              <Name>OIDE Scene</Name>
-              <ContentID>SceneID:##:</ContentID>
-              <IsExpanded>false</IsExpanded>
-              <IsSelected>true</IsSelected>
-              <Items />
-              <SceneID>0</SceneID>
-            </SceneDataModel>
+          <IItem AssemblyQualifiedName="OIDE.Scene.SceneCategoryModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <SceneCategoryModel>
+              <Name>Scenes</Name>
+              <IsExpanded>true</IsExpanded>
+              <IsSelected>false</IsSelected>
+              <Items>
+                <IItem AssemblyQualifiedName="OIDE.Scene.SceneCategoryModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                  <SceneCategoryModel>
+                    <Name>Scene 1</Name>
+                    <ContentID>SceneID:##:</ContentID>
+                    <IsExpanded>false</IsExpanded>
+                    <IsSelected>false</IsSelected>
+                    <Items />
+                    <IncID>0</IncID>
+                    <Visible>false</Visible>
+                  </SceneCategoryModel>
+                </IItem>
+              </Items>
+              <IncID>0</IncID>
+              <Visible>false</Visible>
+            </SceneCategoryModel>
           </IItem>
         </Items>
         <Visible>false</Visible>

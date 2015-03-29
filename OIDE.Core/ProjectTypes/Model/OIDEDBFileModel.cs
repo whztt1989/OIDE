@@ -37,8 +37,6 @@ using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 using DAL;
-using OIDE.Scene;
-using OIDE.Scene.Model;
 using DAL.MDB;
 using Module.Protob.Utilities;
 using System.Windows;
@@ -98,11 +96,11 @@ namespace OIDE.Core
             m_DBI = new IDAL(unityContainer);
 
 
-            ScenesListModel scenesProto = new ScenesListModel() { Parent = this, UnityContainer = UnityContainer, Name = "Scenes" };
-            scenesProto.IsExpanded = true;
-            this.Items.Add(scenesProto);
+            //KH 29.03      //ScenesListModel scenesProto = new ScenesListModel() { Parent = this, UnityContainer = UnityContainer, Name = "Scenes" };
+            //KH 29.03     //scenesProto.IsExpanded = true;
+            //KH 29.03      //this.Items.Add(scenesProto);
 
-            DBCategoryModel dbRuntime = new DBCategoryModel() { Parent = this, UnityContainer = UnityContainer, Name = "Runtime Data (not needed now)" };
+         //   DBTableModel dbRuntime = new DBTableModel() { Parent = this, UnityContainer = UnityContainer, Name = "Runtime Data (not needed now)" };
             //DBCategoryModel players = new DBCategoryModel(dbRuntime, unityContainer) { Name = "Players" };
             //DBCategoryModel player1 = new DBCategoryModel(players, unityContainer) { Name = "Player1" };
             //DBCategoryModel charsPlayer = new DBCategoryModel(player1, unityContainer) { Name = "Characters" };
@@ -113,22 +111,22 @@ namespace OIDE.Core
             //dbRuntime.Items.Add(players);
             //this.Items.Add(dbRuntime);
 
-            DBCategoryModel scriptMats = new DBCategoryModel() { Parent = this, UnityContainer = UnityContainer, Name = "Materials (Scripts)" };
-            //DBCategoryModel mat1 = new DBCategoryModel(scriptMats, UnityContainer) { Name = "MaterialsScript1" };
-            //scriptMats.Items.Add(mat1);
-            this.Items.Add(scriptMats);
+            //DBTableModel scriptMats = new DBTableModel() { Parent = this, UnityContainer = UnityContainer, Name = "Materials (Scripts)" };
+            ////DBCategoryModel mat1 = new DBCategoryModel(scriptMats, UnityContainer) { Name = "MaterialsScript1" };
+            ////scriptMats.Items.Add(mat1);
+            //this.Items.Add(scriptMats);
 
-            DBCategoryModel objects = new DBCategoryModel() { Parent = this, UnityContainer = UnityContainer, Name = "GameEntites" };
-            objects.IsExpanded = true;
+            //DBTableModel objects = new DBTableModel() { Parent = this, UnityContainer = UnityContainer, Name = "GameEntites" };
+            //objects.IsExpanded = true;
 
-            StaticObjectCategoyModel staticObjects = new StaticObjectCategoyModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Statics" };
+   //KH 29.03         StaticObjectCategoyModel staticObjects = new StaticObjectCategoyModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Statics" };
 
             //StaticObjectModel object1 = new StaticObjectModel(staticObjects, unityContainer) { Name = "Floor" };
             //staticObjects.Items.Add(object1);
 
 
 
-            CharacterCategoryModel characterObjects = new CharacterCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Characters" };
+            //KH 29.03            CharacterCategoryModel characterObjects = new CharacterCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Characters" };
       //      CreatureCategoryModel creatureObjects = new CreatureCategoryModel(objects, UnityContainer) { Name = "Creatures" };
             //RaceModel race = new RaceModel(chars, unityContainer) { Name = "Human" };
             //GenderModel male = new GenderModel(race, unityContainer) { Name = "Male" };
@@ -139,129 +137,129 @@ namespace OIDE.Core
             //PhysicsObjectModel po1 = new PhysicsObjectModel(allPhysics, unityContainer) { Name = "pomChar1" };
             //allPhysics.Items.Add(po1);
 
-            SpawnPointCategoryModel allSpawns = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "SpawnPoints" };
+            //KH 29.03         SpawnPointCategoryModel allSpawns = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "SpawnPoints" };
 
 
-            SpawnPointCategoryModel allTrigger = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Triggers" };
-            SpawnPointCategoryModel allLights = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Lights" };
-            SpawnPointCategoryModel allSkies = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Skies" };
-            SpawnPointCategoryModel allTerrains = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Terrains" };
-            SpawnPointCategoryModel allSounds = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Sounds" };
+            //KH 29.03           SpawnPointCategoryModel allTrigger = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Triggers" };
+            //KH 29.03          SpawnPointCategoryModel allLights = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Lights" };
+            //KH 29.03         SpawnPointCategoryModel allSkies = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Skies" };
+            //KH 29.03         SpawnPointCategoryModel allTerrains = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Terrains" };
+            //KH 29.03        SpawnPointCategoryModel allSounds = new SpawnPointCategoryModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Sounds" };
 
 
-            StaticObjectCategoyModel DynamicObjects = new StaticObjectCategoyModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Dynamics" };
+            //KH 29.03       StaticObjectCategoyModel DynamicObjects = new StaticObjectCategoyModel() { Parent = objects, UnityContainer = UnityContainer, Name = "Dynamics" };
 
             //PhysicCategoryModel allOgreObjects = new PhysicCategoryModel(objects, UnityContainer) { Name = "Ogre Objects" };
             //allOgreObjects.Items.Add(new StaticObjectModel(allOgreObjects, UnityContainer) { Name = "Plane" });
             //allOgreObjects.Items.Add(new StaticObjectModel(allOgreObjects, UnityContainer) { Name = "Cube" });
 
-            try
-            {
-                IEnumerable<DAL.IDAL.EntityContainer> result = m_DBI.selectAllEntities();
+            //try
+            //{
+            //    IEnumerable<DAL.IDAL.EntityContainer> result = m_DBI.selectAllEntities();
 
-                if (result != null)
-                {
-                    //select all Nodes
-                    foreach (var gameEntity in result)
-                    {
-                        // ProtoType.Node nodeDeserialized = ProtoSerialize.Deserialize<ProtoType.Node>(node.Node.Data);
+            //    if (result != null)
+            //    {
+            //        //select all Nodes
+            //        foreach (var gameEntity in result)
+            //        {
+            //            // ProtoType.Node nodeDeserialized = ProtoSerialize.Deserialize<ProtoType.Node>(node.Node.Data);
 
-                        if (gameEntity.Entity.EntType == null)
-                            continue;
+            //            if (gameEntity.Entity.EntType == null)
+            //                continue;
 
-                        switch ((EntityTypes)gameEntity.Entity.EntType)
-                        {
-                            case EntityTypes.NT_SpawnPoint:
+            //            switch ((EntityTypes)gameEntity.Entity.EntType)
+            //            {
+            //                case EntityTypes.NT_SpawnPoint:
 
-                                SpawnPointModel tmpSpawnPoint = new SpawnPointModel()
-                                {
-                                    Parent = allSpawns,
-                                    UnityContainer = UnityContainer,
-                                    ContentID = "SpawnPointID:##:" + gameEntity.Entity.EntID,
-                                    Name = gameEntity.Entity.Name ?? ("Noname SpawnPoint " + (int)gameEntity.Entity.EntID),
-                                    DBData = gameEntity
-                                };// Data = gameEntityDataDeserialized });
+            //                    SpawnPointModel tmpSpawnPoint = new SpawnPointModel()
+            //                    {
+            //                        Parent = allSpawns,
+            //                        UnityContainer = UnityContainer,
+            //                        ContentID = "SpawnPointID:##:" + gameEntity.Entity.EntID,
+            //                        Name = gameEntity.Entity.Name ?? ("Noname SpawnPoint " + (int)gameEntity.Entity.EntID),
+            //                        DBData = gameEntity
+            //                    };// Data = gameEntityDataDeserialized });
 
-                                allSpawns.Items.Add(tmpSpawnPoint);
-                                break;
+            //                    allSpawns.Items.Add(tmpSpawnPoint);
+            //                    break;
 
-                            case EntityTypes.NT_Static:
+            //                case EntityTypes.NT_Static:
 
-                                StaticObjectModel tmp = new StaticObjectModel()
-                                {
-                                    Parent = staticObjects,
-                                    UnityContainer = UnityContainer,
-                                    ContentID = "StaticID:##:" + gameEntity.Entity.EntID,
-                                    Name = gameEntity.Entity.Name ?? ("Noname Static " + (int)gameEntity.Entity.EntID),
-                                    DB_Entity = gameEntity
-                                };// Data = gameEntityDataDeserialized });
+            //                    StaticObjectModel tmp = new StaticObjectModel()
+            //                    {
+            //                        Parent = staticObjects,
+            //                        UnityContainer = UnityContainer,
+            //                        ContentID = "StaticID:##:" + gameEntity.Entity.EntID,
+            //                        Name = gameEntity.Entity.Name ?? ("Noname Static " + (int)gameEntity.Entity.EntID),
+            //                        DB_Entity = gameEntity
+            //                    };// Data = gameEntityDataDeserialized });
 
-                                staticObjects.Items.Add(tmp);
-                                break;
-                            case EntityTypes.NT_Character:
+            //                    staticObjects.Items.Add(tmp);
+            //                    break;
+            //                case EntityTypes.NT_Character:
 
-                                CharacterEntity tmpChar = new CharacterEntity()
-                                {
-                                    Parent = characterObjects,
-                                    UnityContainer = UnityContainer,
-                                    ContentID = "CharacterObjID:##:" + gameEntity.Entity.EntID,
-                                    Name = gameEntity.Entity.Name ?? ("Noname CharObj " + (int)gameEntity.Entity.EntID),
-                                    DB_Entity = gameEntity
-                                };// Data = gameEntityDataDeserialized });
+            //                    CharacterEntity tmpChar = new CharacterEntity()
+            //                    {
+            //                        Parent = characterObjects,
+            //                        UnityContainer = UnityContainer,
+            //                        ContentID = "CharacterObjID:##:" + gameEntity.Entity.EntID,
+            //                        Name = gameEntity.Entity.Name ?? ("Noname CharObj " + (int)gameEntity.Entity.EntID),
+            //                        DB_Entity = gameEntity
+            //                    };// Data = gameEntityDataDeserialized });
 
-                                characterObjects.Items.Add(tmpChar);
-                                break;
-                            //case NodeTypes.Physic:
+            //                    characterObjects.Items.Add(tmpChar);
+            //                    break;
+            //                //case NodeTypes.Physic:
 
-                            //    ProtoType.PhysicsObject dataPhysObj = new ProtoType.PhysicsObject();
-                            //    if (gameEntity.Data != null)
-                            //        dataPhysObj = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>(gameEntity.Data);
+            //                //    ProtoType.PhysicsObject dataPhysObj = new ProtoType.PhysicsObject();
+            //                //    if (gameEntity.Data != null)
+            //                //        dataPhysObj = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>(gameEntity.Data);
 
-                            //    allPhysics.Items.Add(new PhysicsObjectModel(allPhysics, UnityContainer, dataPhysObj, m_DBI) { ContentID = "PhysicID:##:" + gameEntity.EntID, Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID) });// Data = gameEntityDataDeserialized });
+            //                //    allPhysics.Items.Add(new PhysicsObjectModel(allPhysics, UnityContainer, dataPhysObj, m_DBI) { ContentID = "PhysicID:##:" + gameEntity.EntID, Name = gameEntity.Name ?? ("Noname" + (int)gameEntity.EntID) });// Data = gameEntityDataDeserialized });
 
-                            //    break;
-                            case EntityTypes.NT_Camera:
-                                //todo contentid for camera
+            //                //    break;
+            //                case EntityTypes.NT_Camera:
+            //                    //todo contentid for camera
 
-                                //   SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
+            //                    //   SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
 
 
-                                //var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
-                                //if (itemCam.Any())
-                                //    itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer) { Node = nodeDeserialized });
+            //                    //var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
+            //                    //if (itemCam.Any())
+            //                    //    itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer) { Node = nodeDeserialized });
 
-                                break;
-                            case EntityTypes.NT_Light:
+            //                    break;
+            //                case EntityTypes.NT_Light:
 
-                                //var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
-                                //if (itemLight.Any())
-                                //    itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer) { Node = nodeDeserialized });
-                                break;
-                        }
+            //                    //var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+            //                    //if (itemLight.Any())
+            //                    //    itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer) { Node = nodeDeserialized });
+            //                    break;
+            //            }
 
-                    }
-                }
+            //        }
+            //    }
 
-                objects.Items.Add(staticObjects);
-                objects.Items.Add(characterObjects);
-            //    objects.Items.Add(creatureObjects);
-               // objects.Items.Add(allPhysics);
+            //    objects.Items.Add(staticObjects);
+            //    objects.Items.Add(characterObjects);
+            ////    objects.Items.Add(creatureObjects);
+            //   // objects.Items.Add(allPhysics);
 
-                objects.Items.Add(allTrigger);
-                objects.Items.Add(allSpawns);
-                objects.Items.Add(allLights);
-                objects.Items.Add(allSkies);
-                objects.Items.Add(allTerrains);
-                objects.Items.Add(allSounds);
-                objects.Items.Add(DynamicObjects);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error:" + ex.Message);
-            }
+            //    objects.Items.Add(allTrigger);
+            //    objects.Items.Add(allSpawns);
+            //    objects.Items.Add(allLights);
+            //    objects.Items.Add(allSkies);
+            //    objects.Items.Add(allTerrains);
+            //    objects.Items.Add(allSounds);
+            //    objects.Items.Add(DynamicObjects);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Error:" + ex.Message);
+            //}
 
             //    scenes.Items.Add(scene);
-            this.Items.Add(objects);
+         //   this.Items.Add(objects);
 
          //   RaceCategoryModel races = new RaceCategoryModel(this, UnityContainer) { Name = "Races" };
 
@@ -308,8 +306,8 @@ namespace OIDE.Core
 
            // m_DBI = new IDAL();
 
-      
-            CanAddThisItems.Add(typeof(SceneDataModel));
+
+            //KH 29.03      CanAddThisItems.Add(typeof(SceneDataModel));
 
 
             CmdDeleteDBFile = new CmdDeleteDBFile(this);
@@ -349,7 +347,7 @@ namespace OIDE.Core
             //         mpm.Save();
             if (t.Name == "SceneDataModel")
             {
-                mpm.Items.Add(new SceneDataModel() { Parent = mpm, UnityContainer = mpm.UnityContainer, Name = "new scene", ContentID = "SceneID:##:" });
+                //KH 29.03             mpm.Items.Add(new SceneDataModel() { Parent = mpm, UnityContainer = mpm.UnityContainer, Name = "new scene", ContentID = "SceneID:##:" });
                 // Type instance = (Type)Activator.CreateInstance(t);
                 // object obj = t.GetConstructor(new Type[] { }).Invoke(new object[] { });
                 //   mpm.Items.Add(obj as IItem);

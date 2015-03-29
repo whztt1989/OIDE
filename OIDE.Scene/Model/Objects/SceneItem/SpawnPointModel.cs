@@ -43,7 +43,6 @@ using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
 using Module.Properties.Helpers;
-using OIDE.VFS.VFS_Types.RootFileSystem;
 using OIDE.Scene.Model.Objects;
 using Module.Properties.Types;
 using WIDE_Helpers;
@@ -58,16 +57,17 @@ namespace OIDE.Scene.Model
 
         public void Drop(IItem item) 
         { 
-             if(item is FileItem)
-             {
-               //  if (mData.gameEntity == null)
-               //      mData.gameEntity = new ProtoType.GameEntity();
+             //if(item is FileItem)
+             //{
+             //  //  if (mData.gameEntity == null)
+             //  //      mData.gameEntity = new ProtoType.GameEntity();
 
-               //  ProtoType.Mesh mesh = new ProtoType.Mesh();
-               //  mesh.Name = (item as FileItem).ContentID;
-               //  mData.gameEntity.meshes.Add(mesh);
-             }
+             //  //  ProtoType.Mesh mesh = new ProtoType.Mesh();
+             //  //  mesh.Name = (item as FileItem).ContentID;
+             //  //  mData.gameEntity.meshes.Add(mesh);
+             //}
         }
+
 
         [XmlIgnore]
         [Browsable(false)]

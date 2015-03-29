@@ -10,7 +10,6 @@
               xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=Wpf.DragDrop"
      
                xmlns:handlers="clr-namespace:OIDE.Scene.Handlers"
-            xmlns:xctk="http://schemas.nn.com/wpf/xaml/toolkit"
             
              	xmlns:tree="clr-namespace:OIDE.Scene"
              >
@@ -235,8 +234,7 @@
         </TreeView>-->
     <Grid  Background="{DynamicResource ControlHighlightedColorBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="113*"/>
-            <RowDefinition Height="187*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <TreeView ItemsSource="{Binding Items}" 
                    ContextMenuOpening="_treeList_ContextMenuOpening" 
@@ -302,8 +300,7 @@
             </TreeView.ItemContainerStyle>
 
         </TreeView>
-        
-        <xctk:PropertyGrid Background="White" Grid.Row="1" BorderThickness="0" Name="propGrid" SelectedObject="{Binding SelectedObject}" ShowSortOptions="True" IsCategorized="True" />
+
 
 
     </Grid>

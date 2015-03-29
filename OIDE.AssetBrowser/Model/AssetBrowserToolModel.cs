@@ -60,8 +60,12 @@ namespace OIDE.AssetBrowser
       //  public CollectionOfIItem Items { get { return mAssetBrowserTreeService.Items; } }
      //   public ObservableCollection<DirectoryInfo> Items { get { return mFolders; } }
         //List<IItem> mItems;
-
-        public CollectionOfIItem Items { get { return mAssetBrowserTreeService.Items; } }
+        private CollectionOfIItem m_Items;
+        public CollectionOfIItem Items { get { return m_Items; }
+            set { 
+                m_Items = value; 
+                RaisePropertyChanged("Items"); 
+            } }
         //public IItem RootItem
         //{
         //    get { return mAssetBrowserTreeService.RootItem; }
@@ -123,7 +127,7 @@ namespace OIDE.AssetBrowser
           var menuService =  container.Resolve<IMenuService>();
            mAssetBrowserTreeService =  container.Resolve<IAssetBrowserTreeService>();
 
-           mAssetBrowserTreeService.Items = new CollectionOfIItem();
+           mAssetBrowserTreeService.ABTM = this; // new CollectionOfIItem();
         //   mFolders = new ObservableCollection<DirectoryInfo>();
 
            //string[] entries = Directory.GetFileSystemEntries(

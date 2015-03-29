@@ -37,7 +37,7 @@ namespace OIDE.Scene.Model
         #region UI Properties
 
         public Boolean IsVisible { get { return m_FB_SceneNode.IsVisible; } set { m_FB_SceneNode.IsVisible = value; RaisePropertyChanged("IsVisible"); } }
-        public Boolean IsEnabled { get { return m_FB_SceneNode.IsEnabled; } set { m_FB_SceneNode.IsEnabled = value; RaisePropertyChanged("IsEnabled"); } }
+    
         [ExpandableObject]
         public Quaternion Rotation { get { return m_FB_SceneNode.Rotation; } set { m_FB_SceneNode.Rotation = value; RaisePropertyChanged("Rotation"); } }
         [ExpandableObject]
@@ -72,28 +72,17 @@ namespace OIDE.Scene.Model
 
         #endregion
 
-
-        public String ContentID { get; set; }
-
         public void Drop(IItem item)
         {
 
         }
 
-        private string m_Name;
-        public String Name { get { return m_Name; } set { m_Name = value; RaisePropertyChanged("Name"); } }
-
         [Browsable(false)]
         public CollectionOfISceneItem SceneItems { get; set; }
 
-
         [XmlIgnore]
-        [Browsable(false)]            
-        public CollectionOfIItem Items { get; set; }
-
-        [XmlIgnore]
-        [Browsable(false)]             
-        public List<MenuItem> MenuOptions
+        [Browsable(false)]
+        public override List<MenuItem> MenuOptions
         {
             get
             {
@@ -108,24 +97,11 @@ namespace OIDE.Scene.Model
             }
         }
 
-        [XmlIgnore]
-        [Browsable(false)]       
-        public IItem Parent { get; set; }
 
-        [Browsable(false)]
-        public Boolean IsExpanded { get; set; }
+        public override Boolean Create(IUnityContainer unityContainer) { return true; }
+        public override Boolean Closing() { return true; }
 
-        [Browsable(false)]
-        public Boolean IsSelected { get; set; }
-
-        [XmlIgnore]
-        [Browsable(false)]         
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
-
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
-        public Boolean Closing() { return true; }
-
-        public Boolean Open(IUnityContainer unityContainer, object id)
+        public override Boolean Open(IUnityContainer unityContainer, object id)
         {
             uint sceneID = 0;
             
@@ -148,7 +124,7 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public Boolean Save(object param) 
+        public override Boolean Save(object param) 
         {
             m_SceneNodeDB.Data = m_FB_SceneNode.CreateByteBuffer();
 
@@ -181,8 +157,8 @@ namespace OIDE.Scene.Model
             return true; 
         }
 
-        public void Refresh() { }
-        public void Finish() { }
+        public override void Refresh() { }
+        public override void Finish() { }
 
         private int m_NodeID;
 
@@ -203,19 +179,11 @@ namespace OIDE.Scene.Model
             return true; 
         }
 
-       // private IDAL m_DBI;
-
-        [XmlIgnore]
-        [Browsable(false)]  
-        public IUnityContainer UnityContainer { get; set; }
-
+ 
         private CmdDeleteNode mCmdDeleteNode;
 
         public SceneNodeModel()//IScene parent, IUnityContainer container, IDAL  dbi)
         {
-         //   this.Parent = parent;
-
-
             mCmdDeleteNode = new CmdDeleteNode(this);
 
             m_FB_SceneNode = new FB_SceneNode();

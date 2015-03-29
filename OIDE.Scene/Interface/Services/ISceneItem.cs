@@ -13,12 +13,12 @@ namespace OIDE.Scene.Interface.Services
     public interface ISceneItem : IItem
     {
         /// <summary>
-        /// subitems of this sceneitem
+        /// subitems of this scenenode
         /// </summary>
         CollectionOfISceneItem SceneItems { get; }
 
 
-        Int32 NodeID { get; set; }
+     //   Int32 NodeID { get; set; }
 
        // TreeNode TreeNode { get; }
         //Boolean Visible { get; set; }

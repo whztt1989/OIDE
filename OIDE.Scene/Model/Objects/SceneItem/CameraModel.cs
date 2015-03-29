@@ -46,10 +46,7 @@ namespace OIDE.Scene.Model
     public class CameraModel : PItem, ISceneItem
     {
         public Boolean Visible { get; set; }
-        public Boolean Enabled { get; set; }
-        public String ContentID { get; set; }
-        public Int32 NodeID { get; set; }
-
+    
         [Browsable(false)]
         [XmlIgnore]
         public CollectionOfISceneItem SceneItems { get; private set; }
@@ -57,24 +54,9 @@ namespace OIDE.Scene.Model
         public void Drop(IItem item) { }
 
 
-        public Byte[] ByteBuffer
-        {
-            get
-            {
-                //todo return m_FB_SceneNode.CreateByteBuffer();
-                return new Byte[0];
-            }
-        }
-
         [XmlIgnore]
         public DAL.MDB.SceneNode SceneNode { get; private set; }
-
-        public Int32 ID { get; set; }
-        public String Name { get; set; }
-      
-        [Browsable(false)]
-        public CollectionOfIItem Items { get; private set; }
-
+       
         //[XmlIgnore]
         //private ProtoType.Camera mData;
 
@@ -92,7 +74,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public List<MenuItem> MenuOptions
+        public override List<MenuItem> MenuOptions
         {
             get
             {
@@ -102,21 +84,7 @@ namespace OIDE.Scene.Model
                 return list;
             }
         }
-   
-        [Browsable(false)]
-        public Boolean IsExpanded { get; set; }
-
-        [Browsable(false)]
-        public Boolean IsSelected { get; set; }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IItem Parent { get; set; }
-
+ 
         public Boolean Open(IUnityContainer unityContainer,object id)
         {
 
@@ -124,21 +92,11 @@ namespace OIDE.Scene.Model
            // SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
                         
             return true; }
+      
         public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Save( object param) { return true; }
         public void Refresh() { }
-        public void Finish() { }
-        public Boolean Delete() { return true; }
-        public Boolean Closing() { return true; }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; set; }
-
-        public CameraModel (IItem parent,IUnityContainer unityContainer)
-        {
-            UnityContainer = unityContainer;
-            Parent = parent;
-        }
+       public Boolean Delete() { return true; }
+      
     }
 }

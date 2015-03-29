@@ -27,6 +27,7 @@ namespace OIDE.AssetBrowser.Interface.Services
         /// </summary>
         /// <value>The themes.</value>
         CollectionOfIItem Items { get; set; }
+        AssetBrowserToolModel ABTM { get; set; }
 
         /// <summary>
         /// AssetBrowser View TreeList Component

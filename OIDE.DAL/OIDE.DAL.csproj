@@ -101,7 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreModule.cs" />
-    <Compile Include="DBCategoyModel.cs" />
+    <Compile Include="DBTableModel.cs" />
     <Compile Include="DBFileModel.cs" />
     <Compile Include="IDAL.cs" />
     <Compile Include="MDB\EDM_DBData.Context.cs">

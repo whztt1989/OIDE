@@ -12,9 +12,9 @@ using System.Windows;
 using OIDE.Scene.Model.Objects.FBufferObject;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.ComponentModel;
-using OIDE.VFS.View;
 using OIDE.Scene.Model.Objects.ObjectData;
 using Microsoft.Practices.Unity;
+//using OIDE.Core.ProjectTypes.View;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -45,7 +45,7 @@ namespace OIDE.Scene.Model.Objects
         //todo prototype!!!! or? skeleton path is located in mesh  file ...
         private String mSkeleton;
 
-        [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
+    //todo    [Editor(typeof(VFPathEditor), typeof(VFPathEditor))]
         [Category("GameEntity")]
         public String Skeleton { get { return mSkeleton; } set { mSkeleton = value; } }
 

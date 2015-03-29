@@ -145,10 +145,12 @@ namespace OIDE.AssetBrowser.Service
 
         #region IAssetBrowserTreeService Members
 
+        public AssetBrowserToolModel ABTM { get; set; }
+
         /// <summary>
         /// collection of project items
         /// </summary>
-        public CollectionOfIItem Items { get;  set; }
+        public CollectionOfIItem Items { get { return ABTM.Items; } set { ABTM.Items = value; } }
 
 
         /// <summary>

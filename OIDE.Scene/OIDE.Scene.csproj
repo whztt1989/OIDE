@@ -274,10 +274,6 @@
       <Project>{9f20f5ef-4f7e-4ae2-a462-4cd2256fb3ff}</Project>
       <Name>Wide</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OIDE.VFS\OIDE.VFS.csproj">
-      <Project>{fc13db45-de9c-4b52-a013-41ec516f42e5}</Project>
-      <Name>OIDE.VFS</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModel\Objects\" />

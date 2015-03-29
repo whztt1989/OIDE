@@ -43,7 +43,6 @@ using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
 using Module.Properties.Helpers;
-using OIDE.VFS.VFS_Types.RootFileSystem;
 using OIDE.Scene.Model.Objects;
 using Module.Properties.Types;
 using DAL;
@@ -54,6 +53,8 @@ using System.Windows;
 using System.IO;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
+using Module.PFExplorer.Interface;
+using Module.PFExplorer.Utilities;
 
 namespace OIDE.Scene.Model
 {
@@ -63,16 +64,16 @@ namespace OIDE.Scene.Model
 
         public void Drop(IItem item) 
         { 
-             if(item is FileItem)
-             {
-                 if (m_FBData == null )
-                     this.Open(item.UnityContainer, this.ContentID);
+             //if(item is FileItem)
+             //{
+             //    if (m_FBData == null )
+             //        this.Open(item.UnityContainer, this.ContentID);
 
-                 //todo
-                 //ProtoType.Mesh mesh = new ProtoType.Mesh();
-                 //mesh.Name = (item as FileItem).ContentID;
-                 //mData.gameEntity.meshes.Add(mesh);
-             }
+             //    //todo
+             //    //ProtoType.Mesh mesh = new ProtoType.Mesh();
+             //    //mesh.Name = (item as FileItem).ContentID;
+             //    //mData.gameEntity.meshes.Add(mesh);
+             //}
         }
 
         public Int32 NodeID { get; set; }
@@ -167,6 +168,12 @@ namespace OIDE.Scene.Model
             if (m_opened)
                 return true;
 
+            //get parent project
+            m_ParentProject = PFUtilities.GetRekursivParentPF(this.Parent) as IProjectFile;
+
+            if (m_ParentProject == null)
+                return false;
+
             m_FBData = new FB_StaticObjectModel(unityContainer);
 
             UnityContainer = unityContainer;
@@ -178,7 +185,7 @@ namespace OIDE.Scene.Model
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
             //read data from lokal json file
-            m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+            m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>(m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
                 Create(unityContainer);
 
@@ -194,6 +201,9 @@ namespace OIDE.Scene.Model
 
         public void Refresh() { }
         public void Finish() { }
+
+        private IProjectFile m_ParentProject;
+
 
         public Boolean Save(object param)
         {
@@ -218,7 +228,7 @@ namespace OIDE.Scene.Model
                 }
 
                 m_FBData.EntityBaseModel = m_FBData.EntityBaseModel;
-                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
+                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
             catch (Exception ex)

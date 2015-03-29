@@ -108,6 +108,7 @@
     <Compile Include="Converter\TreeListItem.cs" />
     <Compile Include="Converter\TreeNode.cs" />
     <Compile Include="CoreModule.cs" />
+    <Compile Include="Helper\ItemProvider.cs" />
     <Compile Include="Interface\Events\ItemChangedEvent.cs" />
     <Compile Include="Interface\ISerializable.cs" />
     <Compile Include="Interface\Services\IAssetBrowserService.cs" />

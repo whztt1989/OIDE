@@ -97,11 +97,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\OIDE.Scene.dll</HintPath>
     </Reference>
-    <Reference Include="OIDE.VFS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\OIDE.VFS.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\protobuf-net.dll</HintPath>
@@ -129,9 +124,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoreModule.cs" />
-    <Compile Include="Model\OIDE_RFS.cs" />
-    <Compile Include="Model\OIDEZipArchive.cs" />
-    <Compile Include="Model\ScenesListModel.cs" />
     <Compile Include="ProjectTypes\Handler\OIDEProjectHandler.cs" />
     <Compile Include="ProjectTypes\Model\OIDEDBFileModel.cs" />
     <Compile Include="ProjectTypes\Model\OIDEProjectData.cs" />
@@ -140,6 +132,9 @@
     <Compile Include="ProjectTypes\ViewModel\OIDEProjectViewModel.cs" />
     <Compile Include="ProjectTypes\View\OIDEProjectView.xaml.cs">
       <DependentUpon>OIDEProjectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectTypes\View\VFPathEditor.xaml.cs">
+      <DependentUpon>VFPathEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -171,6 +166,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProjectTypes\View\VFPathEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\Copy_6524.png" />
@@ -191,6 +190,10 @@
     <ProjectReference Include="..\..\Modules\Wpf.DragDrop\Wpf.DragDrop %28NET4%29.csproj">
       <Project>{0c6674cc-6d49-414a-9b41-d4e175028ffb}</Project>
       <Name>Wpf.DragDrop %28NET4%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Themes\Themes.Default\Themes.Default.csproj">
+      <Project>{de89d67d-a35e-4958-95bd-101b93d6ca0b}</Project>
+      <Name>Themes.Default</Name>
     </ProjectReference>
     <ProjectReference Include="..\OIDE.AssetBrowser\OIDE.AssetBrowser.csproj">
       <Project>{cb6b9693-8b57-47b1-8dfc-3c46c6a7f291}</Project>

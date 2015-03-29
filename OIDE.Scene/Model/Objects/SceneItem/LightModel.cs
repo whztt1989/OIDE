@@ -44,44 +44,22 @@ namespace OIDE.Scene.Model
 {
     public class LightModel :PItem, ISceneItem
     {
-        [XmlIgnore]
-        [Browsable(false)]
-        public IItem Parent { get; set; }
-
         public Boolean Visible { get; set; }
-        public Boolean Enabled { get; set; }
-        public Int32 NodeID { get; set; }
-      
+  
         public void Drop(IItem item) { }
 
         [XmlIgnore]
         [Browsable(false)]
         public DAL.MDB.SceneNode SceneNode { get; private set; }
             
-        public String ContentID { get; set; }
-
-        public Byte[] ByteBuffer
-        {
-            get
-            {
-                //todo return m_FB_SceneNode.CreateByteBuffer();
-                return new Byte[0];
-            }
-        }
-
+  
         [XmlIgnore]
         [Browsable(false)]
         public CollectionOfISceneItem SceneItems { get; private set; }
-       
-        public Int32 ID { get; set; }
-        public String Name { get; set; }
-      
-        [Browsable(false)]
-        public CollectionOfIItem Items { get; private set; }
 
         [XmlIgnore]
         [Browsable(false)]
-        public List<MenuItem> MenuOptions
+        public override List<MenuItem> MenuOptions
         {
             get
             {
@@ -92,42 +70,19 @@ namespace OIDE.Scene.Model
             }
         }
 
-        public Boolean Closing() { return true; }
-        [Browsable(false)]
-        public Boolean IsExpanded { get; set; }
-
-        [Browsable(false)]
-        public Boolean IsSelected { get; set; }
-
-        [XmlIgnore]
-        [Browsable(false)]
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
-
+      
         public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
         public Boolean Save(object param) { return true; }
         public void Refresh() { }
-        public void Finish() { }
         public Boolean Delete() { return true; }
-
-        [XmlIgnore]
-        [Browsable(false)]
-        public IUnityContainer UnityContainer { get; set; }
-
+ 
         /// <summary>
         /// default constructor for serlialization
         /// </summary>
         public LightModel()
         {
-
+                SceneItems = new CollectionOfISceneItem();
         }
-
-        public LightModel (IItem parent,IUnityContainer unityContainer)
-        {
-            UnityContainer = unityContainer;
-            Parent = parent;
-            SceneItems = new CollectionOfISceneItem();
-        }
-
     }
 }

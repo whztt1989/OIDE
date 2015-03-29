@@ -2,7 +2,6 @@
 using Module.Properties.Interface;
 using OIDE.AssetBrowser;
 using OIDE.Core.Model;
-using OIDE.Scene.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,11 +13,11 @@ using Wide.Interfaces.Services;
 
 namespace OIDE.Core.ProjectTypes.Model
 {
-    [XmlInclude(typeof(ScenesListModel))]
+  //  [XmlInclude(typeof(ScenesListModel))]
     [XmlInclude(typeof(FileCategoryModel))]
     [XmlInclude(typeof(FolderCategoryModel))]
-    [XmlInclude(typeof(SceneDataModel))]
-    [XmlInclude(typeof(OIDE_RFS))]
+ //   [XmlInclude(typeof(SceneDataModel))]
+  //  [XmlInclude(typeof(OIDE_RFS))]
     [Serializable]
     public class OIDEProjectData
     {
@@ -26,6 +25,7 @@ namespace OIDE.Core.ProjectTypes.Model
         public CollectionOfIItem Items { get; set; }
         public Boolean IsExpanded { get; set; }
         public ObservableCollection<OIDEStateModel> GameStates { get; set; }
+        public String AssetFolder { get; set; }
 
         public OIDEProjectData()
         {

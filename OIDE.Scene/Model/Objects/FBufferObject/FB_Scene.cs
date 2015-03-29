@@ -37,10 +37,7 @@ namespace OIDE.Scene.Model.Objects
 
 
         public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = FB_Helper.UpdateSelectedObject(this, m_ColourAmbient, value); } } //public setter needed for serialization
-
-        public String AbsPathToXML { get; set; }
-        public String RelPathToXML { get; set; }
-   
+           
         #endregion
 
         /// <summary>

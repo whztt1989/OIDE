@@ -54,6 +54,8 @@ using OIDE.Scene.Model.Objects;
 using DAL.MDB;
 using OIDE.Scene.Model.Objects.FBufferObject;
 using OIDE.Scene.Interface;
+using Module.PFExplorer.Interface;
+using Module.PFExplorer.Utilities;
 
 namespace OIDE.Scene.Model
 {
@@ -83,11 +85,17 @@ namespace OIDE.Scene.Model
 
         private ICommand CmdDeleteScene;
         private ICommand CmdSaveScene;
-        
+
+
      //   private CollectionOfISceneItem m_SceneItems;
         private ISceneItem mSelectedItem;
         //ICommand m_cmdCreateFile;
         //ICommand m_cmdDelete;
+
+        public Int32 NextNodeCount()
+        {
+            return SceneItems.Count(x => x is SceneNodeModel);
+        }
 
         public void Drop(IItem item)
         {
@@ -103,9 +111,9 @@ namespace OIDE.Scene.Model
                         EntID = Module.Properties.Helpers.Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
                     };
 
-                    int highestNodeID = 1;
-                    if(SceneItems.Any())
-                        highestNodeID = SceneItems.Max(x => x.NodeID) + 1;
+                    //int highestNodeID = 1;
+                    //if(SceneItems.Any())
+                    //    highestNodeID = SceneItems.Max(x => x.NodeID) + 1;
 
                     SceneItems.Add(
                         new SceneNodeModel()
@@ -113,7 +121,7 @@ namespace OIDE.Scene.Model
                             Parent = this,
                             UnityContainer = UnityContainer,
                             IDAL = m_DBI,
-                            NodeID = highestNodeID,
+                            NodeID = NextNodeCount(),
                             SceneNodeDB = node,
                             Name = node.Name ?? "NodeNoname"
                         });
@@ -234,12 +242,21 @@ namespace OIDE.Scene.Model
 
         private Boolean m_Opened;
 
+        private IProjectFile m_ParentProject;
+
         public Boolean Open(IUnityContainer unityContainer, object id)
         {
             if (m_Opened)
                 return false;
             else
                 m_Opened = true;
+
+            //get parent project
+            m_ParentProject = PFUtilities.GetRekursivParentPF(this.Parent) as IProjectFile;
+
+            if (m_ParentProject == null)
+                return false;
+
 
             UnityContainer = unityContainer;
             m_SceneService = unityContainer.Resolve<ISceneService>();
@@ -250,15 +267,16 @@ namespace OIDE.Scene.Model
 
             int sceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
           
-            String path = AppDomain.CurrentDomain.BaseDirectory + "Scene\\" + sceneID + ".xml";
+            this.Location = m_ParentProject.Folder + "\\Scene\\" + sceneID + ".xml";
+          
             //read sceneData from DAL -- Read data from XML not from database -> database data not human readable
-            m_FB_SceneData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_Scene>(path); // XML Serialize
+            m_FB_SceneData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_Scene>(this.Location.ToString()); // XML Serialize
             if (m_FB_SceneData == null)
                 m_FB_SceneData = new FB_Scene();
             
        
-            m_FB_SceneData.RelPathToXML = "Scene\\" + sceneID + ".xml";
-            m_FB_SceneData.AbsPathToXML = path;
+            //m_FB_SceneData.RelPathToXML = "Scene\\" + sceneID + ".xml";
+            //m_FB_SceneData.AbsPathToXML = path;
 
 
        //only able to save data into database not load
@@ -277,12 +295,12 @@ namespace OIDE.Scene.Model
                 //select all Nodes
                 foreach (var nodeContainer in result)
                 {
-                    if(!SceneItems.Where(x => x.NodeID == nodeContainer.Node.NodeID).Any()) // add node to scene if not exists
-                    {
-                        //var sceneNode = new SceneNodeModel(this, UnityContainer, m_DBI) { SceneNodeDB = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" };
-                        //sceneNode.Open(UnityContainer, sceneID);
-                        //SceneItems.Add(sceneNode);
-                    }
+                    //if(!SceneItems.Where(x => x.NodeID == nodeContainer.Node.NodeID).Any()) // add node to scene if not exists
+                    //{
+                    //    //var sceneNode = new SceneNodeModel(this, UnityContainer, m_DBI) { SceneNodeDB = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" };
+                    //    //sceneNode.Open(UnityContainer, sceneID);
+                    //    //SceneItems.Add(sceneNode);
+                    //}
 
                     switch ((EntityTypes)nodeContainer.Entity.EntType)
                     {
@@ -360,7 +378,7 @@ namespace OIDE.Scene.Model
             if (m_DBI == null)
                 m_DBI = new IDAL(UnityContainer);
 
-            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_Scene>(m_FB_SceneData, m_FB_SceneData.AbsPathToXML); // XML Serialize
+            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_Scene>(m_FB_SceneData, this.Location.ToString()); // XML Serialize
             
             //  mData = ProtoSerialize.Deserialize<ProtoType.Scene>(result);
             if (DB_SceneData == null)

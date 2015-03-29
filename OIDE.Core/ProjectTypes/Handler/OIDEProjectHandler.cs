@@ -41,7 +41,6 @@ using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using System.Xml.Serialization;
 using Module.Properties.Interface;
-using OIDE.Scene.Interface.Services;
 using Module.PFExplorer.Utilities;
 
 namespace OIDE.Core.ProjectTypes.Handler
@@ -105,7 +104,7 @@ namespace OIDE.Core.ProjectTypes.Handler
             vm.SetHandler(this);
             model.SetDirty(true);
 
-            var mSceneService = _container.Resolve<ISceneService>();
+         //   var mSceneService = _container.Resolve<ISceneService>();
             var mProjectTreeService = _container.Resolve<IProjectTreeService>();
             var commandManager = _container.Resolve<ICommandManager>();
             var menuService = _container.Resolve<IMenuService>();

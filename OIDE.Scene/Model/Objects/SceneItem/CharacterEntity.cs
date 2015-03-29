@@ -38,7 +38,6 @@ using OIDE.Scene.Interface.Services;
 using Microsoft.Practices.Unity;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using System.Xml.Serialization;
-using OIDE.VFS.VFS_Types.RootFileSystem;
 using Module.Protob.Utilities;
 using OIDE.Scene.Model.Objects;
 using System.Windows.Input;
@@ -46,13 +45,14 @@ using OIDE.InteropEditor.DLL;
 using DAL;
 using Module.Properties.Helpers;
 using Module.Properties.Types;
-using OIDE.VFS.View;
 using DAL.MDB;
 using WIDE_Helpers;
 using OIDE.Scene.Model.Objects.ObjectData;
 using System.Windows;
 using System.IO;
 using Wide.Core.Services;
+using Module.PFExplorer.Interface;
+using Module.PFExplorer.Utilities;
 
 namespace OIDE.Scene.Model
 {
@@ -71,7 +71,8 @@ namespace OIDE.Scene.Model
     public class CharacterEntity : PItem, ISceneItem
     {
         public Boolean Visible { get; set; }
-        public Int32 NodeID { get; set; }
+
+     //   public Int32 NodeID { get; set; }
       
         #region protodata
     
@@ -93,15 +94,15 @@ namespace OIDE.Scene.Model
 
             //}
 
-            if (item is FileItem)
-            {
-             //   if (mData.gameEntity == null)
-             //       mData.gameEntity = new ProtoType.GameEntity();
+          //  if (item is FileItem)
+          //  {
+          //   //   if (mData.gameEntity == null)
+          //   //       mData.gameEntity = new ProtoType.GameEntity();
 
-          //      ProtoType.Mesh mesh = new ProtoType.Mesh();
-             //   mesh.Name = (item as FileItem).ContentID;
-              //  mData.gameEntity.meshes.Add(mesh);
-            }
+          ////      ProtoType.Mesh mesh = new ProtoType.Mesh();
+          //   //   mesh.Name = (item as FileItem).ContentID;
+          //    //  mData.gameEntity.meshes.Add(mesh);
+          //  }
         }
 
      
@@ -133,9 +134,9 @@ namespace OIDE.Scene.Model
 
         private FB_CharacterObject m_FBData;// = new FB_CharacterObject();
 
-   //     [XmlIgnore]
-   //     [ExpandableObject]
-  //      public FB_CharacterObject FB_CharacterObject { get { return m_FBData; } }
+        [XmlIgnore]
+        [ExpandableObject]
+        public FB_CharacterObject FB_CharacterObject { get { return m_FBData; } }
 
         #endregion
 
@@ -199,6 +200,7 @@ namespace OIDE.Scene.Model
 
         private Boolean m_opened;
 
+        private IProjectFile m_ParentProject;
 
         public override Boolean Open(IUnityContainer unityContainer, object id)
         {
@@ -207,13 +209,18 @@ namespace OIDE.Scene.Model
 
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
+            //get parent project
+            m_ParentProject = PFUtilities.GetRekursivParentPF(this.Parent) as IProjectFile;
+
+            if (m_ParentProject == null)
+                return false;
             //if (dbI != null)
             //    m_dbI = dbI;
             //else
                 m_dbI = new IDAL(unityContainer);
 
             //read data from lokal json file
-            m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+                m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>(m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
                 Create(unityContainer);
 
@@ -255,7 +262,9 @@ namespace OIDE.Scene.Model
                 }
 
                 m_FBData.EntityBaseModel = m_FBData.BaseObj_FBData;
-                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_CharacterObject>(m_FBData, "Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
+
+
+                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_CharacterObject>(m_FBData, m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
             catch (Exception ex)
@@ -269,6 +278,8 @@ namespace OIDE.Scene.Model
         {
             UnityContainer = unityContainer;
             m_FBData = new FB_CharacterObject(unityContainer);
+
+            RaisePropertyChanged("FB_CharacterObject");
 
             //if (dbI != null)
             //    m_dbI = dbI;
