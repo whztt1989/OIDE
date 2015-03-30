@@ -13,18 +13,19 @@ using OIDE.Scene.Model.Objects.FBufferObject;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 using OIDE.Scene.Model.Objects.ObjectData;
 using Microsoft.Practices.Unity;
+using System.ComponentModel;
 
 namespace OIDE.Scene.Model.Objects
 {
     [Serializable]
-    public class FB_StaticObjectModel : EntityBaseModel , IFBObject
+    public class FB_StaticObjectModel : FB_EntityBaseModel, IFBObject
     {
         #region private members
 
         private XFBType.StaticEntity m_FBData = new XFBType.StaticEntity();
-        private int m_Group;
+      //  private int m_Group;
 
-        private FB_EntityBaseModel m_EntityBaseModel;
+     //   private FB_EntityBaseModel m_EntityBaseModel;
 
         #endregion
 
@@ -33,28 +34,27 @@ namespace OIDE.Scene.Model.Objects
         /// <summary>
         /// only for serialization
         /// </summary>
-        [ExpandableObject]
-        public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
+    //    [ExpandableObject]
+    //    public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
 
 
-        [XmlIgnore]
-        public object Parent { get; set; }
+        //[XmlIgnore]
+        //[Browsable(false)]
+        //public object Parent { get; set; }
 
-        [XmlIgnore]
-        public String AbsPathToXML { get; set; }
+        //[XmlIgnore]
+        //[Browsable(false)]
+        //public IUnityContainer UnityContainer { get; set; }
 
-        public String RelPathToXML { get; set; }
+        //[XmlIgnore]
+        //public String AbsPathToXML { get; set; }
 
-        public int Group { get { return m_Group; } set { m_Group = FB_Helper.UpdateSelectedObject(this, m_Group, value); } }
+        //public String RelPathToXML { get; set; }
+
+      //  public int Group { get { return m_Group; } set { m_Group = FB_Helper.UpdateSelectedObject(this, m_Group, value); } }
 
 
         #endregion
-
-        public FB_StaticObjectModel(IUnityContainer unityContainer)
-            : base (unityContainer)
-        {
-            m_EntityBaseModel = new FB_EntityBaseModel();
-        }
 
         #region methods
 
@@ -64,6 +64,8 @@ namespace OIDE.Scene.Model.Objects
             {
                 ByteBuffer byteBuffer = new ByteBuffer(fbData);
                 m_FBData = XFBType.StaticEntity.GetRootAsStaticEntity(byteBuffer); // read 
+
+                base.m_FBData = m_FBData.Entitybase();
 
                 var entbase = m_FBData.Entitybase();
                 var animinfo = entbase.AnimationInfo();
@@ -108,7 +110,7 @@ namespace OIDE.Scene.Model.Objects
                 //create flatbuffer data
                 //--------------------------------------
                 FlatBufferBuilder fbb = new FlatBufferBuilder(1);
-                int soOffset = XFBType.StaticEntity.CreateStaticEntity(fbb, child.Create(fbb));
+                int soOffset = XFBType.StaticEntity.CreateStaticEntity(fbb, base.Create(fbb));
                 fbb.Finish(soOffset); //!!!!! important ..
 
                 return fbb.SizedByteArray();  //bytebuffer

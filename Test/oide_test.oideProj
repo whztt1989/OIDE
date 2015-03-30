@@ -19,8 +19,20 @@
                     <Name>Statics</Name>
                     <IsExpanded>false</IsExpanded>
                     <IsSelected>false</IsSelected>
-                    <NodeID>0</NodeID>
-                    <Enabled>false</Enabled>
+                    <Items>
+                      <IItem AssemblyQualifiedName="OIDE.Scene.Model.StaticObjectModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                        <StaticObjectModel>
+                          <Name>Static Obj NEW</Name>
+                          <ContentID>StaticEntID:##2</ContentID>
+                          <IsExpanded>false</IsExpanded>
+                          <IsSelected>false</IsSelected>
+                          <Items />
+                          <NodeID>0</NodeID>
+                          <Visible>false</Visible>
+                          <Enabled>false</Enabled>
+                        </StaticObjectModel>
+                      </IItem>
+                    </Items>
                     <Visible>false</Visible>
                   </StaticObjectCategoyModel>
                 </IItem>
@@ -33,9 +45,9 @@
                       <IItem AssemblyQualifiedName="OIDE.Scene.Model.CharacterEntity, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
                         <CharacterEntity>
                           <Name>Character Obj NEW</Name>
-                          <ContentID>CharacterEntID:##</ContentID>
+                          <ContentID>CharacterEntID:##1</ContentID>
                           <IsExpanded>false</IsExpanded>
-                          <IsSelected>true</IsSelected>
+                          <IsSelected>false</IsSelected>
                           <Items />
                           <Visible>false</Visible>
                         </CharacterEntity>
@@ -100,34 +112,32 @@
                     <Name>Dynamics</Name>
                     <IsExpanded>false</IsExpanded>
                     <IsSelected>false</IsSelected>
-                    <NodeID>0</NodeID>
-                    <Enabled>false</Enabled>
+                    <Items />
                     <Visible>false</Visible>
                   </StaticObjectCategoyModel>
                 </IItem>
               </Items>
-              <IncID>0</IncID>
+              <IncID>2</IncID>
             </DBTableModel>
           </IItem>
           <IItem AssemblyQualifiedName="OIDE.Scene.SceneCategoryModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
             <SceneCategoryModel>
               <Name>Scenes</Name>
               <IsExpanded>true</IsExpanded>
-              <IsSelected>false</IsSelected>
+              <IsSelected>true</IsSelected>
               <Items>
-                <IItem AssemblyQualifiedName="OIDE.Scene.SceneCategoryModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-                  <SceneCategoryModel>
-                    <Name>Scene 1</Name>
-                    <ContentID>SceneID:##:</ContentID>
+                <IItem AssemblyQualifiedName="OIDE.Scene.Model.SceneDataModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+                  <SceneDataModel>
+                    <Name>Scene Obj NEW</Name>
+                    <ContentID>SceneID:##1</ContentID>
                     <IsExpanded>false</IsExpanded>
                     <IsSelected>false</IsSelected>
                     <Items />
-                    <IncID>0</IncID>
-                    <Visible>false</Visible>
-                  </SceneCategoryModel>
+                    <SceneID>1</SceneID>
+                  </SceneDataModel>
                 </IItem>
               </Items>
-              <IncID>0</IncID>
+              <IncID>1</IncID>
               <Visible>false</Visible>
             </SceneCategoryModel>
           </IItem>

@@ -101,13 +101,29 @@ namespace OIDE.Scene
         public void Execute(object parameter)
         {
             CharacterCategoryModel parent = parameter as CharacterCategoryModel;
+            UInt32 id = 0;
 
-            CharacterEntity pom = new CharacterEntity() { Parent = parent, Name = "Character Obj NEW", ContentID = "CharacterEntID:##" };
+            if(parent != null)
+            {
+                var tableModel = parent.Parent as DBTableModel;
+                if(tableModel != null)
+                {
+                    id = tableModel.AutoIncrement();
+                }
+            }
 
-            pom.Create(parent.UnityContainer);
-            parent.Items.Add(pom);
+            if (id > 0)
+            {
+                CharacterEntity pom = new CharacterEntity() { Parent = parent, Name = "Character Obj NEW", ContentID = "CharacterEntID:##" + id };
 
-            ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+                pom.Create(parent.UnityContainer);
+                parent.Items.Add(pom);
+
+                ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+            }else
+            {
+                parent.UnityContainer.Resolve<ILoggerService>().Log("Error: CmdAddCharacterObj id =  (" + id.ToString() + ")", LogCategory.Error, LogPriority.High); 
+            }
         }
 
         public CmdAddCharacterObj(IUnityContainer container)

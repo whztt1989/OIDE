@@ -54,11 +54,13 @@ namespace DAL
         /// <summary>
         /// increment autoincrement id +1 
         /// </summary>
-        public void AutoIncrement()
+        public UInt32 AutoIncrement()
         {
             m_AutoIncID = m_AutoIncID + 1;
 
             RaisePropertyChanged("IncID");
+
+            return m_AutoIncID;
         }
     }
 }

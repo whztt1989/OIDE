@@ -174,7 +174,7 @@ namespace OIDE.Scene.Model
             if (m_ParentProject == null)
                 return false;
 
-            m_FBData = new FB_StaticObjectModel(unityContainer);
+            m_FBData = new FB_StaticObjectModel() { UnityContainer = unityContainer , Parent = this};
 
             UnityContainer = unityContainer;
             //if (dbI != null)
@@ -190,7 +190,7 @@ namespace OIDE.Scene.Model
                 Create(unityContainer);
 
 
-            m_FBData.SetFBData(m_FBData.EntityBaseModel); //set base entity data
+           // m_FBData.SetFBData(m_FBData.EntityBaseModel); //set base entity data
 
             //test
          //   m_FBData.Read(DB_Entity.Entity.Data);
@@ -209,7 +209,7 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer(m_FBData.EntityBaseModel);
+                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer();
                 DB_Entity.Entity.Name = Name;
 
                 if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
@@ -227,7 +227,7 @@ namespace OIDE.Scene.Model
                     ContentID = ContentID + ":"+ DB_Entity.Entity.EntID;
                 }
 
-                m_FBData.EntityBaseModel = m_FBData.EntityBaseModel;
+               // m_FBData.EntityBaseModel = m_FBData.EntityBaseModel;
                 Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
@@ -243,7 +243,7 @@ namespace OIDE.Scene.Model
 
         public Boolean Create(IUnityContainer unityContainer)
         {
-            m_FBData = new FB_StaticObjectModel(unityContainer);
+            m_FBData = new FB_StaticObjectModel() { UnityContainer = unityContainer, Parent = this };
             
             UnityContainer = unityContainer;
             //if (dbI != null)

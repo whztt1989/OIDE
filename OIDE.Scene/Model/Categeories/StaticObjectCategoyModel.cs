@@ -41,26 +41,18 @@ using System.Windows.Input;
 using OIDE.Scene.Model;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
+using DAL;
 
 namespace OIDE.Scene
 {
 
     public class StaticObjectCategoyModel : PItem, ISceneItem
     {
-        public String Name { get; set; }
-        public Int32 NodeID { get; set; }
-      
-        [Browsable(false)]
-        public CollectionOfIItem Items { get;  set; }
-
         [Browsable(false)]
         [XmlIgnore]
         public CollectionOfISceneItem SceneItems { get; private set; }
 
         public void Drop(IItem item) { }
-
-        public String ContentID { get; set; }
-
 
         [Browsable(false)]
         [XmlIgnore]
@@ -76,18 +68,7 @@ namespace OIDE.Scene
             }
         }
 
-        public Boolean IsExpanded { get; set; }
-        public Boolean IsSelected { get; set; }
-        public Boolean Enabled { get; set; }
         public Boolean Visible { get; set; }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IItem Parent { get; set; }
 
         public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
@@ -97,23 +78,10 @@ namespace OIDE.Scene
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; set; }
 
         public StaticObjectCategoyModel()
         {
-
-        }
-
-        public StaticObjectCategoyModel(IItem parent, IUnityContainer container)
-        {
-            UnityContainer = container;
-            Parent = parent;
-            Items = new CollectionOfIItem();
             SceneItems = new CollectionOfISceneItem();
-        
-
         }
     }
 
@@ -131,13 +99,39 @@ namespace OIDE.Scene
         {
             StaticObjectCategoyModel parent = parameter as StaticObjectCategoyModel;
 
-            StaticObjectModel pom = new StaticObjectModel() { Parent = parent, UnityContainer =  parent.UnityContainer, Name = "Static Obj NEW", ContentID = "StaticEntID:##" };
+            //StaticObjectModel pom = new StaticObjectModel() { Parent = parent, UnityContainer =  parent.UnityContainer, Name = "Static Obj NEW", ContentID = "StaticEntID:##" };
 
-            pom.Save(parameter);
+            //pom.Save(parameter);
 
-            parent.Items.Add(pom);
+            //parent.Items.Add(pom);
 
-            ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+            //ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+
+
+            UInt32 id = 0;
+
+            if (parent != null)
+            {
+                var tableModel = parent.Parent as DBTableModel;
+                if (tableModel != null)
+                {
+                    id = tableModel.AutoIncrement();
+                }
+            }
+
+            if (id > 0)
+            {
+                StaticObjectModel pom = new StaticObjectModel() { Parent = parent, UnityContainer = parent.UnityContainer, Name = "Static Obj NEW", ContentID = "StaticEntID:##" + id };
+
+                pom.Create(parent.UnityContainer);
+                parent.Items.Add(pom);
+
+              //  ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+            }
+            else
+            {
+                parent.UnityContainer.Resolve<ILoggerService>().Log("Error: CmdCreateStaticObj id =  (" + id.ToString() + ")", LogCategory.Error, LogPriority.High);
+            }
         }
 
         public CmdCreateStaticObj(IUnityContainer container)

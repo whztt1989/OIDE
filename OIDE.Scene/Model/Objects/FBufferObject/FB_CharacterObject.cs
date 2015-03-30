@@ -19,28 +19,28 @@ using Microsoft.Practices.Unity;
 namespace OIDE.Scene.Model.Objects
 {
     [Serializable]
-    public class FB_CharacterObject : EntityBaseModel, IFBObject
+    public class FB_CharacterObject : FB_EntityBaseModel, IFBObject
     {
         #region private members
 
         private XFBType.CharEntity m_FBData = new XFBType.CharEntity();
-        private int m_Group;
+     //   private int m_Group;
 
-        private FB_EntityBaseModel m_EntityBaseModel;
+    //    private FB_EntityBaseModel m_EntityBaseModel;
 
         #endregion
 
         #region Properties
 
-        [XmlIgnore]
-        public object Parent { get; set; }
+        //[XmlIgnore]
+        //public object Parent { get; set; }
 
-        [XmlIgnore]
-        public String AbsPathToXML { get; set; }
+        //[XmlIgnore]
+        //public String AbsPathToXML { get; set; }
 
-        public String RelPathToXML { get; set; }
+        //public String RelPathToXML { get; set; }
 
-        public int Group { get { return m_Group; } set { m_Group = FB_Helper.UpdateSelectedObject(this, m_Group, value); } }
+        //public int Group { get { return m_Group; } set { m_Group = FB_Helper.UpdateSelectedObject(this, m_Group, value); } }
 
         //todo prototype!!!! or? skeleton path is located in mesh  file ...
         private String mSkeleton;
@@ -52,17 +52,17 @@ namespace OIDE.Scene.Model.Objects
         /// <summary>
         /// only for serialization
         /// </summary>
-        [ExpandableObject]
-        public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
+    //    [ExpandableObject]
+    //    public FB_EntityBaseModel EntityBaseModel { get { return m_EntityBaseModel; } set { m_EntityBaseModel = value; } }
 
 
         #endregion
 
-        public FB_CharacterObject(IUnityContainer unityContainer)
-            : base (unityContainer)
-        {
-            m_EntityBaseModel = new FB_EntityBaseModel();
-        }
+        //public FB_CharacterObject(IUnityContainer unityContainer)
+        //    : base (unityContainer)
+        //{
+        //    m_EntityBaseModel = new FB_EntityBaseModel();
+        //}
 
         #region methods
 
@@ -72,6 +72,8 @@ namespace OIDE.Scene.Model.Objects
             {
                 ByteBuffer byteBuffer = new ByteBuffer(fbData);
                 m_FBData = XFBType.CharEntity.GetRootAsCharEntity(byteBuffer); // read 
+
+                base.m_FBData = m_FBData.Entitybase();
 
                 var entbase = m_FBData.Entitybase();
                 var animinfo = entbase.AnimationInfo();
@@ -116,7 +118,7 @@ namespace OIDE.Scene.Model.Objects
                 //create flatbuffer data
                 //--------------------------------------
                 FlatBufferBuilder fbb = new FlatBufferBuilder(1);
-                int soOffset = XFBType.CharEntity.CreateCharEntity(fbb, child.Create(fbb));
+                int soOffset = XFBType.CharEntity.CreateCharEntity(fbb, base.Create(fbb));
                 fbb.Finish(soOffset); //!!!!! important ..
 
                 return fbb.SizedByteArray();  //bytebuffer

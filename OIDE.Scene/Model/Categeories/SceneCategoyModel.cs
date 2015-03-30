@@ -41,6 +41,7 @@ using System.Windows.Input;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
 using DAL;
+using OIDE.Scene.Model;
 
 namespace OIDE.Scene
 {
@@ -99,9 +100,9 @@ namespace OIDE.Scene
 
         public void Execute(object parameter)
         {
-            SceneCategoryModel sceneCategoryModel = parameter as SceneCategoryModel;
+            SceneCategoryModel parent = parameter as SceneCategoryModel;
 
-            sceneCategoryModel.Items.Add(new SceneCategoryModel() { Parent = sceneCategoryModel, UnityContainer = sceneCategoryModel.UnityContainer, Name = "Scene 1", ContentID = "SceneID:##:" }); //CreateScene();
+          //  sceneCategoryModel.Items.Add(new SceneCategoryModel() { Parent = sceneCategoryModel, UnityContainer = sceneCategoryModel.UnityContainer, Name = "Scene 1", ContentID = "SceneID:##:" }); //CreateScene();
 
             //IDAL dbI = new IDAL();
 
@@ -120,6 +121,31 @@ namespace OIDE.Scene
             //}
 
             //DLL_Singleton.Instance.updateObject(0, (int)ObjType.Physic);
+
+            UInt32 id = 0;
+
+            if (parent != null)
+            {
+                var tableModel = parent as DBTableModel;
+                if (tableModel != null)
+                {
+                    id = tableModel.AutoIncrement();
+                }
+            }
+
+            if (id > 0)
+            {
+                SceneDataModel pom = new SceneDataModel() { Parent = parent, UnityContainer = parent.UnityContainer, Name = "Scene Obj NEW", ContentID = "SceneID:##" + id, SceneID = id };
+
+                pom.Create(parent.UnityContainer);
+                parent.Items.Add(pom);
+
+                //  ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+            }
+            else
+            {
+                parent.UnityContainer.Resolve<ILoggerService>().Log("Error: CmdCreateScene id =  (" + id.ToString() + ")", LogCategory.Error, LogPriority.High);
+            }
         }
 
         public CmdCreateScene(SceneCategoryModel model)

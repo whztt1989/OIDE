@@ -225,7 +225,7 @@ namespace OIDE.Scene.Model
                 Create(unityContainer);
 
 
-            m_FBData.SetFBData(m_FBData.EntityBaseModel); //set base entity data
+          //  m_FBData.SetFBData(m_FBData..EntityBaseModel); //set base entity data
 
             //test
             //   m_FBData.Read(DB_Entity.Entity.Data);
@@ -243,7 +243,7 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer(m_FBData.BaseObj_FBData);
+                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer();
                 DB_Entity.Entity.Name = Name;
 
                 if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
@@ -261,7 +261,7 @@ namespace OIDE.Scene.Model
                     ContentID = ContentID + ":" + DB_Entity.Entity.EntID;
                 }
 
-                m_FBData.EntityBaseModel = m_FBData.BaseObj_FBData;
+            //   m_FBData.EntityBaseModel = m_FBData.BaseObj_FBData;
 
 
                 Helper.Utilities.USystem.XMLSerializer.Serialize<FB_CharacterObject>(m_FBData, m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
@@ -277,9 +277,9 @@ namespace OIDE.Scene.Model
         public override Boolean Create(IUnityContainer unityContainer)
         {
             UnityContainer = unityContainer;
-            m_FBData = new FB_CharacterObject(unityContainer);
+          //  m_FBData = new FB_CharacterObject() { UnityContainer = unityContainer, Parent = this };
 
-            RaisePropertyChanged("FB_CharacterObject");
+      //      RaisePropertyChanged("FB_CharacterObject");
 
             //if (dbI != null)
             //    m_dbI = dbI;

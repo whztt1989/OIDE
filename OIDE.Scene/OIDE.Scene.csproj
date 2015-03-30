@@ -159,7 +159,6 @@
     <Compile Include="Model\Objects\FBufferObject\FB_Helper.cs" />
     <Compile Include="Model\Objects\ChildObject\MaterialObject.cs" />
     <Compile Include="Model\Objects\ChildObject\MeshObject.cs" />
-    <Compile Include="Model\Objects\ChildObject\EntityBaseModel.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_EntityBase.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_Physics.cs" />
     <Compile Include="Model\Objects\FBufferObject\FB_SceneNode.cs" />

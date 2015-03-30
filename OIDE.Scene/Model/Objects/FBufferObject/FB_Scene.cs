@@ -12,6 +12,8 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using OIDE.Scene.Model.Objects.FBufferObject;
 using OIDE.Scene.Interface;
+using Microsoft.Practices.Unity;
+using System.ComponentModel;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -31,10 +33,14 @@ namespace OIDE.Scene.Model.Objects
         #region Properties
 
         [XmlIgnore]
+        [Browsable(false)]
         public object Parent { get; set; }
 
-        public CollectionOfISceneItem SceneItems { get { return m_SceneItems; } set { m_SceneItems = value; } }
+        [XmlIgnore]
+        [Browsable(false)]
+        public IUnityContainer UnityContainer { get; set; }
 
+        public CollectionOfISceneItem SceneItems { get { return m_SceneItems; } set { m_SceneItems = value; } }
 
         public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = FB_Helper.UpdateSelectedObject(this, m_ColourAmbient, value); } } //public setter needed for serialization
            
