@@ -293,9 +293,9 @@ namespace DAL
             {
                 Scene sceneTmp = result.First();
                 sceneTmp.Data = scene.Data;
-                sceneTmp.FogID = scene.FogID;
-                sceneTmp.SkyID = scene.SkyID;
-                sceneTmp.TerrID = scene.TerrID;
+                //sceneTmp.FogID = scene.FogID;
+                //sceneTmp.SkyID = scene.SkyID;
+                //sceneTmp.TerrID = scene.TerrID;
                 mCtx.SaveChanges();
                 return true;
             }

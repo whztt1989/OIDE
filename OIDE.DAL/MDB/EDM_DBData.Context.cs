@@ -27,13 +27,8 @@ namespace DAL.MDB
     
         public virtual DbSet<Entity> Entity { get; set; }
         public virtual DbSet<EntityData> EntityData { get; set; }
-        public virtual DbSet<Fog> Fog { get; set; }
-        public virtual DbSet<Material> Material { get; set; }
-        public virtual DbSet<Sky> Sky { get; set; }
-        public virtual DbSet<Terrain> Terrain { get; set; }
-        public virtual DbSet<MatUsedInScene> MatUsedInScene { get; set; }
-        public virtual DbSet<UI> UI { get; set; }
         public virtual DbSet<SceneNode> SceneNode { get; set; }
+        public virtual DbSet<UI> UI { get; set; }
         public virtual DbSet<Scene> Scene { get; set; }
     }
 }

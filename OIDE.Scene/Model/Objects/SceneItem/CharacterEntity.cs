@@ -277,9 +277,9 @@ namespace OIDE.Scene.Model
         public override Boolean Create(IUnityContainer unityContainer)
         {
             UnityContainer = unityContainer;
-          //  m_FBData = new FB_CharacterObject() { UnityContainer = unityContainer, Parent = this };
+            m_FBData = new FB_CharacterObject() { UnityContainer = unityContainer, Parent = this };
 
-      //      RaisePropertyChanged("FB_CharacterObject");
+            RaisePropertyChanged("FB_CharacterObject");
 
             //if (dbI != null)
             //    m_dbI = dbI;

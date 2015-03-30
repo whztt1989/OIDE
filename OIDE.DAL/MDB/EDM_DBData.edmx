@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="EntID" />
           </Key>
-          <Property Name="EntID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntID" Type="integer" Nullable="false" />
           <Property Name="EntType" Type="decimal" Precision="53" Scale="0" />
           <Property Name="Name" Type="varchar" MaxLength="2147483647" />
           <Property Name="EntDID" Type="integer" />
@@ -19,40 +19,15 @@
           <Key>
             <PropertyRef Name="EntDID" />
           </Key>
-          <Property Name="EntDID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EntDID" Type="integer" Nullable="false" />
           <Property Name="Data" Type="blob" />
-        </EntityType>
-        <EntityType Name="Fog">
-          <Key>
-            <PropertyRef Name="FogID" />
-          </Key>
-          <Property Name="FogID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Data" Type="blob" />
-        </EntityType>
-        <EntityType Name="Material">
-          <Key>
-            <PropertyRef Name="MatID" />
-          </Key>
-          <Property Name="MatID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Data" Type="nvarchar" MaxLength="2147483647" />
-        </EntityType>
-        <!--Während der Generierung sind Fehler aufgetreten:
-Warnung 6002: Für Tabelle/Sicht 'main.MatUsedInScene' ist kein Primärschlüssel definiert. Der Schlüssel wurde abgeleitet, und die Definition wurde als schreibgeschützte Tabelle/Sicht erstellt.-->
-        <EntityType Name="MatUsedInScene">
-          <Key>
-            <PropertyRef Name="SceneID" />
-          </Key>
-          <Property Name="SceneID" Type="integer" Nullable="false" />
-          <Property Name="MatID" Type="integer" />
         </EntityType>
         <EntityType Name="Scene">
           <Key>
             <PropertyRef Name="SceneID" />
           </Key>
-          <Property Name="SceneID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FogID" Type="integer" />
-          <Property Name="SkyID" Type="integer" />
-          <Property Name="TerrID" Type="integer" />
+          <Property Name="SceneID" Type="integer" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="2147483647" />
           <Property Name="Data" Type="blob" />
         </EntityType>
         <EntityType Name="SceneNode">
@@ -66,20 +41,6 @@ Warnung 6002: Für Tabelle/Sicht 'main.MatUsedInScene' ist kein Primärschlüsse
           <Property Name="Data" Type="blob" />
           <Property Name="Name" Type="varchar" MaxLength="2147483647" />
         </EntityType>
-        <EntityType Name="Sky">
-          <Key>
-            <PropertyRef Name="SkyID" />
-          </Key>
-          <Property Name="SkyID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Data" Type="blob" />
-        </EntityType>
-        <EntityType Name="Terrain">
-          <Key>
-            <PropertyRef Name="TerrID" />
-          </Key>
-          <Property Name="TerrID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Data" Type="blob" />
-        </EntityType>
         <EntityType Name="UI">
           <Key>
             <PropertyRef Name="Name" />
@@ -90,29 +51,26 @@ Warnung 6002: Für Tabelle/Sicht 'main.MatUsedInScene' ist kein Primärschlüsse
         <EntityContainer Name="dbDataModelStoreContainer">
           <EntitySet Name="Entity" EntityType="Self.Entity" store:Type="Tables" />
           <EntitySet Name="EntityData" EntityType="Self.EntityData" store:Type="Tables" />
-          <EntitySet Name="Fog" EntityType="Self.Fog" store:Type="Tables" />
-          <EntitySet Name="Material" EntityType="Self.Material" store:Type="Tables" />
           <EntitySet Name="Scene" EntityType="Self.Scene" store:Type="Tables" />
           <EntitySet Name="SceneNode" EntityType="Self.SceneNode" store:Type="Tables" />
-          <EntitySet Name="Sky" EntityType="Self.Sky" store:Type="Tables" />
-          <EntitySet Name="Terrain" EntityType="Self.Terrain" store:Type="Tables" />
           <EntitySet Name="UI" EntityType="Self.UI" store:Type="Tables" />
-          <EntitySet Name="MatUsedInScene" EntityType="Self.MatUsedInScene" store:Type="Tables">
-            <DefiningQuery>SELECT 
-[MatUsedInScene].[SceneID] AS [SceneID], 
-[MatUsedInScene].[MatID] AS [MatID]
-FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="dbDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Entity" EntityType="dbDataModel.Entity" />
+          <EntitySet Name="EntityData" EntityType="dbDataModel.EntityData" />
+          <EntitySet Name="SceneNode" EntityType="dbDataModel.SceneNode" />
+          <EntitySet Name="UI" EntityType="dbDataModel.UI" />
+          <EntitySet Name="Scene" EntityType="dbDataModel.Scene" />
+        </EntityContainer>
         <EntityType Name="Entity">
           <Key>
             <PropertyRef Name="EntID" />
           </Key>
-          <Property Name="EntID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EntID" Type="Int64" Nullable="false" />
           <Property Name="EntType" Type="Decimal" Precision="53" Scale="0" />
           <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="EntDID" Type="Int64" />
@@ -122,61 +80,7 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           <Key>
             <PropertyRef Name="EntDID" />
           </Key>
-          <Property Name="EntDID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="Fog">
-          <Key>
-            <PropertyRef Name="FogID" />
-          </Key>
-          <Property Name="FogID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="Material">
-          <Key>
-            <PropertyRef Name="MatID" />
-          </Key>
-          <Property Name="MatID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Data" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Sky">
-          <Key>
-            <PropertyRef Name="SkyID" />
-          </Key>
-          <Property Name="SkyID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="Terrain">
-          <Key>
-            <PropertyRef Name="TerrID" />
-          </Key>
-          <Property Name="TerrID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="MatUsedInScene">
-          <Key>
-            <PropertyRef Name="SceneID" />
-          </Key>
-          <Property Name="SceneID" Type="Int64" Nullable="false" />
-          <Property Name="MatID" Type="Int64" />
-        </EntityType>
-        <EntityContainer Name="dbDataEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Entity" EntityType="Self.Entity" />
-          <EntitySet Name="EntityData" EntityType="Self.EntityData" />
-          <EntitySet Name="Fog" EntityType="Self.Fog" />
-          <EntitySet Name="Material" EntityType="Self.Material" />
-          <EntitySet Name="Sky" EntityType="Self.Sky" />
-          <EntitySet Name="Terrain" EntityType="Self.Terrain" />
-          <EntitySet Name="MatUsedInScene" EntityType="Self.MatUsedInScene" />
-          <EntitySet Name="UI" EntityType="dbDataModel.UI" />
-          <EntitySet Name="SceneNode" EntityType="dbDataModel.SceneNode" />
-          <EntitySet Name="Scene" EntityType="dbDataModel.Scene" />
-        </EntityContainer>
-        <EntityType Name="UI">
-          <Key>
-            <PropertyRef Name="Name" />
-          </Key>
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="EntDID" Type="Int64" Nullable="false" />
           <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
         </EntityType>
         <EntityType Name="SceneNode">
@@ -190,17 +94,22 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
           <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="UI">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="2147483647" FixedLength="false" Unicode="false" />
+          <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
+        </EntityType>
         <EntityType Name="Scene">
           <Key>
             <PropertyRef Name="SceneID" />
           </Key>
-          <Property Name="SceneID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FogID" Type="Int64" />
-          <Property Name="SkyID" Type="Int64" />
-          <Property Name="TerrID" Type="Int64" />
+          <Property Name="SceneID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="false" />
           <Property Name="Data" Type="Binary" MaxLength="2147483647" FixedLength="false" />
         </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -209,67 +118,19 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
           <EntitySetMapping Name="Entity">
             <EntityTypeMapping TypeName="dbDataModel.Entity">
               <MappingFragment StoreEntitySet="Entity">
-                <ScalarProperty Name="EntID" ColumnName="EntID" />
-                <ScalarProperty Name="EntType" ColumnName="EntType" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="EntDID" ColumnName="EntDID" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="EntDID" ColumnName="EntDID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EntType" ColumnName="EntType" />
+                <ScalarProperty Name="EntID" ColumnName="EntID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EntityData">
             <EntityTypeMapping TypeName="dbDataModel.EntityData">
               <MappingFragment StoreEntitySet="EntityData">
+                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="EntDID" ColumnName="EntDID" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Fog">
-            <EntityTypeMapping TypeName="dbDataModel.Fog">
-              <MappingFragment StoreEntitySet="Fog">
-                <ScalarProperty Name="FogID" ColumnName="FogID" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Material">
-            <EntityTypeMapping TypeName="dbDataModel.Material">
-              <MappingFragment StoreEntitySet="Material">
-                <ScalarProperty Name="MatID" ColumnName="MatID" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Sky">
-            <EntityTypeMapping TypeName="dbDataModel.Sky">
-              <MappingFragment StoreEntitySet="Sky">
-                <ScalarProperty Name="SkyID" ColumnName="SkyID" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Terrain">
-            <EntityTypeMapping TypeName="dbDataModel.Terrain">
-              <MappingFragment StoreEntitySet="Terrain">
-                <ScalarProperty Name="TerrID" ColumnName="TerrID" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MatUsedInScene">
-            <EntityTypeMapping TypeName="dbDataModel.MatUsedInScene">
-              <MappingFragment StoreEntitySet="MatUsedInScene">
-                <ScalarProperty Name="SceneID" ColumnName="SceneID" />
-                <ScalarProperty Name="MatID" ColumnName="MatID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UI">
-            <EntityTypeMapping TypeName="dbDataModel.UI">
-              <MappingFragment StoreEntitySet="UI">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -284,13 +145,19 @@ FROM [MatUsedInScene] AS [MatUsedInScene]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UI">
+            <EntityTypeMapping TypeName="dbDataModel.UI">
+              <MappingFragment StoreEntitySet="UI">
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Scene">
             <EntityTypeMapping TypeName="dbDataModel.Scene">
               <MappingFragment StoreEntitySet="Scene">
                 <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="TerrID" ColumnName="TerrID" />
-                <ScalarProperty Name="SkyID" ColumnName="SkyID" />
-                <ScalarProperty Name="FogID" ColumnName="FogID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="SceneID" ColumnName="SceneID" />
               </MappingFragment>
             </EntityTypeMapping>

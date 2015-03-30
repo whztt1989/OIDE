@@ -23,13 +23,11 @@
                       <IItem AssemblyQualifiedName="OIDE.Scene.Model.StaticObjectModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
                         <StaticObjectModel>
                           <Name>Static Obj NEW</Name>
-                          <ContentID>StaticEntID:##2</ContentID>
+                          <ContentID>StaticEntID:##2:0</ContentID>
                           <IsExpanded>false</IsExpanded>
-                          <IsSelected>false</IsSelected>
+                          <IsSelected>true</IsSelected>
                           <Items />
-                          <NodeID>0</NodeID>
                           <Visible>false</Visible>
-                          <Enabled>false</Enabled>
                         </StaticObjectModel>
                       </IItem>
                     </Items>
@@ -124,7 +122,7 @@
             <SceneCategoryModel>
               <Name>Scenes</Name>
               <IsExpanded>true</IsExpanded>
-              <IsSelected>true</IsSelected>
+              <IsSelected>false</IsSelected>
               <Items>
                 <IItem AssemblyQualifiedName="OIDE.Scene.Model.SceneDataModel, OIDE.Scene, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
                   <SceneDataModel>

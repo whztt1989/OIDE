@@ -15,9 +15,7 @@ namespace DAL.MDB
     public partial class Scene
     {
         public long SceneID { get; set; }
-        public Nullable<long> FogID { get; set; }
-        public Nullable<long> SkyID { get; set; }
-        public Nullable<long> TerrID { get; set; }
+        public string Name { get; set; }
         public byte[] Data { get; set; }
     }
 }

@@ -60,7 +60,17 @@ namespace OIDE.Scene.Model
 {
     public class StaticObjectModel : PItem, ISceneItem
     {
+       
+        #region serializable data
+
         private FB_StaticObjectModel m_FBData;
+      
+        [XmlIgnore]
+        [ExpandableObject]
+        public FB_StaticObjectModel FB_StaticObject { get { return m_FBData; } }
+
+        #endregion
+
 
         public void Drop(IItem item) 
         { 
@@ -76,15 +86,7 @@ namespace OIDE.Scene.Model
              //}
         }
 
-        public Int32 NodeID { get; set; }
-        
-        [XmlIgnore]
-        [Browsable(false)]
-        public IItem Parent { get; set; }
-
         public Boolean Visible { get; set; }
-        public Boolean Enabled { get; set; }
-        public String ContentID { get; set; }
 
         [XmlIgnore]
         [Browsable(false)]
@@ -103,13 +105,7 @@ namespace OIDE.Scene.Model
         [Browsable(false)]
         public CollectionOfISceneItem SceneItems { get; private set; }
 
-        private string m_Name;
-        public String Name { get { return m_Name; } set { m_Name = value; RaisePropertyChanged("Name"); } }
-
-        [Browsable(false)]
-        public CollectionOfIItem Items { get; set; }
-
-
+        
         [XmlIgnore]
         [Browsable(false)]
         public List<MenuItem> MenuOptions
@@ -141,27 +137,7 @@ namespace OIDE.Scene.Model
 
         private IDAL m_dbI;
 
-        [Browsable(false)]
-        public Boolean IsExpanded { get; set; }
-
         private Boolean m_opened;
-
-        private Boolean m_IsSelected;
-        [Browsable(false)]
-        public Boolean IsSelected
-        {
-            get { return m_IsSelected; }
-            set
-            {
-                m_IsSelected = value;
-                    
-             //   Open(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
-            }
-        }
-
-        [XmlIgnore]
-        [Browsable(false)]
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
 
         public Boolean Open(IUnityContainer unityContainer, object id)
         {
@@ -244,7 +220,9 @@ namespace OIDE.Scene.Model
         public Boolean Create(IUnityContainer unityContainer)
         {
             m_FBData = new FB_StaticObjectModel() { UnityContainer = unityContainer, Parent = this };
-            
+
+            RaisePropertyChanged("FB_StaticObject");
+
             UnityContainer = unityContainer;
             //if (dbI != null)
             //    m_dbI = dbI;
@@ -272,10 +250,6 @@ namespace OIDE.Scene.Model
         }
         public Boolean Closing() { return true; }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public IUnityContainer UnityContainer { get; set; }
-
         /// <summary>
         /// Default contructor for serialization
         /// </summary>
@@ -289,7 +263,6 @@ namespace OIDE.Scene.Model
             CmdSaveStaticObj = new CmdSaveStaticObject(this);
             CmdDeleteStaticObj = new CmdDeleteStaticObject(this);
             //  mtest = new Byte[10];
-            Items = new CollectionOfIItem();
 
 
 
