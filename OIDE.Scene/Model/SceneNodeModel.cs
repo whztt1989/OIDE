@@ -82,7 +82,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public override List<MenuItem> MenuOptions
+        public List<MenuItem> MenuOptions
         {
             get
             {
@@ -98,10 +98,10 @@ namespace OIDE.Scene.Model
         }
 
 
-        public override Boolean Create(IUnityContainer unityContainer) { return true; }
-        public override Boolean Closing() { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
+        public Boolean Closing() { return true; }
 
-        public override Boolean Open(IUnityContainer unityContainer, object id)
+        public Boolean Open(IUnityContainer unityContainer, object id)
         {
             uint sceneID = 0;
             
@@ -124,7 +124,7 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public override Boolean Save(object param) 
+        public Boolean Save(object param) 
         {
             m_SceneNodeDB.Data = m_FB_SceneNode.CreateByteBuffer();
 
@@ -157,8 +157,8 @@ namespace OIDE.Scene.Model
             return true; 
         }
 
-        public override void Refresh() { }
-        public override void Finish() { }
+        public void Refresh() { }
+        public void Finish() { }
 
         private int m_NodeID;
 

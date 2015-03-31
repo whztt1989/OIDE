@@ -55,12 +55,13 @@ using OIDE.Scene.Interface;
 using Wide.Core.Services;
 using Module.PFExplorer.Interface;
 using Module.PFExplorer.Utilities;
+using Module.PFExplorer.Service;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene.Model
 {
-    public class StaticObjectModel : PItem, ISceneItem
+    public class StaticObjectModel : SceneItem
     {
-       
         #region serializable data
 
         private FB_StaticObjectModel m_FBData;
@@ -86,12 +87,6 @@ namespace OIDE.Scene.Model
              //}
         }
 
-        public Boolean Visible { get; set; }
-
-        [XmlIgnore]
-        [Browsable(false)]
-        public DAL.MDB.SceneNode SceneNode { get; set; }
-
         [XmlIgnore]
         [Browsable(false)]
         public DAL.IDAL.EntityContainer DB_Entity { get; set; }
@@ -100,15 +95,9 @@ namespace OIDE.Scene.Model
         //[NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
         //public List<Mesh> Meshes { get { return mMeshes; } set { mMeshes = value; } }
 
-
         [XmlIgnore]
         [Browsable(false)]
-        public CollectionOfISceneItem SceneItems { get; private set; }
-
-        
-        [XmlIgnore]
-        [Browsable(false)]
-        public List<MenuItem> MenuOptions
+        public override List<MenuItem> MenuOptions
         {
             get
             {
@@ -117,14 +106,7 @@ namespace OIDE.Scene.Model
                 list.Add(miSave);
                 MenuItem miDelete = new MenuItem() { Command = CmdDeleteStaticObj, Header = "Delete" };
                 list.Add(miDelete);
-                MenuItem miObjects = new MenuItem() { Header = "Add new object" };
-
-                MenuItem miObj1 = new MenuItem() {  Header = "Add Plane" };
-                MenuItem miObj2 = new MenuItem() {  Header = "Add Cube" };
-                miObjects.Items.Add(miObj1);
-                miObjects.Items.Add(miObj2);
-
-                list.Add(miObjects);
+             
                 list.Add(miSave);
 
                 return list;
@@ -139,20 +121,16 @@ namespace OIDE.Scene.Model
 
         private Boolean m_opened;
 
-        public Boolean Open(IUnityContainer unityContainer, object id)
+        public override Boolean Open(IUnityContainer unityContainer, object id)
         {
             if (m_opened)
                 return true;
 
-            //get parent project
-            m_ParentProject = PFUtilities.GetRekursivParentPF(this.Parent) as IProjectFile;
-
-            if (m_ParentProject == null)
-                return false;
-
             m_FBData = new FB_StaticObjectModel() { UnityContainer = unityContainer , Parent = this};
 
             UnityContainer = unityContainer;
+
+        
             //if (dbI != null)
             //    m_dbI = dbI;
             //else
@@ -161,7 +139,7 @@ namespace OIDE.Scene.Model
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
             //read data from lokal json file
-            m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>(m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+                m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>(ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
                 Create(unityContainer);
 
@@ -178,10 +156,8 @@ namespace OIDE.Scene.Model
         public void Refresh() { }
         public void Finish() { }
 
-        private IProjectFile m_ParentProject;
 
-
-        public Boolean Save(object param)
+        public override Boolean Save(object param)
         {
             try
             {
@@ -204,7 +180,7 @@ namespace OIDE.Scene.Model
                 }
 
                // m_FBData.EntityBaseModel = m_FBData.EntityBaseModel;
-                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
+                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
             catch (Exception ex)
@@ -217,13 +193,14 @@ namespace OIDE.Scene.Model
         private ICommand CmdSaveStaticObj;
         private ICommand CmdDeleteStaticObj;
 
-        public Boolean Create(IUnityContainer unityContainer)
+        public override Boolean Create(IUnityContainer unityContainer)
         {
             m_FBData = new FB_StaticObjectModel() { UnityContainer = unityContainer, Parent = this };
 
             RaisePropertyChanged("FB_StaticObject");
 
             UnityContainer = unityContainer;
+
             //if (dbI != null)
             //    m_dbI = dbI;
             //else
@@ -231,7 +208,8 @@ namespace OIDE.Scene.Model
 
             return true; 
         }
-        public Boolean Delete() {
+        public override Boolean Delete()
+        {
 
             try
             {
@@ -259,13 +237,13 @@ namespace OIDE.Scene.Model
           
             //mMeshes = new List<string>();
           //  Parent = parent;
-            SceneItems = new CollectionOfISceneItem();
             CmdSaveStaticObj = new CmdSaveStaticObject(this);
             CmdDeleteStaticObj = new CmdDeleteStaticObject(this);
             //  mtest = new Byte[10];
 
 
-
+            Name = "New Static Obj";
+            
 
           //  m_FBData.m_BaseObj_FBData = new FB_EntityBaseModel();
 
@@ -274,7 +252,6 @@ namespace OIDE.Scene.Model
             //mData = new ProtoType.StaticEntity();
             //mData.gameEntity = new ProtoType.GameEntity();
             /// ???????????????????????????
-            SceneNode = new DAL.MDB.SceneNode();
         }
 
         //public StaticObjectModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)

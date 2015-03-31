@@ -125,7 +125,6 @@ namespace OIDE.Core.ProjectTypes.Handler
           //  mProjectTreeService.Items.Add(root);
             mProjectTreeService.SetAsRoot(model);
 
-          
 
             return vm;
         }
@@ -257,10 +256,12 @@ namespace OIDE.Core.ProjectTypes.Handler
                 _dialog.CheckPathExists = true;
                 _dialog.DefaultExt = "oideProj";
                 _dialog.Filter = "OIDEProject files (*.oideProj)|*.oideProj";
+                _dialog.FileName = oideProjectModel.Name + ".oideProj";
 
                 if (_dialog.ShowDialog() == true)
                 {
                     location = _dialog.FileName;
+                    oideProjectModel.Name = Path.GetFileNameWithoutExtension(_dialog.FileName);
                     oideProjectModel.SetLocation(location);
                     oideProjectViewModel.Title = Path.GetFileName(location);
                     try

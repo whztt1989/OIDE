@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<FB_CharacterObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Boneparent>xxxx</Boneparent>
+  <CastShadows>false</CastShadows>
+  <Renderqueue>0</Renderqueue>
+  <EntType>NT_Unkown</EntType>
+  <Mode>0</Mode>
+  <ShowDebug>false</ShowDebug>
+  <ShowAABB>false</ShowAABB>
+  <Group>0</Group>
+  <Meshes />
+  <Materials />
+  <Physics />
+  <Sounds />
+</FB_CharacterObject>

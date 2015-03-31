@@ -42,21 +42,27 @@ using OIDE.Scene.Model;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
 using DAL;
+using Module.PFExplorer.Service;
 
 namespace OIDE.Scene
 {
 
-    public class StaticObjectCategoyModel : PItem, ISceneItem
+    public class StaticObjectCategoryModel : ProjectItemModel, ISceneItem
     {
         [Browsable(false)]
         [XmlIgnore]
         public CollectionOfISceneItem SceneItems { get; private set; }
 
-        public void Drop(IItem item) { }
+        /// <summary>
+        /// override for serializable
+        /// </summary>
+        [Browsable(false)]
+        public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
+
 
         [Browsable(false)]
         [XmlIgnore]
-        public List<MenuItem> MenuOptions
+        public override List<MenuItem> MenuOptions
         {
             get
             {
@@ -68,18 +74,20 @@ namespace OIDE.Scene
             }
         }
 
-        public Boolean Visible { get; set; }
-
         public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
-        public Boolean Save(object param) { return true; }
+
+        public new  Boolean Save(object param) 
+        {
+            return true; 
+        }
+
         public void Refresh() { }
-        public void Finish() { }
+    
         public Boolean Delete() { return true; }
-        public Boolean Closing() { return true; }
+    
 
-
-        public StaticObjectCategoyModel()
+        public StaticObjectCategoryModel()
         {
             SceneItems = new CollectionOfISceneItem();
         }
@@ -97,7 +105,7 @@ namespace OIDE.Scene
 
         public void Execute(object parameter)
         {
-            StaticObjectCategoyModel parent = parameter as StaticObjectCategoyModel;
+            StaticObjectCategoryModel parent = parameter as StaticObjectCategoryModel;
 
             //StaticObjectModel pom = new StaticObjectModel() { Parent = parent, UnityContainer =  parent.UnityContainer, Name = "Static Obj NEW", ContentID = "StaticEntID:##" };
 

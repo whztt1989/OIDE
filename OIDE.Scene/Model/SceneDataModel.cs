@@ -228,17 +228,21 @@ namespace OIDE.Scene.Model
 
         #region public command methods
 
-        public Boolean Create(IUnityContainer unityContainer) {
+        public Boolean Create(IUnityContainer unityContainer)
+        {
 
             UnityContainer = unityContainer;
             m_SceneService = unityContainer.Resolve<ISceneService>();
             m_DBI = new IDAL(unityContainer);
 
-            return true; }
+            return true;
+        }
 
-        public Boolean Closing() {
+        public Boolean Closing()
+        {
             m_Opened = false;
-            return true; }
+            return true;
+        }
 
         private Boolean m_Opened;
 

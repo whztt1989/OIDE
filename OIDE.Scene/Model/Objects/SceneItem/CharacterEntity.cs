@@ -53,6 +53,7 @@ using System.IO;
 using Wide.Core.Services;
 using Module.PFExplorer.Interface;
 using Module.PFExplorer.Utilities;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene.Model
 {
@@ -68,10 +69,9 @@ namespace OIDE.Scene.Model
     //    }
     //}
 
-    public class CharacterEntity : PItem, ISceneItem
+    public class CharacterEntity : SceneItem
     {
-        public Boolean Visible { get; set; }
-
+   
      //   public Int32 NodeID { get; set; }
       
         #region protodata
@@ -105,11 +105,7 @@ namespace OIDE.Scene.Model
           //  }
         }
 
-     
-        [XmlIgnore]
-        [Browsable(false)]
-        public CollectionOfISceneItem SceneItems { get; protected set; }
-
+  
         //public Byte[] ByteBuffer
         //{
         //    get
@@ -119,10 +115,7 @@ namespace OIDE.Scene.Model
         //    }
         //}
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public DAL.MDB.SceneNode SceneNode { get; protected set; }
-
+ 
         [XmlIgnore]
         [Browsable(false)]
         public DAL.IDAL.EntityContainer DB_Entity { get; set; }
@@ -200,8 +193,6 @@ namespace OIDE.Scene.Model
 
         private Boolean m_opened;
 
-        private IProjectFile m_ParentProject;
-
         public override Boolean Open(IUnityContainer unityContainer, object id)
         {
             if (m_opened)
@@ -209,18 +200,13 @@ namespace OIDE.Scene.Model
 
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
-            //get parent project
-            m_ParentProject = PFUtilities.GetRekursivParentPF(this.Parent) as IProjectFile;
-
-            if (m_ParentProject == null)
-                return false;
-            //if (dbI != null)
+              //if (dbI != null)
             //    m_dbI = dbI;
             //else
                 m_dbI = new IDAL(unityContainer);
 
             //read data from lokal json file
-                m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>(m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+                m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>(ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
                 Create(unityContainer);
 
@@ -236,8 +222,8 @@ namespace OIDE.Scene.Model
 
         private ICommand CmdSaveCharacterObj;
 
-        public override void Refresh() { }
-        public override void Finish() { }
+        public void Refresh() { }
+        public void Finish() { }
 
         public override Boolean Save(object param)
         {
@@ -264,7 +250,7 @@ namespace OIDE.Scene.Model
             //   m_FBData.EntityBaseModel = m_FBData.BaseObj_FBData;
 
 
-                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_CharacterObject>(m_FBData, m_ParentProject.Folder + "/Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
+                Helper.Utilities.USystem.XMLSerializer.Serialize<FB_CharacterObject>(m_FBData, ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
             }
             catch (Exception ex)
@@ -274,7 +260,7 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public override Boolean Create(IUnityContainer unityContainer)
+        public override  Boolean Create(IUnityContainer unityContainer)
         {
             UnityContainer = unityContainer;
             m_FBData = new FB_CharacterObject() { UnityContainer = unityContainer, Parent = this };
@@ -289,16 +275,15 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public override Boolean Delete()
+        public override  Boolean Delete()
         {
-
             try
             {
                 m_dbI.deleteEntity(DB_Entity.Entity);
                 Parent.Items.Remove(this);
 
-                if (File.Exists("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"))
-                    File.Delete("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");
+                if (File.Exists(ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"))
+                    File.Delete(ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");
 
                 MessageBox.Show("character entity deleted");
             }
@@ -312,18 +297,12 @@ namespace OIDE.Scene.Model
         public CharacterEntity()
          //   : base(null)
         { 
-            SceneItems = new CollectionOfISceneItem();
             CmdSaveCharacterObj = new CmdSaveCharacterObject(this);
-
-            Items = new CollectionOfIItem();
-
-
 
           //  m_FBData = new FB_CharacterObject(unityContainer);
 
             DB_Entity = new DAL.IDAL.EntityContainer();
             DB_Entity.Entity = new Entity();
-            SceneNode = new DAL.MDB.SceneNode();
           
         }
 

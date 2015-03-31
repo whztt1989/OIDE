@@ -49,6 +49,11 @@ namespace OIDE.Scene
     {
         private ICommand m_cmdCreateScene;
 
+        /// <summary>
+        /// override for serializable
+        /// </summary>
+        [Browsable(false)]
+        public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
 
         [Browsable(false)]
         [XmlIgnore]
@@ -71,11 +76,11 @@ namespace OIDE.Scene
 
         public Boolean Visible { get; set; }
 
-        public override Boolean Create(IUnityContainer unityContainer) { return true; }
-        public override Boolean Open(IUnityContainer unityContainer, object id) { return true; }
-        public override Boolean Save(object param) { return true; }
-        public override void Refresh() { }
-        public override Boolean Delete() { return true; }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
+        public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
+        public Boolean Save(object param) { return true; }
+        public void Refresh() { }
+        public Boolean Delete() { return true; }
 
         public SceneCategoryModel()
         {
@@ -132,6 +137,10 @@ namespace OIDE.Scene
                     id = tableModel.AutoIncrement();
                 }
             }
+            else
+                return;
+
+            parent.IsDirty = true;
 
             if (id > 0)
             {

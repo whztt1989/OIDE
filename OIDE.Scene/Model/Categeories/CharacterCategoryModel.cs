@@ -43,44 +43,52 @@ using System.IO;
 using OIDE.Scene.Model;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
+using Module.PFExplorer.Service;
 
 namespace OIDE.Scene
 {
-    public class CharacterCategoryModel : PItem, ISceneItem
+    public class CharacterCategoryModel : ProjectItemModel, ISceneItem
     {
-        public Int32 NodeID { get; set; }
-      
         public void Drop(IItem item) { }
 
         [Browsable(false)]
         [XmlIgnore]
-        public CollectionOfISceneItem SceneItems { get; private set; }
-   
+        public override String TypeImgSrc { get { return "pack://application:,,,/OIDE.Scene;component/Icons/SType.png"; } }
+
+        /// <summary>
+        /// override for serializable
+        /// </summary>
+        [Browsable(false)]
+        public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
+
+
         [Browsable(false)]
         [XmlIgnore]
-        public override List<MenuItem> MenuOptions 
+        public CollectionOfISceneItem SceneItems { get; private set; }
+
+        [Browsable(false)]
+        [XmlIgnore]
+        public override List<MenuItem> MenuOptions
         {
-              get
+            get
             {
-                List<MenuItem>  menuOptions = new List<MenuItem>();
+                List<MenuItem> menuOptions = new List<MenuItem>();
                 MenuItem miAdd = new MenuItem() { Command = new CmdAddCharacterObj(UnityContainer), CommandParameter = this, Header = "Create character object" };
                 menuOptions.Add(miAdd);
 
-          //      MenuItem miAdd2 = new MenuItem() { Command = new CmdAddCharacterCustomizeObj(UnityContainer), CommandParameter = this, Header = "Create character cust object" };
-          //      menuOptions.Add(miAdd2);
+                //      MenuItem miAdd2 = new MenuItem() { Command = new CmdAddCharacterCustomizeObj(UnityContainer), CommandParameter = this, Header = "Create character cust object" };
+                //      menuOptions.Add(miAdd2);
 
                 return menuOptions;
             }
         }
- 
-        public Boolean Visible { get; set; }
 
-        public override Boolean Create(IUnityContainer unityContainer) { return true; }
-        public override Boolean Open(IUnityContainer unityContainer, object id) { return true; }
-        public override Boolean Save(object param) { return true; }
-        public override void Refresh() { }
+        public Boolean Create(IUnityContainer unityContainer) { return true; }
+        public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
+        public new Boolean Save(object param) { return true; }
+        public void Refresh() { }
 
-        public override Boolean Delete() { return true; }
+        public Boolean Delete() { return true; }
 
         public CharacterCategoryModel()
         {
@@ -103,10 +111,10 @@ namespace OIDE.Scene
             CharacterCategoryModel parent = parameter as CharacterCategoryModel;
             UInt32 id = 0;
 
-            if(parent != null)
+            if (parent != null)
             {
                 var tableModel = parent.Parent as DBTableModel;
-                if(tableModel != null)
+                if (tableModel != null)
                 {
                     id = tableModel.AutoIncrement();
                 }
@@ -120,9 +128,10 @@ namespace OIDE.Scene
                 parent.Items.Add(pom);
 
                 ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
-            }else
+            }
+            else
             {
-                parent.UnityContainer.Resolve<ILoggerService>().Log("Error: CmdAddCharacterObj id =  (" + id.ToString() + ")", LogCategory.Error, LogPriority.High); 
+                parent.UnityContainer.Resolve<ILoggerService>().Log("Error: CmdAddCharacterObj id =  (" + id.ToString() + ")", LogCategory.Error, LogPriority.High);
             }
         }
 

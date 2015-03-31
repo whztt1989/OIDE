@@ -45,9 +45,13 @@ namespace OIDE.Scene
     {
         public String Name { get; set; }
         public Int32 NodeID { get; set; }
-      
+
+        /// <summary>
+        /// override for serializable
+        /// </summary>
         [Browsable(false)]
-        public CollectionOfIItem Items { get; set; }
+        public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
+
 
         public String ContentID { get; set; }
 

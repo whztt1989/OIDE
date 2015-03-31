@@ -41,18 +41,20 @@ using System.Windows.Input;
 using OIDE.Scene.Model;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
+using Module.PFExplorer.Service;
 
 namespace OIDE.Scene
 {
 
-    public class SpawnPointCategoryModel : PItem, ISceneItem
+    public class SpawnPointCategoryModel : ProjectItemModel, ISceneItem
     {
-        public String Name { get; set; }
-        public Int32 NodeID { get; set; }
-      
-
+        /// <summary>
+        /// override for serializable
+        /// </summary>
         [Browsable(false)]
-        public CollectionOfIItem Items { get; set; }
+        public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
+
+
 
         public void Drop(IItem item) { }
 
@@ -60,7 +62,6 @@ namespace OIDE.Scene
         [XmlIgnore]
         public CollectionOfISceneItem SceneItems { get; private set; }
 
-        public String ContentID { get; set; }
 
         [Browsable(false)]
         [XmlIgnore]
@@ -76,19 +77,6 @@ namespace OIDE.Scene
             }
         }
 
-        public Boolean IsExpanded { get; set; }
-        public Boolean IsSelected { get; set; }
-        public Boolean Enabled { get; set; }
-        public Boolean Visible { get; set; }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
-
-        [Browsable(false)]
-        [XmlIgnore]
-        public IItem Parent { get; set; }
-
         public Boolean Create(IUnityContainer unityContainer) { return true; }
         public Boolean Open(IUnityContainer unityContainer, object id) { return true; }
         public Boolean Save(object param) { return true; }
@@ -97,25 +85,10 @@ namespace OIDE.Scene
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public IUnityContainer UnityContainer { get; set; }
-
         public SpawnPointCategoryModel()
         {
-
+             SceneItems = new CollectionOfISceneItem();
         }
-
-        public SpawnPointCategoryModel(IItem parent, IUnityContainer container)
-        {
-            UnityContainer = container;
-            Parent = parent;
-            Items = new CollectionOfIItem();
-            SceneItems = new CollectionOfISceneItem();
-
-
-        }
-
     }
 
 

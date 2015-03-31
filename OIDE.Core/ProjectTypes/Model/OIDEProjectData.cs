@@ -1,4 +1,5 @@
 ﻿using Module.PFExplorer;
+using Module.PFExplorer.Interface;
 using Module.Properties.Interface;
 using OIDE.AssetBrowser;
 using OIDE.Core.Model;
@@ -19,9 +20,8 @@ namespace OIDE.Core.ProjectTypes.Model
  //   [XmlInclude(typeof(SceneDataModel))]
   //  [XmlInclude(typeof(OIDE_RFS))]
     [Serializable]
-    public class OIDEProjectData
+    public class OIDEProjectData 
     {
-        public String Name { get; set; }
         public CollectionOfIItem Items { get; set; }
         public Boolean IsExpanded { get; set; }
         public ObservableCollection<OIDEStateModel> GameStates { get; set; }

@@ -21,19 +21,36 @@ namespace OIDE.Scene.Interface
         {
             try
             {
-                reader.ReadStartElement("Items");
-                while (reader.IsStartElement("ISceneItem"))
-                {
-                    Type type = Type.GetType(reader.GetAttribute("AssemblyQualifiedName"));
-                    XmlSerializer serial = new XmlSerializer(type);
+                Boolean isMainEmptyElement = reader.IsEmptyElement; // (1)http://www.codeproject.com/Articles/43237/How-to-Implement-IXmlSerializable-Correctly
 
-                    reader.ReadStartElement("ISceneItem");
-                    this.Add((ISceneItem)serial.Deserialize(reader));
+                reader.ReadStartElement("Items");
+
+                if (!isMainEmptyElement)
+                {
+                    while (reader.IsStartElement("ISceneItem"))
+                    {
+                        Type type = Type.GetType(reader.GetAttribute("AssemblyQualifiedName"));
+                        XmlSerializer serial = new XmlSerializer(type);
+
+                        Boolean isEmptyElement = reader.IsEmptyElement; // (1)
+
+
+                        reader.ReadStartElement("ISceneItem");
+
+                        if (!isEmptyElement)
+                        {
+                            var item = (ISceneItem)serial.Deserialize(reader);
+                            this.Add(item);
+
+
+                            reader.ReadEndElement();
+                        }
+                    }
+
                     reader.ReadEndElement();
                 }
-                reader.ReadEndElement();
             }
-            catch
+            catch (Exception ex)
             {
 
             }

@@ -44,15 +44,24 @@ using Helper.Utilities.Event;
 using Module.History.Service;
 using System.Windows.Input;
 using Wide.Core.Services;
+using System.IO;
+using Module.PFExplorer.Interface;
+using Module.PFExplorer.Utilities;
+using Module.PFExplorer.Service;
 
 namespace OIDE.Core
 {
-    public class OIDEDBFileModel : PItem, IDBFileModel
+    public class OIDEDBFileModel : ProjectItemModel, IDBFileModel
     {
         private IDAL m_DBI;
         private ICommand CmdDeleteDBFile;
-     
-   
+
+        /// <summary>
+        /// override for serializable
+        /// </summary>
+        [Browsable(false)]
+        public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
+
         [Browsable(false)]
         [XmlIgnore]
         public override List<MenuItem> MenuOptions
@@ -79,15 +88,9 @@ namespace OIDE.Core
             }
         }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public List<System.Type> CanAddThisItems { get; private set; }
-
-        public Boolean Visible { get; set; }
-
        private Boolean mOpened;
 
-        public override Boolean Open(IUnityContainer unityContainer, object id)
+        public Boolean Open(IUnityContainer unityContainer, object id)
         {
             //GameStateListModel gameStates = new GameStateListModel(this, UnityContainer) { Name = "GameStates" };
             //gameStates.IsExpanded = true;
@@ -286,45 +289,41 @@ namespace OIDE.Core
 
         }
      
-        public override  Boolean Delete() 
+        public  Boolean Delete() 
         {
             return true; 
         }
 
-        public String Location { get; set; }
 
         public OIDEDBFileModel()
         {
-            Name = "SQLiteDB";
-         //   Parent = parent;
-            Items = new CollectionOfIItem();
-            this.CanAddThisItems = new List<Type>();
-    
-            MenuItem mib1a = new MenuItem();
-            mib1a.Header = "Text.xaml";
-            MenuOptions.Add(mib1a);
-
            // m_DBI = new IDAL();
 
-
             //KH 29.03      CanAddThisItems.Add(typeof(SceneDataModel));
-
 
             CmdDeleteDBFile = new CmdDeleteDBFile(this);
 
         }
 
-
-        public override  Boolean Create(IUnityContainer unityContainer)
+        public new  Boolean Create(IUnityContainer unityContainer)
         {
             m_DBI = new IDAL(unityContainer);
+
+
             return true;
         }
-        public override Boolean Save(object param) { return true; }
-        public override Boolean Closing() { return true; }
-        public override void Refresh() { }
-        public override void Finish() { }
-        public override void Drop(IItem item) { }
+
+        public new Boolean Save(object param) 
+        {
+
+
+            return true;
+        }
+
+        public Boolean Closing() { return true; }
+        public void Refresh() { }
+        public void Finish() { }
+        public void Drop(IItem item) { }
     }
 
 

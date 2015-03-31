@@ -46,6 +46,13 @@ namespace DAL
         private UInt32 m_AutoIncID;
 
         /// <summary>
+        /// override for serializable
+        /// </summary>
+        [Browsable(false)]
+        public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
+
+
+        /// <summary>
         /// current max incremented id for this table
         /// </summary>
         [Description("current max incremented id for this table")]
