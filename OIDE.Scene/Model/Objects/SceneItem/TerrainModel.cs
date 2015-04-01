@@ -38,10 +38,11 @@ using Microsoft.Practices.Unity;
 using OIDE.Scene.Interface;
 using Wide.Interfaces.Services;
 using Wide.Core.Services;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene.Model
 {
-    public class TerrainModel : PItem, ISceneItem
+    public class TerrainModel : SceneItem
     {
         public IItem Parent { get; set; }
         public Boolean Visible { get; set; }

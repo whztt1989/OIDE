@@ -23,7 +23,7 @@ namespace OIDE.Scene.Interface
             {
                 Boolean isMainEmptyElement = reader.IsEmptyElement; // (1)http://www.codeproject.com/Articles/43237/How-to-Implement-IXmlSerializable-Correctly
 
-                reader.ReadStartElement("Items");
+                reader.ReadStartElement("SceneItems");
 
                 if (!isMainEmptyElement)
                 {

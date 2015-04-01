@@ -72,6 +72,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Module.DB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Module.DB.dll</HintPath>
+    </Reference>
     <Reference Include="Module.History, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\Module.History.dll</HintPath>

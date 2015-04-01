@@ -40,23 +40,15 @@ using System.Xml.Serialization;
 using OIDE.Scene.Interface;
 using Wide.Interfaces.Services;
 using Wide.Core.Services;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene.Model
 {
-    public class CameraModel : PItem, ISceneItem
+    public class CameraModel : SceneItem
     {
-        public Boolean Visible { get; set; }
-    
-        [Browsable(false)]
-        [XmlIgnore]
-        public CollectionOfISceneItem SceneItems { get; private set; }
-
+      
         public void Drop(IItem item) { }
-
-
-        [XmlIgnore]
-        public DAL.MDB.SceneNode SceneNode { get; private set; }
-       
+   
         //[XmlIgnore]
         //private ProtoType.Camera mData;
 

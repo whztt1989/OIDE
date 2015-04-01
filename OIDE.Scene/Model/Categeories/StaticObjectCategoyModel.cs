@@ -43,11 +43,12 @@ using OIDE.Scene.Interface;
 using Wide.Core.Services;
 using DAL;
 using Module.PFExplorer.Service;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene
 {
 
-    public class StaticObjectCategoryModel : ProjectItemModel, ISceneItem
+    public class StaticObjectCategoryModel : SceneItem, IDBFileItem
     {
         [Browsable(false)]
         [XmlIgnore]
@@ -58,6 +59,20 @@ namespace OIDE.Scene
         /// </summary>
         [Browsable(false)]
         public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
+
+        public Boolean SaveToDB()
+        {
+            foreach (var item in Items)
+            {
+                var dbFileItem = item as IDBFileItem;
+                if (dbFileItem != null)
+                {
+                    dbFileItem.SaveToDB();
+                }
+            }
+
+            return true;
+        }
 
 
         [Browsable(false)]
@@ -129,7 +144,7 @@ namespace OIDE.Scene
 
             if (id > 0)
             {
-                StaticObjectModel pom = new StaticObjectModel() { Parent = parent, UnityContainer = parent.UnityContainer, Name = "Static Obj NEW", ContentID = "StaticEntID:##" + id };
+                StaticObjectModel pom = new StaticObjectModel() { Parent = parent, UnityContainer = parent.UnityContainer, Name = "Static Obj NEW", ContentID = "StaticEntID:##:" + id };
 
                 pom.Create(parent.UnityContainer);
                 parent.Items.Add(pom);

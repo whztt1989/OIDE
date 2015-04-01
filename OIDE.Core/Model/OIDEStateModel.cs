@@ -39,13 +39,12 @@ using Module.Properties.Interface;
 using System.Collections.ObjectModel;
 using Helper.Utilities.Event;
 using Wide.Interfaces.Services;
+using Module.DB.Interface.Services;
 
 namespace OIDE.Core.Model
 {
     public class OIDEStateModel// : IItem
     {
-        private IDAL m_DBI;
-
         private ObservableCollection<IObjectEvent> m_ObjectEvents = new ObservableCollection<IObjectEvent>();
 
         public String Name { get; set; }
@@ -81,6 +80,26 @@ namespace OIDE.Core.Model
         [XmlIgnore]
         public ObservableCollection<IObjectEvent> ObjectEvents { get { return m_ObjectEvents; } set { m_ObjectEvents = value; } }
 
+        protected IDatabaseService m_DBService;
+        private IDAL_DCTX m_DataContext;
+
+        [Browsable(false)]
+        [XmlIgnore]
+        public IDAL_DCTX DataContext
+        {
+            get
+            {
+                if (m_DataContext == null)
+                    m_DataContext = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false) as IDAL_DCTX;
+
+                return m_DataContext;
+            }
+            set
+            {
+                m_DataContext = value;
+            }
+        }
+
      //   private Boolean mOpened;
 
         public Boolean Open()
@@ -114,7 +133,7 @@ namespace OIDE.Core.Model
 
             try
             {
-                IEnumerable<DAL.IDAL.EntityContainer> result = m_DBI.selectAllEntities();
+                IEnumerable<DAL.IDAL.EntityContainer> result = IDAL.selectAllEntities(DataContext);
 
                 if (result != null)
                 {

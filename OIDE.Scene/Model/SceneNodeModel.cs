@@ -26,11 +26,14 @@ using OIDE.Scene.Model.Objects.FBufferObject;
 using OIDE.Scene.Interface;
 using Wide.Interfaces.Services;
 using Wide.Core.Services;
+using OIDE.Scene.Service;
+using DAL.MDB;
+using Module.DB.Interface.Services;
 
 namespace OIDE.Scene.Model
 {
     [Serializable]
-    public class SceneNodeModel : PItem, ISceneItem
+    public class SceneNodeModel : SceneItem
     {
         FB_SceneNode m_FB_SceneNode; 
 
@@ -49,19 +52,18 @@ namespace OIDE.Scene.Model
 
         #region DBProperties
 
+        private long m_EntityID;
+
+        public long EntityID { get { return m_EntityID; } set { m_EntityID = value; RaisePropertyChanged("EntityID"); } }
+
         private DAL.MDB.SceneNode m_SceneNodeDB;
 
-        public long EntityID { get { return (long)m_SceneNodeDB.EntID; } set { m_SceneNodeDB.EntID = value; RaisePropertyChanged("EntityID"); } }
-
-        [XmlIgnore]
-        [Browsable(false)]
-        public IDAL IDAL { get; set; }
 
         [XmlIgnore]
         [Browsable(false)]       
         public DAL.MDB.SceneNode SceneNodeDB
         {
-            get {    return m_SceneNodeDB; }
+            get { if (m_SceneNodeDB == null) m_SceneNodeDB = new DAL.MDB.SceneNode(); return m_SceneNodeDB; }
             set 
             {
                 m_SceneNodeDB = value;
@@ -98,14 +100,19 @@ namespace OIDE.Scene.Model
         }
 
 
-        public Boolean Create(IUnityContainer unityContainer) { return true; }
+        public Boolean Create(IUnityContainer unityContainer) {
+
+            base.m_DBService = unityContainer.Resolve<IDatabaseService>();
+        
+            return true; }
         public Boolean Closing() { return true; }
 
         public Boolean Open(IUnityContainer unityContainer, object id)
         {
             uint sceneID = 0;
-            
-            
+
+            base.m_DBService = unityContainer.Resolve<IDatabaseService>();
+        
             //done in scene open!
 
 
@@ -124,12 +131,37 @@ namespace OIDE.Scene.Model
             return true;
         }
 
+
+
+        public Boolean SaveToDB()
+        {
+            String DBPath = DBFileUtil.GetDBFilePath(this.Parent);
+            if (!String.IsNullOrEmpty(DBPath))
+            {
+                m_SceneNodeDB = new DAL.MDB.SceneNode();
+
+                m_SceneNodeDB.Data = m_FB_SceneNode.CreateByteBuffer();
+
+          
+
+                m_SceneNodeDB.Name = Name;
+                m_SceneNodeDB.SceneID = m_SceneID;
+                m_SceneNodeDB.NodeID = NodeID;
+
+                //save sceneNode to db
+                if (NodeID > 0)
+                    IDAL.updateSceneNode(DataContext, m_SceneNodeDB);
+            }
+
+            return true;
+        }
+
+        private long m_SceneID;
+
         public Boolean Save(object param) 
         {
-            m_SceneNodeDB.Data = m_FB_SceneNode.CreateByteBuffer();
-
-            long sceneID = 0;
-            if(!long.TryParse(param.ToString(), out sceneID))
+            m_SceneID = 0;
+            if (!long.TryParse(param.ToString(), out m_SceneID))
             {
                 MessageBox.Show("error in ScenNodeModel.Save -> sceneID invalid");
                 return false;
@@ -140,13 +172,10 @@ namespace OIDE.Scene.Model
                 return false;
             }
 
-            m_SceneNodeDB.Name = Name;
-            m_SceneNodeDB.SceneID = sceneID;
-            m_SceneNodeDB.NodeID = NodeID;
+            SaveToDB();
+      
 
-            //save sceneNode to db
-            if (NodeID > 0)
-                IDAL.updateSceneNode(m_SceneNodeDB);
+          
             //else
             //    m_DBI.insertSceneNode(m_SceneNodeDB);
 
@@ -172,9 +201,9 @@ namespace OIDE.Scene.Model
         public Boolean Delete()
         {
           //  m_model.Items.Clear();
-            (Parent as IScene).SceneItems.Remove(this);
+            (Parent as ISceneItem).SceneItems.Remove(this);
 
-            IDAL.DeleteSceneNode(NodeID);
+            IDAL.DeleteSceneNode(DataContext, NodeID);
 
             return true; 
         }
@@ -185,7 +214,7 @@ namespace OIDE.Scene.Model
         public SceneNodeModel()//IScene parent, IUnityContainer container, IDAL  dbi)
         {
             mCmdDeleteNode = new CmdDeleteNode(this);
-
+         
             m_FB_SceneNode = new FB_SceneNode();
             m_FB_SceneNode.Rotation = new Quaternion();
             m_FB_SceneNode.Location = new Vector3();

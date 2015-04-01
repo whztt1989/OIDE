@@ -17,6 +17,7 @@ namespace OIDE.Scene.Interface.Services
         /// </summary>
         CollectionOfISceneItem SceneItems { get; }
 
+        ISceneItem SelectedItem { get; set; }
 
      //   Int32 NodeID { get; set; }
 

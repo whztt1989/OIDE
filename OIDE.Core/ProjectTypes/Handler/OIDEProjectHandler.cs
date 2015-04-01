@@ -125,6 +125,7 @@ namespace OIDE.Core.ProjectTypes.Handler
           //  mProjectTreeService.Items.Add(root);
             mProjectTreeService.SetAsRoot(model);
 
+            SaveContent(vm);
 
             return vm;
         }

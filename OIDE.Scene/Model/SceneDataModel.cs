@@ -56,6 +56,8 @@ using OIDE.Scene.Model.Objects.FBufferObject;
 using OIDE.Scene.Interface;
 using Module.PFExplorer.Interface;
 using Module.PFExplorer.Utilities;
+using WIDE_Helpers;
+using Module.DB.Interface.Services;
 
 namespace OIDE.Scene.Model
 {
@@ -80,12 +82,10 @@ namespace OIDE.Scene.Model
     /// Complete Scene description
     /// </summary>
     [Serializable]
-    public class SceneDataModel : ContentModel, IScene, IDBData
+    public class SceneDataModel : SceneItem, IDBFileItem
     {
-
         private ICommand CmdDeleteScene;
         private ICommand CmdSaveScene;
-
 
      //   private CollectionOfISceneItem m_SceneItems;
         private ISceneItem mSelectedItem;
@@ -103,6 +103,11 @@ namespace OIDE.Scene.Model
             {
                 if (item is ISceneItem)
                 {
+                    if(FB_SceneData == null)
+                    {
+                      //  MessageBox.Show
+                    }
+
                     var sceneItem = item as ISceneItem;
 
                     DAL.MDB.SceneNode node = new SceneNode()
@@ -115,12 +120,12 @@ namespace OIDE.Scene.Model
                     //if(SceneItems.Any())
                     //    highestNodeID = SceneItems.Max(x => x.NodeID) + 1;
 
-                    SceneItems.Add(
+                    FB_SceneData.SceneItems.Add(
                         new SceneNodeModel()
                         {
                             Parent = this,
                             UnityContainer = UnityContainer,
-                            IDAL = m_DBI,
+                            DataContext = DataContext,
                             NodeID = NextNodeCount(),
                             SceneNodeDB = node,
                             Name = node.Name ?? "NodeNoname"
@@ -139,18 +144,23 @@ namespace OIDE.Scene.Model
 
         #region serializable data
 
-        private FB_Scene m_FB_SceneData = new FB_Scene();
+        private FB_Scene m_FBData;// = new FB_Scene();
 
    //     [XmlIgnore]
+        [XmlIgnore]
         [ExpandableObject]
   //      public FB_Scene FB_SceneData { get { return m_FB_SceneData; } }
-        public object DBData {
-
-            get { return m_FB_SceneData;   }
+        public FB_Scene FB_SceneData
+        {
+            get { return m_FBData; }
         }
 
         #endregion
 
+        [XmlIgnore]
+        [ExpandableObject]
+        public override CollectionOfISceneItem SceneItems { get { return m_FBData.SceneItems; } }
+      
         //#region SceneData
 
         ////only changeable in Scenetree! not in propertygrid
@@ -177,9 +187,9 @@ namespace OIDE.Scene.Model
             return false;
         }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public CollectionOfISceneItem SceneItems { get { return m_FB_SceneData.SceneItems; } set { m_FB_SceneData.SceneItems = value; } }
+    //    [Browsable(false)]
+    //    [XmlIgnore]
+     //   public CollectionOfISceneItem SceneItems { get { return m_FB_SceneData.SceneItems; } set { m_FB_SceneData.SceneItems = value; } }
  //public CollectionOfISceneItem SceneItems { get { return m_SceneItems; } set { m_SceneItems = value; } }
 
         [XmlIgnore]
@@ -223,9 +233,6 @@ namespace OIDE.Scene.Model
         //#endregion
 
 
-        private IDAL m_DBI;
-
-
         #region public command methods
 
         public Boolean Create(IUnityContainer unityContainer)
@@ -233,27 +240,32 @@ namespace OIDE.Scene.Model
 
             UnityContainer = unityContainer;
             m_SceneService = unityContainer.Resolve<ISceneService>();
-            m_DBI = new IDAL(unityContainer);
+       
+            base.m_DBService = unityContainer.Resolve<IDatabaseService>();
+
+            m_FBData = new FB_Scene() { UnityContainer = unityContainer, Parent = this };
+
+            RaisePropertyChanged("FB_SceneData");
 
             return true;
         }
 
         public Boolean Closing()
         {
-            m_Opened = false;
+       //     m_Opened = false;
             return true;
         }
 
-        private Boolean m_Opened;
+      //  private Boolean m_Opened;
 
         private IProjectFile m_ParentProject;
 
         public Boolean Open(IUnityContainer unityContainer, object id)
         {
-            if (m_Opened)
-                return false;
-            else
-                m_Opened = true;
+            //if (m_Opened)
+            //    return false;
+            //else
+            //    m_Opened = true;
 
             //get parent project
             m_ParentProject = PFUtilities.GetRekursivParentPF(this.Parent) as IProjectFile;
@@ -265,20 +277,23 @@ namespace OIDE.Scene.Model
             UnityContainer = unityContainer;
             m_SceneService = unityContainer.Resolve<ISceneService>();
 
-            m_DBI = new IDAL(unityContainer);
+            base.m_DBService = unityContainer.Resolve<IDatabaseService>();
+       
+            int sceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
+
+            this.Location = ItemFolder + "\\" + sceneID + ".xml";
+          
+            //read sceneData from DAL -- Read data from XML not from database -> database data not human readable
+            m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_Scene>(this.Location.ToString()); // XML Serialize
+            if (m_FBData == null)
+                Create(unityContainer);
+            else
+                RaisePropertyChanged("FB_SceneData");
+
+            RaisePropertyChanged("SceneItems");
 
             m_SceneService.SelectedScene = this;
 
-            int sceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
-          
-            this.Location = m_ParentProject.Folder + "\\Scene\\" + sceneID + ".xml";
-          
-            //read sceneData from DAL -- Read data from XML not from database -> database data not human readable
-            m_FB_SceneData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_Scene>(this.Location.ToString()); // XML Serialize
-            if (m_FB_SceneData == null)
-                m_FB_SceneData = new FB_Scene();
-            
-       
             //m_FB_SceneData.RelPathToXML = "Scene\\" + sceneID + ".xml";
             //m_FB_SceneData.AbsPathToXML = path;
 
@@ -287,12 +302,12 @@ namespace OIDE.Scene.Model
             return true ;
 
 
-            DB_SceneData = m_DBI.selectSceneDataOnly(sceneID); // database data
+            DB_SceneData = IDAL.selectSceneDataOnly(DataContext,sceneID); // database data
 
        //     m_FB_SceneData.Read(DB_SceneData.Data); //just for testing if data correctly saved!
 
 
-            IEnumerable<DAL.IDAL.SceneNodeContainer> result = m_DBI.selectSceneNodes(sceneID); //scenenodes from database
+            IEnumerable<DAL.IDAL.SceneNodeContainer> result = IDAL.selectSceneNodes(DataContext, sceneID); //scenenodes from database
 
             try
             {
@@ -376,31 +391,43 @@ namespace OIDE.Scene.Model
         public void Refresh() { }
         public void Finish() { }
 
-        public Boolean Save(object param)
+        public Boolean SaveToDB()
+        {
+            String DBPath = DBFileUtil.GetDBFilePath(this.Parent);
+            if (!String.IsNullOrEmpty(DBPath))
+            {
+                DB_SceneData.Data = m_FBData.CreateByteBuffer();
+                DB_SceneData.SceneID = SceneID;
+
+                //  m_FB_SceneData.Read(DB_SceneData.Data);
+
+                // ProtoType.Scene protoData = new ProtoType.Scene();
+                // protoData.colourAmbient = new ProtoType.Colour() { r = 5 , b =  6 , g = 7 };
+
+                //save scene to db
+                //if (DB_SceneData.SceneID > 0)
+                //    m_DBI.updateScene(DB_SceneData);
+                //else
+                IDAL.insertScene(DataContext, DB_SceneData);
+
+             }
+            return true;
+
+        }
+
+        public override Boolean Save(object param)
         {
           //  mDBData.Data = m_FBByteBuffer.Data; //ProtoSerialize.Serialize(mProtoData);
-            if (m_DBI == null)
-                m_DBI = new IDAL(UnityContainer);
 
-            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_Scene>(m_FB_SceneData, this.Location.ToString()); // XML Serialize
+            SaveToDB();
+       
+            this.Location = ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml";
+
+            Helper.Utilities.USystem.XMLSerializer.Serialize<FB_Scene>(m_FBData, this.Location.ToString()); // XML Serialize
             
             //  mData = ProtoSerialize.Deserialize<ProtoType.Scene>(result);
             if (DB_SceneData == null)
                 DB_SceneData = new DAL.MDB.Scene();
-
-            DB_SceneData.Data = m_FB_SceneData.CreateByteBuffer();
-            DB_SceneData.SceneID = SceneID;
-
-          //  m_FB_SceneData.Read(DB_SceneData.Data);
-
-            // ProtoType.Scene protoData = new ProtoType.Scene();
-            // protoData.colourAmbient = new ProtoType.Colour() { r = 5 , b =  6 , g = 7 };
-       
-            //save scene to db
-            if (DB_SceneData.SceneID > 0)
-                m_DBI.updateScene(DB_SceneData);
-            else
-                m_DBI.insertScene(DB_SceneData);
 
   
             //##   DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
@@ -441,7 +468,7 @@ namespace OIDE.Scene.Model
                     var sNode = sceneItem as SceneNodeModel;
                     if (sNode != null)
                     {
-                        sNode.IDAL = m_DBI;
+                        sNode.DataContext = DataContext;
                         sNode.Save(SceneID);
                     }
                     
@@ -479,12 +506,15 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public Boolean Delete()
+        public override Boolean Delete()
         {
-            if (m_DBI == null)
-                m_DBI = new IDAL(UnityContainer);
+            IDAL.DeleteScene(DataContext, Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue);
 
-            m_DBI.DeleteScene(Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue);
+            this.Location = ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml";
+      
+            File.Delete(this.Location.ToString());
+
+            this.Parent.Items.Remove(this);
 
             return true;
         }

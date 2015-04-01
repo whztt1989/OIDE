@@ -43,6 +43,7 @@ using Module.DB.Interface.Services;
 using OIDE.Core.ProjectTypes.Handler;
 using OIDE.Core.ProjectTypes.View;
 using Module.PFExplorer.Interface.Services;
+using DAL;
 
 namespace OIDE.Core
 {
@@ -85,29 +86,23 @@ namespace OIDE.Core
 
         private void RegisterDatabase()
         {
-          //###  var managerDB = _container.Resolve<IDatabaseService>();
-            //CDBI newComID_DB = new CDBI(managerDB);
-            //newComID_DB.DBOptions = managerDB.DBOptions[0];
-            //managerDB.AddDB(newComID_DB);
+            var managerDB = _container.Resolve<IDatabaseService>();
+            IDAL newComID_DB = new IDAL(_container);
+            newComID_DB.DBOptions = managerDB.DBOptions[0];
+
+            newComID_DB.DBOptions.IDName = "SQLITE DB";
+            newComID_DB.DBOptions.DBType = Module.DB.Interface.DBType.SQLite;
+
+            managerDB.AddDB(newComID_DB);
         }
 
         private void SetDatabaseContext()
         {
-            //var managerDB = _container.Resolve<IDatabaseService>();
-            //var logger = _container.Resolve<ILoggerService>();
+            var managerDB = _container.Resolve<IDatabaseService>();
 
-            ////Search database 
-            //var db = managerDB.DBs.Where(x => x.DBOptions.IDName == "XIDE SQLITE");
-
-            //if (db.Any())
-            //{
-            //    managerDB.SetCurrentDB(db.First().Guid);
-            //    managerDB.CurrentDB.OpenContext();
-            //}
-            //else
-            //{
-            //    logger.Log("database options 'XIDE SQLITE' not found", LogCategory.Exception, LogPriority.High);
-            //}
+            var db = managerDB.DBs.Where(x => x.DBOptions.IDName == "SQLITE DB");
+            if (db.Any())
+                managerDB.SetCurrentDB(db.First().Guid);
         }
 
         private void LoadToolbar()

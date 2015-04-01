@@ -38,10 +38,12 @@ using Microsoft.Practices.Unity;
 using System.ComponentModel;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
+using DAL;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene
 {
-    public class SceneFilterModel : PItem, ISceneItem
+    public class SceneFilterModel : SceneItem, IDBFileItem
     {
         public String Name { get; set; }
         public Int32 NodeID { get; set; }
@@ -52,6 +54,19 @@ namespace OIDE.Scene
         [Browsable(false)]
         public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
 
+        public Boolean SaveToDB()
+        {
+            foreach (var item in Items)
+            {
+                var dbFileItem = item as IDBFileItem;
+                if (dbFileItem != null)
+                {
+                    dbFileItem.SaveToDB();
+                }
+            }
+
+            return true;
+        }
 
         public String ContentID { get; set; }
 

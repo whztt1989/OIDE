@@ -60,7 +60,7 @@ using OIDE.Scene.Service;
 
 namespace OIDE.Scene.Model
 {
-    public class StaticObjectModel : SceneItem
+    public class StaticObjectModel : SceneItem, IDBFileItem
     {
         #region serializable data
 
@@ -113,12 +113,7 @@ namespace OIDE.Scene.Model
             }
         }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public IDAL IDAL { get { return m_dbI; } }
-
-        private IDAL m_dbI;
-
+      
         private Boolean m_opened;
 
         public override Boolean Open(IUnityContainer unityContainer, object id)
@@ -126,23 +121,19 @@ namespace OIDE.Scene.Model
             if (m_opened)
                 return true;
 
-            m_FBData = new FB_StaticObjectModel() { UnityContainer = unityContainer , Parent = this};
+//            m_FBData = new FB_StaticObjectModel() { UnityContainer = unityContainer , Parent = this};
 
             UnityContainer = unityContainer;
 
         
-            //if (dbI != null)
-            //    m_dbI = dbI;
-            //else
-                m_dbI = new IDAL(unityContainer);
-
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
             //read data from lokal json file
                 m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_StaticObjectModel>(ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
                 Create(unityContainer);
-
+            else
+                RaisePropertyChanged("FB_StaticObject");
 
            // m_FBData.SetFBData(m_FBData.EntityBaseModel); //set base entity data
 
@@ -156,29 +147,37 @@ namespace OIDE.Scene.Model
         public void Refresh() { }
         public void Finish() { }
 
+        public Boolean SaveToDB()
+        {
+            String DBPath = DBFileUtil.GetDBFilePath(this.Parent);
+            if (!String.IsNullOrEmpty(DBPath))
+            {
+                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer();
+                DB_Entity.Entity.Name = Name;
+
+               // if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
+                DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
+
+                //test
+                m_FBData.Read(DB_Entity.Entity.Data);
+
+                //if (DB_Entity.Entity.EntID > 0)
+                //    m_dbI.updateEntity(DB_Entity.Entity);
+                //else
+                //{
+                    DB_Entity.Entity.EntType = (decimal)EntityTypes.NT_Static;
+                    IDAL.insertEntity(DataContext, DB_Entity.Entity);
+             //       ContentID = ContentID + ":" + DB_Entity.Entity.EntID;
+             //   }
+            }
+            return true;
+        }
 
         public override Boolean Save(object param)
         {
             try
             {
-                DB_Entity.Entity.Data = m_FBData.CreateByteBuffer();
-                DB_Entity.Entity.Name = Name;
-
-                if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
-                    DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
-
-                //test
-                m_FBData.Read(DB_Entity.Entity.Data);
-
-                if (DB_Entity.Entity.EntID > 0)
-                    m_dbI.updateEntity(DB_Entity.Entity);
-                else
-                {
-                    DB_Entity.Entity.EntType = (decimal)EntityTypes.NT_Static;
-                    m_dbI.insertEntity(DB_Entity.Entity);
-                    ContentID = ContentID + ":"+ DB_Entity.Entity.EntID;
-                }
-
+                SaveToDB();
                // m_FBData.EntityBaseModel = m_FBData.EntityBaseModel;
                 Helper.Utilities.USystem.XMLSerializer.Serialize<FB_StaticObjectModel>(m_FBData, ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
@@ -201,11 +200,6 @@ namespace OIDE.Scene.Model
 
             UnityContainer = unityContainer;
 
-            //if (dbI != null)
-            //    m_dbI = dbI;
-            //else
-                m_dbI = new IDAL(unityContainer);
-
             return true; 
         }
         public override Boolean Delete()
@@ -213,11 +207,11 @@ namespace OIDE.Scene.Model
 
             try
             {
-                m_dbI.deleteEntity(DB_Entity.Entity);
+                IDAL.deleteEntity(DataContext, DB_Entity.Entity);
                 Parent.Items.Remove(this);
 
-                if (File.Exists("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"))
-                    File.Delete("Scene/Entities/" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");
+                if (File.Exists(ItemFolder + "\\" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"))
+                    File.Delete(ItemFolder + "\\" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");
 
                 MessageBox.Show("Static entity deleted");
             }catch(Exception ex)

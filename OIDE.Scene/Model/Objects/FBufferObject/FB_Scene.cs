@@ -21,7 +21,7 @@ namespace OIDE.Scene.Model.Objects
     public class FB_Scene : IFBObject
     {
         private XFBType.Scene m_FBData = new XFBType.Scene();
-        private CollectionOfISceneItem m_SceneItems = new CollectionOfISceneItem();
+        private CollectionOfISceneItem m_SceneItems;
 
         #region sceneData
 
@@ -40,11 +40,17 @@ namespace OIDE.Scene.Model.Objects
         [Browsable(false)]
         public IUnityContainer UnityContainer { get; set; }
 
+        [Browsable(false)]
         public CollectionOfISceneItem SceneItems { get { return m_SceneItems; } set { m_SceneItems = value; } }
 
         public System.Windows.Media.Color ColourAmbient { get { return m_ColourAmbient; } set { m_ColourAmbient = FB_Helper.UpdateSelectedObject(this, m_ColourAmbient, value); } } //public setter needed for serialization
            
         #endregion
+
+        public FB_Scene()
+        {
+            m_SceneItems = new CollectionOfISceneItem();
+        }
 
         /// <summary>
         /// reads flatbuffers byte data into object

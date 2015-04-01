@@ -38,138 +38,353 @@ using DAL.MDB;
 using System.Windows;
 using Microsoft.Practices.Unity;
 using Wide.Interfaces.Services;
+using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
+using Wide.Interfaces;
 
 
 namespace DAL
 {
-    public class IDAL: IDisposable
+    public class extdbDataEntities : dbDataEntities
     {
-        dbDataEntities mCtx;
+        private IUnityContainer m_Container;
+
+        public UInt16 CTXID { get; set; }
+
+        public extdbDataEntities(IUnityContainer container, String xconnection)
+            : base(xconnection)
+        {
+            m_Container = container;
+        }
+    }
+
+    public class IDAL_DCTX
+    {
+        public object Context { get; set; }
+        public IUnityContainer UnityContainer { get; set; }
+    }
+
+    public class IDAL: IDB
+    {
+     //   extdbDataEntities mCtx;
         IUnityContainer m_Container;
         ILoggerService m_loggerService;
+        public DBOptions DBOptions { get; set; }
+        public Guid Guid { get; set; }
+
 
         public IDAL(IUnityContainer container)
         {
-            mCtx = new dbDataEntities();
+        //    mCtx = new extdbDataEntities();
             m_Container = container;
             m_loggerService = container.Resolve<ILoggerService>();
-        //    mCtx.Database.Connection.StateChange += new StateChangeEventHandler(StateChange);
+        //    m(ctx.Context as extdbDataEntities).Database.Connection.StateChange += new StateChangeEventHandler(StateChange);
         }
 
-        public void Dispose()
+        public async void ShowLoginDialog(IUnityContainer container)
         {
-            if (mCtx != null)
-            {
-                //  Transaction.Dispose();
-                // Transaction = null;
-                mCtx.Dispose();
-                mCtx = null;
-            }
+        //    var workspace = container.Resolve<AbstractWorkspace>();
+        //    var managerDB = container.Resolve<IDatabaseService>();
+        //    var logger = container.Resolve<ILoggerService>();
+
+        //    bool loginOK = false;
+        //    String message = "zum einloggen Benutzername und Passwort angeben";
+
+        //    //solange abfragen bis korrekter Login
+        //    while (!loginOK)
+        //    {
+        //        //Login
+        //        //MahApps.Metro.Controls.Dialogs.LoginDialogData result = await workspace.LoginDialog("Login", message);
+        //        //if (result == null)
+        //        //{
+        //        //    //user canceled
+        //        //    //##    Application.Current.Shutdown();
+        //        //}
+        //        //else
+        //        //{
+        //        //    var databaseService = container.Resolve<IDatabaseService>();
+        //        //    User user = new User();
+
+        //        //    loginOK = ((IDAL)databaseService.CurrentDB).Login(result.Username, result.Password, ref user);
+        //        //    if (loginOK)
+        //        //    {
+        //        //        workspace.NotificationRequest.Raise(
+        //        //                 new Notification { Content = String.Format("eingeloggt als: {0}", result.Username), Title = "Login erfolgreich" });
+
+        //        //        databaseService.LoggedUser.UserID = user.UserID;
+        //        //        databaseService.LoggedUser.UserGruppe = user.UserGruppe;
+        //        //        databaseService.LoggedUser.LoggedIn = true;
+        //        //        databaseService.LoggedUser.Data = user.Data;
+        //        //        databaseService.LoggedUser.Status = LogStatus.LoggedIn;
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        message = "Logindaten ungültig!";
+        //        //    }
+        //        //    //else
+        //        //    //{
+        //        //    //    workspace.NotificationRequest.Raise(new Notification { Content = "Logindaten falsch", Title = "Login fehlgeschlagen" });
+        //        //    //}
+        //        //}
+        //    }
         }
+
+        public object GetDataContext()
+        {
+            return GetDataContextOpt();
+        }
+
+        public object GetDataContextOpt(Boolean checkUser = true)
+        {
+            IDAL_DCTX tmp = new IDAL_DCTX();
+            
+            try
+            {
+                 var _databaseService = m_Container.Resolve<IDatabaseService>();
+
+                ////if (m_DBFound)
+                ////{
+
+                ////}
+                ////else
+                ////    ShowDBSetting(m_Container);
+
+                //   PS_COMID_DataContext crmDataContext = new PS_COMID_DataContext();
+
+                DBOptions options = _databaseService.CurrentDB.DBOptions;
+                if (options.DBType == DBType.MSSQL)
+                {
+                    //  
+
+                    //string connectionString = "metadata=res://*/MDB.MDB_PNDS.csdl|res://*/MDB.MDB_PNDS.ssdl|res://*/MDB.MDB_PNDS.msl;Server = " + options.Host + "; Database = PNDS; User Id = " + options.User + ";Password = " + options.Password;
+                    // string connectionString = "metadata=res://*/MDB.MDB_PNDS.csdl|res://*/MDB.MDB_PNDS.ssdl|res://*/MDB.MDB_PNDS.msl;provider=System.Data.SqlClient;provider connection string=\"data source=AP-HAAG\\SQLEX2008R203;initial catalog=PNDS;user id=PecuSoft;password=sesam1997oeffne;MultipleActiveResultSets=True;App=EntityFramework\"";
+                    string connectionString = "metadata=res://*/MDB.MDB_PNDS.csdl|res://*/MDB.MDB_PNDS.ssdl|res://*/MDB.MDB_PNDS.msl;provider=System.Data.SqlClient;provider connection string=\"data source=" + options.Host + ";initial catalog=PNDS;user id=" + options.User + ";password=" + options.Password + ";MultipleActiveResultSets=True;App=EntityFramework\"";
+
+                    //string connectionString = "User Id=" + options.User + ";Password=" + options.Password + ";Server=" + options.Host + ";Direct=True;Sid=" + options.ServiceName + ";Persist Security Info=True";
+                    //   string providerPrefix = "";
+                    //if (!ConnectionDialog.Show(out connectionString, out providerPrefix))
+                    //{
+                    //    stripLabel.Text = "Incorrect connection string";
+                    //    return;
+                    //}
+
+                    //Frame activating
+                    //  Stream contextStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(String.Format("ComID.IDAL.MDB.CrmDataMapping{0}.lqml", providerPrefix));
+                    //   Devart.Data.Linq.Mapping.MappingSource mappingSource = Devart.Data.Linq.Mapping.XmlMappingSource.FromStream(contextStream);
+
+                    //PNDSEntities crmDataContext = new PNDSEntities(m_Container, connectionString);//, mappingSource);
+
+                    //crmDataContext.CTXID = _databaseService.GetNextCtxID();
+
+                    ////    crmDataContext.Connection.StateChange += new System.Data.StateChangeEventHandler(Connection_StateChange);
+
+                    //crmDataContext.Database.Connection.Open();
+                    ////    foreach (ListViewItem lvItem in lvFrames.Items)
+                    ////        ((BaseControl)lvItem.Tag).OpenClick();
+
+                    //if (checkUser && _databaseService.LoggedUser.UserID < 1)
+                    //{
+                    //    ShowLoginDialog(m_Container);
+                    //    return null;
+                    //}
+
+                    //return crmDataContext;
+                }
+                else if(options.DBType == DBType.SQLite)
+                {
+         
+         //           string connectionString = "metadata=res://*/MDB.EDM_DBData.csdl|res://*/MDB.EDM_DBData.ssdl|res://*/MDB.EDM_DBData.msl;provider=System.Data.SQLite.EF6;provider connection string=\"data source=E:\\Projekte\\coop\\XEngine\\data\\Test\\dbData.s3db\"";
+
+                    string connectionString = "metadata=res://*/MDB.EDM_DBData.csdl|res://*/MDB.EDM_DBData.ssdl|res://*/MDB.EDM_DBData.msl;provider=System.Data.SQLite.EF6;provider connection string=\"data source=" + options.Host + "\""; //D:\\Projekte\\coop\\OIDE\\Test\\dbData.s3db\"";
+
+                  //  string connectionString = "metadata=res://*/MDB.MDB_PNDS.csdl|res://*/MDB.MDB_PNDS.ssdl|res://*/MDB.MDB_PNDS.msl;provider=System.Data.SqlClient;provider connection string=\"data source=" + options.Host + ";initial catalog=PNDS;user id=" + options.User + ";password=" + options.Password + ";MultipleActiveResultSets=True;App=EntityFramework\"";
+                    extdbDataEntities crmDataContext = new extdbDataEntities(m_Container, connectionString);//, mappingSource);
+
+                    crmDataContext.CTXID = _databaseService.GetNextCtxID();
+
+                    //    crmDataContext.Connection.StateChange += new System.Data.StateChangeEventHandler(Connection_StateChange);
+
+                    crmDataContext.Database.Connection.Open();
+                    //    foreach (ListViewItem lvItem in lvFrames.Items)
+                    //        ((BaseControl)lvItem.Tag).OpenClick();
+
+                    if (checkUser && _databaseService.LoggedUser.UserID < 1)
+                    {
+                        ShowLoginDialog(m_Container);
+                        return null;
+                    }
+
+                    return crmDataContext;
+                }
+                else if (options.DBType == DBType.Oracle)
+                {
+                    //string connectionString = "User Id=" + options.User + ";Password=" + options.Password + ";Server=" + options.Host + ";Direct=True;Sid=" + options.ServiceName + ";Persist Security Info=True";
+                    ////   string providerPrefix = "";
+                    ////if (!ConnectionDialog.Show(out connectionString, out providerPrefix))
+                    ////{
+                    ////    stripLabel.Text = "Incorrect connection string";
+                    ////    return;
+                    ////}
+
+                    ////Frame activating
+                    ////  Stream contextStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(String.Format("ComID.IDAL.MDB.CrmDataMapping{0}.lqml", providerPrefix));
+                    ////   Devart.Data.Linq.Mapping.MappingSource mappingSource = Devart.Data.Linq.Mapping.XmlMappingSource.FromStream(contextStream);
+
+                    //PNDSEntities crmDataContext = new PNDSEntities(m_Container, connectionString);//, mappingSource);
+
+                    //crmDataContext.CTXID = _databaseService.GetNextCtxID();
+
+                    ////    crmDataContext.Connection.StateChange += new System.Data.StateChangeEventHandler(Connection_StateChange);
+
+                    //crmDataContext.Database.Connection.Open();
+                    ////    foreach (ListViewItem lvItem in lvFrames.Items)
+                    ////        ((BaseControl)lvItem.Tag).OpenClick();
+
+                    //if (checkUser && _databaseService.LoggedUser.UserID < 1)
+                    //{
+                    //    ShowLoginDialog(m_Container);
+                    //    return null;
+                    //}
+
+                    //return crmDataContext;
+                }
+            }
+            catch (Exception ex)
+            {
+                var workspace = m_Container.Resolve<AbstractWorkspace>();
+                var loggerService = m_Container.Resolve<ILoggerService>();
+                loggerService.Log("Datenbankverbindung fehlgeschlagen." + (ex.InnerException != null ? ex.InnerException.Message : ex.Message), LogCategory.Exception, LogPriority.High);
+                //       
+                workspace.NotificationRequest.Raise(new Notification { Content = "Datenbankverbindung fehlgeschlagen." + (ex.InnerException != null ? ex.InnerException.Message : ex.Message), Title = "Fehler" });
+
+                //  stripLabel.Text = ex.Message;
+
+            }
+            return tmp;
+        }
+
+        //public void Dispose()
+        //{
+        //    //if (mCtx != null)
+        //    //{
+        //    //    //  Transaction.Dispose();
+        //    //    // Transaction = null;
+        //    //    m(ctx.Context as extdbDataEntities).Dispose();
+        //    //    mCtx = null;
+        //    //}
+        //}
 
         void StateChange(object sender, StateChangeEventArgs e)
         {
-           if(mCtx.Database.Connection.State == ConnectionState.Broken
-               || mCtx.Database.Connection.State == ConnectionState.Closed)
-           {
-               //reconnect
-           }
+           //if(m(ctx.Context as extdbDataEntities).Database.Connection.State == ConnectionState.Broken
+           //    || m(ctx.Context as extdbDataEntities).Database.Connection.State == ConnectionState.Closed)
+           //{
+           //    //reconnect
+           //}
         }
+
+        //public IEnumerable<PNDS_AUT_PARA> GetAll_PNDS_AUT_PARA(PNDSEntities dc)
+        //{
+        //    List<String> geraete = new List<String>()
+        //                        { "K", //AKI
+        //                            "T" //PATX
+        //                        };
+
+        //    var found = from d in dc.PNDS_AUT_PARA
+        //                where geraete.Contains(d.Geraeteart)
+        //                orderby d.Automatennr ascending
+        //                select d;
+        //    if (found.Any())
+        //    {
+        //        return found;
+        //    }
+
+        //    return null;
+        //}
 
         #region EntityChar
 
-        //public bool insertEntityChar(uint id, byte[] data)
-        //{
-        //    mCtx.EntityChar.Add(new EntityChar() { Data = data });
-        //    mCtx.SaveChanges();
-        //    return true;
-        //}
-
-        //public bool updateEntityChar(uint id, byte[] data)
-        //{
-        //    var result = mCtx.EntityChar.Where(x => x.EC_ID == id);
-        //    if (result.Any())
-        //    {
-        //        result.First().Data = data;
-        //        mCtx.SaveChanges();
-        //        return true;
-        //    }
-        //    else
-        //        return false;
-        //}
-
-        //public byte[] selectEntityChar(uint id)
-        //{
-        //    var result = mCtx.EntityChar.Where(x => x.EC_ID == id);
-        //    if (result.Any())
-        //    {
-        //        return result.First().Data;
-        //    }
-        //    else 
-        //        return new byte[0];
-        //}
 
         #endregion
 
         #region Physics
 
-        public bool insertEntity(Entity po)
-        {
-            mCtx.Entity.Add(po);
-            mCtx.SaveChanges();
-            return true;
-        }
-
-        public bool insertEntityData(EntityData entityData)
-        {
-            mCtx.EntityData.Add(entityData);
-            mCtx.SaveChanges();
-            return true;
-        }
-      
-        public bool deleteEntity(Entity po)
-        {
-            var result = mCtx.Entity.Where(x => x.EntID == po.EntID);
-            if (result.Any())
-            {
-                mCtx.Entity.Remove(result.First());
-                mCtx.SaveChanges();
-                return true;
-            }
-            else
-                return false;
-        }
-
-        public bool updateEntity(Entity po)
-        {
-            var result = mCtx.Entity.Where(x => x.EntID == po.EntID);
-            if (result.Any())
-            {
-                result.First().Data = po.Data;
-                mCtx.SaveChanges();
-                return true;
-            }
-            else
-                return false;
-        }
-
-        public bool updateEntityData(EntityData entityData)
-        {
-            var result = mCtx.EntityData.Where(x => x.EntDID == entityData.EntDID);
-            if (result.Any())
-            {
-                result.First().Data = entityData.Data;
-                mCtx.SaveChanges();
-                return true;
-            }
-            else
-                return false;
-        }
-        public IEnumerable<EntityData> selectAllEntityData()
+        public static bool insertEntity(IDAL_DCTX ctx, Entity po)
         {
             try
             {
-                var result = mCtx.EntityData;
+
+                var result = (ctx.Context as extdbDataEntities).Entity.Where(x => x.EntID == po.EntID);
+                if (result.Any())
+                {
+                    result.First().Data = po.Data;
+                }
+                else
+                {
+                    (ctx.Context as extdbDataEntities).Entity.Add(po);
+                }
+
+                (ctx.Context as extdbDataEntities).SaveChanges();
+                return true;
+
+            }catch(Exception ex)
+            {
+
+            }
+
+            return false;
+        }
+
+        public static bool insertEntityData(IDAL_DCTX ctx, EntityData entityData)
+        {
+            try
+            {
+                var result = (ctx.Context as extdbDataEntities).EntityData.Where(x => x.EntDID == entityData.EntDID);
+                if (result.Any())
+                {
+                    result.First().Data = entityData.Data;
+                }
+                else
+                {
+                    (ctx.Context as extdbDataEntities).EntityData.Add(entityData);
+                }
+
+                (ctx.Context as extdbDataEntities).SaveChanges();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return false;
+        }
+
+        public static bool deleteEntity(IDAL_DCTX ctx, Entity po)
+        {
+            try
+            {
+                var result = (ctx.Context as extdbDataEntities).Entity.Where(x => x.EntID == po.EntID);
+                if (result.Any())
+                {
+                    (ctx.Context as extdbDataEntities).Entity.Remove(result.First());
+                    (ctx.Context as extdbDataEntities).SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return false;
+        }
+
+        public static IEnumerable<EntityData> selectAllEntityData(IDAL_DCTX ctx)
+        {
+            try
+            {
+                var result = (ctx.Context as extdbDataEntities).EntityData;
                 if (result.Any())
                     return result;
                 else
@@ -189,14 +404,14 @@ namespace DAL
             public Entity Entity { get; set; }
         }
 
-        public IEnumerable<EntityContainer> selectAllEntities()
+        public static IEnumerable<EntityContainer> selectAllEntities(IDAL_DCTX ctx)
         {
             try
             {
 
-                var result = from n in mCtx.Entity
+                var result = from n in (ctx.Context as extdbDataEntities).Entity
 
-                             join oj in mCtx.EntityData on n.EntDID equals oj.EntDID into gjo
+                             join oj in (ctx.Context as extdbDataEntities).EntityData on n.EntDID equals oj.EntDID into gjo
                              from Ent in gjo.DefaultIfEmpty()
 
                              //where n.SceneID == sceneID
@@ -218,11 +433,11 @@ namespace DAL
             return null;
         }
 
-        public Entity selectEntity(int id)
+        public static Entity selectEntity(IDAL_DCTX ctx, int id)
         {
             try
             {
-                var result = mCtx.Entity.Where(x => x.EntID == id);
+                var result = (ctx.Context as extdbDataEntities).Entity.Where(x => x.EntID == id);
                 if (result.Any())
                     return result.First();
                 else
@@ -236,11 +451,11 @@ namespace DAL
             return new Entity();
         }
 
-        public EntityData selectEntityData(int id)
+        public static EntityData selectEntityData(IDAL_DCTX ctx, int id)
         {
             try
             {
-                var result = mCtx.EntityData.Where(x => x.EntDID == id);
+                var result = (ctx.Context as extdbDataEntities).EntityData.Where(x => x.EntDID == id);
                 if (result.Any())
                     return result.First();
                 else
@@ -259,50 +474,49 @@ namespace DAL
 
         #region Scene
 
-        public bool insertScene(Scene scene)
+        public static bool insertScene(IDAL_DCTX ctx, Scene scene)
         {
-           // Scene tmp = new Scene() { Data = data };
-            mCtx.Scene.Add(scene);
-            mCtx.SaveChanges();
-           // id = (int)tmp.SceneID;
-            return true;
+            try
+            {
+                var result = (ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == scene.SceneID);
+                if (result.Any())
+                {
+                    result.First().Data = scene.Data;
+                }
+                else
+                {
+                    (ctx.Context as extdbDataEntities).Scene.Add(scene);
+                }
+
+                (ctx.Context as extdbDataEntities).SaveChanges();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return false;
         }
 
-        public bool DeleteScene(Int32 id)
+        public static bool DeleteScene(IDAL_DCTX ctx, Int32 id)
         {
             try
             {
                 // Scene tmp = new Scene() { Data = data };
-                mCtx.Scene.Remove(mCtx.Scene.Where(x => x.SceneID == id).First());
-                mCtx.SaveChanges();
+                (ctx.Context as extdbDataEntities).Scene.Remove((ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id).First());
+                (ctx.Context as extdbDataEntities).SaveChanges();
                 // id = (int)tmp.SceneID;
                 return true;
             }
             catch (Exception ex)
             {
-                m_loggerService.Log("error IDAL.DeleteScene(id="+id+")" + (ex.InnerException != null ? ex.InnerException.Message : ex.Message) , LogCategory.Exception, LogPriority.High);
+              //  m_loggerService.Log("error IDAL.DeleteScene(id=" + id + ")" + (ex.InnerException != null ? ex.InnerException.Message : ex.Message), LogCategory.Exception, LogPriority.High);
                 //     MessageBox.Show("dreck_" + id + "_!!!!");
             }
             return false;
         }
-
-        public bool updateScene(Scene scene)
-        {
-            var result = mCtx.Scene.Where(x => x.SceneID == scene.SceneID);
-            if (result.Any())
-            {
-                Scene sceneTmp = result.First();
-                sceneTmp.Data = scene.Data;
-                //sceneTmp.FogID = scene.FogID;
-                //sceneTmp.SkyID = scene.SkyID;
-                //sceneTmp.TerrID = scene.TerrID;
-                mCtx.SaveChanges();
-                return true;
-            }
-            else
-                return false;
-        }
-
 
         //public class SceneContainer
         //{
@@ -317,13 +531,13 @@ namespace DAL
             public Entity Entity { get; set; }
         }
 
-        public IEnumerable<SceneNodeContainer> selectSceneNodes(int sceneID)
+        public static IEnumerable<SceneNodeContainer> selectSceneNodes(IDAL_DCTX ctx, int sceneID)
         {
             try
             {
-                var result = from n in mCtx.SceneNode
+                var result = from n in (ctx.Context as extdbDataEntities).SceneNode
 
-                             join oj in mCtx.Entity on n.EntID equals oj.EntID into gjo
+                             join oj in (ctx.Context as extdbDataEntities).Entity on n.EntID equals oj.EntID into gjo
                              from Ent in gjo.DefaultIfEmpty()
 
                              //where n.SceneID == sceneID
@@ -332,7 +546,7 @@ namespace DAL
                              where n.SceneID == sceneID
                              select new SceneNodeContainer { Node = n, Entity = Ent };
 
-                //  var result = mCtx.Scene.Where(x => x.SceneID == id);
+                //  var result = m(ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id);
                 if (result.Any())
                 {
                     return result;//.Data;
@@ -349,18 +563,18 @@ namespace DAL
 
         //public bool insertSceneNode(SceneNode sceneNode)
         //{
-        //    mCtx.SceneNode.Add(sceneNode);
-        //    mCtx.SaveChanges();
+        //    m(ctx.Context as extdbDataEntities).SceneNode.Add(sceneNode);
+        //    m(ctx.Context as extdbDataEntities).SaveChanges();
         //    return true;
         //}
 
-        public bool DeleteSceneNode(Int32 id)
+        public static bool DeleteSceneNode(IDAL_DCTX ctx, Int32 id)
         {
             try
             {
                 // Scene tmp = new Scene() { Data = data };
-                mCtx.SceneNode.Remove(mCtx.SceneNode.Where(x => x.NodeID == id).First());
-                mCtx.SaveChanges();
+                (ctx.Context as extdbDataEntities).SceneNode.Remove((ctx.Context as extdbDataEntities).SceneNode.Where(x => x.NodeID == id).First());
+                (ctx.Context as extdbDataEntities).SaveChanges();
                 // id = (int)tmp.SceneID;
                 return true;
             }catch(Exception ex)
@@ -370,9 +584,9 @@ namespace DAL
             return false;
         }
 
-        public bool updateSceneNode(SceneNode sceneNode)
+        public static bool updateSceneNode(IDAL_DCTX ctx, SceneNode sceneNode)
         {
-            var result = mCtx.SceneNode.Where(x => x.NodeID == sceneNode.NodeID);
+            var result = (ctx.Context as extdbDataEntities).SceneNode.Where(x => x.NodeID == sceneNode.NodeID);
             if (result.Any())
             {
                 var scenNode = result.First();
@@ -380,13 +594,13 @@ namespace DAL
                 scenNode.SceneID = sceneNode.SceneID;
                 scenNode.EntID = sceneNode.EntID;
                 scenNode.Name = sceneNode.Name;
-                mCtx.SaveChanges();
+                (ctx.Context as extdbDataEntities).SaveChanges();
                 return true;
             }
             else
             {
-                mCtx.SceneNode.Add(sceneNode);
-                mCtx.SaveChanges();
+                (ctx.Context as extdbDataEntities).SceneNode.Add(sceneNode);
+                (ctx.Context as extdbDataEntities).SaveChanges();
                 return true;
             }
                 
@@ -396,18 +610,18 @@ namespace DAL
         //{
         //    try
         //    {
-        //        var result = from n in mCtx.Scene
+        //        var result = from n in m(ctx.Context as extdbDataEntities).Scene
 
-        //                     join nj in mCtx.SceneNodes on n.SceneID equals nj.SceneID into gj
+        //                     join nj in m(ctx.Context as extdbDataEntities).SceneNodes on n.SceneID equals nj.SceneID into gj
         //                     from node in gj.DefaultIfEmpty()
 
-        //                     join oj in mCtx.Entity on node.EntID equals oj.EntID into gjo
+        //                     join oj in m(ctx.Context as extdbDataEntities).Entity on node.EntID equals oj.EntID into gjo
         //                     from Ent in gjo.DefaultIfEmpty()
 
         //                     where n.SceneID == id
         //                     select new SceneContainer { Scene = n, Nodes = node, Entity = Ent };
 
-        //        //  var result = mCtx.Scene.Where(x => x.SceneID == id);
+        //        //  var result = m(ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id);
         //        if (result.Any())
         //        {
         //            return result;//.Data;
@@ -421,14 +635,14 @@ namespace DAL
         //    return null;
         //}
 
-        public IEnumerable<Scene> selectAllScenesDataOnly()
+        public static IEnumerable<Scene> selectAllScenesDataOnly(IDAL_DCTX ctx)
         {
             try
             {
-                var result = from n in mCtx.Scene
+                var result = from n in (ctx.Context as extdbDataEntities).Scene
                              select n;
 
-                //  var result = mCtx.Scene.Where(x => x.SceneID == id);
+                //  var result = m(ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id);
                 if (result.Any())
                     return result;//.Data;
                 else
@@ -442,15 +656,15 @@ namespace DAL
             return null;
         }
 
-        public Scene selectSceneDataOnly(int id)
+        public static Scene selectSceneDataOnly(IDAL_DCTX ctx, int id)
         {
             try
             {
-                var result = from n in mCtx.Scene
+                var result = from n in (ctx.Context as extdbDataEntities).Scene
                              where n.SceneID == id
                              select n;
 
-                //  var result = mCtx.Scene.Where(x => x.SceneID == id);
+                //  var result = m(ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id);
                 if (result.Any())
                     return result.First();//.Data;
                 else
@@ -513,206 +727,5 @@ namespace DAL
         //    }
         //} 
     }
-    //public class CDAL : IDB
-    //{
-    //    private IDatabaseService _databaseService;
-    //    private PSXIDEDataContext crmDataContext;
-
-    //    public DBOptions DBOptions { get; set; }
-    //    public Guid Guid { get; set; }
-
-    //    public CDAL(IDatabaseService databaseService)
-    //    {
-    //        _databaseService = databaseService;
-    //    }
-
-    //    public void InsertPS_AUFTRAEGE(PS_AUFTRAEGE instance)
-    //    {
-    //        if (crmDataContext.Connection.State == System.Data.ConnectionState.Open)
-    //        {
-    //            var sessionFound = from d in crmDataContext.PS_AUFTRAEGEs
-    //                               where d.AUFTRAGID == 0
-    //                               //orderby d.Datum descending
-    //                               select d;
-
-    //            PS_AUFTRAEGE tmp = new PS_AUFTRAEGE();
-    //            crmDataContext.PS_AUFTRAEGEs.InsertOnSubmit(tmp);
-    //            // Associate the new product with the new category
-
-    //            //## crmDataContext.products.DeleteOnSubmit(newProduct);
-
-    //            // Send the changes to the database.
-    //            // Until you do it, the changes are cached on the client side.
-    //            crmDataContext.SubmitChanges();
-    //        }
-    //    }
-
-    //    public void UpdatePS_AUFTRAEGE(PS_AUFTRAEGE instance)
-    //    {
-    //        //braucht nur submit changes!!
-    //    }
-
-    //    public void GetConnection()
-    //    {
-    //     //  DEM_PS.
-    //    }
-
-    //    public void Save()
-    //    {
-    //        try
-    //        {
-    //            crmDataContext.SubmitChanges();
-    //            //    foreach (ListViewItem lvItem in lvFrames.Items)
-    //            //        ((BaseControl)lvItem.Tag).OpenClick();
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            //  stripLabel.Text = ex.Message;
-    //            return;
-    //        }
-           
-    //    }
-
-    //    public void OpenContext()
-    //    {
-    //        DBOptions options = _databaseService.CurrentDB.DBOptions;
-
-    //        if (options.DBType == DBType.Oracle)
-    //        {
-    //            string connectionString = "User Id="+options.User+";Password="+options.Password+";Server="+options.Host+";Direct=True;Sid="+options.ServiceName+";Persist Security Info=True";
-    //            string providerPrefix = "";
-    //            //if (!ConnectionDialog.Show(out connectionString, out providerPrefix))
-    //            //{
-    //            //    stripLabel.Text = "Incorrect connection string";
-    //            //    return;
-    //            //}
-
-    //            //Frame activating
-    //          //  Stream contextStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(String.Format("DAL.MDB.CrmDataMapping{0}.lqml", providerPrefix));
-    //         //   Devart.Data.Linq.Mapping.MappingSource mappingSource = Devart.Data.Linq.Mapping.XmlMappingSource.FromStream(contextStream);
-    //            crmDataContext = new PSXIDEDataContext(connectionString);//, mappingSource);
-
-    //            crmDataContext.Connection.StateChange += new System.Data.StateChangeEventHandler(Connection_StateChange);
-
-    //            try
-    //            {
-    //                crmDataContext.Connection.Open();
-    //                //    foreach (ListViewItem lvItem in lvFrames.Items)
-    //                //        ((BaseControl)lvItem.Tag).OpenClick();
-    //            }
-    //            catch (Exception ex)
-    //            {
-    //                //  stripLabel.Text = ex.Message;
-    //                return;
-    //            }
-    //        }
-
-    //     //   ManageControlsIfOpen(true);
-    //    }
-
-    //    private void Connection_StateChange(object sender, System.Data.StateChangeEventArgs e)
-    //    {
-            
-    //   //     currentControl.ControlsEnabled(e.CurrentState == System.Data.ConnectionState.Open);
-    //    }
-
-    //    public void CloseContext()
-    //    {
-
-    //        if (crmDataContext != null)
-    //        {
-    //            crmDataContext.Connection.Close();
-    //            //foreach (ListViewItem lvItem in lvFrames.Items)
-    //            //    ((BaseControl)lvItem.Tag).CloseClick();
-    //            crmDataContext = null;
-    //        }
-
-    //      //  ManageControlsIfOpen(false);
-    //    }
-
-
-    //    public Boolean GetApplications(out object apps)
-    //    {
-    //        apps = new object();
-
-    //        if (crmDataContext.Connection.State == System.Data.ConnectionState.Open)
-    //        {
-    //            var found = from d in crmDataContext.PS_SEGMENTEs
-    //                        //orderby d.Datum descending
-    //                        select d;
-    //            if (found.Any())
-    //            {
-    //                apps = found;
-    //                return true;
-    //            }
-    //        }
-
-    //        return false;
-
-    //    }
-
-    //    public Boolean GetAuftrag(UInt32 aid, out PS_AUFTRAEGE auftrag)
-    //    {
-    //        auftrag = new PS_AUFTRAEGE();
-
-    //        if (crmDataContext.Connection.State == System.Data.ConnectionState.Open)
-    //        {
-    //            var found = from d in crmDataContext.PS_AUFTRAEGEs
-    //                        where d.AUFTRAGID == aid
-    //                               //orderby d.Datum descending
-    //                               select d;
-    //            if(found.Any())
-    //            {
-    //                auftrag = found.First();
-    //                return true;
-    //            }
-    //        }
-
-    //        return false;
-      
-    //    }
-
-    //    public PS_ANLAGE GetAnlage(UInt32 aid)
-    //    {
-    //        PS_ANLAGE tmp = new PS_ANLAGE();
-            
-    //        return tmp;
-    //    }
-
-    //    public void GetObjektContainer(UInt32 ocid)
-    //    {
-
-    //    }
-
-    //    public void GetVariante(UInt32 vid)
-    //    {
-
-    //    }
-
-    //    public void GetMedien()
-    //    {
-
-    //    }
-
-    //    public void UpdateAuftrag()
-    //    {
-
-    //    }
-
-    //    public void UpdateAnlage()
-    //    {
-
-    //    }
-
-    //    public void InsertAuftrag()
-    //    {
-
-    //    }
-
-    //    public void InsertAnlage()
-    //    {
-
-    //    }
-   // }
 
 }

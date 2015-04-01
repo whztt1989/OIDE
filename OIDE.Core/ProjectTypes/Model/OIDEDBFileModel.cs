@@ -48,6 +48,8 @@ using System.IO;
 using Module.PFExplorer.Interface;
 using Module.PFExplorer.Utilities;
 using Module.PFExplorer.Service;
+using OIDE.Core.ProjectTypes.View;
+using Module.Properties.Types;
 
 namespace OIDE.Core
 {
@@ -55,12 +57,28 @@ namespace OIDE.Core
     {
         private IDAL m_DBI;
         private ICommand CmdDeleteDBFile;
+        private String m_DBPath;
 
         /// <summary>
         /// override for serializable
         /// </summary>
         [Browsable(false)]
         public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
+
+        [Editor(typeof(FilePathEditor), typeof(FilePathEditor))]
+        [Description("path to sqlite database")]
+        public String DBFilePath
+        {
+            get { return m_DBPath; }
+            set {
+                if (m_DBPath != value)
+                    this.IsDirty = true;
+
+                m_DBPath = value;
+                RaisePropertyChanged("DBFilePath");
+
+            }
+        }
 
         [Browsable(false)]
         [XmlIgnore]
@@ -89,6 +107,20 @@ namespace OIDE.Core
         }
 
        private Boolean mOpened;
+
+       public Boolean SaveToDB()
+       {
+           foreach(var item in Items)
+           {
+               var dbFileItem = item as IDBFileItem;
+               if(dbFileItem != null)
+               {
+                   dbFileItem.SaveToDB();
+               }
+           }
+
+           return true;
+       }
 
         public Boolean Open(IUnityContainer unityContainer, object id)
         {

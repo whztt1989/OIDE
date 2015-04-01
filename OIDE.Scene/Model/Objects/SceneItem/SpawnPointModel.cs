@@ -48,10 +48,11 @@ using Module.Properties.Types;
 using WIDE_Helpers;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene.Model
 {
-    public class SpawnPointModel : PItem, ISceneItem
+    public class SpawnPointModel : SceneItem
     {
         //private ProtoType.SpawnPoint mData;
 
@@ -67,21 +68,6 @@ namespace OIDE.Scene.Model
              //  //  mData.gameEntity.meshes.Add(mesh);
              //}
         }
-
-
-        [XmlIgnore]
-        [Browsable(false)]
-        public IItem Parent { get; set; }
-
-        public Boolean Visible { get; set; }
-        public Boolean Enabled { get; set; }
-        public String ContentID { get; set; }
-
-        public Int32 NodeID { get; set; }
-        
-        [XmlIgnore]
-        [Browsable(false)]
-        public DAL.MDB.SceneNode SceneNode { get; private set; }
 
         private FB_SpawnPointModel mDBData;
 
@@ -164,16 +150,7 @@ namespace OIDE.Scene.Model
         //[XmlIgnore]
         //public Int32 SpawnPointGroup { get { return mData.SPGroup; } set { mData.SPGroup = value; } }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public CollectionOfISceneItem SceneItems { get; private set; }
-
-        public String Name { get; set; }
-
-        [Browsable(false)]
-        public CollectionOfIItem Items { get; set; }
-
-
+      
         [XmlIgnore]
         [Browsable(false)]
         public List<MenuItem> MenuOptions
@@ -195,20 +172,11 @@ namespace OIDE.Scene.Model
 
         private IDAL m_dbI;
 
-        [Browsable(false)]
-        public Boolean IsExpanded { get; set; }
-
-        [Browsable(false)]
-        public Boolean IsSelected { get; set; }
-
-        [XmlIgnore]
-        [Browsable(false)]
-        public Boolean HasChildren { get { return SceneItems != null && SceneItems.Count > 0 ? true : false; } }
-
+    
         public Boolean Open(IUnityContainer unityContainer, object id)
         {
 
-            DBData = m_dbI.selectEntity(WIDE_Helper.StringToContentIDData(ContentID).IntValue);
+            DBData = IDAL.selectEntity(DataContext, WIDE_Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));
             //try
             //{
@@ -276,10 +244,7 @@ namespace OIDE.Scene.Model
         public Boolean Delete() { return true; }
         public Boolean Closing() { return true; }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public IUnityContainer UnityContainer { get; set; }
-
+     
         /// <summary>
         /// Default contructor for serialization
         /// </summary>

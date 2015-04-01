@@ -45,9 +45,13 @@ using OIDE.Scene.Model;
 
 namespace OIDE.Scene
 {
-    public class SceneCategoryModel : DBTableModel, ISceneItem
+    public class SceneCategoryModel : DBTableModel, ISceneItem, IDBFileItem
     {
         private ICommand m_cmdCreateScene;
+
+        [XmlIgnore]
+        [Browsable(false)]
+        public ISceneItem SelectedItem { get; set; }
 
         /// <summary>
         /// override for serializable
@@ -58,6 +62,20 @@ namespace OIDE.Scene
         [Browsable(false)]
         [XmlIgnore]
         public CollectionOfISceneItem SceneItems { get; private set; }
+
+        public Boolean SaveToDB()
+        {
+            foreach (var item in Items)
+            {
+                var dbFileItem = item as IDBFileItem;
+                if (dbFileItem != null)
+                {
+                    dbFileItem.SaveToDB();
+                }
+            }
+
+            return true;
+        }
 
         public void Drop(IItem item) { }
 
@@ -144,7 +162,7 @@ namespace OIDE.Scene
 
             if (id > 0)
             {
-                SceneDataModel pom = new SceneDataModel() { Parent = parent, UnityContainer = parent.UnityContainer, Name = "Scene Obj NEW", ContentID = "SceneID:##" + id, SceneID = id };
+                SceneDataModel pom = new SceneDataModel() { Parent = parent, UnityContainer = parent.UnityContainer, Name = "Scene Obj NEW", ContentID = "SceneID:##:" + id, SceneID = id };
 
                 pom.Create(parent.UnityContainer);
                 parent.Items.Add(pom);

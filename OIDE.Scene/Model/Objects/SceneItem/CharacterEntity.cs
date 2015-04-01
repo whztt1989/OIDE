@@ -69,7 +69,7 @@ namespace OIDE.Scene.Model
     //    }
     //}
 
-    public class CharacterEntity : SceneItem
+    public class CharacterEntity : SceneItem , IDBFileItem
     {
    
      //   public Int32 NodeID { get; set; }
@@ -206,10 +206,11 @@ namespace OIDE.Scene.Model
                 m_dbI = new IDAL(unityContainer);
 
             //read data from lokal json file
-                m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>(ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
+            m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>(ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
                 Create(unityContainer);
-
+            else
+                RaisePropertyChanged("FB_CharacterObject");
 
           //  m_FBData.SetFBData(m_FBData..EntityBaseModel); //set base entity data
 
@@ -225,30 +226,39 @@ namespace OIDE.Scene.Model
         public void Refresh() { }
         public void Finish() { }
 
-        public override Boolean Save(object param)
+
+        public Boolean SaveToDB()
         {
-            try
+            String DBPath = DBFileUtil.GetDBFilePath(this.Parent);
+            if (!String.IsNullOrEmpty(DBPath))
             {
                 DB_Entity.Entity.Data = m_FBData.CreateByteBuffer();
                 DB_Entity.Entity.Name = Name;
-
-                if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
-                    DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
+                DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
+                //  if (WIDE_Helper.StringToContentIDData(ContentID).IntValue > 0)
+                //      DB_Entity.Entity.EntID = WIDE_Helper.StringToContentIDData(ContentID).IntValue;
 
                 //test
                 m_FBData.Read(DB_Entity.Entity.Data);
 
-                if (DB_Entity.Entity.EntID > 0)
-                    m_dbI.updateEntity(DB_Entity.Entity);
-                else
-                {
+                //if (DB_Entity.Entity.EntID > 0)
+                //    m_dbI.updateEntity(DB_Entity.Entity);
+                //else
+                //{
                     DB_Entity.Entity.EntType = (decimal)EntityTypes.NT_Character;
-                    m_dbI.insertEntity(DB_Entity.Entity);
-                    ContentID = ContentID + ":" + DB_Entity.Entity.EntID;
-                }
+                    IDAL.insertEntity(DataContext, DB_Entity.Entity);
+                    //    ContentID = ContentID + ":" + DB_Entity.Entity.EntID;
+            //    }
+            }
 
-            //   m_FBData.EntityBaseModel = m_FBData.BaseObj_FBData;
+            return true;
+        }
 
+        public override Boolean Save(object param)
+        {
+            try
+            {
+                SaveToDB();
 
                 Helper.Utilities.USystem.XMLSerializer.Serialize<FB_CharacterObject>(m_FBData, ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml");  // XML Serialize
 
@@ -279,7 +289,7 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                m_dbI.deleteEntity(DB_Entity.Entity);
+                IDAL.deleteEntity(DataContext, DB_Entity.Entity);
                 Parent.Items.Remove(this);
 
                 if (File.Exists(ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"))

@@ -91,7 +91,7 @@ namespace OIDE
                 }
                 else
                 {
-                    var sceneSelected = scene.Model as IScene;
+                    var sceneSelected = scene.Model as ISceneItem;
                     sceneService.SelectedScene = sceneSelected;
                 }
              

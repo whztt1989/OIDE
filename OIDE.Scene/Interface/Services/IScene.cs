@@ -42,14 +42,14 @@ namespace OIDE.Scene.Interface.Services
         }
     }
 
-    public interface IScene : IItem
-    {
-        CollectionOfISceneItem SceneItems { get; set; }
+    //public interface IScene : IItem
+    //{
+    //    //CollectionOfISceneItem SceneItems { get; }
 
-        DAL.MDB.Scene DB_SceneData { get; }
+    //    //DAL.MDB.Scene DB_SceneData { get; }
 
-        bool AddItem(ISceneItem item);
+    //    //bool AddItem(ISceneItem item);
 
-        ISceneItem SelectedItem { get; set; }
-    }
+    //    ISceneItem SelectedItem { get; set; }
+    //}
 }

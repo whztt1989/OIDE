@@ -42,11 +42,13 @@ using OIDE.Scene.Model;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
 using Module.PFExplorer.Service;
+using DAL;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene
 {
 
-    public class SpawnPointCategoryModel : ProjectItemModel, ISceneItem
+    public class SpawnPointCategoryModel : SceneItem, IDBFileItem
     {
         /// <summary>
         /// override for serializable
@@ -55,6 +57,19 @@ namespace OIDE.Scene
         public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
 
 
+        public Boolean SaveToDB()
+        {
+            foreach (var item in Items)
+            {
+                var dbFileItem = item as IDBFileItem;
+                if (dbFileItem != null)
+                {
+                    dbFileItem.SaveToDB();
+                }
+            }
+
+            return true;
+        }
 
         public void Drop(IItem item) { }
 
@@ -106,13 +121,40 @@ namespace OIDE.Scene
         {
             SpawnPointCategoryModel parent = parameter as SpawnPointCategoryModel;
 
-            SpawnPointModel pom = new SpawnPointModel(parent, parent.UnityContainer) { Name = "SpawnPoint NEW", ContentID = "StaticEntID:##" };
+            //SpawnPointModel pom = new SpawnPointModel(parent, parent.UnityContainer) { Name = "SpawnPoint NEW", ContentID = "StaticEntID:##:" };
 
-            pom.Save(parameter);
+            //pom.Save(parameter);
 
-            parent.Items.Add(pom);
+            //parent.Items.Add(pom);
 
-            ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+            //ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+
+
+            UInt32 id = 0;
+
+            if (parent != null)
+            {
+                var tableModel = parent.Parent as DBTableModel;
+                if (tableModel != null)
+                {
+                    id = tableModel.AutoIncrement();
+                }
+            }
+
+            if (id > 0)
+            {
+                SpawnPointModel pom = new SpawnPointModel() { Parent = parent, UnityContainer = parent.UnityContainer, Name = "SpawnPoint NEW", ContentID = "SpawnPointID:##:" + id };
+
+                pom.Create(parent.UnityContainer);
+                parent.Items.Add(pom);
+
+                //  ISceneService sceneService = parent.UnityContainer.Resolve<ISceneService>();
+            }
+            else
+            {
+                parent.UnityContainer.Resolve<ILoggerService>().Log("Error: CmdCreateSpawnPoint id =  (" + id.ToString() + ")", LogCategory.Error, LogPriority.High);
+            }
+
         }
 
         public CmdCreateSpawnPoint(IUnityContainer container)

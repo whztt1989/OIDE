@@ -179,7 +179,7 @@ namespace  OIDE.Scene
 			}
 		}
 
-        public IScene RootItem { get; set; }
+        public ISceneItem RootItem { get; set; }
 
 		private CollectionOfISceneItem GetChildren(TreeNode parent)
 		{

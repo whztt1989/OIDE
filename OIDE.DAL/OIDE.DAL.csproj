@@ -106,7 +106,8 @@
   <ItemGroup>
     <Compile Include="CoreModule.cs" />
     <Compile Include="DBTableModel.cs" />
-    <Compile Include="DBFileModel.cs" />
+    <Compile Include="IDBFileItem.cs" />
+    <Compile Include="IDBFileModel.cs" />
     <Compile Include="IDAL.cs" />
     <Compile Include="MDB\EDM_DBData.Context.cs">
       <AutoGen>True</AutoGen>

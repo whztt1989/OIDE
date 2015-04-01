@@ -22,7 +22,7 @@ namespace OIDE.Scene.Service
     /// <summary>
     /// The main project tree manager
     /// </summary>
-    public class SceneManager : ISceneService
+    public class SceneManager : ViewModelBase, ISceneService
     {
         public System.Windows.Controls.ContextMenu ContextMenu { get; private set; }
 
@@ -92,7 +92,7 @@ namespace OIDE.Scene.Service
         /// <param name="logger">The injected logger</param>
         public SceneManager(IEventAggregator eventAggregator, ILoggerService logger)
         {
-            Scenes = new ObservableCollection<IScene>();
+            Scenes = new ObservableCollection<ISceneItem>();
             _eventAggregator = eventAggregator;
             _logger = logger;
             //Service für project contextmenu buttons .....
@@ -112,8 +112,8 @@ namespace OIDE.Scene.Service
         /// <summary>
         /// The current item selected
         /// </summary>
-        private IScene mSelectedScene;
-        public IScene SelectedScene
+        private ISceneItem mSelectedScene;
+        public ISceneItem SelectedScene
         {
             get
             {
@@ -121,12 +121,15 @@ namespace OIDE.Scene.Service
             }
             set 
             {
-                if (value == null)
+                ISceneItem scene = value as ISceneItem;
+                if (scene == null)
                     SGTM.Items.Clear();
                 else
-                     SGTM.Items = value.SceneItems;
+                    SGTM.Items = scene.SceneItems;
 
-                mSelectedScene = value; 
+                mSelectedScene = scene;
+
+                RaisePropertyChanged("SelectedScene");
             }
         }
 
@@ -170,7 +173,7 @@ namespace OIDE.Scene.Service
         /// <summary>
         /// collection of treeview items
         /// </summary>
-        public ObservableCollection<IScene> Scenes { get; internal set; }
+        public ObservableCollection<ISceneItem> Scenes { get; internal set; }
 
 
         public ObservableCollection<IItem> PredefObjects { get { return mPredefObjects; } }
@@ -235,7 +238,7 @@ namespace OIDE.Scene.Service
         /// </summary>
         /// <param name="theme">The item to add</param>
         /// <returns>true, if successful - false, otherwise</returns>
-        public bool AddScene(IScene scene)
+        public bool AddScene(ISceneItem scene)
         {
             if (!Scenes.Contains(scene))
             {

@@ -21,7 +21,7 @@ namespace OIDE.Scene.Model.Objects.FBufferObject
             String objectName = objectdata.GetType().Name; //object name e.g. FB_Physics
 
             //todo   send only if changed from GUI!
-            var sceneData = objectdata.Parent as IScene;
+            var sceneData = objectdata.Parent as ISceneItem;
             if (sceneData != null)
             {
                 var logger = (sceneData.UnityContainer as UnityContainer).Resolve<ILoggerService>();

@@ -27,6 +27,7 @@
 using Microsoft.Practices.Prism.Commands;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Wide.Core.Services;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
@@ -47,9 +48,9 @@ namespace OIDE.Core
         }
 
      //   public ICommand OpenCOMCommand { get { return mOpenCOMCommand; } }
-            
 
-        internal void SetModel(ContentModel model)
+
+        internal void SetModel(PItem model)
         {
             base.Model = model;
         }

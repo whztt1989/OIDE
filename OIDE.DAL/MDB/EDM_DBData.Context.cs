@@ -15,8 +15,8 @@ namespace DAL.MDB
     
     public partial class dbDataEntities : DbContext
     {
-        public dbDataEntities()
-            : base("name=dbDataEntities")
+        public dbDataEntities(String connection)
+            : base(connection) //"name=dbDataEntities")
         {
         }
     

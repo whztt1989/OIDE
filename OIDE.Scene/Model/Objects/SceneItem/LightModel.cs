@@ -39,23 +39,14 @@ using System.Xml.Serialization;
 using OIDE.Scene.Interface;
 using Wide.Interfaces.Services;
 using Wide.Core.Services;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene.Model
 {
-    public class LightModel :PItem, ISceneItem
+    public class LightModel : SceneItem
     {
-        public Boolean Visible { get; set; }
-  
         public void Drop(IItem item) { }
 
-        [XmlIgnore]
-        [Browsable(false)]
-        public DAL.MDB.SceneNode SceneNode { get; private set; }
-            
-  
-        [XmlIgnore]
-        [Browsable(false)]
-        public CollectionOfISceneItem SceneItems { get; private set; }
 
         [XmlIgnore]
         [Browsable(false)]

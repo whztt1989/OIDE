@@ -44,10 +44,11 @@ using OIDE.Scene.Model;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
 using Module.PFExplorer.Service;
+using OIDE.Scene.Service;
 
 namespace OIDE.Scene
 {
-    public class CharacterCategoryModel : ProjectItemModel, ISceneItem
+    public class CharacterCategoryModel : SceneItem, IDBFileItem
     {
         public void Drop(IItem item) { }
 
@@ -62,9 +63,19 @@ namespace OIDE.Scene
         public override CollectionOfIItem Items { get { return base.Items; } set { base.Items = value; } }
 
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public CollectionOfISceneItem SceneItems { get; private set; }
+        public Boolean SaveToDB()
+        {
+            foreach (var item in Items)
+            {
+                var dbFileItem = item as IDBFileItem;
+                if (dbFileItem != null)
+                {
+                    dbFileItem.SaveToDB();
+                }
+            }
+
+            return true;
+        }
 
         [Browsable(false)]
         [XmlIgnore]
@@ -122,7 +133,7 @@ namespace OIDE.Scene
 
             if (id > 0)
             {
-                CharacterEntity pom = new CharacterEntity() { Parent = parent, Name = "Character Obj NEW", ContentID = "CharacterEntID:##" + id };
+                CharacterEntity pom = new CharacterEntity() { Parent = parent, Name = "Character Obj NEW", ContentID = "CharacterEntID:##:" + id };
 
                 pom.Create(parent.UnityContainer);
                 parent.Items.Add(pom);

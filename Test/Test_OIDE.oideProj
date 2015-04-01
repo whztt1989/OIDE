@@ -6,7 +6,7 @@
         <Visible>false</Visible>
         <Name>DBFile</Name>
         <IsExpanded>true</IsExpanded>
-        <IsSelected>false</IsSelected>
+        <IsSelected>true</IsSelected>
         <Items>
           <IItem AssemblyQualifiedName="DAL.DBTableModel, DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
             <DBTableModel>
@@ -26,9 +26,9 @@
                         <StaticObjectModel>
                           <Visible>false</Visible>
                           <Name>Static Obj NEW</Name>
-                          <ContentID>StaticEntID:##1</ContentID>
+                          <ContentID>StaticEntID:##:2</ContentID>
                           <IsExpanded>false</IsExpanded>
-                          <IsSelected>true</IsSelected>
+                          <IsSelected>false</IsSelected>
                         </StaticObjectModel>
                       </IItem>
                     </Items>
@@ -45,7 +45,7 @@
                         <CharacterEntity>
                           <Visible>false</Visible>
                           <Name>Character Obj NEW</Name>
-                          <ContentID>CharacterEntID:##2</ContentID>
+                          <ContentID>CharacterEntID:##:1</ContentID>
                           <IsExpanded>false</IsExpanded>
                           <IsSelected>false</IsSelected>
                         </CharacterEntity>
@@ -122,7 +122,7 @@
                   <SceneDataModel>
                     <Visible>false</Visible>
                     <Name>Scene Obj NEW</Name>
-                    <ContentID>SceneID:##1</ContentID>
+                    <ContentID>SceneID:##:1</ContentID>
                     <IsExpanded>false</IsExpanded>
                     <IsSelected>false</IsSelected>
                     <SceneID>1</SceneID>
@@ -133,6 +133,7 @@
             </SceneCategoryModel>
           </IItem>
         </Items>
+        <DBFilePath>D:\Projekte\coop\OIDE\Test\dbData.s3db</DBFilePath>
       </OIDEDBFileModel>
     </IItem>
   </Items>

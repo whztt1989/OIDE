@@ -25,6 +25,7 @@
 #endregion
 
 using System.Windows.Controls;
+using Wide.Core.Services;
 using Wide.Core.TextDocument;
 using Wide.Interfaces;
 using Wide.Interfaces.Services;
@@ -39,7 +40,7 @@ namespace OIDE.Gorilla
         {
         }
 
-        internal void SetModel(ContentModel model)
+        internal void SetModel(PItem model)
         {
             base.Model = model;
         }

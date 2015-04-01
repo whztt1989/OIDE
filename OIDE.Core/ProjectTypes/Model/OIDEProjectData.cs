@@ -26,7 +26,7 @@ namespace OIDE.Core.ProjectTypes.Model
         public Boolean IsExpanded { get; set; }
         public ObservableCollection<OIDEStateModel> GameStates { get; set; }
         public String AssetFolder { get; set; }
-
+        
         public OIDEProjectData()
         {
             Items = new CollectionOfIItem();
