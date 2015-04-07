@@ -52,10 +52,6 @@
       <HintPath>..\..\extlibs\Microsoft.Practices.Prism.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.Interactivity">
-      <HintPath>..\..\extlibs\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
       <HintPath>..\..\extlibs\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
       <Private>False</Private>
@@ -92,6 +88,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\Module.Protob.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="OIDE.AssetBrowser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\OIDE.AssetBrowser.dll</HintPath>
     </Reference>
     <Reference Include="OIDE.Scene, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -194,10 +194,6 @@
     <ProjectReference Include="..\..\Themes\Themes.Default\Themes.Default.csproj">
       <Project>{de89d67d-a35e-4958-95bd-101b93d6ca0b}</Project>
       <Name>Themes.Default</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OIDE.AssetBrowser\OIDE.AssetBrowser.csproj">
-      <Project>{cb6b9693-8b57-47b1-8dfc-3c46c6a7f291}</Project>
-      <Name>OIDE.AssetBrowser</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

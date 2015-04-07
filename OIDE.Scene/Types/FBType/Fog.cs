@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class Fog : Table {
-  public static Fog GetRootAsFog(ByteBuffer _bb) { return (new Fog()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static Fog GetRootAsFog(ByteBuffer _bb) { return GetRootAsFog(_bb, new Fog()); }
+  public static Fog GetRootAsFog(ByteBuffer _bb, Fog obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public Fog __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public uint Mode() { int o = __offset(4); return o != 0 ? bb.GetUint(o + bb_pos) : (uint)0; }

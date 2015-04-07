@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class OSysTypeData : Table {
-  public static OSysTypeData GetRootAsOSysTypeData(ByteBuffer _bb) { return (new OSysTypeData()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static OSysTypeData GetRootAsOSysTypeData(ByteBuffer _bb) { return GetRootAsOSysTypeData(_bb, new OSysTypeData()); }
+  public static OSysTypeData GetRootAsOSysTypeData(ByteBuffer _bb, OSysTypeData obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public OSysTypeData __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public OgrePlane Plane() { return Plane(new OgrePlane()); }

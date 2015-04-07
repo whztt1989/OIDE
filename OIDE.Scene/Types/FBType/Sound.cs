@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class Sound : Table {
-  public static Sound GetRootAsSound(ByteBuffer _bb) { return (new Sound()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static Sound GetRootAsSound(ByteBuffer _bb) { return GetRootAsSound(_bb, new Sound()); }
+  public static Sound GetRootAsSound(ByteBuffer _bb, Sound obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public Sound __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public string Name() { int o = __offset(4); return o != 0 ? __string(o + bb_pos) : null; }

@@ -88,7 +88,7 @@ namespace OIDE.Scene.Model.Objects.FBufferObject
 
                 XFBType.Node.AddTransform(fbb, transformoffset);
                 XFBType.Node.AddGroup(fbb, 0);
-                XFBType.Node.AddVisible(fbb, 0x01);
+                XFBType.Node.AddVisible(fbb, m_IsVisible);
 
                 int sceneoffset = XFBType.Node.EndNode(fbb);
 

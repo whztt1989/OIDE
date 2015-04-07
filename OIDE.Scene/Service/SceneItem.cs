@@ -23,12 +23,11 @@ namespace OIDE.Scene.Service
         public SceneItem()
         {
             SceneItems = new CollectionOfISceneItem();
-         
         }
 
         [XmlIgnore]
         [Browsable(false)]
-        public ISceneItem SelectedItem { get; set; }
+        public virtual ISceneItem SelectedItem { get; set; }
 
         protected IDatabaseService m_DBService;
         private IDAL_DCTX m_DataContext;
@@ -40,7 +39,7 @@ namespace OIDE.Scene.Service
             get
             {
                 if (m_DataContext == null)
-                    m_DataContext = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false) as IDAL_DCTX;
+                    m_DataContext = new IDAL_DCTX();
 
                 return m_DataContext;
             }

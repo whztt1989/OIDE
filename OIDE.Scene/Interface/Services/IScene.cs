@@ -29,16 +29,21 @@ namespace OIDE.Scene.Interface.Services
         }
     }
 
-    public struct Quaternion
+    public class Quaternion : ViewModelBase
     {
-        public float W { get; set; }
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
+        private float m_W;
+        private float m_X;
+        private float m_Y;
+        private float m_Z;
+
+        public float W { get { return m_W; } set { m_W = value; RaisePropertyChanged("W"); } }
+        public float X { get { return m_X; } set { m_X = value; RaisePropertyChanged("X"); } }
+        public float Y { get { return m_Y; } set { m_Y = value; RaisePropertyChanged("Y"); } }
+        public float Z { get { return m_Z; } set { m_Z = value; RaisePropertyChanged("Z"); } }
 
         public override string ToString()
         {
-            return string.Format("{0}, {1}, {2}, {3}", W , X, Y, Z);
+            return string.Format("{0}, {1}, {2}, {3}", W, X, Y, Z);
         }
     }
 

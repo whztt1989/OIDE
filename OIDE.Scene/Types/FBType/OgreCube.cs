@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class OgreCube : Table {
-  public static OgreCube GetRootAsOgreCube(ByteBuffer _bb) { return (new OgreCube()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static OgreCube GetRootAsOgreCube(ByteBuffer _bb) { return GetRootAsOgreCube(_bb, new OgreCube()); }
+  public static OgreCube GetRootAsOgreCube(ByteBuffer _bb, OgreCube obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public OgreCube __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public float Width() { int o = __offset(4); return o != 0 ? bb.GetFloat(o + bb_pos) : (float)0; }

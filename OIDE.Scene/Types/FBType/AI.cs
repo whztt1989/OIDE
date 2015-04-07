@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class AI : Table {
-  public static AI GetRootAsAI(ByteBuffer _bb) { return (new AI()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static AI GetRootAsAI(ByteBuffer _bb) { return GetRootAsAI(_bb, new AI()); }
+  public static AI GetRootAsAI(ByteBuffer _bb, AI obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public AI __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public string ScriptName() { int o = __offset(4); return o != 0 ? __string(o + bb_pos) : null; }

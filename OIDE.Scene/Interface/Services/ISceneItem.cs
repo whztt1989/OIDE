@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Module.Properties.Interface;
 using Wide.Interfaces.Services;
 using Wide.Core.Services;
+using OIDE.Scene.Model;
 
 namespace OIDE.Scene.Interface.Services
 {
@@ -18,6 +19,7 @@ namespace OIDE.Scene.Interface.Services
         CollectionOfISceneItem SceneItems { get; }
 
         ISceneItem SelectedItem { get; set; }
+
 
      //   Int32 NodeID { get; set; }
 

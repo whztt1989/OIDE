@@ -44,10 +44,6 @@
       <HintPath>..\..\extlibs\Microsoft.Practices.Prism.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.Interactivity">
-      <HintPath>..\..\extlibs\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions">
       <HintPath>..\..\extlibs\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
       <Private>False</Private>

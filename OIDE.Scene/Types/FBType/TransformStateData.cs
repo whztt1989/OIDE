@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class TransformStateData : Table {
-  public static TransformStateData GetRootAsTransformStateData(ByteBuffer _bb) { return (new TransformStateData()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static TransformStateData GetRootAsTransformStateData(ByteBuffer _bb) { return GetRootAsTransformStateData(_bb, new TransformStateData()); }
+  public static TransformStateData GetRootAsTransformStateData(ByteBuffer _bb, TransformStateData obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public TransformStateData __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public Quat4f Rot() { return Rot(new Quat4f()); }

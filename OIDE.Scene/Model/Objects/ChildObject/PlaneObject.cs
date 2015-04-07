@@ -64,6 +64,8 @@ namespace OIDE.Scene.Model.Objects.ChildObject
         /// </summary>
         public PlaneObject()
         {
+            m_normal = new Vector3();
+            m_upVector = new Vector3();
 
         }
 

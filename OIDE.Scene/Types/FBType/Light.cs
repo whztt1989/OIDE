@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class Light : Table {
-  public static Light GetRootAsLight(ByteBuffer _bb) { return (new Light()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static Light GetRootAsLight(ByteBuffer _bb) { return GetRootAsLight(_bb, new Light()); }
+  public static Light GetRootAsLight(ByteBuffer _bb, Light obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public Light __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public Colour ColourDiffuse() { return ColourDiffuse(new Colour()); }

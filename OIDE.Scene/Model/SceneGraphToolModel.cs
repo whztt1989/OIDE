@@ -174,43 +174,17 @@ namespace OIDE.Scene
             if (targetItem != null)
                 targetItem.Drop(sourceItem);
             //targetItem.Children.Add(sourceItem);
-       
 
-                var sceneItem = sourceItem as ISceneItem;
-                if (sceneItem != null)
-                {
-                    DAL.MDB.SceneNode node = new SceneNode()
-                    {
-                        Name = "NEWNode_" + sceneItem.Name,
-                        EntID = WIDE_Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
 
-                    };
+            var sceneItem = sourceItem as ISceneItem;
+            if (sceneItem != null)
+            {
+                var scene = m_SceneService.SelectedScene as SceneDataModel;
 
-                    //   m_SceneService.SelectedScene.SceneItems.Add(new SceneNodeModel(m_SceneService.SelectedScene, m_SceneService.SelectedScene.UnityContainer, new IDAL(m_SceneService.SelectedScene.UnityContainer)) { SceneNodeDB = node, Name = node.Name ?? "NodeNoname" });
-                    m_SceneService.SelectedScene.SceneItems.Add(
-                        new SceneNodeModel()
-                        {
-                            UnityContainer = m_SceneService.SelectedScene.UnityContainer,
-                            Parent = m_SceneService.SelectedScene,
-                            SceneNodeDB = node,
-                            Name = node.Name ?? "NodeNoname"
-                        });
-
-                    //ISceneNode tmp = item as ISceneNode;
-
-                    //if (tmp.Node == null)
-                    //    tmp.Node = new ProtoType.Node();
-
-                    //m_SceneItems.Add(tmp as ISceneItem);
-                }
+                scene.createNewNode(sceneItem);      
+            }
         }
-
-        //public CollectionOfISceneItem Items { 
-        //    get { 
-        //        return m_SceneService.SceneItems;
-        //    }
-        //}
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="MDModel" /> class.
         /// </summary>

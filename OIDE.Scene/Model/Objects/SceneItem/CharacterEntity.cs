@@ -54,6 +54,7 @@ using Wide.Core.Services;
 using Module.PFExplorer.Interface;
 using Module.PFExplorer.Utilities;
 using OIDE.Scene.Service;
+using Module.DB.Interface.Services;
 
 namespace OIDE.Scene.Model
 {
@@ -175,8 +176,6 @@ namespace OIDE.Scene.Model
 
     //    #endregion
         
-        private IDAL m_dbI;
-
    
         [XmlIgnore]
         [Browsable(false)]
@@ -203,8 +202,9 @@ namespace OIDE.Scene.Model
               //if (dbI != null)
             //    m_dbI = dbI;
             //else
-                m_dbI = new IDAL(unityContainer);
-
+            base.m_DBService = unityContainer.Resolve<IDatabaseService>();
+            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
+       
             //read data from lokal json file
             m_FBData = Helper.Utilities.USystem.XMLSerializer.Deserialize<FB_CharacterObject>(ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"); //ProtoSerialize.Deserialize<ProtoType.Node>(node.Data);
             if (m_FBData == null)
@@ -277,11 +277,9 @@ namespace OIDE.Scene.Model
 
             RaisePropertyChanged("FB_CharacterObject");
 
-            //if (dbI != null)
-            //    m_dbI = dbI;
-            //else
-                m_dbI = new IDAL(unityContainer);
-
+            base.m_DBService = unityContainer.Resolve<IDatabaseService>();
+            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
+         
             return true;
         }
 

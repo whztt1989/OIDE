@@ -11,7 +11,6 @@
 #endregion
 
 using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Wide.Core.TextDocument;
@@ -97,17 +96,17 @@ namespace OIDE.Core
         }
 
 
-        public ICommand RaiseConfirmation { get; private set; }
-        //  public ICommand RaiseSelectAEF { get; private set; }
+        //public ICommand RaiseConfirmation { get; private set; }
+        ////  public ICommand RaiseSelectAEF { get; private set; }
 
-        //   public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
-        public InteractionRequest<Confirmation> ConfirmationRequest { get; private set; }
+        ////   public InteractionRequest<PSelectAEFViewModel> SelectAEFRequest { get; private set; }
+        //public InteractionRequest<Confirmation> ConfirmationRequest { get; private set; }
 
-        private void OnRaiseConfirmation()
-        {
-            this.ConfirmationRequest.Raise(new Confirmation { Content = "Confirmation Message", Title = "WPF Confirmation" },
-                (cb) => { Result = cb.Confirmed ? "The user confirmed" : "The user cancelled"; });
-        }
+        //private void OnRaiseConfirmation()
+        //{
+        //    this.ConfirmationRequest.Raise(new Confirmation { Content = "Confirmation Message", Title = "WPF Confirmation" },
+        //        (cb) => { Result = cb.Confirmed ? "The user confirmed" : "The user cancelled"; });
+        //}
 
         //private void OnRaiseSelectAEF()
         //{
@@ -181,12 +180,13 @@ namespace OIDE.Core
 
         #region Settings
 
-        [Editor(typeof(FilePathEditor), typeof(FilePathEditor))]
+        [Editor(typeof(FolderEditor), typeof(FolderEditor))]
         public String AssetFolder
         {
             get { return m_OIDEProjectData.AssetFolder; }
             set
             {
+             
                 m_OIDEProjectData.AssetFolder = value;
                 var assetBrowser = UnityContainer.Resolve<IAssetBrowserTreeService>();
 
@@ -195,11 +195,17 @@ namespace OIDE.Core
                     var itemProvider = new ItemProvider();
 
                     assetBrowser.Items = itemProvider.GetItems(m_OIDEProjectData.AssetFolder);
+
+
                 }
                 else
                 {
                     assetBrowser.Items.Clear();
                 }
+
+                if (m_OIDEProjectData.AssetFolder != value)
+                    IsDirty = true;
+
             }
         }
 
@@ -217,8 +223,8 @@ namespace OIDE.Core
             //   m_Items = new CollectionOfIItem();
             m_OIDEProjectData = new OIDEProjectData();
 
-            this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
-            this.ConfirmationRequest = new InteractionRequest<Confirmation>();
+            //this.RaiseConfirmation = new DelegateCommand(this.OnRaiseConfirmation);
+            //this.ConfirmationRequest = new InteractionRequest<Confirmation>();
             this.CanAddThisItems = new List<Type>();
 
             CanAddThisItems.Add(typeof(OIDEDBFileModel));

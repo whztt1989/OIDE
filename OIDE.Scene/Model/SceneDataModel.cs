@@ -87,17 +87,17 @@ namespace OIDE.Scene.Model
         private ICommand CmdDeleteScene;
         private ICommand CmdSaveScene;
 
-     //   private CollectionOfISceneItem m_SceneItems;
+        private ISceneService m_SceneService;
         private ISceneItem mSelectedItem;
         //ICommand m_cmdCreateFile;
         //ICommand m_cmdDelete;
 
         public Int32 NextNodeCount()
         {
-            return SceneItems.Count(x => x is SceneNodeModel);
+            return SceneItems.Count(x => x is SceneNodeModel) + 1;
         }
 
-        public void Drop(IItem item)
+        public override void Drop(IItem item)
         {
             try
             {
@@ -109,27 +109,8 @@ namespace OIDE.Scene.Model
                     }
 
                     var sceneItem = item as ISceneItem;
-
-                    DAL.MDB.SceneNode node = new SceneNode()
-                    {
-                        Name = "NEWNode_" + sceneItem.Name,
-                        EntID = Module.Properties.Helpers.Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
-                    };
-
-                    //int highestNodeID = 1;
-                    //if(SceneItems.Any())
-                    //    highestNodeID = SceneItems.Max(x => x.NodeID) + 1;
-
-                    FB_SceneData.SceneItems.Add(
-                        new SceneNodeModel()
-                        {
-                            Parent = this,
-                            UnityContainer = UnityContainer,
-                            DataContext = DataContext,
-                            NodeID = NextNodeCount(),
-                            SceneNodeDB = node,
-                            Name = node.Name ?? "NodeNoname"
-                        });
+                    createNewNode(sceneItem);
+                   
                 }
             }
             catch(Exception ex)
@@ -138,18 +119,29 @@ namespace OIDE.Scene.Model
             }
         }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public DAL.MDB.Scene DB_SceneData  { get;  set; }
+        public SceneNodeModel createNewNode(ISceneItem sceneItem)
+        {
+            var newNode = new SceneNodeModel()
+                       {
+                           Parent = this,
+                           UnityContainer = UnityContainer,
+                           DataContext = DataContext,
+                           NodeID = NextNodeCount(),
+                           EntityID = Module.Properties.Helpers.Helper.StringToContentIDData(sceneItem.ContentID).IntValue,
+                           Name = "NEWNode_" + sceneItem.Name ?? "Noname"
+                       };
+
+            FB_SceneData.SceneItems.Add(newNode);
+
+            return newNode;
+        }
 
         #region serializable data
 
         private FB_Scene m_FBData;// = new FB_Scene();
 
-   //     [XmlIgnore]
         [XmlIgnore]
         [ExpandableObject]
-  //      public FB_Scene FB_SceneData { get { return m_FB_SceneData; } }
         public FB_Scene FB_SceneData
         {
             get { return m_FBData; }
@@ -160,22 +152,6 @@ namespace OIDE.Scene.Model
         [XmlIgnore]
         [ExpandableObject]
         public override CollectionOfISceneItem SceneItems { get { return m_FBData.SceneItems; } }
-      
-        //#region SceneData
-
-        ////only changeable in Scenetree! not in propertygrid
-        //[XmlIgnore]
-        //[Browsable(false)]
-        //public System.Windows.Media.Color ColourAmbient 
-        //{
-        //    get { return m_FB_SceneData.ColourAmbient; }
-        //    set {
-        //        m_FB_SceneData.ColourAmbient = value;  
-        //        RaisePropertyChanged("ColourAmbient"); 
-        //    } 
-        //}
-
-        //#endregion
 
         public bool AddItem(ISceneItem item)
         {
@@ -187,20 +163,16 @@ namespace OIDE.Scene.Model
             return false;
         }
 
-    //    [Browsable(false)]
-    //    [XmlIgnore]
-     //   public CollectionOfISceneItem SceneItems { get { return m_FB_SceneData.SceneItems; } set { m_FB_SceneData.SceneItems = value; } }
- //public CollectionOfISceneItem SceneItems { get { return m_SceneItems; } set { m_SceneItems = value; } }
-
         [XmlIgnore]
         [Browsable(false)]
-        public ISceneItem SelectedItem
+        public override ISceneItem SelectedItem
         {
             get
             {
                 return mSelectedItem;
             }
-            set {
+            set
+            {
                 mSelectedItem = value;
 
                 m_SceneService.SGTM.SelectedObject = value;
@@ -223,26 +195,18 @@ namespace OIDE.Scene.Model
             }
         }
     
-        //#region Scene Data
-
-        //public long? FogID { get; set; }
         public long SceneID { get; set; }
-        //public long? SkyID { get; set; }
-        //public long? TerrID { get; set; }
 
-        //#endregion
+                #region public command methods
 
-
-        #region public command methods
-
-        public Boolean Create(IUnityContainer unityContainer)
+        public override Boolean Create(IUnityContainer unityContainer)
         {
-
             UnityContainer = unityContainer;
             m_SceneService = unityContainer.Resolve<ISceneService>();
        
             base.m_DBService = unityContainer.Resolve<IDatabaseService>();
-
+            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
+       
             m_FBData = new FB_Scene() { UnityContainer = unityContainer, Parent = this };
 
             RaisePropertyChanged("FB_SceneData");
@@ -250,7 +214,7 @@ namespace OIDE.Scene.Model
             return true;
         }
 
-        public Boolean Closing()
+        public override Boolean Closing()
         {
        //     m_Opened = false;
             return true;
@@ -260,7 +224,7 @@ namespace OIDE.Scene.Model
 
         private IProjectFile m_ParentProject;
 
-        public Boolean Open(IUnityContainer unityContainer, object id)
+        public override Boolean Open(IUnityContainer unityContainer, object id)
         {
             //if (m_Opened)
             //    return false;
@@ -273,11 +237,11 @@ namespace OIDE.Scene.Model
             if (m_ParentProject == null)
                 return false;
 
-
             UnityContainer = unityContainer;
             m_SceneService = unityContainer.Resolve<ISceneService>();
 
             base.m_DBService = unityContainer.Resolve<IDatabaseService>();
+            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
        
             int sceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
 
@@ -294,98 +258,94 @@ namespace OIDE.Scene.Model
 
             m_SceneService.SelectedScene = this;
 
-            //m_FB_SceneData.RelPathToXML = "Scene\\" + sceneID + ".xml";
-            //m_FB_SceneData.AbsPathToXML = path;
-
-
        //only able to save data into database not load
             return true ;
 
 
-            DB_SceneData = IDAL.selectSceneDataOnly(DataContext,sceneID); // database data
+       //     DB_SceneData = IDAL.selectSceneDataOnly(DataContext,sceneID); // database data
 
-       //     m_FB_SceneData.Read(DB_SceneData.Data); //just for testing if data correctly saved!
-
-
-            IEnumerable<DAL.IDAL.SceneNodeContainer> result = IDAL.selectSceneNodes(DataContext, sceneID); //scenenodes from database
-
-            try
-            {
-                //select all Nodes
-                foreach (var nodeContainer in result)
-                {
-                    //if(!SceneItems.Where(x => x.NodeID == nodeContainer.Node.NodeID).Any()) // add node to scene if not exists
-                    //{
-                    //    //var sceneNode = new SceneNodeModel(this, UnityContainer, m_DBI) { SceneNodeDB = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" };
-                    //    //sceneNode.Open(UnityContainer, sceneID);
-                    //    //SceneItems.Add(sceneNode);
-                    //}
-
-                    switch ((EntityTypes)nodeContainer.Entity.EntType)
-                    {
-                    //    case NodeTypes.Static:
-
-                    //        m_SceneItems.Add(new StaticObjectModel(this, UnityContainer, m_DBI)
-                    //        {
-                    //            ContentID = "StaticID:##:" + node.GameEntity.EntID,
-                    //            DBData =  node.GameEntity,
-                    //            Name = node.GameEntity.Name ?? ("StatNoname" + (int)node.GameEntity.EntID),
-                    //            Node = nodeDeserialized
-
-                    //        });// Data = gameEntityDataDeserialized });
-
-                    //        break;
-                    //    case NodeTypes.Physic:
-
-                    //        ProtoType.PhysicsObject dataPhysObj = new ProtoType.PhysicsObject();
-                    //        if (node.GameEntity.Data != null)
-                    //            dataPhysObj = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>(node.GameEntity.Data);
-
-                    //        m_SceneItems.Add(new PhysicsObjectModel(this, UnityContainer, dataPhysObj, m_DBI)
-                    //        {
-                    //            ContentID = "PhysicID:##:" + node.GameEntity.EntID,
-                    //            Name = node.GameEntity.Name ?? ("PhysNoname" + (int)node.GameEntity.EntID),
-                    //            Node = nodeDeserialized
-                    //        });// Data = gameEntityDataDeserialized });
-
-                    //        break;
-
-                    //    //case NodeTypes.Physic:
-                    //    //    //  var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
-                    //    //   // if (itemCam.Any())
-                    //    //        m_SceneItems.Add(new PhysicsObjectModel(this, UnityContainer , ) { Node = nodeDeserialized });
-
-                    //    //    break;
-                    //    //case NodeTypes.Static:
-
-                    //    //    break;
-                    //    case NodeTypes.Camera:
-                    //        //todo contentid for camera
-
-                    //        //   SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
+       ////     m_FB_SceneData.Read(DB_SceneData.Data); //just for testing if data correctly saved!
 
 
-                    //        var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
-                    //        if (itemCam.Any())
-                    //            itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer) { Node = nodeDeserialized });
+       //     IEnumerable<DAL.IDAL.SceneNodeContainer> result = IDAL.selectSceneNodes(DataContext, sceneID); //scenenodes from database
 
-                    //        break;
-                    //    case NodeTypes.Light:
+       //     try
+       //     {
+       //         //select all Nodes
+       //         foreach (var nodeContainer in result)
+       //         {
+       //             //if(!SceneItems.Where(x => x.NodeID == nodeContainer.Node.NodeID).Any()) // add node to scene if not exists
+       //             //{
+       //             //    //var sceneNode = new SceneNodeModel(this, UnityContainer, m_DBI) { SceneNodeDB = nodeContainer.Node, Name = nodeContainer.Node.Name ?? "NodeNoname" };
+       //             //    //sceneNode.Open(UnityContainer, sceneID);
+       //             //    //SceneItems.Add(sceneNode);
+       //             //}
 
-                    //        var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
-                    //        if (itemLight.Any())
-                    //            itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer) { Node = nodeDeserialized });
-                    //        break;
-                       }
+       //             switch ((EntityTypes)nodeContainer.Entity.EntType)
+       //             {
+       //             //    case NodeTypes.Static:
 
-                }
-            }
-            catch (Exception ex)
-            {
-                //   m_SceneService.SelectedScene.SceneItems.Clear();
-            }
-            RaisePropertyChanged(null);
-            return true;
+       //             //        m_SceneItems.Add(new StaticObjectModel(this, UnityContainer, m_DBI)
+       //             //        {
+       //             //            ContentID = "StaticID:##:" + node.GameEntity.EntID,
+       //             //            DBData =  node.GameEntity,
+       //             //            Name = node.GameEntity.Name ?? ("StatNoname" + (int)node.GameEntity.EntID),
+       //             //            Node = nodeDeserialized
+
+       //             //        });// Data = gameEntityDataDeserialized });
+
+       //             //        break;
+       //             //    case NodeTypes.Physic:
+
+       //             //        ProtoType.PhysicsObject dataPhysObj = new ProtoType.PhysicsObject();
+       //             //        if (node.GameEntity.Data != null)
+       //             //            dataPhysObj = ProtoSerialize.Deserialize<ProtoType.PhysicsObject>(node.GameEntity.Data);
+
+       //             //        m_SceneItems.Add(new PhysicsObjectModel(this, UnityContainer, dataPhysObj, m_DBI)
+       //             //        {
+       //             //            ContentID = "PhysicID:##:" + node.GameEntity.EntID,
+       //             //            Name = node.GameEntity.Name ?? ("PhysNoname" + (int)node.GameEntity.EntID),
+       //             //            Node = nodeDeserialized
+       //             //        });// Data = gameEntityDataDeserialized });
+
+       //             //        break;
+
+       //             //    //case NodeTypes.Physic:
+       //             //    //    //  var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
+       //             //    //   // if (itemCam.Any())
+       //             //    //        m_SceneItems.Add(new PhysicsObjectModel(this, UnityContainer , ) { Node = nodeDeserialized });
+
+       //             //    //    break;
+       //             //    //case NodeTypes.Static:
+
+       //             //    //    break;
+       //             //    case NodeTypes.Camera:
+       //             //        //todo contentid for camera
+
+       //             //        //   SceneNodes = new SceneNodes() { NodeID = sNode.NodeID, EntID = sNode.Node.EntityID, SceneID = ID, Data = ProtoSerialize.Serialize(sNode.Node) };
+
+
+       //             //        var itemCam = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == ""); // Search for Camera category
+       //             //        if (itemCam.Any())
+       //             //            itemCam.First().SceneItems.Add(new CameraModel(itemCam.First(), UnityContainer) { Node = nodeDeserialized });
+
+       //             //        break;
+       //             //    case NodeTypes.Light:
+
+       //             //        var itemLight = m_SceneService.SelectedScene.SceneItems.Where(x => x.ContentID == "");
+       //             //        if (itemLight.Any())
+       //             //            itemLight.First().SceneItems.Add(new LightModel(itemLight.First(), UnityContainer) { Node = nodeDeserialized });
+       //             //        break;
+       //                }
+
+       //         }
+       //     }
+       //     catch (Exception ex)
+       //     {
+       //         //   m_SceneService.SelectedScene.SceneItems.Clear();
+       //     }
+       //     RaisePropertyChanged(null);
+       //     return true;
         }
 
         public void Refresh() { }
@@ -396,19 +356,12 @@ namespace OIDE.Scene.Model
             String DBPath = DBFileUtil.GetDBFilePath(this.Parent);
             if (!String.IsNullOrEmpty(DBPath))
             {
-                DB_SceneData.Data = m_FBData.CreateByteBuffer();
-                DB_SceneData.SceneID = SceneID;
+                DAL.MDB.Scene dbSceneData = new DAL.MDB.Scene();
+                dbSceneData .Data = m_FBData.CreateByteBuffer();
+                dbSceneData.SceneID = SceneID;
+                dbSceneData.Name = this.Name;
 
-                //  m_FB_SceneData.Read(DB_SceneData.Data);
-
-                // ProtoType.Scene protoData = new ProtoType.Scene();
-                // protoData.colourAmbient = new ProtoType.Colour() { r = 5 , b =  6 , g = 7 };
-
-                //save scene to db
-                //if (DB_SceneData.SceneID > 0)
-                //    m_DBI.updateScene(DB_SceneData);
-                //else
-                IDAL.insertScene(DataContext, DB_SceneData);
+                IDAL.insertScene(DataContext, dbSceneData);
 
              }
             return true;
@@ -417,18 +370,12 @@ namespace OIDE.Scene.Model
 
         public override Boolean Save(object param)
         {
-          //  mDBData.Data = m_FBByteBuffer.Data; //ProtoSerialize.Serialize(mProtoData);
-
             SaveToDB();
        
             this.Location = ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml";
 
             Helper.Utilities.USystem.XMLSerializer.Serialize<FB_Scene>(m_FBData, this.Location.ToString()); // XML Serialize
             
-            //  mData = ProtoSerialize.Deserialize<ProtoType.Scene>(result);
-            if (DB_SceneData == null)
-                DB_SceneData = new DAL.MDB.Scene();
-
   
             //##   DLL_Singleton.Instance.consoleCmd("cmd sceneUpdate 0"); //.updateObject(0, (int)ObjType.Physic);
 
@@ -437,8 +384,6 @@ namespace OIDE.Scene.Model
             //------------------------------
             try
             {
-                DAL.MDB.SceneNode nodes = new DAL.MDB.SceneNode();
-
                 //select all Nodes
                 foreach (var sceneItem in m_SceneService.SelectedScene.SceneItems)
                 {
@@ -469,6 +414,7 @@ namespace OIDE.Scene.Model
                     if (sNode != null)
                     {
                         sNode.DataContext = DataContext;
+                        sNode.Parent = this;
                         sNode.Save(SceneID);
                     }
                     
@@ -520,44 +466,11 @@ namespace OIDE.Scene.Model
         }
         
         #endregion
+        
 
-        //public SceneDataModel()
-        //{
-        //    m_DBI = new IDAL();
-        //    DB_SceneData = new DAL.MDB.Scene();
-        //    m_SceneItems = new CollectionOfISceneItem();
-        //  //  mProtoData = new ProtoType.Scene();
-
-        //}
-
-        private ISceneService m_SceneService;
 
         public SceneDataModel()
         {
-          //  Parent = parent;
-            //m_Container = container;
-            //m_SceneService = container.Resolve<ISceneService>();
-            
-            DB_SceneData = new DAL.MDB.Scene();
-            //     mProtoData = new ProtoType.Scene();
-
-            ////if (dbData == null)
-            ////    SceneData = m_DBI.selectSceneDataOnly(id);
-            ////else
-            //    SceneData = dbData;
-
-            ////  Console.WriteLine(BitConverter.ToString(res));
-            //try
-            //{
-            //    mData = ProtoSerialize.Deserialize<ProtoType.Scene>(SceneData.Data);
-            //}
-            //catch
-            //{
-            //    mData = new ProtoType.Scene();
-            //}
-
-
-      //      m_SceneItems = new CollectionOfISceneItem();
             CmdSaveScene = new CmdSaveScene(this);
             CmdDeleteScene = new CmdDeleteScene(this);
         }

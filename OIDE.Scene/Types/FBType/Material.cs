@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class Material : Table {
-  public static Material GetRootAsMaterial(ByteBuffer _bb) { return (new Material()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static Material GetRootAsMaterial(ByteBuffer _bb) { return GetRootAsMaterial(_bb, new Material()); }
+  public static Material GetRootAsMaterial(ByteBuffer _bb, Material obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public Material __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public string Name() { int o = __offset(4); return o != 0 ? __string(o + bb_pos) : null; }

@@ -14,6 +14,7 @@ using OIDE.Scene.Model.Objects.ObjectData;
 using OIDE.Scene.Model.Objects.FBufferObject;
 using OIDE.Scene.Model.Objects.ChildObject;
 using Microsoft.Practices.Unity;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace OIDE.Scene.Model.Objects
 {
@@ -75,6 +76,7 @@ namespace OIDE.Scene.Model.Objects
 
         [Category("Entity basic")]
         [Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
+        [NewItemTypes(new Type[] { typeof(MeshObject), typeof(PlaneObject), typeof(CubeObject) })]
         public List<MeshObject> Meshes { get { return m_Meshes; } set { m_Meshes = value; } }
 
         private List<MaterialObject> m_Materials = new List<MaterialObject>();
@@ -118,7 +120,7 @@ namespace OIDE.Scene.Model.Objects
             int animInfoOffset = m_AnimationInfo != null ? fbbParent.CreateString(m_AnimationInfo) : 0;
             int animTreeOffset = m_AnimationTree != null ? fbbParent.CreateString(m_AnimationTree) : 0;
             int BoneparentOffset = m_Boneparent != null ? fbbParent.CreateString(m_Boneparent) : 0;
-            int debugOffset = XFBType.Debug.CreateDebug(fbbParent, m_ShowDebug ? (byte)0x01 : (byte)0x00, m_ShowAABB ? (byte)0x01 : (byte)0x00);
+            int debugOffset = XFBType.Debug.CreateDebug(fbbParent, m_ShowDebug, m_ShowAABB);
             int physicsOffset = 0;
             if (m_Physics.Any())
             {
@@ -173,7 +175,7 @@ namespace OIDE.Scene.Model.Objects
                         XFBType.OgrePlane.AddConstant(fbbParent, plane.constant);
                         XFBType.OgrePlane.AddHeight(fbbParent, plane.height);
                         XFBType.OgrePlane.AddNormal(fbbParent, XFBType.Vec3f.CreateVec3f(fbbParent, plane.normal.X, plane.normal.Y, plane.normal.Z));
-                        XFBType.OgrePlane.AddNormals(fbbParent, plane.normals ? (byte)0x01 : (byte)0x00);
+                        XFBType.OgrePlane.AddNormals(fbbParent, plane.normals);
                         XFBType.OgrePlane.AddNumTexCoordSets(fbbParent, plane.numTexCoordSets);
                         XFBType.OgrePlane.AddUpVector(fbbParent, XFBType.Vec3f.CreateVec3f(fbbParent, plane.upVector.X, plane.upVector.Y, plane.upVector.Z));
                         XFBType.OgrePlane.AddWidth(fbbParent, plane.width);
@@ -214,7 +216,7 @@ namespace OIDE.Scene.Model.Objects
             if (m_Meshes.Any()) XFBType.EntityBase.AddMeshes(fbbParent, meshesOffset);
 
             XFBType.EntityBase.AddType(fbbParent, (ushort)m_EntType);
-            XFBType.EntityBase.AddCastShadows(fbbParent, m_CastShadows ? (byte)0x01 : (byte)0x00);
+            XFBType.EntityBase.AddCastShadows(fbbParent, m_CastShadows);
 
             return XFBType.EntityBase.EndEntityBase(fbbParent);
             // return XFBType.EntityBase.CreateEntityBase(fbbParent, Meshes_OS, Sounds_OS, Materials_OS, Physics_OS, Type_OS, Boneparent_OS, Mode_OS, CastShadows_OS, Debug_OS, AnimationTree_OS, AnimationInfo_OS);

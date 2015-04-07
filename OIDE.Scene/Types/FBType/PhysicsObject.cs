@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class PhysicsObject : Table {
-  public static PhysicsObject GetRootAsPhysicsObject(ByteBuffer _bb) { return (new PhysicsObject()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static PhysicsObject GetRootAsPhysicsObject(ByteBuffer _bb) { return GetRootAsPhysicsObject(_bb, new PhysicsObject()); }
+  public static PhysicsObject GetRootAsPhysicsObject(ByteBuffer _bb, PhysicsObject obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public PhysicsObject __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public short ColMask() { int o = __offset(4); return o != 0 ? bb.GetShort(o + bb_pos) : (short)0; }
@@ -23,7 +24,7 @@ public class PhysicsObject : Table {
   public float MaxVel() { int o = __offset(26); return o != 0 ? bb.GetFloat(o + bb_pos) : (float)0; }
   public float Restitution() { int o = __offset(28); return o != 0 ? bb.GetFloat(o + bb_pos) : (float)0; }
   public float Friction() { int o = __offset(30); return o != 0 ? bb.GetFloat(o + bb_pos) : (float)0; }
-  public uint ColGroupMask() { int o = __offset(32); return o != 0 ? bb.GetUint(o + bb_pos) : (uint)0; }
+  public short ColGroupMask() { int o = __offset(32); return o != 0 ? bb.GetShort(o + bb_pos) : (short)0; }
   public float CharStepHeight() { int o = __offset(34); return o != 0 ? bb.GetFloat(o + bb_pos) : (float)0; }
   public float CharJumpSpeed() { int o = __offset(36); return o != 0 ? bb.GetFloat(o + bb_pos) : (float)0; }
   public float CharFallSpeed() { int o = __offset(38); return o != 0 ? bb.GetFloat(o + bb_pos) : (float)0; }
@@ -35,7 +36,7 @@ public class PhysicsObject : Table {
   public Vec3f Scale(Vec3f obj) { int o = __offset(46); return o != 0 ? obj.__init(o + bb_pos, bb) : null; }
   public Vec3f Offset() { return Offset(new Vec3f()); }
   public Vec3f Offset(Vec3f obj) { int o = __offset(48); return o != 0 ? obj.__init(o + bb_pos, bb) : null; }
-  public byte ParentIsNode() { int o = __offset(50); return o != 0 ? bb.Get(o + bb_pos) : (byte)0; }
+  public bool ParentIsNode() { int o = __offset(50); return o != 0 ? 0!=bb.Get(o + bb_pos) : (bool)false; }
   public PhysicsConstraint PhysicsConstraints(int j) { return PhysicsConstraints(new PhysicsConstraint(), j); }
   public PhysicsConstraint PhysicsConstraints(PhysicsConstraint obj, int j) { int o = __offset(52); return o != 0 ? obj.__init(__indirect(__vector(o) + j * 4), bb) : null; }
   public int PhysicsConstraintsLength() { int o = __offset(52); return o != 0 ? __vector_len(o) : 0; }
@@ -55,7 +56,7 @@ public class PhysicsObject : Table {
   public static void AddMaxVel(FlatBufferBuilder builder, float maxVel) { builder.AddFloat(11, maxVel, 0); }
   public static void AddRestitution(FlatBufferBuilder builder, float restitution) { builder.AddFloat(12, restitution, 0); }
   public static void AddFriction(FlatBufferBuilder builder, float friction) { builder.AddFloat(13, friction, 0); }
-  public static void AddColGroupMask(FlatBufferBuilder builder, uint colGroupMask) { builder.AddUint(14, colGroupMask, 0); }
+  public static void AddColGroupMask(FlatBufferBuilder builder, short colGroupMask) { builder.AddShort(14, colGroupMask, 0); }
   public static void AddCharStepHeight(FlatBufferBuilder builder, float charStepHeight) { builder.AddFloat(15, charStepHeight, 0); }
   public static void AddCharJumpSpeed(FlatBufferBuilder builder, float charJumpSpeed) { builder.AddFloat(16, charJumpSpeed, 0); }
   public static void AddCharFallSpeed(FlatBufferBuilder builder, float charFallSpeed) { builder.AddFloat(17, charFallSpeed, 0); }
@@ -64,7 +65,7 @@ public class PhysicsObject : Table {
   public static void AddSize(FlatBufferBuilder builder, int sizeOffset) { builder.AddStruct(20, sizeOffset, 0); }
   public static void AddScale(FlatBufferBuilder builder, int scaleOffset) { builder.AddStruct(21, scaleOffset, 0); }
   public static void AddOffset(FlatBufferBuilder builder, int offsetOffset) { builder.AddStruct(22, offsetOffset, 0); }
-  public static void AddParentIsNode(FlatBufferBuilder builder, byte parentIsNode) { builder.AddByte(23, parentIsNode, 0); }
+  public static void AddParentIsNode(FlatBufferBuilder builder, bool parentIsNode) { builder.AddBool(23, parentIsNode, false); }
   public static void AddPhysicsConstraints(FlatBufferBuilder builder, int physicsConstraintsOffset) { builder.AddOffset(24, physicsConstraintsOffset, 0); }
   public static int CreatePhysicsConstraintsVector(FlatBufferBuilder builder, int[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i]); return builder.EndVector(); }
   public static void StartPhysicsConstraintsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }

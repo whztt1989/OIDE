@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class Clipping : Table {
-  public static Clipping GetRootAsClipping(ByteBuffer _bb) { return (new Clipping()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static Clipping GetRootAsClipping(ByteBuffer _bb) { return GetRootAsClipping(_bb, new Clipping()); }
+  public static Clipping GetRootAsClipping(ByteBuffer _bb, Clipping obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public Clipping __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public float NearClip() { int o = __offset(4); return o != 0 ? bb.GetFloat(o + bb_pos) : (float)0; }

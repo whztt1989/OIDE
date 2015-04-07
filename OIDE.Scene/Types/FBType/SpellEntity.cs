@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class SpellEntity : Table {
-  public static SpellEntity GetRootAsSpellEntity(ByteBuffer _bb) { return (new SpellEntity()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static SpellEntity GetRootAsSpellEntity(ByteBuffer _bb) { return GetRootAsSpellEntity(_bb, new SpellEntity()); }
+  public static SpellEntity GetRootAsSpellEntity(ByteBuffer _bb, SpellEntity obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public SpellEntity __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public EntityBase Entitybase() { return Entitybase(new EntityBase()); }

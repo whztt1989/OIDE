@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class CharEntity : Table {
-  public static CharEntity GetRootAsCharEntity(ByteBuffer _bb) { return (new CharEntity()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static CharEntity GetRootAsCharEntity(ByteBuffer _bb) { return GetRootAsCharEntity(_bb, new CharEntity()); }
+  public static CharEntity GetRootAsCharEntity(ByteBuffer _bb, CharEntity obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public CharEntity __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public EntityBase Entitybase() { return Entitybase(new EntityBase()); }

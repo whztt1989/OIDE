@@ -6,7 +6,7 @@
         <Visible>false</Visible>
         <Name>DBFile</Name>
         <IsExpanded>true</IsExpanded>
-        <IsSelected>true</IsSelected>
+        <IsSelected>false</IsSelected>
         <Items>
           <IItem AssemblyQualifiedName="DAL.DBTableModel, DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
             <DBTableModel>
@@ -47,7 +47,7 @@
                           <Name>Character Obj NEW</Name>
                           <ContentID>CharacterEntID:##:1</ContentID>
                           <IsExpanded>false</IsExpanded>
-                          <IsSelected>false</IsSelected>
+                          <IsSelected>true</IsSelected>
                         </CharacterEntity>
                       </IItem>
                     </Items>
@@ -124,7 +124,7 @@
                     <Name>Scene Obj NEW</Name>
                     <ContentID>SceneID:##:1</ContentID>
                     <IsExpanded>false</IsExpanded>
-                    <IsSelected>false</IsSelected>
+                    <IsSelected>true</IsSelected>
                     <SceneID>1</SceneID>
                   </SceneDataModel>
                 </IItem>
@@ -139,4 +139,5 @@
   </Items>
   <IsExpanded>true</IsExpanded>
   <GameStates />
+  <AssetFolder>E:\Projekte\coop\XEngine\data\Test\XETController</AssetFolder>
 </OIDEProjectData>

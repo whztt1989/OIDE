@@ -38,7 +38,6 @@ using DAL.MDB;
 using System.Windows;
 using Microsoft.Practices.Unity;
 using Wide.Interfaces.Services;
-using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using Wide.Interfaces;
 
 
@@ -135,7 +134,7 @@ namespace DAL
 
         public object GetDataContextOpt(Boolean checkUser = true)
         {
-            IDAL_DCTX tmp = new IDAL_DCTX();
+            extdbDataEntities tmp = null;
             
             try
             {
@@ -212,8 +211,9 @@ namespace DAL
                         ShowLoginDialog(m_Container);
                         return null;
                     }
+                    tmp = crmDataContext;
 
-                    return crmDataContext;
+                    return tmp;
                 }
                 else if (options.DBType == DBType.Oracle)
                 {
@@ -254,7 +254,7 @@ namespace DAL
                 var loggerService = m_Container.Resolve<ILoggerService>();
                 loggerService.Log("Datenbankverbindung fehlgeschlagen." + (ex.InnerException != null ? ex.InnerException.Message : ex.Message), LogCategory.Exception, LogPriority.High);
                 //       
-                workspace.NotificationRequest.Raise(new Notification { Content = "Datenbankverbindung fehlgeschlagen." + (ex.InnerException != null ? ex.InnerException.Message : ex.Message), Title = "Fehler" });
+              //  workspace.NotificationRequest.Raise(new Notification { Content = "Datenbankverbindung fehlgeschlagen." + (ex.InnerException != null ? ex.InnerException.Message : ex.Message), Title = "Fehler" });
 
                 //  stripLabel.Text = ex.Message;
 
@@ -478,10 +478,13 @@ namespace DAL
         {
             try
             {
-                var result = (ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == scene.SceneID);
+                var ctxtmp = (ctx.Context as extdbDataEntities);
+                var result = ctxtmp.Scene.Where(x => x.SceneID == scene.SceneID);
                 if (result.Any())
                 {
-                    result.First().Data = scene.Data;
+                    var dbScene = result.First();
+                    dbScene.Name = scene.Name;
+                    dbScene.Data = scene.Data;
                 }
                 else
                 {

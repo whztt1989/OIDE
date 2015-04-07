@@ -127,7 +127,7 @@ namespace OIDE.Scene.Model.Objects
         public float maxVel { get { return m_Physics_FBData.maxVel; } set { m_Physics_FBData.maxVel = value; } }
         public float restitution { get { return m_Physics_FBData.restitution; } set { m_Physics_FBData.restitution = value; } }
         public float friction { get { return m_Physics_FBData.friction; } set { m_Physics_FBData.friction = value; } }
-        public uint colGroupMask { get { return m_Physics_FBData.colGroupMask; } set { m_Physics_FBData.colGroupMask = value; } }
+        public short colGroupMask { get { return m_Physics_FBData.colGroupMask; } set { m_Physics_FBData.colGroupMask = value; } }
         public float charStepHeight { get { return m_Physics_FBData.charStepHeight; } set { m_Physics_FBData.charStepHeight = value; } }
         public float charJumpSpeed { get { return m_Physics_FBData.charJumpSpeed; } set { m_Physics_FBData.charJumpSpeed = value; } }
         public float charFallSpeed { get { return m_Physics_FBData.charFallSpeed; } set { m_Physics_FBData.charFallSpeed = value; } }
@@ -140,16 +140,26 @@ namespace OIDE.Scene.Model.Objects
             return m_Physics_FBData.Create(fbb);
         }
 
-        public PhysicObject(IUnityContainer unityContainer)
-        {
-            UnityContainer = unityContainer;
-            m_Physics_FBData = new FB_Physics();
-            m_Logger = UnityContainer.Resolve<ILoggerService>();
-        }
-      
+        //public PhysicObject(IUnityContainer unityContainer)
+        //{
+        //    UnityContainer = unityContainer;
+        //    m_Physics_FBData = new FB_Physics();
+        //    m_Logger = UnityContainer.Resolve<ILoggerService>();
+
+        //    m_Physics_FBData.Offset = new Interface.Services.Vector3();
+        //    m_Physics_FBData.size = new Interface.Services.Vector3();
+        //    m_Physics_FBData.scale = new Interface.Services.Vector3();
+        //}
+
         public PhysicObject()
         {
             m_Physics_FBData = new FB_Physics();
+
+
+
+            m_Physics_FBData.Offset = new Interface.Services.Vector3();
+            m_Physics_FBData.size = new Interface.Services.Vector3();
+            m_Physics_FBData.scale = new Interface.Services.Vector3();
         }
     }
 }

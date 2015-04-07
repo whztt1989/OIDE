@@ -37,7 +37,7 @@ namespace OIDE.Scene.Model.Objects
         private float m_maxVel;
         private float m_restitution;
         private float m_friction;
-        private uint m_colGroupMask;
+        private short m_colGroupMask;
         private float m_charStepHeight;
         private float m_charJumpSpeed;
         private float m_charFallSpeed;
@@ -80,7 +80,7 @@ namespace OIDE.Scene.Model.Objects
         public float maxVel { get { return m_maxVel; } set { m_maxVel = FB_Helper.UpdateSelectedObject(this, m_maxVel, value); } }
         public float restitution { get { return m_restitution; } set { m_restitution = FB_Helper.UpdateSelectedObject(this, m_restitution, value); } }
         public float friction { get { return m_friction; } set { m_friction = FB_Helper.UpdateSelectedObject(this, m_friction, value); } }
-        public uint colGroupMask { get { return m_colGroupMask; } set { m_colGroupMask = FB_Helper.UpdateSelectedObject(this, m_colGroupMask, value); ; } }
+        public short colGroupMask { get { return m_colGroupMask; } set { m_colGroupMask = FB_Helper.UpdateSelectedObject(this, m_colGroupMask, value); ; } }
         public float charStepHeight { get { return m_charStepHeight; } set { m_charStepHeight = FB_Helper.UpdateSelectedObject(this, m_charStepHeight, value); } }
         public float charJumpSpeed { get { return m_charJumpSpeed; } set { m_charJumpSpeed = FB_Helper.UpdateSelectedObject(this, m_charJumpSpeed, value); } }
         public float charFallSpeed { get { return m_charFallSpeed; } set { m_charFallSpeed = FB_Helper.UpdateSelectedObject(this, m_charFallSpeed, value); } }
@@ -134,7 +134,7 @@ namespace OIDE.Scene.Model.Objects
             XFBType.PhysicsObject.AddSize(fbbParent, XFBType.Vec3f.CreateVec3f(fbbParent, m_size.X, m_size.Y, m_size.Z));
             XFBType.PhysicsObject.AddScale(fbbParent, XFBType.Vec3f.CreateVec3f(fbbParent, m_scale.X, m_scale.Y, m_scale.Z));
 
-            XFBType.PhysicsObject.AddParentIsNode(fbbParent, m_parentIsNode ? (byte)0x01 : (byte)0x00);
+            XFBType.PhysicsObject.AddParentIsNode(fbbParent, m_parentIsNode);
 
             if (m_AttachToBone != null)
                 XFBType.PhysicsObject.AddBoneparent(fbbParent, boneParentOS);

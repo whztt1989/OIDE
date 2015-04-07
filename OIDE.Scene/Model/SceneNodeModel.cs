@@ -42,7 +42,10 @@ namespace OIDE.Scene.Model
         public Boolean IsVisible { get { return m_FB_SceneNode.IsVisible; } set { m_FB_SceneNode.IsVisible = value; RaisePropertyChanged("IsVisible"); } }
     
         [ExpandableObject]
-        public Quaternion Rotation { get { return m_FB_SceneNode.Rotation; } set { m_FB_SceneNode.Rotation = value; RaisePropertyChanged("Rotation"); } }
+        public Quaternion Rotation { get { return m_FB_SceneNode.Rotation; }
+            set {
+                m_FB_SceneNode.Rotation = value;
+                RaisePropertyChanged("Rotation"); } }
         [ExpandableObject]
         public Vector3 Location { get { return m_FB_SceneNode.Location; } set { m_FB_SceneNode.Location = value; RaisePropertyChanged("Location"); } }
         [ExpandableObject]
@@ -84,7 +87,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public List<MenuItem> MenuOptions
+        public override List<MenuItem> MenuOptions
         {
             get
             {
@@ -147,6 +150,7 @@ namespace OIDE.Scene.Model
                 m_SceneNodeDB.Name = Name;
                 m_SceneNodeDB.SceneID = m_SceneID;
                 m_SceneNodeDB.NodeID = NodeID;
+                m_SceneNodeDB.EntID = EntityID;
 
                 //save sceneNode to db
                 if (NodeID > 0)

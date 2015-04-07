@@ -19,21 +19,21 @@
              
              >
     <!--dd:DragDrop.DragAdornerTemplate="{StaticResource DragAdorner}"-->
-    <i:Interaction.Triggers>
+    <!--<i:Interaction.Triggers>
         <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationRequest, Mode=OneWay}">
             <inf_int:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" />
         </prism:InteractionRequestTrigger>
 
-        <!--<prism:InteractionRequestTrigger SourceObject="{Binding SelectAEFRequest, Mode=OneWay}">
+        --><!--<prism:InteractionRequestTrigger SourceObject="{Binding SelectAEFRequest, Mode=OneWay}">
             <inf_int:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
                 <inf_int:PopupWindowAction.WindowContent>
                     <popup:PSelectAEFView />
                 </inf_int:PopupWindowAction.WindowContent>
             </inf_int:PopupWindowAction>
 
-        </prism:InteractionRequestTrigger>-->
+        </prism:InteractionRequestTrigger>--><!--
 
-    </i:Interaction.Triggers>
+    </i:Interaction.Triggers>-->
 
     <UserControl.Resources>
         <DataTemplate x:Key="DragAdorner">

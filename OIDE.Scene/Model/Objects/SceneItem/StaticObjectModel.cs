@@ -57,6 +57,7 @@ using Module.PFExplorer.Interface;
 using Module.PFExplorer.Utilities;
 using Module.PFExplorer.Service;
 using OIDE.Scene.Service;
+using Module.DB.Interface.Services;
 
 namespace OIDE.Scene.Model
 {
@@ -124,7 +125,9 @@ namespace OIDE.Scene.Model
 //            m_FBData = new FB_StaticObjectModel() { UnityContainer = unityContainer , Parent = this};
 
             UnityContainer = unityContainer;
-
+            base.m_DBService = unityContainer.Resolve<IDatabaseService>();
+            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
+       
         
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
 
@@ -199,7 +202,9 @@ namespace OIDE.Scene.Model
             RaisePropertyChanged("FB_StaticObject");
 
             UnityContainer = unityContainer;
-
+            base.m_DBService = unityContainer.Resolve<IDatabaseService>();
+            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
+       
             return true; 
         }
         public override Boolean Delete()

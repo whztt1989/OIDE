@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class Camera : Table {
-  public static Camera GetRootAsCamera(ByteBuffer _bb) { return (new Camera()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static Camera GetRootAsCamera(ByteBuffer _bb) { return GetRootAsCamera(_bb, new Camera()); }
+  public static Camera GetRootAsCamera(ByteBuffer _bb, Camera obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public Camera __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public Clipping Clipping() { return Clipping(new Clipping()); }

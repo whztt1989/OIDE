@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class Scene : Table {
-  public static Scene GetRootAsScene(ByteBuffer _bb) { return (new Scene()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static Scene GetRootAsScene(ByteBuffer _bb) { return GetRootAsScene(_bb, new Scene()); }
+  public static Scene GetRootAsScene(ByteBuffer _bb, Scene obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public Scene __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public Colour ColourAmbient() { return ColourAmbient(new Colour()); }

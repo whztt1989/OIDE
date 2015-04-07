@@ -7,12 +7,49 @@
   <ShowDebug>false</ShowDebug>
   <ShowAABB>false</ShowAABB>
   <Group>0</Group>
-  <Meshes />
+  <Meshes>
+    <MeshObject xsi:type="PlaneObject">
+      <normal>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </normal>
+      <constant>0</constant>
+      <width>100</width>
+      <height>100</height>
+      <xsegments>0</xsegments>
+      <ysegments>0</ysegments>
+      <normals>false</normals>
+      <numTexCoordSets>0</numTexCoordSets>
+      <xTile>0</xTile>
+      <yTile>0</yTile>
+      <upVector>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </upVector>
+    </MeshObject>
+  </Meshes>
   <Materials />
   <Physics>
     <PhysicObject>
+      <Offset>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Offset>
+      <Scale>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Scale>
+      <Size>
+        <X>0</X>
+        <Y>0</Y>
+        <Z>0</Z>
+      </Size>
       <ParentIsNode>false</ParentIsNode>
-      <colMask>0</colMask>
+      <colMask>-2</colMask>
       <type>PT_STATIC</type>
       <mode>0</mode>
       <shape>SH_PLANE</shape>
@@ -24,9 +61,9 @@
       <formFactor>0</formFactor>
       <minVel>0</minVel>
       <maxVel>0</maxVel>
-      <restitution>0</restitution>
-      <friction>0</friction>
-      <colGroupMask>0</colGroupMask>
+      <restitution>0.6</restitution>
+      <friction>1</friction>
+      <colGroupMask>-2</colGroupMask>
       <charStepHeight>0</charStepHeight>
       <charJumpSpeed>0</charJumpSpeed>
       <charFallSpeed>0</charFallSpeed>

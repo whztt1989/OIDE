@@ -6,7 +6,8 @@ namespace XFBType
 using FlatBuffers;
 
 public class Mesh : Table {
-  public static Mesh GetRootAsMesh(ByteBuffer _bb) { return (new Mesh()).__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb); }
+  public static Mesh GetRootAsMesh(ByteBuffer _bb) { return GetRootAsMesh(_bb, new Mesh()); }
+  public static Mesh GetRootAsMesh(ByteBuffer _bb, Mesh obj) { return (obj.__init(_bb.GetInt(_bb.position()) + _bb.position(), _bb)); }
   public Mesh __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
   public string Name() { int o = __offset(4); return o != 0 ? __string(o + bb_pos) : null; }

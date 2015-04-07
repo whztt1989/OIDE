@@ -43,10 +43,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\net_4_5\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Modules\extlibs\net_4_5\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\net_4_5\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
