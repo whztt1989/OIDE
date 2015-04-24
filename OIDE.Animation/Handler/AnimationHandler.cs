@@ -79,8 +79,9 @@ namespace OIDE.Animation
             //Model details
             _loggerService.Log("Creating a new simple file using AnimationHandler", LogCategory.Info, LogPriority.Low);
 
+          
             //Clear the undo stack
-            model.Document.UndoStack.ClearAll();
+        //    model.Document.UndoStack.ClearAll();
 
             //Set the model and view
             vm.SetModel(model);
@@ -88,6 +89,9 @@ namespace OIDE.Animation
             vm.Title = "untitled-Animation";
             vm.View.DataContext = model;
             vm.SetHandler(this);
+        
+            model.Create(_container);
+          
             model.SetDirty(true);
 
             return vm;
@@ -142,7 +146,7 @@ namespace OIDE.Animation
                 }
 
                 //Clear the undo stack
-                model.Document.UndoStack.ClearAll();
+             //   model.Document.UndoStack.ClearAll();
 
                 //Set the model and view
                 vm.SetModel(model);

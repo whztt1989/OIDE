@@ -39,8 +39,8 @@
 
         <!--<TabControl Grid.Row="2" Name="tabControl1" Grid.ColumnSpan="2">
             <TabItem Header="Texture" Name="tabItem1">-->
-                
-                    <View:GraphControlView Name="animationTree" Grid.Row="1" />
+
+        <View:GraphControlView Name="animationTree"  Grid.Row="1" />
                     <!--  <xctk:Zoombox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"  >
                        scrollviewer will be suported in 2.5 Version https://wpftoolkit.codeplex.com/discussions/574091 -->
                         <!--<Canvas x:Name="canvas"

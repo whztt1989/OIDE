@@ -75,7 +75,6 @@ namespace OIDE.Core
             SetDatabaseContext();
 
      //       _eventAggregator.GetEvent<ActiveContentChangedEvent>().Subscribe(ActiveContentChanged);
-
         }
 
         private void ActiveContentChanged(ContentViewModel model)

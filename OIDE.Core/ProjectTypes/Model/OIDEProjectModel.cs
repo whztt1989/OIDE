@@ -200,7 +200,8 @@ namespace OIDE.Core
                 }
                 else
                 {
-                    assetBrowser.Items.Clear();
+                    if( assetBrowser.Items != null)
+                        assetBrowser.Items.Clear();
                 }
 
                 if (m_OIDEProjectData.AssetFolder != value)

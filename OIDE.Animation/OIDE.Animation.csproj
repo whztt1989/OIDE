@@ -44,6 +44,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\DLL.NodeEditor.dll</HintPath>
     </Reference>
+    <Reference Include="Helper.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Helper.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.AvalonEdit">
       <HintPath>..\..\Wide\Libs\ICSharpCode.AvalonEdit.dll</HintPath>
       <Private>False</Private>
@@ -102,6 +106,7 @@
     <Compile Include="Interface\Service\IAnimationItem.cs" />
     <Compile Include="Interface\Service\IAnimationService.cs" />
     <Compile Include="Model\AnimationToolModel.cs" />
+    <Compile Include="Nodes\SequenceNode.cs" />
     <Compile Include="Service\AnimationManager.cs" />
     <Compile Include="ViewModel\AnimationToolViewModel.cs" />
     <Compile Include="View\AnimationToolView.xaml.cs">
@@ -173,6 +178,7 @@
       <Name>Themes.Default</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -8,6 +8,7 @@ using OIDE.Animation.Service;
 using OIDE.Animation.Model;
 using System.Windows.Media.Imaging;
 using System.Net.Cache;
+using OIDE.Animation.Nodes;
 
 namespace OIDE.Animation
 {
@@ -18,22 +19,22 @@ namespace OIDE.Animation
     {
         public AnimationView()
         {
-            InitializeComponent();
+            InitializeComponent();    
         }
 
 
-        private void btnGenFont_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-          //  String path = (this.DataContext as AnimationModel).FontImagePath;
-      //      imgFont.Source = new BitmapImage(); 
-            (this.DataContext as AnimationModel).GenFont();
+      //  private void btnGenFont_Click(object sender, System.Windows.RoutedEventArgs e)
+      //  {
+      //    //  String path = (this.DataContext as AnimationModel).FontImagePath;
+      ////      imgFont.Source = new BitmapImage(); 
+      //  //    (this.DataContext as AnimationModel).GenFont();
+           
 
+      //     //  SetImage((this.DataContext as AnimationModel).FontImagePath);
 
-           //  SetImage((this.DataContext as AnimationModel).FontImagePath);
-
-             //imgFont.Source = new BitmapImage();
-             //SetImage((this.DataContext as AnimationModel).FontImagePath);
-        }
+      //       //imgFont.Source = new BitmapImage();
+      //       //SetImage((this.DataContext as AnimationModel).FontImagePath);
+      //  }
 
         //private void SetImage(String filename)
         //{
@@ -127,7 +128,10 @@ namespace OIDE.Animation
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-         //   SetImage((this.DataContext as AnimationModel).FontImagePath);
+           animationTree.ElementList =  (this.DataContext as AnimationModel).Elements;
+           animationTree.ConnectionList = (this.DataContext as AnimationModel).Connections;
+            //   SetImage((this.DataContext as AnimationModel).FontImagePath);
+
         }
 
     }
