@@ -54,19 +54,19 @@
     </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Modules\extlibs\Microsoft.Practices.Prism.dll</HintPath>
+      <HintPath>..\..\Modules\extlibs\net_4_0\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Prism.UnityExtensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Modules\extlibs\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+      <HintPath>..\..\Modules\extlibs\net_4_0\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Modules\extlibs\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\..\Modules\extlibs\net_4_0\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Modules\extlibs\Microsoft.Practices.Unity.dll</HintPath>
+      <HintPath>..\..\Modules\extlibs\net_4_0\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Module.DB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -253,6 +253,7 @@
   <ItemGroup>
     <Content Include="Resources\SceneData.xml" />
     <Content Include="Utils\XML\SampleScene3.xml" />
+    <None Include="app.config" />
     <None Include="Resources\SceneData.xsd">
       <SubType>Designer</SubType>
     </None>

@@ -5,7 +5,6 @@
                     
                         xmlns:Controls="http://schemas.nn.com/wpf/xaml/controls"
           
-                      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                      
                       xmlns:prism="http://www.codeplex.com/prism"
                       xmlns:inf_int="clr-namespace:Infrastructure.InteractionRequests"
