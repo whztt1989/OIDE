@@ -49,6 +49,7 @@ namespace OIDE.Core
 {
     [Module(ModuleName = "OIDE.Core")]
     [ModuleDependency("Module.Tools.Logger")]
+    [ModuleDependency("Module.DB")]
     public class CoreModule : IModule
     {
         private IUnityContainer _container;

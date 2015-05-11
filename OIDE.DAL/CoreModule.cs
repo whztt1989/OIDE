@@ -41,9 +41,10 @@ using Wide.Interfaces.Themes;
 using System.Windows;
 using System.IO;
 
-namespace DAL
+namespace OIDE.IDAL
 {
     [Module(ModuleName = "DAL")]
+    [ModuleDependency("Module.DB")]
     [ModuleDependency("OIDE.Scene")]
     [ModuleDependency("Module.Tools.Logger")]
     public class CoreModule : IModule

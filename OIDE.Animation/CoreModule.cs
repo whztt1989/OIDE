@@ -47,6 +47,7 @@ namespace OIDE.Animation
 {
     [Module(ModuleName = "OIDE.Animation")]
     [ModuleDependency("Module.Tools.Logger")]
+    [ModuleDependency("Module.Properties")]
     public class CoreModule : IModule
     {
         private IUnityContainer _container;

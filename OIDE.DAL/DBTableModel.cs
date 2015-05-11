@@ -38,7 +38,7 @@ using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 using Wide.Core.Services;
 
-namespace DAL
+namespace OIDE.IDAL
 {
 
     public class DBTableModel : PItem

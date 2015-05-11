@@ -47,6 +47,7 @@ namespace OIDE.Gorilla
 {
     [Module(ModuleName = "OIDE.Gorilla")]
     [ModuleDependency("Module.Tools.Logger")]
+    [ModuleDependency("Module.Properties")]
     public class CoreModule : IModule
     {
         private IUnityContainer _container;

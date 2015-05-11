@@ -34,22 +34,21 @@ using Module.DB.Interface;
 using Module.DB.Interface.Services;
 using Module.DB.Settings;
 using System.Data;
-using DAL.MDB;
 using System.Windows;
 using Microsoft.Practices.Unity;
 using Wide.Interfaces.Services;
 using Wide.Interfaces;
+using OIDE.IDAL.MDB;
 
-
-namespace DAL
+namespace OIDE.IDAL.MDB
 {
-    public class extdbDataEntities : dbDataEntities
+    public partial class dbDataEntities
     {
         private IUnityContainer m_Container;
 
         public UInt16 CTXID { get; set; }
 
-        public extdbDataEntities(IUnityContainer container, String xconnection)
+        public dbDataEntities(IUnityContainer container, String xconnection)
             : base(xconnection)
         {
             m_Container = container;
@@ -64,7 +63,7 @@ namespace DAL
 
     public class IDAL: IDB
     {
-     //   extdbDataEntities mCtx;
+     //   dbDataEntities mCtx;
         IUnityContainer m_Container;
         ILoggerService m_loggerService;
         public DBOptions DBOptions { get; set; }
@@ -73,10 +72,10 @@ namespace DAL
 
         public IDAL(IUnityContainer container)
         {
-        //    mCtx = new extdbDataEntities();
+        //    mCtx = new dbDataEntities();
             m_Container = container;
             m_loggerService = container.Resolve<ILoggerService>();
-        //    m(ctx.Context as extdbDataEntities).Database.Connection.StateChange += new StateChangeEventHandler(StateChange);
+        //    m(ctx.Context as dbDataEntities).Database.Connection.StateChange += new StateChangeEventHandler(StateChange);
         }
 
         public async void ShowLoginDialog(IUnityContainer container)
@@ -134,7 +133,7 @@ namespace DAL
 
         public object GetDataContextOpt(Boolean checkUser = true)
         {
-            extdbDataEntities tmp = null;
+            dbDataEntities tmp = null;
             
             try
             {
@@ -196,7 +195,7 @@ namespace DAL
                     string connectionString = "metadata=res://*/MDB.EDM_DBData.csdl|res://*/MDB.EDM_DBData.ssdl|res://*/MDB.EDM_DBData.msl;provider=System.Data.SQLite.EF6;provider connection string=\"data source=" + options.Host + "\""; //D:\\Projekte\\coop\\OIDE\\Test\\dbData.s3db\"";
 
                   //  string connectionString = "metadata=res://*/MDB.MDB_PNDS.csdl|res://*/MDB.MDB_PNDS.ssdl|res://*/MDB.MDB_PNDS.msl;provider=System.Data.SqlClient;provider connection string=\"data source=" + options.Host + ";initial catalog=PNDS;user id=" + options.User + ";password=" + options.Password + ";MultipleActiveResultSets=True;App=EntityFramework\"";
-                    extdbDataEntities crmDataContext = new extdbDataEntities(m_Container, connectionString);//, mappingSource);
+                    dbDataEntities crmDataContext = new dbDataEntities(m_Container, connectionString);//, mappingSource);
 
                     crmDataContext.CTXID = _databaseService.GetNextCtxID();
 
@@ -268,15 +267,15 @@ namespace DAL
         //    //{
         //    //    //  Transaction.Dispose();
         //    //    // Transaction = null;
-        //    //    m(ctx.Context as extdbDataEntities).Dispose();
+        //    //    m(ctx.Context as dbDataEntities).Dispose();
         //    //    mCtx = null;
         //    //}
         //}
 
         void StateChange(object sender, StateChangeEventArgs e)
         {
-           //if(m(ctx.Context as extdbDataEntities).Database.Connection.State == ConnectionState.Broken
-           //    || m(ctx.Context as extdbDataEntities).Database.Connection.State == ConnectionState.Closed)
+           //if(m(ctx.Context as dbDataEntities).Database.Connection.State == ConnectionState.Broken
+           //    || m(ctx.Context as dbDataEntities).Database.Connection.State == ConnectionState.Closed)
            //{
            //    //reconnect
            //}
@@ -313,17 +312,17 @@ namespace DAL
             try
             {
 
-                var result = (ctx.Context as extdbDataEntities).Entity.Where(x => x.EntID == po.EntID);
+                var result = (ctx.Context as dbDataEntities).Entity.Where(x => x.EntID == po.EntID);
                 if (result.Any())
                 {
                     result.First().Data = po.Data;
                 }
                 else
                 {
-                    (ctx.Context as extdbDataEntities).Entity.Add(po);
+                    (ctx.Context as dbDataEntities).Entity.Add(po);
                 }
 
-                (ctx.Context as extdbDataEntities).SaveChanges();
+                (ctx.Context as dbDataEntities).SaveChanges();
                 return true;
 
             }catch(Exception ex)
@@ -338,17 +337,17 @@ namespace DAL
         {
             try
             {
-                var result = (ctx.Context as extdbDataEntities).EntityData.Where(x => x.EntDID == entityData.EntDID);
+                var result = (ctx.Context as dbDataEntities).EntityData.Where(x => x.EntDID == entityData.EntDID);
                 if (result.Any())
                 {
                     result.First().Data = entityData.Data;
                 }
                 else
                 {
-                    (ctx.Context as extdbDataEntities).EntityData.Add(entityData);
+                    (ctx.Context as dbDataEntities).EntityData.Add(entityData);
                 }
 
-                (ctx.Context as extdbDataEntities).SaveChanges();
+                (ctx.Context as dbDataEntities).SaveChanges();
                 return true;
 
             }
@@ -364,11 +363,11 @@ namespace DAL
         {
             try
             {
-                var result = (ctx.Context as extdbDataEntities).Entity.Where(x => x.EntID == po.EntID);
+                var result = (ctx.Context as dbDataEntities).Entity.Where(x => x.EntID == po.EntID);
                 if (result.Any())
                 {
-                    (ctx.Context as extdbDataEntities).Entity.Remove(result.First());
-                    (ctx.Context as extdbDataEntities).SaveChanges();
+                    (ctx.Context as dbDataEntities).Entity.Remove(result.First());
+                    (ctx.Context as dbDataEntities).SaveChanges();
                     return true;
                 }
             }
@@ -384,7 +383,7 @@ namespace DAL
         {
             try
             {
-                var result = (ctx.Context as extdbDataEntities).EntityData;
+                var result = (ctx.Context as dbDataEntities).EntityData;
                 if (result.Any())
                     return result;
                 else
@@ -409,9 +408,9 @@ namespace DAL
             try
             {
 
-                var result = from n in (ctx.Context as extdbDataEntities).Entity
+                var result = from n in (ctx.Context as dbDataEntities).Entity
 
-                             join oj in (ctx.Context as extdbDataEntities).EntityData on n.EntDID equals oj.EntDID into gjo
+                             join oj in (ctx.Context as dbDataEntities).EntityData on n.EntDID equals oj.EntDID into gjo
                              from Ent in gjo.DefaultIfEmpty()
 
                              //where n.SceneID == sceneID
@@ -437,7 +436,7 @@ namespace DAL
         {
             try
             {
-                var result = (ctx.Context as extdbDataEntities).Entity.Where(x => x.EntID == id);
+                var result = (ctx.Context as dbDataEntities).Entity.Where(x => x.EntID == id);
                 if (result.Any())
                     return result.First();
                 else
@@ -455,7 +454,7 @@ namespace DAL
         {
             try
             {
-                var result = (ctx.Context as extdbDataEntities).EntityData.Where(x => x.EntDID == id);
+                var result = (ctx.Context as dbDataEntities).EntityData.Where(x => x.EntDID == id);
                 if (result.Any())
                     return result.First();
                 else
@@ -474,11 +473,11 @@ namespace DAL
 
         #region Scene
 
-        public static bool insertScene(IDAL_DCTX ctx, Scene scene)
+        public static bool insertScene(IDAL_DCTX ctx, OIDE.IDAL.MDB.Scene scene)
         {
             try
             {
-                var ctxtmp = (ctx.Context as extdbDataEntities);
+                var ctxtmp = (ctx.Context as dbDataEntities);
                 var result = ctxtmp.Scene.Where(x => x.SceneID == scene.SceneID);
                 if (result.Any())
                 {
@@ -488,10 +487,10 @@ namespace DAL
                 }
                 else
                 {
-                    (ctx.Context as extdbDataEntities).Scene.Add(scene);
+                    (ctx.Context as dbDataEntities).Scene.Add(scene);
                 }
 
-                (ctx.Context as extdbDataEntities).SaveChanges();
+                (ctx.Context as dbDataEntities).SaveChanges();
                 return true;
 
             }
@@ -508,8 +507,8 @@ namespace DAL
             try
             {
                 // Scene tmp = new Scene() { Data = data };
-                (ctx.Context as extdbDataEntities).Scene.Remove((ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id).First());
-                (ctx.Context as extdbDataEntities).SaveChanges();
+                (ctx.Context as dbDataEntities).Scene.Remove((ctx.Context as dbDataEntities).Scene.Where(x => x.SceneID == id).First());
+                (ctx.Context as dbDataEntities).SaveChanges();
                 // id = (int)tmp.SceneID;
                 return true;
             }
@@ -538,9 +537,9 @@ namespace DAL
         {
             try
             {
-                var result = from n in (ctx.Context as extdbDataEntities).SceneNode
+                var result = from n in (ctx.Context as dbDataEntities).SceneNode
 
-                             join oj in (ctx.Context as extdbDataEntities).Entity on n.EntID equals oj.EntID into gjo
+                             join oj in (ctx.Context as dbDataEntities).Entity on n.EntID equals oj.EntID into gjo
                              from Ent in gjo.DefaultIfEmpty()
 
                              //where n.SceneID == sceneID
@@ -549,7 +548,7 @@ namespace DAL
                              where n.SceneID == sceneID
                              select new SceneNodeContainer { Node = n, Entity = Ent };
 
-                //  var result = m(ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id);
+                //  var result = m(ctx.Context as dbDataEntities).Scene.Where(x => x.SceneID == id);
                 if (result.Any())
                 {
                     return result;//.Data;
@@ -566,8 +565,8 @@ namespace DAL
 
         //public bool insertSceneNode(SceneNode sceneNode)
         //{
-        //    m(ctx.Context as extdbDataEntities).SceneNode.Add(sceneNode);
-        //    m(ctx.Context as extdbDataEntities).SaveChanges();
+        //    m(ctx.Context as dbDataEntities).SceneNode.Add(sceneNode);
+        //    m(ctx.Context as dbDataEntities).SaveChanges();
         //    return true;
         //}
 
@@ -576,8 +575,8 @@ namespace DAL
             try
             {
                 // Scene tmp = new Scene() { Data = data };
-                (ctx.Context as extdbDataEntities).SceneNode.Remove((ctx.Context as extdbDataEntities).SceneNode.Where(x => x.NodeID == id).First());
-                (ctx.Context as extdbDataEntities).SaveChanges();
+                (ctx.Context as dbDataEntities).SceneNode.Remove((ctx.Context as dbDataEntities).SceneNode.Where(x => x.NodeID == id).First());
+                (ctx.Context as dbDataEntities).SaveChanges();
                 // id = (int)tmp.SceneID;
                 return true;
             }catch(Exception ex)
@@ -589,7 +588,7 @@ namespace DAL
 
         public static bool updateSceneNode(IDAL_DCTX ctx, SceneNode sceneNode)
         {
-            var result = (ctx.Context as extdbDataEntities).SceneNode.Where(x => x.NodeID == sceneNode.NodeID);
+            var result = (ctx.Context as dbDataEntities).SceneNode.Where(x => x.NodeID == sceneNode.NodeID);
             if (result.Any())
             {
                 var scenNode = result.First();
@@ -597,13 +596,13 @@ namespace DAL
                 scenNode.SceneID = sceneNode.SceneID;
                 scenNode.EntID = sceneNode.EntID;
                 scenNode.Name = sceneNode.Name;
-                (ctx.Context as extdbDataEntities).SaveChanges();
+                (ctx.Context as dbDataEntities).SaveChanges();
                 return true;
             }
             else
             {
-                (ctx.Context as extdbDataEntities).SceneNode.Add(sceneNode);
-                (ctx.Context as extdbDataEntities).SaveChanges();
+                (ctx.Context as dbDataEntities).SceneNode.Add(sceneNode);
+                (ctx.Context as dbDataEntities).SaveChanges();
                 return true;
             }
                 
@@ -613,18 +612,18 @@ namespace DAL
         //{
         //    try
         //    {
-        //        var result = from n in m(ctx.Context as extdbDataEntities).Scene
+        //        var result = from n in m(ctx.Context as dbDataEntities).Scene
 
-        //                     join nj in m(ctx.Context as extdbDataEntities).SceneNodes on n.SceneID equals nj.SceneID into gj
+        //                     join nj in m(ctx.Context as dbDataEntities).SceneNodes on n.SceneID equals nj.SceneID into gj
         //                     from node in gj.DefaultIfEmpty()
 
-        //                     join oj in m(ctx.Context as extdbDataEntities).Entity on node.EntID equals oj.EntID into gjo
+        //                     join oj in m(ctx.Context as dbDataEntities).Entity on node.EntID equals oj.EntID into gjo
         //                     from Ent in gjo.DefaultIfEmpty()
 
         //                     where n.SceneID == id
         //                     select new SceneContainer { Scene = n, Nodes = node, Entity = Ent };
 
-        //        //  var result = m(ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id);
+        //        //  var result = m(ctx.Context as dbDataEntities).Scene.Where(x => x.SceneID == id);
         //        if (result.Any())
         //        {
         //            return result;//.Data;
@@ -638,14 +637,14 @@ namespace DAL
         //    return null;
         //}
 
-        public static IEnumerable<Scene> selectAllScenesDataOnly(IDAL_DCTX ctx)
+        public static IEnumerable<OIDE.IDAL.MDB.Scene> selectAllScenesDataOnly(IDAL_DCTX ctx)
         {
             try
             {
-                var result = from n in (ctx.Context as extdbDataEntities).Scene
+                var result = from n in (ctx.Context as dbDataEntities).Scene
                              select n;
 
-                //  var result = m(ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id);
+                //  var result = m(ctx.Context as dbDataEntities).Scene.Where(x => x.SceneID == id);
                 if (result.Any())
                     return result;//.Data;
                 else
@@ -659,19 +658,19 @@ namespace DAL
             return null;
         }
 
-        public static Scene selectSceneDataOnly(IDAL_DCTX ctx, int id)
+        public static OIDE.IDAL.MDB.Scene selectSceneDataOnly(IDAL_DCTX ctx, int id)
         {
             try
             {
-                var result = from n in (ctx.Context as extdbDataEntities).Scene
+                var result = from n in (ctx.Context as dbDataEntities).Scene
                              where n.SceneID == id
                              select n;
 
-                //  var result = m(ctx.Context as extdbDataEntities).Scene.Where(x => x.SceneID == id);
+                //  var result = m(ctx.Context as dbDataEntities).Scene.Where(x => x.SceneID == id);
                 if (result.Any())
                     return result.First();//.Data;
                 else
-                    return new Scene();
+                    return new OIDE.IDAL.MDB.Scene();
             }
             catch (Exception ex)
             {

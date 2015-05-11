@@ -50,6 +50,7 @@ namespace OIDE.Scene
     [Module(ModuleName = "OIDE.Scene")]
   //  [ModuleDependency("Module.Core")]
     [ModuleDependency("Module.Tools.Logger")]
+    [ModuleDependency("Module.PFExplorer")]
     public class CoreModule : IModule
     {
         private IUnityContainer _container;

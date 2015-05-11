@@ -38,7 +38,7 @@ using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 
-namespace DAL
+namespace OIDE.IDAL
 {
 
     public interface IDBFileModel :  IItem , IDBFileItem

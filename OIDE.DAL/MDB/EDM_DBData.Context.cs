@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DAL.MDB
+namespace OIDE.IDAL.MDB
 {
     using System;
     using System.Data.Entity;
@@ -15,8 +15,8 @@ namespace DAL.MDB
     
     public partial class dbDataEntities : DbContext
     {
-        public dbDataEntities(String connection)
-            : base(connection) //"name=dbDataEntities")
+        public dbDataEntities()
+            : base("name=dbDataEntities")
         {
         }
     

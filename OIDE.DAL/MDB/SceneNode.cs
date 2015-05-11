@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DAL.MDB
+namespace OIDE.IDAL.MDB
 {
     using System;
     using System.Collections.Generic;

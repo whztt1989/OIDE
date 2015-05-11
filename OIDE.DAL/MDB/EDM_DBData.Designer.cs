@@ -1,4 +1,4 @@
-﻿// Die T4-Codegenerierung ist für Modell 'E:\Projekte\coop\OIDE\OIDE.DAL\MDB\EDM_DBData.edmx' aktiviert. 
+﻿// Die T4-Codegenerierung ist für Modell 'D:\Projekte\coop\OIDE\OIDE.DAL\MDB\EDM_DBData.edmx' aktiviert. 
 // Um die Generierung von Legacycode zu aktivieren, ändern Sie den Wert der Designer-Eigenschaft 'Code Generation Strategy'
 // in 'Legacy ObjectContext'. Diese Eigenschaft wird im Eigenschaftenfenster angezeigt, wenn das Modell
 // im Designer geöffnet ist.
