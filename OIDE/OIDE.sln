@@ -62,6 +62,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3EEA39
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.SocketServer", "..\OIDE.SocketServer\OIDE.SocketServer.csproj", "{3C2A3A15-CFC7-4893-812B-37E8A3080266}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -172,6 +174,10 @@ Global
 		{BE289554-2B90-4B0A-B762-0D69BE5E7C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE289554-2B90-4B0A-B762-0D69BE5E7C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE289554-2B90-4B0A-B762-0D69BE5E7C62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C2A3A15-CFC7-4893-812B-37E8A3080266}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C2A3A15-CFC7-4893-812B-37E8A3080266}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C2A3A15-CFC7-4893-812B-37E8A3080266}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C2A3A15-CFC7-4893-812B-37E8A3080266}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

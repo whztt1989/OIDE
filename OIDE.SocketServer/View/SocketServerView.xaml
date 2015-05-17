@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="OIDE.SocketServer.SocketServerView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:Core="clr-namespace:OIDE.SocketServer"
+             xmlns:Settings="clr-namespace:OIDE.SocketServer.Settings"
+             mc:Ignorable="d" d:DesignHeight="300"
+             d:DesignWidth="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="53*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="200" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" MinWidth="200" />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <TextBox  Name="tbServerIP"/>
+            <Button Content="Start SocketServer"  Click="Button_Click"/>
+          <Button Content="Stop SocketServer"  Name="btnServerStop" Click="btnServerStop_Click"/>
+             <Button Content="Send to Client" Name="btnSendToClient" Click="btnSendToClient_Click"/>
+
+        </StackPanel>
+      <ListBox Grid.Column="2" Name="lbClients" ItemsSource="{Binding Clients}"/>
+   
+        <!--<avalonedit:TextEditor Grid.Column="0" Name="textEditor" Document="{Binding Document}" TextChanged="textEditor_TextChanged" 
+                               Background="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=BackgroundColor}" 
+                               Foreground="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=ForegroundColor}"
+                               ShowLineNumbers="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=ShowLineNumbers}"
+                               WordWrap="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=WordWrap}"
+                               FontFamily="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=FontFamily}"
+                               FontSize="{Binding Source={x:Static Settings:EditorOptions.Default}, Path=FontSize}" />-->
+        <!--<GridSplitter HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" ResizeBehavior="PreviousAndNext" Width="5" Background="#FFBCBCBC" />-->
+
+    </Grid>
+</UserControl>
