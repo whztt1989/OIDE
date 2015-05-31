@@ -240,7 +240,8 @@ namespace OIDE.Gorilla
             {
                 try
                 {
-                    DAL.Utility.JSONSerializer.Serialize<GorillaModel>(mdModel, location);
+                 //todo add to helper!!   Utility.JSONSerializer.Serialize<GorillaModel>(mdModel, location);
+
                   //  File.WriteAllText(location, mdModel.Document.Text);
                     mdModel.SetDirty(false);
                     return true;

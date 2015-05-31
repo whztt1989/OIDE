@@ -12,7 +12,6 @@ using Microsoft.Practices.Unity;
 using Module.Properties.Helpers;
 using Module.Properties.Interface;
 using Module.Protob.Utilities;
-using DAL;
 using OIDE.Scene.Interface.Services;
 using Wide.Interfaces;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
@@ -27,8 +26,8 @@ using OIDE.Scene.Interface;
 using Wide.Interfaces.Services;
 using Wide.Core.Services;
 using OIDE.Scene.Service;
-using DAL.MDB;
 using Module.DB.Interface.Services;
+using OIDE.IDAL;
 
 namespace OIDE.Scene.Model
 {
@@ -59,14 +58,14 @@ namespace OIDE.Scene.Model
 
         public long EntityID { get { return m_EntityID; } set { m_EntityID = value; RaisePropertyChanged("EntityID"); } }
 
-        private DAL.MDB.SceneNode m_SceneNodeDB;
+        private IDAL.MDB.SceneNode m_SceneNodeDB;
 
 
         [XmlIgnore]
-        [Browsable(false)]       
-        public DAL.MDB.SceneNode SceneNodeDB
+        [Browsable(false)]
+        public IDAL.MDB.SceneNode SceneNodeDB
         {
-            get { if (m_SceneNodeDB == null) m_SceneNodeDB = new DAL.MDB.SceneNode(); return m_SceneNodeDB; }
+            get { if (m_SceneNodeDB == null) m_SceneNodeDB = new IDAL.MDB.SceneNode(); return m_SceneNodeDB; }
             set 
             {
                 m_SceneNodeDB = value;
@@ -141,7 +140,7 @@ namespace OIDE.Scene.Model
             String DBPath = DBFileUtil.GetDBFilePath(this.Parent);
             if (!String.IsNullOrEmpty(DBPath))
             {
-                m_SceneNodeDB = new DAL.MDB.SceneNode();
+                m_SceneNodeDB = new IDAL.MDB.SceneNode();
 
                 m_SceneNodeDB.Data = m_FB_SceneNode.CreateByteBuffer();
 
@@ -154,7 +153,7 @@ namespace OIDE.Scene.Model
 
                 //save sceneNode to db
                 if (NodeID > 0)
-                    IDAL.updateSceneNode(DataContext, m_SceneNodeDB);
+                    IDAL.IDAL.updateSceneNode(DataContext, m_SceneNodeDB);
             }
 
             return true;
@@ -207,7 +206,7 @@ namespace OIDE.Scene.Model
           //  m_model.Items.Clear();
             (Parent as ISceneItem).SceneItems.Remove(this);
 
-            IDAL.DeleteSceneNode(DataContext, NodeID);
+            IDAL.IDAL.DeleteSceneNode(DataContext, NodeID);
 
             return true; 
         }

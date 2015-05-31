@@ -43,7 +43,7 @@ using Module.DB.Interface.Services;
 using OIDE.Core.ProjectTypes.Handler;
 using OIDE.Core.ProjectTypes.View;
 using Module.PFExplorer.Interface.Services;
-using DAL;
+
 
 namespace OIDE.Core
 {
@@ -87,7 +87,7 @@ namespace OIDE.Core
         private void RegisterDatabase()
         {
             var managerDB = _container.Resolve<IDatabaseService>();
-            IDAL newComID_DB = new IDAL(_container);
+            IDAL.IDAL newComID_DB = new IDAL.IDAL(_container);
             newComID_DB.DBOptions = managerDB.DBOptions[0];
 
             newComID_DB.DBOptions.IDName = "SQLITE DB";

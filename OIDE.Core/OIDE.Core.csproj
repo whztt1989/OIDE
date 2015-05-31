@@ -36,10 +36,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\DAL.dll</HintPath>
-    </Reference>
     <Reference Include="Helper.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\Helper.Utilities.dll</HintPath>
@@ -194,6 +190,10 @@
     <ProjectReference Include="..\..\Themes\Themes.Default\Themes.Default.csproj">
       <Project>{de89d67d-a35e-4958-95bd-101b93d6ca0b}</Project>
       <Name>Themes.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OIDE.DAL\OIDE.IDAL.csproj">
+      <Project>{4e3441fd-de10-4751-8cf0-d2df0c590602}</Project>
+      <Name>OIDE.IDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

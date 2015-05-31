@@ -243,7 +243,7 @@ namespace OIDE.Animation
             {
                 try
                 {
-                    DAL.Utility.JSONSerializer.Serialize<AnimationModel>(mdModel, location);
+                 //todo helper .net 4.5   DAL.Utility.JSONSerializer.Serialize<AnimationModel>(mdModel, location);
                   //  File.WriteAllText(location, mdModel.Document.Text);
                     mdModel.SetDirty(false);
                     return true;

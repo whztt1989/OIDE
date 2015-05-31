@@ -57,7 +57,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public DAL.MDB.SceneNodes SceneNode { get; private set; }
+        public MDB.SceneNodes SceneNode { get; private set; }
 
 
         public String Name { get; set; }

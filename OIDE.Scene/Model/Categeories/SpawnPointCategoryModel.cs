@@ -42,8 +42,8 @@ using OIDE.Scene.Model;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
 using Module.PFExplorer.Service;
-using DAL;
 using OIDE.Scene.Service;
+using OIDE.IDAL;
 
 namespace OIDE.Scene
 {

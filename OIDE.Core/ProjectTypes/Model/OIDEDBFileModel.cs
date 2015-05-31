@@ -36,8 +36,6 @@ using Wide.Interfaces;
 using Wide.Interfaces.Services;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
-using DAL;
-using DAL.MDB;
 using Module.Protob.Utilities;
 using System.Windows;
 using Helper.Utilities.Event;
@@ -50,12 +48,13 @@ using Module.PFExplorer.Utilities;
 using Module.PFExplorer.Service;
 using OIDE.Core.ProjectTypes.View;
 using Module.Properties.Types;
+using OIDE.IDAL;
 
 namespace OIDE.Core
 {
     public class OIDEDBFileModel : ProjectItemModel, IDBFileModel
     {
-        private IDAL m_DBI;
+        private IDAL.IDAL m_DBI;
         private ICommand CmdDeleteDBFile;
         private String m_DBPath;
 
@@ -128,7 +127,7 @@ namespace OIDE.Core
             //gameStates.IsExpanded = true;
             //this.Items.Add(gameStates);
 
-            m_DBI = new IDAL(unityContainer);
+            m_DBI = new IDAL.IDAL(unityContainer);
 
 
             //KH 29.03      //ScenesListModel scenesProto = new ScenesListModel() { Parent = this, UnityContainer = UnityContainer, Name = "Scenes" };
@@ -339,7 +338,7 @@ namespace OIDE.Core
 
         public new  Boolean Create(IUnityContainer unityContainer)
         {
-            m_DBI = new IDAL(unityContainer);
+            m_DBI = new IDAL.IDAL(unityContainer);
 
 
             return true;

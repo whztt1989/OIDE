@@ -27,7 +27,8 @@
         <Z>0</Z>
       </Size>
       <ParentIsNode>false</ParentIsNode>
-      <colMask>0</colMask>
+      <AttachToBone>ttbone</AttachToBone>
+      <colMask>-2</colMask>
       <type>PT_CHARACTER</type>
       <mode>0</mode>
       <shape>SH_CAPSULE</shape>
@@ -39,12 +40,12 @@
       <formFactor>0</formFactor>
       <minVel>0</minVel>
       <maxVel>0</maxVel>
-      <restitution>0</restitution>
-      <friction>0</friction>
-      <colGroupMask>0</colGroupMask>
+      <restitution>1</restitution>
+      <friction>1</friction>
+      <colGroupMask>-2</colGroupMask>
       <charStepHeight>0</charStepHeight>
-      <charJumpSpeed>0</charJumpSpeed>
-      <charFallSpeed>0</charFallSpeed>
+      <charJumpSpeed>10</charJumpSpeed>
+      <charFallSpeed>10</charFallSpeed>
     </PhysicObject>
   </Physics>
   <Sounds />

@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Module.History.Service;
-using DAL;
 using OIDE.Scene.Model;
 
 namespace OIDE.Scene.Commands

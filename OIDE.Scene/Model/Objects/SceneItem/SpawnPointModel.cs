@@ -38,7 +38,6 @@ using Wide.Interfaces.Services;
 using Microsoft.Practices.Unity;
 using Module.Protob.Utilities;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using DAL;
 using System.Windows.Input;
 using OIDE.InteropEditor.DLL;
 using System.Xml.Serialization;
@@ -168,15 +167,15 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public IDAL IDAL { get { return m_dbI; } }
+        public IDAL.IDAL IDAL { get { return m_dbI; } }
 
-        private IDAL m_dbI;
+        private IDAL.IDAL m_dbI;
 
     
         public Boolean Open(IUnityContainer unityContainer, object id)
         {
 
-            DBData = IDAL.selectEntity(DataContext, WIDE_Helper.StringToContentIDData(ContentID).IntValue);
+            DBData = OIDE.IDAL.IDAL.selectEntity(DataContext, WIDE_Helper.StringToContentIDData(ContentID).IntValue);
             // Console.WriteLine(BitConverter.ToString(res));
             //try
             //{
@@ -196,7 +195,7 @@ namespace OIDE.Scene.Model
         {
             try
             {
-                DAL.MDB.Entity gameEntity = DBData as DAL.MDB.Entity;
+                IDAL.MDB.Entity gameEntity = DBData as IDAL.MDB.Entity;
                 //todo   if (gameEntity == null)
                 //todo    gameEntity = new FB_SpawnPointModel();
          
@@ -253,7 +252,7 @@ namespace OIDE.Scene.Model
 
         }
 
-        public SpawnPointModel(IItem parent, IUnityContainer unityContainer, IDAL dbI = null, Int32 id = 0)
+        public SpawnPointModel(IItem parent, IUnityContainer unityContainer, IDAL.IDAL dbI = null, Int32 id = 0)
         {     
             UnityContainer = unityContainer;
 
@@ -267,7 +266,7 @@ namespace OIDE.Scene.Model
             if (dbI != null)
                 m_dbI = dbI;
             else
-                m_dbI = new IDAL(unityContainer);
+                m_dbI = new IDAL.IDAL(unityContainer);
 
           
             //mData = new ProtoType.SpawnPoint();

@@ -54,7 +54,9 @@ namespace OIDE.IDAL.MDB
             m_Container = container;
         }
     }
-
+}
+ 
+namespace OIDE.IDAL { 
     public class IDAL_DCTX
     {
         public object Context { get; set; }
@@ -323,11 +325,16 @@ namespace OIDE.IDAL.MDB
                 }
 
                 (ctx.Context as dbDataEntities).SaveChanges();
+
+                MessageBox.Show("Entity (" + po.EntID + ") saved to DB");
+          
+
                 return true;
 
             }catch(Exception ex)
             {
-
+              MessageBox.Show(ex.InnerException != null ? ex.InnerException.Message : ex.Message);
+          
             }
 
             return false;

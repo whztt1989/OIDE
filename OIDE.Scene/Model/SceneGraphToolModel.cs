@@ -35,13 +35,11 @@ using Module.Properties.Interface;
 using OIDE.Scene.Model;
 using Module.Properties.Helpers;
 using OIDE.Scene.Service;
-using DAL;
 using System.Windows;
 using System.Windows.Controls;
 using GongSolutions.Wpf.DragDrop;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
-using DAL.MDB;
 using WIDE_Helpers;
 using OIDE.Scene.Interface;
 

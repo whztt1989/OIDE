@@ -33,13 +33,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Serialization;
-using DAL;
 using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
 using System.Collections.ObjectModel;
 using Helper.Utilities.Event;
 using Wide.Interfaces.Services;
 using Module.DB.Interface.Services;
+using OIDE.IDAL;
 
 namespace OIDE.Core.Model
 {
@@ -90,7 +90,7 @@ namespace OIDE.Core.Model
             get
             {
                 if (m_DataContext == null)
-                    m_DataContext = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false) as IDAL_DCTX;
+                    m_DataContext = ((IDAL.IDAL)m_DBService.CurrentDB).GetDataContextOpt(false) as IDAL_DCTX;
 
                 return m_DataContext;
             }
@@ -133,7 +133,7 @@ namespace OIDE.Core.Model
 
             try
             {
-                IEnumerable<DAL.IDAL.EntityContainer> result = IDAL.selectAllEntities(DataContext);
+                IEnumerable<IDAL.IDAL.EntityContainer> result = IDAL.IDAL.selectAllEntities(DataContext);
 
                 if (result != null)
                 {

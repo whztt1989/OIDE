@@ -38,7 +38,6 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 using Microsoft.Practices.Unity;
 using Module.Properties.Interface;
-using DAL;
 using OIDE.Scene.Commands;
 using OIDE.Scene.Interface.Services;
 using Wide.Interfaces.Services;
@@ -51,13 +50,13 @@ using Wide.Interfaces;
 using System.Windows.Media;
 using FlatBuffers;
 using OIDE.Scene.Model.Objects;
-using DAL.MDB;
 using OIDE.Scene.Model.Objects.FBufferObject;
 using OIDE.Scene.Interface;
 using Module.PFExplorer.Interface;
 using Module.PFExplorer.Utilities;
 using WIDE_Helpers;
 using Module.DB.Interface.Services;
+using OIDE.IDAL;
 
 namespace OIDE.Scene.Model
 {
@@ -205,7 +204,7 @@ namespace OIDE.Scene.Model
             m_SceneService = unityContainer.Resolve<ISceneService>();
        
             base.m_DBService = unityContainer.Resolve<IDatabaseService>();
-            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
+            DataContext.Context = ((IDAL.IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
        
             m_FBData = new FB_Scene() { UnityContainer = unityContainer, Parent = this };
 
@@ -241,7 +240,7 @@ namespace OIDE.Scene.Model
             m_SceneService = unityContainer.Resolve<ISceneService>();
 
             base.m_DBService = unityContainer.Resolve<IDatabaseService>();
-            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
+            DataContext.Context = ((IDAL.IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
        
             int sceneID = Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue;
 
@@ -356,12 +355,12 @@ namespace OIDE.Scene.Model
             String DBPath = DBFileUtil.GetDBFilePath(this.Parent);
             if (!String.IsNullOrEmpty(DBPath))
             {
-                DAL.MDB.Scene dbSceneData = new DAL.MDB.Scene();
+                IDAL.MDB.Scene dbSceneData = new IDAL.MDB.Scene();
                 dbSceneData .Data = m_FBData.CreateByteBuffer();
                 dbSceneData.SceneID = SceneID;
                 dbSceneData.Name = this.Name;
 
-                IDAL.insertScene(DataContext, dbSceneData);
+                IDAL.IDAL.insertScene(DataContext, dbSceneData);
 
              }
             return true;
@@ -454,7 +453,7 @@ namespace OIDE.Scene.Model
 
         public override Boolean Delete()
         {
-            IDAL.DeleteScene(DataContext, Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue);
+            IDAL.IDAL.DeleteScene(DataContext, Module.Properties.Helpers.Helper.StringToContentIDData(ContentID).IntValue);
 
             this.Location = ItemFolder + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml";
       

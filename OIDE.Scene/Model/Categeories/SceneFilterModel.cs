@@ -38,8 +38,8 @@ using Microsoft.Practices.Unity;
 using System.ComponentModel;
 using OIDE.Scene.Interface;
 using Wide.Core.Services;
-using DAL;
 using OIDE.Scene.Service;
+using OIDE.IDAL;
 
 namespace OIDE.Scene
 {

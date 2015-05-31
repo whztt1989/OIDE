@@ -473,7 +473,7 @@ namespace OIDE.Gorilla.Model
 
         public bool Open(IUnityContainer unityContainer, object paramID) 
         {
-            DAL.Utility.JSONSerializer.Deserialize<GorillaData>(this.Location.ToString());
+            //todo add to helper  Utility.JSONSerializer.Deserialize<GorillaData>(this.Location.ToString());
            
             return true; 
         }
@@ -481,7 +481,7 @@ namespace OIDE.Gorilla.Model
         public void Refresh() { }
         public bool Save(object param = null)
         {
-            DAL.Utility.JSONSerializer.Serialize<GorillaData>(m_GorillaData, param.ToString());
+            //todo add to helper   need .net 4.5!  Utility.JSONSerializer.Serialize<GorillaData>(m_GorillaData, param.ToString());
             
             return true; }
 

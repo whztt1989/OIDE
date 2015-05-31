@@ -8,7 +8,7 @@
         <IsExpanded>true</IsExpanded>
         <IsSelected>false</IsSelected>
         <Items>
-          <IItem AssemblyQualifiedName="DAL.DBTableModel, DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <IItem AssemblyQualifiedName="OIDE.IDAL.DBTableModel, OIDE.IDAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
             <DBTableModel>
               <Visible>false</Visible>
               <Name>Entities</Name>
@@ -47,7 +47,7 @@
                           <Name>Character Obj NEW</Name>
                           <ContentID>CharacterEntID:##:1</ContentID>
                           <IsExpanded>false</IsExpanded>
-                          <IsSelected>true</IsSelected>
+                          <IsSelected>false</IsSelected>
                         </CharacterEntity>
                       </IItem>
                     </Items>

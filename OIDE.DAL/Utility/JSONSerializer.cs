@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 //using System.Xml;
 //using System.Xml.Serialization;
 
-namespace DAL.Utility
+namespace IDAL.Utility
 {
     public class JSONSerializer
     {

@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\DAL.dll</HintPath>
-    </Reference>
     <Reference Include="FlatBuffers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Modules\extlibs\FlatBuffers.dll</HintPath>
@@ -274,6 +270,10 @@
     <ProjectReference Include="..\..\WPF_IDE\Wide.csproj">
       <Project>{9f20f5ef-4f7e-4ae2-a462-4cd2256fb3ff}</Project>
       <Name>Wide</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OIDE.DAL\OIDE.IDAL.csproj">
+      <Project>{4e3441fd-de10-4751-8cf0-d2df0c590602}</Project>
+      <Name>OIDE.IDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

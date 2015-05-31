@@ -45,8 +45,6 @@ using System.Xml.Serialization;
 using Module.Properties.Helpers;
 using OIDE.Scene.Model.Objects;
 using Module.Properties.Types;
-using DAL;
-using DAL.MDB;
 using WIDE_Helpers;
 using OIDE.Scene.Model.Objects.ObjectData;
 using System.Windows;
@@ -58,6 +56,8 @@ using Module.PFExplorer.Utilities;
 using Module.PFExplorer.Service;
 using OIDE.Scene.Service;
 using Module.DB.Interface.Services;
+using OIDE.IDAL;
+using OIDE.IDAL.MDB;
 
 namespace OIDE.Scene.Model
 {
@@ -90,7 +90,7 @@ namespace OIDE.Scene.Model
 
         [XmlIgnore]
         [Browsable(false)]
-        public DAL.IDAL.EntityContainer DB_Entity { get; set; }
+        public IDAL.IDAL.EntityContainer DB_Entity { get; set; }
      
         //[Editor(typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor), typeof(Xceed.Wpf.Toolkit.PropertyGrid.Editors.CollectionEditor))]
         //[NewItemTypes(new Type[] { typeof(Mesh), typeof(Plane), typeof(Cube) })]
@@ -126,7 +126,7 @@ namespace OIDE.Scene.Model
 
             UnityContainer = unityContainer;
             base.m_DBService = unityContainer.Resolve<IDatabaseService>();
-            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
+            DataContext.Context = ((IDAL.IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
        
         
             //   DB_Entity = m_dbI.selectEntityData(WIDE_Helper.StringToContentIDData(ContentID).IntValue); // database data
@@ -169,7 +169,7 @@ namespace OIDE.Scene.Model
                 //else
                 //{
                     DB_Entity.Entity.EntType = (decimal)EntityTypes.NT_Static;
-                    IDAL.insertEntity(DataContext, DB_Entity.Entity);
+                    IDAL.IDAL.insertEntity(DataContext, DB_Entity.Entity);
              //       ContentID = ContentID + ":" + DB_Entity.Entity.EntID;
              //   }
             }
@@ -203,7 +203,7 @@ namespace OIDE.Scene.Model
 
             UnityContainer = unityContainer;
             base.m_DBService = unityContainer.Resolve<IDatabaseService>();
-            DataContext.Context = ((IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
+            DataContext.Context = ((IDAL.IDAL)m_DBService.CurrentDB).GetDataContextOpt(false);
        
             return true; 
         }
@@ -212,7 +212,7 @@ namespace OIDE.Scene.Model
 
             try
             {
-                IDAL.deleteEntity(DataContext, DB_Entity.Entity);
+                IDAL.IDAL.deleteEntity(DataContext, DB_Entity.Entity);
                 Parent.Items.Remove(this);
 
                 if (File.Exists(ItemFolder + "\\" + WIDE_Helper.StringToContentIDData(ContentID).IntValue + ".xml"))
@@ -246,7 +246,7 @@ namespace OIDE.Scene.Model
 
           //  m_FBData.m_BaseObj_FBData = new FB_EntityBaseModel();
 
-            DB_Entity = new DAL.IDAL.EntityContainer();
+            DB_Entity = new IDAL.IDAL.EntityContainer();
             DB_Entity.Entity = new Entity();
             //mData = new ProtoType.StaticEntity();
             //mData.gameEntity = new ProtoType.GameEntity();
