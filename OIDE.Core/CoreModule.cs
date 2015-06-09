@@ -90,7 +90,7 @@ namespace OIDE.Core
             IDAL.IDAL newComID_DB = new IDAL.IDAL(_container);
             newComID_DB.DBOptions = managerDB.DBOptions[0];
 
-            newComID_DB.DBOptions.IDName = "SQLITE DB";
+            newComID_DB.DBOptions.SetIDName("SQLITE DB");
             newComID_DB.DBOptions.DBType = Module.DB.Interface.DBType.SQLite;
 
             managerDB.AddDB(newComID_DB);

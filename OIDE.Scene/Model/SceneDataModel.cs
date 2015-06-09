@@ -42,7 +42,6 @@ using OIDE.Scene.Commands;
 using OIDE.Scene.Interface.Services;
 using Wide.Interfaces.Services;
 using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
-using ProtoBuf;
 using Module.Protob.Utilities;
 using Module.History.Service;
 using OIDE.Scene.Service;
