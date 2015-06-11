@@ -43,6 +43,8 @@ using Module.DB.Interface.Services;
 using OIDE.Core.ProjectTypes.Handler;
 using OIDE.Core.ProjectTypes.View;
 using Module.PFExplorer.Interface.Services;
+using Wide.Core.TextDocument;
+using Wide.Core.Services;
 
 
 namespace OIDE.Core
@@ -145,6 +147,16 @@ namespace OIDE.Core
 
             IContentHandler handler = _container.Resolve<OIDEProjectHandler>();
             _container.Resolve<IContentHandlerRegistry>().Register(handler);
+
+
+            _container.RegisterType<TextViewModel>();
+            _container.RegisterType<TextModel>();
+            _container.RegisterType<TextView>();
+            _container.RegisterType<AllFileHandler>();
+
+            //Register a default file opener
+            var registry = _container.Resolve<IContentHandlerRegistry>();
+            registry.Register(_container.Resolve<AllFileHandler>());
         }
 
         private void LoadTheme()
