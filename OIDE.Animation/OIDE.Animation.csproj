@@ -102,6 +102,8 @@
     <Compile Include="Interface\Service\IAnimationItem.cs" />
     <Compile Include="Interface\Service\IAnimationService.cs" />
     <Compile Include="Model\AnimationToolModel.cs" />
+    <Compile Include="Nodes\Parameter.cs" />
+    <Compile Include="Nodes\TransistionSelect.cs" />
     <Compile Include="Nodes\SequenceNode.cs" />
     <Compile Include="Service\AnimationManager.cs" />
     <Compile Include="ViewModel\AnimationToolViewModel.cs" />

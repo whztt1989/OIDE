@@ -17,6 +17,21 @@
                 <x:Type TypeName="local:SquareSize"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>-->
+
+        <DataTemplate x:Key="myTemplate">
+            <StackPanel>
+                <Button Content="mytemplate"></Button>
+                <!--Width="{x:Static vm:ElementViewModel.PreviewSize}"
+																	Height="{x:Static vm:ElementViewModel.PreviewSize}"-->
+                <Image Source="{Binding PreviewImage}" Stretch="Fill" />
+            </StackPanel>
+        </DataTemplate>
+
+
+        <!--<localHelper:ElementViewTemplateSelector ImageTemplate="{StaticResource imageTemplate}"
+                                        DefaultTemplate="{StaticResource DefaultTemplate}"
+                                                 ColorTemplate="{StaticResource colorTemplate}"
+                                        x:Key="elementViewTemplateSelector" />-->
     </UserControl.Resources>
 
 
@@ -40,8 +55,9 @@
         <!--<TabControl Grid.Row="2" Name="tabControl1" Grid.ColumnSpan="2">
             <TabItem Header="Texture" Name="tabItem1">-->
 
-        <View:GraphControlView Name="animationTree"  Grid.Row="1" />
-                    <!--  <xctk:Zoombox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"  >
+        <View:GraphControlView Name="animationTree"  Grid.Row="1" >
+        </View:GraphControlView>
+        <!--  <xctk:Zoombox ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"  >
                        scrollviewer will be suported in 2.5 Version https://wpftoolkit.codeplex.com/discussions/574091 -->
                         <!--<Canvas x:Name="canvas"
                                 Width="{Binding TexWidth}" Height="{Binding TexHeight}"

@@ -10,7 +10,7 @@ using System.Windows.Media;
 namespace OIDE.Animation.Nodes
 {
   
-    public class SequenceNode : DynamicNode
+    public class TransistionSelect : DynamicNode
     {
         //protected override Effect GetEffect()
         //{
@@ -32,7 +32,7 @@ namespace OIDE.Animation.Nodes
         }
 
 
-        public SequenceNode()
+        public TransistionSelect()
         {
             AddInputConnector("Select", Colors.DarkSeaGreen);
             AddInputConnector("Time In", Colors.DarkBlue);

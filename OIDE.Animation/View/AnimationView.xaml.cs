@@ -9,6 +9,7 @@ using OIDE.Animation.Model;
 using System.Windows.Media.Imaging;
 using System.Net.Cache;
 using OIDE.Animation.Nodes;
+using DLL.NodeEditor.Helper;
 
 namespace OIDE.Animation
 {
@@ -132,6 +133,10 @@ namespace OIDE.Animation
            animationTree.ConnectionList = (this.DataContext as AnimationModel).Connections;
             //   SetImage((this.DataContext as AnimationModel).FontImagePath);
 
+           DataTemplate myTemplate = this.FindResource("myTemplate") as DataTemplate;
+     
+           ElementViewTemplateSelector objectfound = animationTree.FindResource("elementViewTemplateSelector") as ElementViewTemplateSelector;
+           objectfound.AddDataTemplate(myTemplate);
         }
 
     }
