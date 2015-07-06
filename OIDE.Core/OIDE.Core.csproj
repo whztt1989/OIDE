@@ -187,9 +187,9 @@
       <Project>{0c6674cc-6d49-414a-9b41-d4e175028ffb}</Project>
       <Name>Wpf.DragDrop %28NET4%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Themes\Themes.Default\Themes.Default.csproj">
+    <ProjectReference Include="..\..\Themes\Themes.Default\Themes.WPF.Default.csproj">
       <Project>{de89d67d-a35e-4958-95bd-101b93d6ca0b}</Project>
-      <Name>Themes.Default</Name>
+      <Name>Themes.WPF.Default</Name>
     </ProjectReference>
     <ProjectReference Include="..\OIDE.DAL\OIDE.IDAL.csproj">
       <Project>{4e3441fd-de10-4751-8cf0-d2df0c590602}</Project>

@@ -171,9 +171,9 @@
     <Resource Include="Icons\FontType.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Themes\Themes.Default\Themes.Default.csproj">
+    <ProjectReference Include="..\..\Themes\Themes.Default\Themes.WPF.Default.csproj">
       <Project>{de89d67d-a35e-4958-95bd-101b93d6ca0b}</Project>
-      <Name>Themes.Default</Name>
+      <Name>Themes.WPF.Default</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

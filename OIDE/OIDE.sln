@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE", "OIDE.csproj", "{3AF9375C-A620-45CC-8397-8F678BEE0E2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.WPF", "OIDE.WPF.csproj", "{3AF9375C-A620-45CC-8397-8F678BEE0E2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OIDE.Core", "..\OIDE.Core\OIDE.Core.csproj", "{AF583DCA-3BE7-4DB4-9125-81E7FF5934D2}"
 EndProject
@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wide", "..\..\WPF_IDE\Wide.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helper.Utilities", "..\..\Modules\Helper.Utilities\Helper.Utilities.csproj", "{1D6C4A34-6810-4E3B-8312-C9CD0B8004E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Themes.Default", "..\..\Themes\Themes.Default\Themes.Default.csproj", "{DE89D67D-A35E-4958-95BD-101B93D6CA0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Themes.WPF.Default", "..\..\Themes\Themes.Default\Themes.WPF.Default.csproj", "{DE89D67D-A35E-4958-95BD-101B93D6CA0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLL.AutoUI", "..\..\Modules\DLL.AutoUI\DLL.AutoUI.csproj", "{776480FC-4729-4D84-949D-95978AC51724}"
 EndProject
