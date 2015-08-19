@@ -43,7 +43,7 @@
       <restitution>1</restitution>
       <friction>1</friction>
       <colGroupMask>-2</colGroupMask>
-      <charStepHeight>0</charStepHeight>
+      <charStepHeight>10</charStepHeight>
       <charJumpSpeed>10</charJumpSpeed>
       <charFallSpeed>10</charFallSpeed>
     </PhysicObject>

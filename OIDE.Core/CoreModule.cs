@@ -141,6 +141,18 @@ namespace OIDE.Core
 
         private void RegisterParts()
         {
+            _container.RegisterType<TextViewModel>();
+        //    _container.RegisterType<TextModel>();
+            _container.RegisterType<TextView>();
+            _container.RegisterType<AllFileHandler>();
+
+            //Register a default file opener
+          //  var registry = _container.Resolve<IContentHandlerRegistry>();
+          //  registry.Register(_container.Resolve<AllFileHandler>());
+            IContentHandler handlerAFH = _container.Resolve<AllFileHandler>();
+            _container.Resolve<IContentHandlerRegistry>().Register(handlerAFH);
+
+
             _container.RegisterType<OIDEProjectHandler>();
             _container.RegisterType<OIDEProjectViewModel>();
             _container.RegisterType<OIDEProjectView>();
@@ -149,14 +161,6 @@ namespace OIDE.Core
             _container.Resolve<IContentHandlerRegistry>().Register(handler);
 
 
-            _container.RegisterType<TextViewModel>();
-            _container.RegisterType<TextModel>();
-            _container.RegisterType<TextView>();
-            _container.RegisterType<AllFileHandler>();
-
-            //Register a default file opener
-            var registry = _container.Resolve<IContentHandlerRegistry>();
-            registry.Register(_container.Resolve<AllFileHandler>());
         }
 
         private void LoadTheme()
